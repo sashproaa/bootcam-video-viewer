@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
 import videoReducer from './videoSlice';
 import catalogReducer from './catalogSlice';
+import subscriptionReducer from './subscriptionSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     video: videoReducer,
     catalog: catalogReducer,
+    subscription: subscriptionReducer,
   },
 });
 

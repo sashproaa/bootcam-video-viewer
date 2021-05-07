@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import { Routes } from '../../common/enums/RoutesEnum';
 import CatalogPage from '../../pages/CatalogPage';
 import VideoPage from '../../pages/VideoPage';
+import SubscriptionPage from '../../pages/SubscriptionPage';
 import HeaderPage from '../Header';
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
         {/*<Route path={Routes.login} component={LoginPage} />*/}
         {/*<Route path={Routes.registration} component={RegistrationPage} />*/}
         {/*<Route path={Routes.profile} component={ProfilePage} />*/}
-        {/*<Route path={Routes.subscription} component={SubscriptionPage} />*/}
+        <Route path={Routes.subscription} component={SubscriptionPage} />
         <Redirect from='/' to={Routes.catalog} />
       </Switch>
     </Container>

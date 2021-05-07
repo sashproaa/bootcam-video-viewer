@@ -4,7 +4,6 @@ import { Video } from '../../common/interfaces/VideoInterface';
 const lorem = new LoremIpsum();
 
 export function videoMock(): Video {
-  console.log('vv');
   return {
     id: Math.random(),
     title: lorem.generateWords(2),

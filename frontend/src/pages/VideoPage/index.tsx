@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { Button, Col, Row } from 'react-bootstrap';
 import { fetchVideo, videoInfo } from '../../store/videoSlice';
 import VideoSlider from './VideoSlider';
+import { Routes } from '../../common/enums/RoutesEnum';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
@@ -34,7 +35,9 @@ export default function VideoPage() {
           <h1>{video.title}</h1>
         </Col>
         <Col>
-          <Button className='mr-3'>Оплатить подписку</Button>
+          <Link to={Routes.subscription}>
+            <Button className='mr-3'>Оплатить подписку</Button>
+          </Link>
           <Button className='mr-3'>Купить билет</Button>
         </Col>
       </Row>
