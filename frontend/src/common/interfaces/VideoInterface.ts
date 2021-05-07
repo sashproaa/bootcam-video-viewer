@@ -1,5 +1,5 @@
 export interface Video {
-  id: string;
+  id: number;
   title: string;
   description: string;
   meta: string;
@@ -7,7 +7,7 @@ export interface Video {
   actors: string;
   price: number;
   created_at: number;
-  video_duration: number;
+  duration: number;
   video_subscription: string;
   image: string;
   preview: string;
