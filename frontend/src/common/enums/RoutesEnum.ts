@@ -4,5 +4,5 @@ export enum Routes {
   login = 'login',
   registration = 'registration',
   subscription = 'subscription',
-  user = 'user',
+  profile = 'profile',
 }
