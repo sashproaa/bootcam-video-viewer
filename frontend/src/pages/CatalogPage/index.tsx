@@ -23,7 +23,7 @@ export default function CatalogPage() {
     <div>
       <Row>
         {videos.map((video) => (
-          <Col>
+          <Col key={video.id}>
             <CatalogCard video={video} />
           </Col>
         ))}

@@ -1,1 +1,47 @@
-export {};
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import ReactPlayer from 'react-player';
+import { Button, Col, Row } from 'react-bootstrap';
+import { fetchVideo, videoInfo } from '../../store/videoSlice';
+import VideoSlider from './VideoSlider';
+
+export default function VideoPage() {
+  const dispatch = useDispatch();
+  const video = useSelector(videoInfo);
+  const params = useParams() as { id: string };
+  const id = Number(params.id);
+
+  const [player, setPlayer] = useState<ReactPlayer | null>(null);
+
+  useEffect(() => {
+    dispatch(fetchVideo(id));
+  }, []);
+
+  return (
+    <div>
+      <div>
+        <ReactPlayer
+          ref={setPlayer}
+          width='100%'
+          height='auto'
+          controls={true}
+          url={video.preview}
+        />
+      </div>
+      <Row>
+        <Col>
+          <h1>{video.title}</h1>
+        </Col>
+        <Col>
+          <Button>Оплатить подписку</Button>
+          <Button>Купить билет</Button>
+        </Col>
+      </Row>
+      <p>{video.description}</p>
+      <div>
+        <VideoSlider />
+      </div>
+    </div>
+  );
+}

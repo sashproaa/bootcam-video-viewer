@@ -46,7 +46,6 @@ export const {
 export const fetchVideos = (): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
   const response = await getAllVideos();
-  console.log('response: ', response);
   if (response?.error) {
     console.log('Проблемы при получении каталога');
   } else {

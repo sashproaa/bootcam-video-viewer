@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import { Video } from '../../../common/interfaces/VideoInterface';
+import { Routes } from '../../../common/enums/RoutesEnum';
 
 interface Props {
   video: Video;
@@ -17,7 +19,9 @@ export default function CatalogCard({ video }: Props) {
       <Card.Body>
         <Card.Title>{video.title}</Card.Title>
         <Card.Text>{video.description}</Card.Text>
-        <Button variant='primary'>Go to video</Button>
+        <Link to={`${Routes.video}/${video.id}`}>
+          <Button variant='primary'>Go to video</Button>
+        </Link>
       </Card.Body>
     </Card>
   );
