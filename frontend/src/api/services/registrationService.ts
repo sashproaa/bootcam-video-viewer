@@ -3,8 +3,9 @@ import { User } from '../../common/interfaces/UserInterface';
 
 import { registrationMock } from './registrationMock';
 import { timeoutMock } from './timeoutMock';
+import { Endpoints } from '../../common/enums/EndpointsEnum';
 
-const endpoint = '/registration';
+const endpoint = Endpoints.registration;
 
 interface UserRegistrationRequest {
   email: string;

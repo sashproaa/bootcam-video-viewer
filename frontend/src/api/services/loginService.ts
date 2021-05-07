@@ -2,8 +2,9 @@ import webApi from '../webApiHelper';
 import { User } from '../../common/interfaces/UserInterface';
 import { timeoutMock } from './timeoutMock';
 import { loginMock } from './loginMock';
+import { Endpoints } from '../../common/enums/EndpointsEnum';
 
-const endpoint = '/login';
+const endpoint = Endpoints.login;
 
 interface UserLoginRequest {
   email: string;

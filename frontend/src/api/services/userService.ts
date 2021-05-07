@@ -2,8 +2,9 @@ import webApi from '../webApiHelper';
 import { User } from '../../common/interfaces/UserInterface';
 import { timeoutMock } from './timeoutMock';
 import { userMock } from './userMock';
+import { Endpoints } from '../../common/enums/EndpointsEnum';
 
-const endpoint = '/user';
+const endpoint = Endpoints.user;
 
 interface UserRequest extends Omit<User, 'id'> {
   id?: number;

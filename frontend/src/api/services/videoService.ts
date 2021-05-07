@@ -3,8 +3,9 @@ import { Video } from '../../common/interfaces/VideoInterface';
 import { timeoutMock } from './timeoutMock';
 import { videoMock } from './videoMock';
 import { videoAllMock } from './videoAllMock';
+import { Endpoints } from '../../common/enums/EndpointsEnum';
 
-const endpoint = '/video';
+const endpoint = Endpoints.video;
 
 interface VideoRequest extends Video {}
 
