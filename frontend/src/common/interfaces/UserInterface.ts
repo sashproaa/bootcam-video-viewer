@@ -1,5 +1,8 @@
 export interface User {
-  id: string;
+  id: number;
   name: string;
+  lastName: string;
   email: string;
+  isAdmin: boolean;
+  subscription: string;
 }
