@@ -4,10 +4,12 @@ import { Container } from 'react-bootstrap';
 import { Routes } from '../../common/enums/RoutesEnum';
 import CatalogPage from '../../pages/CatalogPage';
 import VideoPage from '../../pages/VideoPage';
+import HeaderPage from '../Header';
 
 function App() {
   return (
     <Container>
+      <HeaderPage />
       <Switch>
         <Route path={Routes.catalog} component={CatalogPage} />
         <Route path={`${Routes.video}/:id`} component={VideoPage} />
