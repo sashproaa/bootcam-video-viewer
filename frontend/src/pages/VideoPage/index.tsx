@@ -20,7 +20,7 @@ export default function VideoPage() {
 
   return (
     <div>
-      <div>
+      <div className='mb-5'>
         <ReactPlayer
           ref={setPlayer}
           width='100%'
@@ -34,12 +34,12 @@ export default function VideoPage() {
           <h1>{video.title}</h1>
         </Col>
         <Col>
-          <Button>Оплатить подписку</Button>
-          <Button>Купить билет</Button>
+          <Button className='mr-3'>Оплатить подписку</Button>
+          <Button className='mr-3'>Купить билет</Button>
         </Col>
       </Row>
       <p>{video.description}</p>
-      <div>
+      <div className='mt-5 mb-5'>
         <VideoSlider />
       </div>
     </div>

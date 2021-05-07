@@ -8,7 +8,7 @@ import HeaderPage from '../Header';
 
 function App() {
   return (
-    <Container>
+    <Container fluid='md'>
       <HeaderPage />
       <Switch>
         <Route path={Routes.catalog} component={CatalogPage} />
