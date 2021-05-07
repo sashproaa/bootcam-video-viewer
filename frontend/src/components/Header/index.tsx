@@ -19,8 +19,8 @@ export default function HeaderPage() {
         <Button variant='outline-info'>Search</Button>
       </Form>
       <Nav>
-        <Link to={Routes.catalog}>
-          <Nav.Link href='#home'>Login</Nav.Link>
+        <Link to={Routes.profile}>
+          <Navbar.Text>Login</Navbar.Text>
         </Link>
       </Nav>
     </Navbar>
