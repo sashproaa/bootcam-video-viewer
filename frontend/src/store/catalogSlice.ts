@@ -56,6 +56,7 @@ export const fetchVideos = (): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(false));
 };
 
+export const isLoading = (state: RootState) => state.catalog.isLoading;
 export const allVideos = (state: RootState) => state.catalog.videos;
 export const countVideos = (state: RootState) => state.catalog.count;
 export const genresVideos = (state: RootState) => state.catalog.genres;

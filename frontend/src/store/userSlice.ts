@@ -41,6 +41,7 @@ export const fetchUser = (id: number): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(false));
 };
 
+export const isLoading = (state: RootState) => state.user.isLoading;
 export const userInfo = (state: RootState) => state.user.user;
 
 export default userSlice.reducer;

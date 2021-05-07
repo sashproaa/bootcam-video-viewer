@@ -40,6 +40,7 @@ export const fetchSubscriptions = (): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(false));
 };
 
+export const isLoading = (state: RootState) => state.subscription.isLoading;
 export const allSubscriptions = (state: RootState) =>
   state.subscription.subscriptions;
 

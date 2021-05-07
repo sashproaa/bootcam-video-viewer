@@ -39,6 +39,7 @@ export const fetchVideo = (id: number): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(false));
 };
 
+export const isLoading = (state: RootState) => state.video.isLoading;
 export const videoInfo = (state: RootState) => state.video.video;
 
 export default videoSlice.reducer;
