@@ -1,5 +1,5 @@
 export async function timeoutMock(data: any): Promise<any> {
-  setTimeout(() => {
-    return data;
-  }, 500);
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(data), 1000);
+  });
 }
