@@ -2,11 +2,13 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Login from '../Login';
+import Registration from '../Registration';
 
 function App() {
   return (
     <>
-      <Login/>
+      <Login />
+      <Registration/>
       <Switch>
         {/*<Route path={Routes.catalog} component={CatalogPage} />*/}
         {/*<Route path={Routes.video} component={VideoPage} />*/}
