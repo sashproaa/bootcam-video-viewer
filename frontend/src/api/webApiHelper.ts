@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { getToken } from '../common/helpers/tokenHelper';
+import { getHash } from '../common/helpers/hashHelper';
 
 const BASE_URL = process.env.REACT_APP_API_URL || '';
 
@@ -23,6 +24,7 @@ class Api {
       .get(url, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
+          'Hash-Project': await getHash(),
         },
         params,
       })
@@ -35,6 +37,7 @@ class Api {
       .post(url, data, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
+          'Hash-Project': await getHash(),
         },
       })
       .then(this.handleResponse)
@@ -48,6 +51,7 @@ class Api {
       .post(url, data, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
+          'Hash-Project': await getHash(),
           'Content-Type': 'multipart/form-data',
         },
       })
@@ -60,6 +64,7 @@ class Api {
       .put(url, data, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
+          'Hash-Project': await getHash(),
         },
       })
       .then(this.handleResponse)
@@ -71,6 +76,7 @@ class Api {
       .delete(url, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
+          'Hash-Project': await getHash(),
         },
         data,
       })
