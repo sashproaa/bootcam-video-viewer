@@ -12,7 +12,7 @@ export default function VideoSlider() {
   const videos = useSelector(allVideos);
 
   useEffect(() => {
-    dispatch(fetchVideos());
+    dispatch(fetchVideos({ limit: 10 }));
   }, []);
 
   const settings = {

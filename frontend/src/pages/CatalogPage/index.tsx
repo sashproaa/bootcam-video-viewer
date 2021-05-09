@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroller';
 import { Col, Row } from 'react-bootstrap';
 import CatalogCard from './CatalogCard';
 import {
@@ -8,6 +9,7 @@ import {
   countVideos,
   fetchVideos,
   genresVideos,
+  fetchNextVideos,
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
 
@@ -19,20 +21,36 @@ export default function CatalogPage() {
   const genres = useSelector(genresVideos);
 
   useEffect(() => {
-    dispatch(fetchVideos());
+    // dispatch(fetchVideos({ limit: 10 }));
   }, []);
+
+  const loadNextVideos = () => {
+    dispatch(fetchNextVideos({ limit: 10 }));
+  };
 
   return (
     <div>
-      {loading ? (
+      {loading && videos.length === 0 ? (
         <Spinner />
       ) : (
         <Row>
-          {videos.map((video) => (
-            <Col key={video.id} xs='auto' xl={6}>
-              <CatalogCard video={video} />
-            </Col>
-          ))}
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadNextVideos}
+            hasMore={true}
+            loader={
+              <div className='loader' key={0}>
+                Loading ...
+              </div>
+            }
+            // useWindow={false}
+          >
+            {videos.map((video) => (
+              <Col key={video.id} xs='auto' xl={6}>
+                <CatalogCard video={video} />
+              </Col>
+            ))}
+          </InfiniteScroll>
         </Row>
       )}
     </div>
