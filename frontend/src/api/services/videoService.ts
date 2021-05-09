@@ -13,14 +13,14 @@ interface VideoResponse extends Video {
   error?: string;
 }
 
-interface VideoAllResponse {
+export interface VideoAllResponse {
   count: number;
   videos: Video[];
   genres: string[];
   error?: string;
 }
 
-interface FilterResponse {}
+export interface FilterResponse {}
 
 export const getAllVideos = async (
   filter?: FilterResponse,

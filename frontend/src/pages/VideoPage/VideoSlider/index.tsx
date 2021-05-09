@@ -1,18 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { allVideos, fetchVideos } from '../../../store/catalogSlice';
 import { Routes } from '../../../common/enums/RoutesEnum';
+import {
+  FilterResponse,
+  getAllVideos,
+} from '../../../api/services/videoService';
+import { Video } from '../../../common/interfaces/VideoInterface';
+import Spinner from '../../../components/Spinner';
 
-export default function VideoSlider() {
-  const dispatch = useDispatch();
-  const videos = useSelector(allVideos);
+interface Props {
+  className?: string;
+  classSlider?: string;
+  limit?: number;
+  filter?: FilterResponse;
+}
+
+export default function VideoSlider({
+  className = '',
+  classSlider = '',
+  limit = 10,
+  filter = {},
+}: Props) {
+  const [videos, setVideos] = useState<Video[] | undefined>();
 
   useEffect(() => {
-    dispatch(fetchVideos());
+    let cleanup = false;
+
+    (async () => {
+      const data = await getAllVideos({ ...filter, limit });
+      if (!cleanup) setVideos(data.videos || []);
+    })();
+
+    return () => {
+      cleanup = true;
+    };
   }, []);
 
   const settings = {
@@ -24,14 +48,20 @@ export default function VideoSlider() {
   };
 
   return (
-    <Slider {...settings}>
-      {videos.map((vd) => (
-        <div key={vd.id}>
-          <Link to={`${Routes.video}/${vd.id}`}>
-            <img src={vd.image} alt={vd.title} />
-          </Link>
-        </div>
-      ))}
-    </Slider>
+    <div className={className}>
+      {!videos ? (
+        <Spinner />
+      ) : (
+        <Slider className={classSlider} {...settings}>
+          {videos?.map((vd) => (
+            <div key={vd.id}>
+              <Link to={`${Routes.video}/${vd.id}`}>
+                <img src={vd.image} alt={vd.title} />
+              </Link>
+            </div>
+          ))}
+        </Slider>
+      )}
+    </div>
   );
 }
