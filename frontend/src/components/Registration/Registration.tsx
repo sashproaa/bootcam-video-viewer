@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Form from '../Form';
-import { registrationUser } from '../../api/services/registrationService';
+import { fetchRegistration } from '../../store/registrationSlice';
 
 const initialState = {
   email: '',
@@ -19,6 +19,7 @@ const Registration = () => {
 
   const onChangeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    fetchRegistration({ email, password, name });
 
     setRegistration({ ...initialState });
   };

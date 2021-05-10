@@ -10,10 +10,14 @@ const endpoint = Endpoints.registration;
 interface UserRegistrationRequest {
   email: string;
   password: string;
+  name: string;
 }
 
 interface UserRegistrationResponse {
   error?: string;
+  name: string;
+  email: string;
+  token: string;
 }
 
 export const registrationUser = async (
