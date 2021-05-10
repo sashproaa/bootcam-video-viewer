@@ -20,13 +20,18 @@ interface VideoAllResponse {
   error?: string;
 }
 
-interface FilterResponse {}
+export interface FilterResponse {
+  from?: number;
+  limit?: number;
+  title?: string;
+  genre?: string;
+}
 
 export const getAllVideos = async (
   filter?: FilterResponse,
 ): Promise<VideoAllResponse> => {
   // return await webApi.get(endpoint, filter||{});
-  return await timeoutMock(videoAllMock);
+  return await timeoutMock(videoAllMock());
 };
 
 export const getVideo = async (id: number): Promise<VideoResponse> => {

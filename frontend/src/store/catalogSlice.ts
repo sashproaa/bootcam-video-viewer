@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
-import { getAllVideos } from '../api/services/videoService';
+import { FilterResponse, getAllVideos } from '../api/services/videoService';
 
 interface CatalogState {
   isLoading: boolean;
+  isNextLoading: boolean;
   videos: Video[];
   count: number;
   genres: string[];
@@ -12,6 +13,7 @@ interface CatalogState {
 
 const initialState: CatalogState = {
   isLoading: false,
+  isNextLoading: false,
   videos: [],
   count: 0,
   genres: [],
@@ -24,8 +26,14 @@ export const catalogSlice = createSlice({
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    setIsNextLoading: (state, action: PayloadAction<boolean>) => {
+      state.isNextLoading = action.payload;
+    },
     setVideos: (state, action: PayloadAction<Video[]>) => {
       state.videos = action.payload;
+    },
+    addVideos: (state, action: PayloadAction<Video[]>) => {
+      state.videos.push(...action.payload);
     },
     setCount: (state, action: PayloadAction<number>) => {
       state.count = action.payload;
@@ -38,14 +46,18 @@ export const catalogSlice = createSlice({
 
 export const {
   setIsLoading,
+  setIsNextLoading,
   setVideos,
+  addVideos,
   setCount,
   setGenres,
 } = catalogSlice.actions;
 
-export const fetchVideos = (): AppThunk => async (dispatch) => {
+export const fetchVideos = (filter: FilterResponse): AppThunk => async (
+  dispatch,
+) => {
   dispatch(setIsLoading(true));
-  const response = await getAllVideos();
+  const response = await getAllVideos(filter);
   if (response?.error) {
     console.log('Проблемы при получении каталога');
   } else {
@@ -54,6 +66,23 @@ export const fetchVideos = (): AppThunk => async (dispatch) => {
     dispatch(setGenres(response.genres));
   }
   dispatch(setIsLoading(false));
+};
+
+export const fetchNextVideos = (filter: FilterResponse): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setIsNextLoading(true));
+  const response = await getAllVideos({
+    ...filter,
+    from: getState().catalog.videos.length,
+  });
+  if (response?.error) {
+    console.log('Проблемы при получении каталога');
+  } else {
+    dispatch(addVideos(response.videos));
+  }
+  dispatch(setIsNextLoading(false));
 };
 
 export const isLoading = (state: RootState) => state.catalog.isLoading;
