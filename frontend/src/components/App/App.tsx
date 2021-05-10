@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { Routes } from '../../common/enums/RoutesEnum';
@@ -7,8 +7,16 @@ import VideoPage from '../../pages/VideoPage';
 import SubscriptionPage from '../../pages/SubscriptionPage';
 import HeaderPage from '../Header';
 import ProfilePage from '../../pages/ProfilePage';
+import { clearHash, setHash } from '../../common/helpers/hashHelper';
 
 function App() {
+  useEffect(() => {
+    setHash();
+    return () => {
+      clearHash();
+    };
+  }, []);
+
   return (
     <Container fluid='md'>
       <HeaderPage />
