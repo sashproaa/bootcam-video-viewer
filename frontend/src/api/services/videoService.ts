@@ -13,7 +13,7 @@ interface VideoResponse extends Video {
   error?: string;
 }
 
-interface VideoAllResponse {
+export interface VideoAllResponse {
   count: number;
   videos: Video[];
   genres: string[];
