@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Form from '../Form/Form';
+import { useDispatch } from 'react-redux';
+import { fetchLogin } from '../../store/userSlice';
+import Form from '../Form';
 
 interface State {
   email: string;
@@ -15,6 +17,7 @@ const initialState: State = {
 
 const Login = () => {
   const [login, setLogin] = useState({ ...initialState });
+  const dispatch = useDispatch();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
@@ -23,6 +26,7 @@ const Login = () => {
 
   const onChangeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(fetchLogin({ email, password }));
     setLogin({ ...initialState });
   };
 

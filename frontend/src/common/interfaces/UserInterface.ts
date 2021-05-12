@@ -5,4 +5,7 @@ export interface User {
   email: string;
   isAdmin: boolean;
   subscription: string;
+  token: string;
+  message: string;
+  error?: string;
 }

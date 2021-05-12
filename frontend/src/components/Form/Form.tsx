@@ -3,7 +3,7 @@ import React from 'react';
 export interface Props {
   email: string;
   password: string;
-  name?: string;
+  // name?: string;
   loggedIn: boolean;
   changeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   changeSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -12,19 +12,19 @@ export interface Props {
 const Form = ({
   email,
   password,
-  name,
+  // name,
   loggedIn,
   changeInput,
   changeSubmit,
 }: Props) => {
   return (
     <form onSubmit={changeSubmit}>
-      {!loggedIn && (
+      {/* {!loggedIn && (
         <label>
           <p>Name</p>
           <input type='name' name='name' value={name} onChange={changeInput} />
         </label>
-      )}
+      )} */}
       <label>
         <p>Email</p>
         <input type='email' name='email' value={email} onChange={changeInput} />

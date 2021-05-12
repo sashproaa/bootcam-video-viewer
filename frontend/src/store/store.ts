@@ -3,7 +3,7 @@ import userReducer from './userSlice';
 import videoReducer from './videoSlice';
 import catalogReducer from './catalogSlice';
 import subscriptionReducer from './subscriptionSlice';
-import registrationReducer from './registrationSlice';
+// import registrationReducer from './registrationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ export const store = configureStore({
     video: videoReducer,
     catalog: catalogReducer,
     subscription: subscriptionReducer,
-    registration:registrationReducer,
+    // registration:registrationReducer,
   },
 });
 

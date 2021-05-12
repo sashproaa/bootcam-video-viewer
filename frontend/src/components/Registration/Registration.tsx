@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+
 import Form from '../Form';
 import { fetchRegistration } from '../../store/registrationSlice';
+import { useDispatch } from 'react-redux';
 
 const initialState = {
   email: '',
   password: '',
-  name: '',
   loggedIn: false,
 };
 
 const Registration = () => {
   const [registration, setRegistration] = useState({ ...initialState });
+  const dispatch = useDispatch();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -19,17 +21,16 @@ const Registration = () => {
 
   const onChangeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchRegistration({ email, password, name });
+    dispatch(fetchRegistration({ email, password }));
 
     setRegistration({ ...initialState });
   };
 
-  const { email, password, name, loggedIn } = registration;
+  const { email, password, loggedIn } = registration;
   return (
     <Form
       email={email}
       password={password}
-      name={name}
       loggedIn={loggedIn}
       changeInput={onChangeInput}
       changeSubmit={onChangeSubmit}
