@@ -12,6 +12,7 @@ import {
   fetchNextVideos,
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
+import cls from './index.module.css';
 
 export default function CatalogPage() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default function CatalogPage() {
       {loading && videos.length === 0 ? (
         <Spinner />
       ) : (
-        <Row>
+        <div className={cls.wrap}>
           <InfiniteScroll
             pageStart={0}
             loadMore={loadNextVideos}
@@ -51,7 +52,7 @@ export default function CatalogPage() {
               </Col>
             ))}
           </InfiniteScroll>
-        </Row>
+        </div>
       )}
     </div>
   );

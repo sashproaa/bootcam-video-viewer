@@ -7,6 +7,7 @@ import VideoPage from '../../pages/VideoPage';
 import SubscriptionPage from '../../pages/SubscriptionPage';
 import HeaderPage from '../Header';
 import ProfilePage from '../../pages/ProfilePage';
+import PaymentPage from '../../pages/PaymentPage';
 import { clearHash, setHash } from '../../common/helpers/hashHelper';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         {/*<Route path={Routes.registration} component={RegistrationPage} />*/}
         <Route path={Routes.profile} component={ProfilePage} />
         <Route path={Routes.subscription} component={SubscriptionPage} />
+        <Route path={Routes.payment} component={PaymentPage} />
         <Redirect from='/' to={Routes.catalog} />
       </Switch>
     </Container>

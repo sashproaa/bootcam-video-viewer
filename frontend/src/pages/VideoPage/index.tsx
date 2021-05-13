@@ -44,7 +44,10 @@ export default function VideoPage() {
               <Link to={Routes.subscription}>
                 <Button className='mr-3'>Оплатить подписку</Button>
               </Link>
-              <Button className='mr-3'>Купить билет</Button>
+              <Link to={Routes.payment}>
+                <Button className='mr-3'>Купить билет</Button>
+              </Link>
+              {/*<Button className='mr-3'>Купить билет</Button>*/}
             </Col>
           </Row>
           <p>{video.description}</p>
