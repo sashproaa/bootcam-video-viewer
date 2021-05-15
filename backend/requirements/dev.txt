@@ -1,0 +1,18 @@
+-i https://pypi.org/simple/
+Django==2.2.16
+psycopg2
+pytz
+sqlparse
+
+
+
+Pillow
+django-jsonfield
+django-multiselectfield
+django-phonenumber-field
+phonenumbers
+djangorestframework
+drf-yasg
+
+dj-rest-auth
+
