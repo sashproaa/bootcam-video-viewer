@@ -16,7 +16,7 @@ admin.site.register(Transactions)
 #admin.site.register(ProfileUser)
 
 
-@admin.register(User)
+@admin.register(USER)
 class UserAdmin(userAdmin):
     """Define admin model for custom User model with no email field."""
 
