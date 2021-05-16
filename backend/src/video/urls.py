@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_swagger.views import get_swagger_view
+
 from django.conf.urls import url
 
 from .yasg import urlpatterns as doc_api
@@ -25,9 +25,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/autн_base/', include('rest_framework.urls')),
     path('api/', include('easyviewer.urls')),
-    path('api/auth/', include('djoser.urls')),
-    path('api/auth/', include('djoser.urls.jwt')),
-    path('api/auth_token/', include('djoser.urls.authtoken')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls'))
+    # path('api/auth/', include('djoser.urls')),
+    # path('api/auth/', include('djoser.urls.jwt')),
+    # path('api/auth_token/', include('djoser.urls.authtoken')),
 ]
 
 urlpatterns += doc_api

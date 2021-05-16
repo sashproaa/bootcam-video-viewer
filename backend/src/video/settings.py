@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os, sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MY_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(MY_ROOT, 'video'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,7 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'multiselectfield',
     'phonenumber_field',
-    'djoser',
+    'dj_rest_auth',
 
     'easyviewer',
 
@@ -88,10 +90,10 @@ DATABASES = {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         #'NAME': BASE_DIR / 'db.postgres',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres2',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -138,14 +140,14 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'rest_framework:login'
 LOGOUT_URL = 'rest_framework:logout'
 
-AUTH_USER_MODEL = 'easyviewer.User'
+AUTH_USER_MODEL = 'easyviewer.USER'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
+        #'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -155,16 +157,16 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 3
 }
 
-DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SERIALIZERS': {},
-}
-# Пошта видумана і тому SEND_ACTIVATION_EMAIL == False отже активація через пошту вимкнена
-EMAIL_USER_TLS = True
-EMAIL_HOST = 'smtp.ukr.net'
-EMAIL_USER_HOST = 'easyviewer@ukr.net'
-EMAIL_HOST_PASSWORD = '123456'
-EMAIL_PORT = 465
+# DJOSER = {
+#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+#     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
+#     'SEND_ACTIVATION_EMAIL': False,
+#     'SERIALIZERS': {},
+# }
+# # Пошта видумана і тому SEND_ACTIVATION_EMAIL == False отже активація через пошту вимкнена
+# EMAIL_USER_TLS = True
+# EMAIL_HOST = 'smtp.ukr.net'
+# EMAIL_USER_HOST = 'easyviewer@ukr.net'
+# EMAIL_HOST_PASSWORD = '123456'
+# EMAIL_PORT = 465

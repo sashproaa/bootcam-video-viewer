@@ -5,7 +5,8 @@ from django.db import models
 from multiselectfield import MultiSelectField
 import jsonfield
 from phonenumber_field.modelfields import PhoneNumberField
-import datetime
+
+#customUSER = get_user_model()
 
 # Create your models here.
 GENRE_CHOICES = (
@@ -74,7 +75,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractUser):
+class USER(AbstractUser):
     """User model.(not Base)"""
     username = None
     email = models.EmailField(msg('email address'), unique=True)
@@ -82,7 +83,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, null=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['mobile', 'date_of_birth', 'gender',]
+    REQUIRED_FIELDS = []
     objects = UserManager()
 
 
@@ -110,13 +111,13 @@ class Projects(models.Model):
     """ Projects model """
     hash = models.CharField(max_length=200)
     name = models.CharField(max_length=400)
-    user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
+    user_id = models.ManyToManyField(USER, through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
 
 
 class AdminProject(models.Model):
     """ Using admin in model """
-    id_user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, blank=True, null=True)
+    id_user = models.ForeignKey(USER, on_delete=models.SET_NULL, blank=True, null=True)
     id_project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     isAdmin = models.BooleanField()
 
@@ -151,7 +152,7 @@ class VideoContent(models.Model):
     """ Video content model """
     data_start = models.DateTimeField()
     data_end = models.DateTimeField()
-    user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user_id = models.ForeignKey(USER, on_delete=models.CASCADE)
     video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
     video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
 
@@ -159,7 +160,7 @@ class VideoContent(models.Model):
 class Transactions(models.Model):
     """ Transactions model """
     hash = models.CharField(max_length=200, unique=True, default='function')    # function to generate hash
-    user_id = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    user_id = models.ForeignKey(USER, on_delete=models.PROTECT)
     title = models.CharField(max_length=200)
     status = models.CharField(max_length=200, choices=STATUS_CHOICE, default='Active')
     price = models.DecimalField(max_digits=6, decimal_places=2)
