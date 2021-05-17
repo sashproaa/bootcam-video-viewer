@@ -53,6 +53,11 @@ class VideoContentListApiView(generics.ListAPIView):
     permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
 
+class VideoContentCreateApiView(generics.CreateAPIView):
+    serializer_class = VideoContentCreateSerializer
+    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+
+
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = Video.objects.filter()
     serializer_class = VideoDetailSerializer
@@ -61,8 +66,11 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView
 
 class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
     queryset = Transactions.objects.filter()
-    serializer_class = TransactionsDetail
+    serializer_class = TransactionsDetailSerializer
     permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+
+    # def create(self, request, *args, **kwargs):
+    #     pass
 
 
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
