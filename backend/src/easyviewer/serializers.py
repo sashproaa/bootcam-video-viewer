@@ -1,6 +1,5 @@
 from dj_rest_auth.serializers import LoginSerializer
 from django.db import transaction
-
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from .models import *
@@ -39,15 +38,30 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 class VideoListSerializer(serializers.ModelSerializer):
     paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
+
     class Meta:
         model = Video
         fields = '__all__'
 
 
-class TransactionsDetail(serializers.ModelSerializer):
+class TransactionsDetailSerializer(serializers.ModelSerializer):
+    content = VideoContentDetailSerializer(many=True, read_only=True)
+
     class Meta:
         model = Transactions
-        fields = '__all__'
+        fields = ('hash', 'user_id', 'title',
+                  'status', 'price', 'project_id',
+                  'json_description', 'created_at',
+                  'content'
+                  )
+
+
+class VideoContentCreateSerializer(serializers.ModelSerializer):
+    transaction = TransactionsDetailSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = VideoContent
+        fields = ('data_start', 'data_end', 'user_id', 'video_id', 'video_subscription', 'transaction')
 
 
 class ProjectSubscriptionsDetail(serializers.ModelSerializer):
