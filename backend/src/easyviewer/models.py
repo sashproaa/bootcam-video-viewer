@@ -1,13 +1,14 @@
+import datetime
+import secrets
+import jsonfield
+
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as msg
 from django.contrib.auth import get_user_model
 from django.db import models
 from multiselectfield import MultiSelectField
-import jsonfield
 from phonenumber_field.modelfields import PhoneNumberField
-import datetime
 
-# Create your models here.
 GENRE_CHOICES = (
     ('VAUDEVILLE', 'Водевиль'),
     ('DRAMA', 'Драма'),
@@ -86,16 +87,6 @@ class User(AbstractUser):
     objects = UserManager()
 
 
-# class ProfileUser(models.Model):
-#     """ User Profile model """
-#     user_id = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
-#     name = models.CharField(max_length=200, blank=True, null=True)
-#     lastName = models.CharField(max_length=200, blank=True, null=True)
-#     mobile = PhoneNumberField(blank=True, null=True)
-#     date_of_birth = models.DateField(blank=True, null=True)
-#     gender = models.CharField(choices=GENDER_CHOICE, null=True)
-
-
 class ProjectSubscriptions(models.Model):
     """ Projects subscriptions model """
     name = models.CharField(max_length=200)
@@ -108,7 +99,7 @@ class ProjectSubscriptions(models.Model):
 
 class Projects(models.Model):
     """ Projects model """
-    hash = models.CharField(max_length=200)
+    hash = models.CharField(max_length=200, default=secrets.token_urlsafe(32))
     name = models.CharField(max_length=400)
     user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
@@ -158,7 +149,7 @@ class VideoContent(models.Model):
 
 class Transactions(models.Model):
     """ Transactions model """
-    hash = models.CharField(max_length=200, unique=True, default='function')    # function to generate hash
+    hash = models.CharField(max_length=200, unique=True, default=secrets.token_urlsafe(32))  # function to generate hash
     user_id = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200)
     status = models.CharField(max_length=200, choices=STATUS_CHOICE, default='Active')
