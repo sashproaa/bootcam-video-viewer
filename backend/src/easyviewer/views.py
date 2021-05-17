@@ -1,8 +1,13 @@
-from django.shortcuts import render
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+from django.db.models import Case, When, ExpressionWrapper, F
+from django.utils import timezone
 from rest_framework import generics
 from django.contrib.auth import get_user_model
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
-from .models import *
 from .permissions import IsOwnerOrReadonly
 from .serializers import *
 
@@ -32,18 +37,53 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 
 class VideoListApiView(generics.ListAPIView):
     if IsAuthenticated:
-        pass
-    queryset = Video.objects.all()
+        queryset = Video.objects.all().annotate(
+            paid_video=ExpressionWrapper(F('videocontent__data_end'), output_field=models.DateTimeField())
+        ).select_related('video_id')  # не смог пока реализовать проерку дати на окончание подписки
+    else:
+        queryset = Video.objects.all()
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['genre', 'title']
     serializer_class = VideoListSerializer
 
 
-class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
+class VideoContentListApiView(generics.ListAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoContentDetailSerializer
+    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+
+
+class VideoApiView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = Video.objects.filter()
     serializer_class = VideoDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-class TransactionsApiView(generics.ListAPIView):
+class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
     queryset = Transactions.objects.filter()
     serializer_class = TransactionsDetail
     permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+
+
+class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProjectSubscriptions.objects.filter()
+    serializer_class = ProjectDetailSerializer
+    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+
+
+class ProjectSubscriptionsListApiView(generics.ListAPIView):
+    queryset = ProjectSubscriptions.objects.all()
+    serializer_class = ProjectDetailSerializer
+    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+
+
+
+
