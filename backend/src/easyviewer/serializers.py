@@ -1,7 +1,12 @@
+from collections import OrderedDict
+
 from dj_rest_auth.serializers import LoginSerializer
 from django.db import transaction
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
+
 from .models import *
 
 
@@ -83,3 +88,14 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 class CustomLoginSerializer(LoginSerializer):
     username = None
+
+
+class CustomPagination(LimitOffsetPagination):
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ('count', self.count),
+            ('genre', GENRE_CHOICES),
+            ('next', self.get_next_link()),
+            ('previous', self.get_previous_link()),
+            ('results', data)
+        ]))
