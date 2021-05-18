@@ -11,7 +11,7 @@ COPY requirements requirements
 
 RUN apk add --no-cache \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
-    libffi-dev jpeg-dev zlib-dev git
+    libffi-dev jpeg-dev zlib-dev git postgresql-client
 #RUN apt-get install build-essential libssl-dev libffi-dev python-dev
 
 RUN pip install -U pip
