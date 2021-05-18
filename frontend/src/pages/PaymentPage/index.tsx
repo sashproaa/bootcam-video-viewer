@@ -7,12 +7,14 @@ import { Col, Row, Image } from 'react-bootstrap';
 const $ipsp = window.$ipsp;
 
 function __DEFAULTCALLBACK__Test(data: any, type: any) {
+  console.log('data', data);
   console.log('Оплата успешна');
-  alert('Оплата успешна');
+  // alert('Оплата успешна');
 
-  var form;
+  // var form;
   console.log('action', data.action);
   console.log('url', data.url);
+  console.log('data', data);
   // for (var prop in data.send_data) {
   //   if (data.send_data.hasOwnProperty(prop)) {
   //     console.log(prop, data.send_data[prop]);
@@ -41,6 +43,11 @@ function __DEFAULTCALLBACK__Test(data: any, type: any) {
   //   form.submit();
   //   form.parentNode.removeChild(form);
   // }
+}
+
+function TEST_CALLBACK(data: any, type: any) {
+  console.log('data', data);
+  console.log('Оплата успешна');
 }
 
 function checkoutInitTest(url) {
@@ -91,8 +98,9 @@ export default function PaymentPage() {
     console.log('location: ', location);
     const button = $ipsp.get('button');
     button.setMerchantId(1396424);
-    button.setAmount(10.99, 'USD', true);
+    button.setAmount(100, 'UAH', true);
     button.setHost('pay.fondy.eu');
+    button.setResponseUrl('https://a65fefcc70d7.ngrok.io/');
     button.addField({
       label: 'Name',
       name: 'name',
@@ -108,9 +116,11 @@ export default function PaymentPage() {
 
   const handleResult = (data: any, type: any) => {
     console.log('Оплата успешна');
-    alert('Оплата успешна');
+    console.log('data: ', data);
+    console.log('type: ', type);
+    // alert('Оплата успешна');
     // history.goBack();
-    history.push(backRoute);
+    // history.push(backRoute);
   };
 
   const checkoutInit = (url) => {
