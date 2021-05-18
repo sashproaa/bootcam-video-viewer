@@ -3,7 +3,7 @@ Django==2.2.16
 psycopg2
 pytz
 sqlparse
-
+cryptography==2.8
 
 
 Pillow
