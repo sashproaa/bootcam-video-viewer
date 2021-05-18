@@ -10,6 +10,7 @@ urlpatterns = [
     path('project/list/', ProjectListApiView.as_view()),
     path('video/list/', VideoListApiView.as_view()),
     path('video/content/list/', VideoContentListApiView.as_view()),
+    path('video/content/create/', VideoContentCreateApiView.as_view()),
     path('video/<int:pk>', VideoApiView.as_view()),
     path('user/<int:pk>', UserProfileApiView.as_view()),
     path('user/transactions', TransactionsApiView.as_view()),
