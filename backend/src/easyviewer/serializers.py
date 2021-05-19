@@ -42,8 +42,8 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
-    paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
 
+    paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
     class Meta:
         model = Video
         fields = '__all__'
@@ -90,7 +90,7 @@ class CustomLoginSerializer(LoginSerializer):
     username = None
 
 
-class CustomPagination(LimitOffsetPagination):
+class VideoPagination(LimitOffsetPagination):
     def get_paginated_response(self, data):
         return Response(OrderedDict([
             ('count', self.count),
