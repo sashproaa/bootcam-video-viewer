@@ -10,7 +10,7 @@ body{
     min-height: 65px;
     width: 100%;
     background: var(--shark);
-    margin-bottom: 56px;
+    // margin-bottom: 56px;
     .header-row{
         width: 100%
     }
@@ -144,8 +144,11 @@ body{
         }
     }
 }
+
+// catalog page start
+
 .sorting{
-    padding: 0px 0px 0px 5px;
+    padding: 56px 0px 0px 5px;
     width: 100%;
     ul{
         display: flex;
@@ -309,6 +312,147 @@ body{
         .block-12{
             background: url(../img/block-12.jpg)no-repeat 50%6%;
             background-size: cover;
+        }
+    }
+}
+
+// catalog page finisf
+
+// player page start
+.player_content{
+    .link_back_to_catalog{
+        padding: 0px 0px 0px 35px;
+        min-height: 80px;
+        a{
+            font: 500 15px/18px 'Roboto', sans-serif;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            &:hover{
+                color: var(--white);
+            }
+            &:hover .arrow_back_to_catalog:before{
+                color: var(--white);
+            }
+            .arrow_back_to_catalog{
+                position: relative;
+                &:before{
+                    content: "\e903";
+                    position: absolute;
+                    font-size: 21px;
+                    color: rgba(255, 255, 255, 0.8);;
+                    top: -2px;
+                    left: -29px;
+                    display: block;
+                }
+            }
+        }
+    }
+    .wrapper_block_of_video{
+        min-height: 455px;
+        margin: 0px;
+        @include media-breakpoint-down(sm){
+            width: 100%;
+        }
+        .block_of_video{
+            padding: 0px;
+            @include media-breakpoint-down(lg){
+                min-height: 50vh;  
+            }
+            @include media-breakpoint-down(sm){
+                min-height: 30vh;  
+            }
+            .preview_video{
+                margin-left: 18px;
+                background: url(../img/block-3.jpg) no-repeat 50%15%;
+                background-size: cover;
+                // min-height: 455px;
+                min-height: 100%;
+                max-width: 698px;
+                border-radius: 5px;
+                position: relative;
+                
+                &:before{
+                    content: "\e901";
+                    position: absolute;
+                    font-size: 116px;
+                    color: var(--white);
+                    top: calc(50% - 58px);
+                    left: calc(50% - 51px);
+                    display: block;
+                    transition: .4s;
+                }
+                &:hover::before{
+                    color: var(--thunderbird);
+                    transition: .2s;
+                }
+                &:hover:active:before{
+                    color: var(--alto);
+                }
+            }
+        }
+    }
+    .video_info{
+        padding: 28px 5px 28px 21px;
+        @include media-breakpoint-down(md){
+            padding: 20px;
+        }
+        h2{
+            font: 700 35px/41px 'Roboto', sans-serif;
+            word-spacing: -1px;
+        }
+        p{
+            font: 400 italic 16px/25px 'Roboto', sans-serif;
+            word-spacing: -1px;
+            max-width: 455px;
+            @include media-breakpoint-down(lg){
+                max-width: 100%;  
+            }
+        }
+        .due_personal{
+            p{
+                font-style: normal;
+            }
+            span{
+                font-weight: 500;  
+            }
+        }
+        .btn_payment{
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            @include media-breakpoint-down(sm){
+                flex-direction: column;
+
+            }
+            button{
+                width: 225px;
+                height: 55px;
+                border-radius: 5px;
+                background: var(--transparent);
+                border: solid 1px var(--white);
+                color: var(--white);
+                font: 500 16px/19px 'Roboto', sans-serif;
+                transition: .2s;
+                @include media-breakpoint-down(xxl){
+                    width: 45%;
+                }
+                @include media-breakpoint-down(sm){
+                    width: 100%;
+                    margin-bottom: 10px;
+                }
+                &:hover:first-child{
+                    background: var(--sharkLighter);
+                    transition: .2s;
+                }
+                &:last-child{
+                    background: var(--thunderbird);
+                    border: solid 1px var(--thunderbird);
+                }
+                &:hover:last-child{
+                    background: var(--tamarillo);
+                    transition: .2s;
+                }
+            }
         }
     }
 }
