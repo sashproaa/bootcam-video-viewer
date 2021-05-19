@@ -98,13 +98,11 @@ WSGI_APPLICATION = 'video.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'NAME': BASE_DIR / 'db.postgres',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres2',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -164,8 +162,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'easyviewer.serializers.CustomPagination',
-    'PAGE_SIZE': 3
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -199,9 +197,7 @@ REST_AUTH_SERIALIZERS = {
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',
-}
-
+    'REGISTER_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',}
 
 
 # Provider specific settings
