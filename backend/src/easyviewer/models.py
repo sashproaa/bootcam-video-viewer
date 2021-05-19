@@ -5,9 +5,12 @@ import jsonfield
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as msg
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.db import models
 from multiselectfield import MultiSelectField
 from phonenumber_field.modelfields import PhoneNumberField
+from functools import partial
+
 
 GENRE_CHOICES = (
     ('VAUDEVILLE', 'Водевиль'),
@@ -40,6 +43,7 @@ GENDER_CHOICE = (
     ('F', 'Female'),
 )
 
+hsh = partial(secrets.token_urlsafe, 32)
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -97,9 +101,10 @@ class ProjectSubscriptions(models.Model):
     duration = models.DurationField()  # days?
 
 
+
 class Projects(models.Model):
     """ Projects model """
-    hash = models.CharField(max_length=200, default=secrets.token_urlsafe(32))
+    hash = models.CharField(max_length=200, default=hsh)
     name = models.CharField(max_length=400)
     user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
@@ -125,17 +130,17 @@ class Video(models.Model):
     """ Video model """
     title = models.CharField(max_length=200)
     description = models.TextField()
-    meta = models.CharField(max_length=500)
+    meta = models.CharField(max_length=500, default="", blank=True)
     genre = MultiSelectField(choices=GENRE_CHOICES, max_choices=5)
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
     actors = models.CharField(max_length=400)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    created_at = models.DateField()
+    created_at = models.DateField(default=timezone.now)
     duration = models.DurationField()
-    image = models.ImageField(upload_to='uploads/image')            # where to upload, max_length?
-    preview_video = models.FileField(upload_to='uploads/preview')   # where to upload, max_length?
-    subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
-    url = models.CharField(max_length=400)
+    image = models.ImageField(upload_to='uploads/image', blank=True, null=True)            # where to upload, max_length?
+    preview_video = models.FileField(upload_to='uploads/preview', blank=True, null=True)   # where to upload, max_length?
+    subscription = models.ManyToManyField(VideoSubscriptions)
+    url = models.CharField(max_length=400, blank=True, null=True)
 
 
 class VideoContent(models.Model):
@@ -149,7 +154,7 @@ class VideoContent(models.Model):
 
 class Transactions(models.Model):
     """ Transactions model """
-    hash = models.CharField(max_length=200, unique=True, default=secrets.token_urlsafe(32))  # function to generate hash
+    hash = models.CharField(max_length=200, unique=True, default=hsh)  # function to generate hash
     user_id = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200)
     status = models.CharField(max_length=200, choices=STATUS_CHOICE, default='Active')
