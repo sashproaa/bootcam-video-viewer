@@ -21,9 +21,7 @@ interface AddUserRequest {
 }
 
 interface AddUserResponse {
-  email: string;
-  password1: string;
-  password2: string;
+  key: string;
   error?: string;
 }
 
@@ -33,9 +31,7 @@ interface LoginUserRequest {
 }
 
 interface LoginUserResponse {
-  email: string;
-  password1: string;
-  password2: string;
+  key: string;
   error?: string;
 }
 
@@ -44,14 +40,14 @@ interface LogoutUserResponse {
 }
 
 export const getUser = async (): Promise<UserResponse> => {
-  return await webApi.get(`${endpoint}/user`);
+  return await webApi.get(`${endpoint}/user/`);
   // return await timeoutMock(userMock);
 };
 
 export const addUser = async (
   request: AddUserRequest,
 ): Promise<AddUserResponse> => {
-  return await webApi.post(`${endpoint}/registration`, request);
+  return await webApi.post(`${endpoint}/registration/`, request);
   // return await timeoutMock(userMock);
 };
 
@@ -68,11 +64,11 @@ export const deleteUser = async (id: number): Promise<void> => {
 export const loginUser = async (
   request: LoginUserRequest,
 ): Promise<LoginUserResponse> => {
-  return await webApi.post(`${endpoint}/login`, request);
+  return await webApi.post(`${endpoint}/login/`, request);
   // return await timeoutMock(null);
 };
 
 export const logoutUser = async (): Promise<LogoutUserResponse> => {
-  return await webApi.get(`${endpoint}/logout`);
+  return await webApi.get(`${endpoint}/logout/`);
   // return await timeoutMock(null);
 };

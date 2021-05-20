@@ -9,6 +9,7 @@ import tt from '../../assets/ticket.svg';
 import { IoTicket } from 'react-icons/io5';
 import { IoLogInOutline } from 'react-icons/io5';
 import { IoLogIn } from 'react-icons/io5';
+import { setIsShowAuth } from '../../store/userSlice';
 
 export default function HeaderPage() {
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ export default function HeaderPage() {
 
   useEffect(() => {}, []);
 
-  const handleAuth = () => {};
+  const handleAuth = () => {
+    dispatch(setIsShowAuth(true));
+  };
 
   const handleSearch = (ev: { target: { value: string } }) => {
     setTitle(ev.target.value);

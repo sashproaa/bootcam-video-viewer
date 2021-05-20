@@ -257,6 +257,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS=['*']
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -272,4 +273,6 @@ CORS_ALLOW_HEADERS = [
     'hash-project',
     'mode',
     'withcredentials',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Credentials'
 ]

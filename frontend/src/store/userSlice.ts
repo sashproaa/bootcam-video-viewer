@@ -6,6 +6,7 @@ import { setVideo } from './videoSlice';
 import { addUser, getUser, loginUser } from '../api/services/userService';
 import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
+import { setToken } from '../common/helpers/tokenHelper';
 
 export interface RegistrationData {
   email: string;
@@ -50,6 +51,7 @@ export const { setIsLoading, setIsShowAuth, setUser } = userSlice.actions;
 export const fetchUser = (): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
   const response = await getUser();
+  console.log('user res: ', response);
   if (response?.error) {
     console.log('Проблемы при получении пользователя');
   } else {
@@ -64,9 +66,10 @@ export const fetchLoginUser = (data: LoginData): AppThunk => async (
   dispatch(setIsLoading(true));
   const response = await loginUser(data);
   if (response?.error) {
-    console.log('Проблемы при получении пользователя');
+    console.log('Проблемы при логине');
   } else {
-    // dispatch(setUser(response));
+    setToken(response.key);
+    dispatch(fetchUser());
   }
   dispatch(setIsLoading(false));
 };
@@ -84,7 +87,7 @@ export const fetchRegistrationUser = (
   if (response?.error) {
     console.log('Проблемы при регистрации');
   } else {
-    // dispatch(fetchLoginUser({ email: data.email, password: data.password }));
+    dispatch(fetchLoginUser({ email: data.email, password: data.password }));
   }
   dispatch(setIsLoading(false));
 };
