@@ -14,7 +14,14 @@ class Api {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        // withCredentials: true,
+        // mode: 'no-cors',
+        // 'X-CSRFToken':
+        //   'hwdkkRxqzjL8TpZMSAHwZSm9pf7RHRHIfeR1hQqVae794JW7Pq9lgFK80Ajb8GbD',
       },
+      withCredentials: true,
+      xsrfCookieName: 'csrftoken',
+      xsrfHeaderName: 'X-CSRFToken',
     });
   }
 
@@ -25,6 +32,8 @@ class Api {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
           'Hash-Project': await getHash(),
+          // 'X-CSRFToken':
+          //   'hwdkkRxqzjL8TpZMSAHwZSm9pf7RHRHIfeR1hQqVae794JW7Pq9lgFK80Ajb8GbD',
         },
         params,
       })
@@ -85,6 +94,7 @@ class Api {
   }
 
   private handleResponse(response: AxiosResponse) {
+    console.log('axios response: ', response);
     return response.data;
   }
 

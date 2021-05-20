@@ -9,6 +9,7 @@ interface CatalogState {
   videos: Video[];
   count: number;
   genres: string[];
+  filter: FilterResponse;
 }
 
 const initialState: CatalogState = {
@@ -17,6 +18,10 @@ const initialState: CatalogState = {
   videos: [],
   count: 0,
   genres: [],
+  filter: {
+    limit: 10,
+    genre: '',
+  },
 };
 
 export const catalogSlice = createSlice({
@@ -41,6 +46,9 @@ export const catalogSlice = createSlice({
     setGenres: (state, action: PayloadAction<string[]>) => {
       state.genres = action.payload;
     },
+    setFilter: (state, action: PayloadAction<FilterResponse>) => {
+      state.filter = { ...state.filter, ...action.payload };
+    },
   },
 });
 
@@ -51,13 +59,16 @@ export const {
   addVideos,
   setCount,
   setGenres,
+  setFilter,
 } = catalogSlice.actions;
 
-export const fetchVideos = (filter: FilterResponse): AppThunk => async (
+export const fetchVideos = (filter?: FilterResponse): AppThunk => async (
   dispatch,
+  getState,
 ) => {
   dispatch(setIsLoading(true));
-  const response = await getAllVideos(filter);
+  const filterState = getState().catalog.filter;
+  const response = await getAllVideos({ ...filterState, ...filter });
   if (response?.error) {
     console.log('Проблемы при получении каталога');
   } else {
@@ -68,12 +79,14 @@ export const fetchVideos = (filter: FilterResponse): AppThunk => async (
   dispatch(setIsLoading(false));
 };
 
-export const fetchNextVideos = (filter: FilterResponse): AppThunk => async (
+export const fetchNextVideos = (filter?: FilterResponse): AppThunk => async (
   dispatch,
   getState,
 ) => {
   dispatch(setIsNextLoading(true));
+  const filterState = getState().catalog.filter;
   const response = await getAllVideos({
+    ...filterState,
     ...filter,
     from: getState().catalog.videos.length,
   });
@@ -85,9 +98,18 @@ export const fetchNextVideos = (filter: FilterResponse): AppThunk => async (
   dispatch(setIsNextLoading(false));
 };
 
+export const updateFilterVideos = (filter: FilterResponse): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setFilter(filter));
+  dispatch(fetchVideos());
+};
+
 export const isLoading = (state: RootState) => state.catalog.isLoading;
 export const allVideos = (state: RootState) => state.catalog.videos;
 export const countVideos = (state: RootState) => state.catalog.count;
 export const genresVideos = (state: RootState) => state.catalog.genres;
+export const filterVideos = (state: RootState) => state.catalog.filter;
 
 export default catalogSlice.reducer;
