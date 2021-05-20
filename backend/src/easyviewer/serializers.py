@@ -1,7 +1,12 @@
+from collections import OrderedDict
+
 from dj_rest_auth.serializers import LoginSerializer
 from django.db import transaction
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
+
 from .models import *
 
 
@@ -37,8 +42,8 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
-    paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
 
+    paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
     class Meta:
         model = Video
         fields = '__all__'
@@ -83,3 +88,14 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 class CustomLoginSerializer(LoginSerializer):
     username = None
+
+
+class VideoPagination(LimitOffsetPagination):
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ('count', self.count),
+            ('genre', GENRE_CHOICES),
+            ('next', self.get_next_link()),
+            ('previous', self.get_previous_link()),
+            ('results', data)
+        ]))
