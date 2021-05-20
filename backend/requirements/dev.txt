@@ -18,5 +18,7 @@ phonenumbers  # feald model
 djangorestframework
 drf-yasg  # swagger
 
+django-cors-headers
+
 
 
