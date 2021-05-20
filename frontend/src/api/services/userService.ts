@@ -6,22 +6,53 @@ import { Endpoints } from '../../common/enums/EndpointsEnum';
 
 const endpoint = Endpoints.user;
 
-interface UserRequest extends Omit<User, 'id'> {
-  id?: number;
-}
+// interface UserRequest extends Omit<User, 'id'> {
+//   id?: number;
+// }
 
 interface UserResponse extends User {
   error?: string;
 }
 
-export const getUser = async (id: number): Promise<UserResponse> => {
-  // return await webApi.get(`${endpoint}/${id}`);
-  return await timeoutMock(userMock);
+interface AddUserRequest {
+  email: string;
+  password1: string;
+  password2: string;
+}
+
+interface AddUserResponse {
+  email: string;
+  password1: string;
+  password2: string;
+  error?: string;
+}
+
+interface LoginUserRequest {
+  email: string;
+  password: string;
+}
+
+interface LoginUserResponse {
+  email: string;
+  password1: string;
+  password2: string;
+  error?: string;
+}
+
+interface LogoutUserResponse {
+  error?: string;
+}
+
+export const getUser = async (): Promise<UserResponse> => {
+  return await webApi.get(`${endpoint}/user`);
+  // return await timeoutMock(userMock);
 };
 
-export const addVideo = async (request: UserRequest): Promise<UserResponse> => {
-  // return await webApi.post(endpoint, request);
-  return await timeoutMock(userMock);
+export const addUser = async (
+  request: AddUserRequest,
+): Promise<AddUserResponse> => {
+  return await webApi.post(`${endpoint}/registration`, request);
+  // return await timeoutMock(userMock);
 };
 
 export const updateUser = async (request: User): Promise<UserResponse> => {
@@ -32,4 +63,16 @@ export const updateUser = async (request: User): Promise<UserResponse> => {
 export const deleteUser = async (id: number): Promise<void> => {
   // return await webApi.delete(`${endpoint}/${id}`);
   return await timeoutMock(null);
+};
+
+export const loginUser = async (
+  request: LoginUserRequest,
+): Promise<LoginUserResponse> => {
+  return await webApi.post(`${endpoint}/login`, request);
+  // return await timeoutMock(null);
+};
+
+export const logoutUser = async (): Promise<LogoutUserResponse> => {
+  return await webApi.get(`${endpoint}/logout`);
+  // return await timeoutMock(null);
 };

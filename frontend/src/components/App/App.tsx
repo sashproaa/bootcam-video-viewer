@@ -8,6 +8,7 @@ import HeaderPage from '../Header';
 import ProfilePage from '../../pages/ProfilePage';
 import { clearHash, setHash } from '../../common/helpers/hashHelper';
 import './style.css';
+import AuthPage from '../../pages/AuthPage';
 
 function App() {
   useEffect(() => {
@@ -19,13 +20,14 @@ function App() {
 
   return (
     <>
+      <AuthPage />
       <HeaderPage />
       <div className='container'>
         <Switch>
           <Route path={Routes.catalog} component={CatalogPage} />
           <Route path={`${Routes.video}/:id`} component={VideoPage} />
           {/*<Route path={Routes.login} component={LoginPage} />*/}
-          {/*<Route path={Routes.registration} component={RegistrationPage} />*/}
+          {/*<Route path={Routes.registration} component={AuthPage} />*/}
           <Route path={Routes.profile} component={ProfilePage} />
           <Route path={Routes.subscription} component={SubscriptionPage} />
           <Redirect from='/' to={Routes.catalog} />
