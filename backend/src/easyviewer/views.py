@@ -2,7 +2,7 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-from django.db.models import Case, When, ExpressionWrapper, F
+from django.db.models import Case, When, ExpressionWrapper, F, Q
 from django.utils import timezone
 from rest_framework import generics
 from django.contrib.auth import get_user_model
@@ -36,10 +36,12 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class VideoListApiView(generics.ListAPIView):
+    pagination_class = VideoPagination
     if IsAuthenticated:
-        queryset = Video.objects.all().annotate(
-            paid_video=ExpressionWrapper(F('videocontent__data_end'), output_field=models.DateTimeField())
-        ).select_related('video_id')  # не смог пока реализовать проерку дати на окончание подписки
+        queryset = Video.objects.annotate(
+            paid_video=ExpressionWrapper(Q(videocontent__data_end__lte=timezone.now()),
+                                         output_field=models.DateTimeField(default=timezone.now()))
+        ).select_related()  # не смог пока реализовать проверку дати на окончание подписки
     else:
         queryset = Video.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
@@ -48,7 +50,7 @@ class VideoListApiView(generics.ListAPIView):
 
 
 class VideoContentListApiView(generics.ListAPIView):
-    queryset = Video.objects.all()
+    queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
     permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 

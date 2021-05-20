@@ -98,8 +98,6 @@ WSGI_APPLICATION = 'video.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'NAME': BASE_DIR / 'db.postgres',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
@@ -165,7 +163,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 3
+    'PAGE_SIZE': 5
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -184,7 +182,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 
 # ACCOUNT_UNIQUE_EMAIL = True
-# ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = None
 # ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
 
 
@@ -199,22 +197,8 @@ REST_AUTH_SERIALIZERS = {
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',
-}
+    'REGISTER_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',}
 
-# DJOSER = {
-#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-#     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-#     'SEND_ACTIVATION_EMAIL': False,
-#     'SERIALIZERS': {},
-# }
-# # Пошта видумана і тому SEND_ACTIVATION_EMAIL == False отже активація через пошту вимкнена
-# EMAIL_USER_TLS = True
-# EMAIL_HOST = 'smtp.ukr.net'
-# EMAIL_USER_HOST = 'easyviewer@ukr.net'
-# EMAIL_HOST_PASSWORD = '123456'
-# EMAIL_PORT = 465
 
 ACCOUNT_EMAIL_VERIFICATION = None
 
