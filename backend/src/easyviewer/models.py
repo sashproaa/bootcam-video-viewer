@@ -105,7 +105,7 @@ class ProjectSubscriptions(models.Model):
 
 class Projects(models.Model):
     """ Projects model """
-    hash = models.CharField(max_length=200, default=hsh)
+    hash = models.CharField(max_length=200, default= lambda: secrets.token_urlsafe())
     name = models.CharField(max_length=400)
     user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
@@ -160,7 +160,6 @@ class VideoContent(models.Model):
     user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
     video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
-
 
 
 class Transactions(models.Model):
