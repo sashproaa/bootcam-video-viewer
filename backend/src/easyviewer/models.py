@@ -162,7 +162,6 @@ class VideoContent(models.Model):
     video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
 
 
-
 class Transactions(models.Model):
     """ Transactions model """
     hash = models.CharField(max_length=200, unique=True, default=hsh)  # function to generate hash
