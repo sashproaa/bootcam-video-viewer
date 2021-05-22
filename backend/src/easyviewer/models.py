@@ -11,7 +11,6 @@ from multiselectfield import MultiSelectField
 from phonenumber_field.modelfields import PhoneNumberField
 from functools import partial
 
-
 GENRE_CHOICES = (
     ('VAUDEVILLE', 'Водевиль'),
     ('DRAMA', 'Драма'),
@@ -37,13 +36,13 @@ STATUS_CHOICE = (
     ('US', 'Unsuccessful'),
 )
 
-
 GENDER_CHOICE = (
     ('M', 'Male'),
     ('F', 'Female'),
 )
 
 hsh = partial(secrets.token_urlsafe, 32)
+
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -100,6 +99,8 @@ class ProjectSubscriptions(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     duration = models.DurationField()  # days?
 
+    def __str__(self):
+        return self.name
 
 
 class Projects(models.Model):
@@ -108,6 +109,9 @@ class Projects(models.Model):
     name = models.CharField(max_length=400)
     user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class AdminProject(models.Model):
@@ -125,6 +129,9 @@ class VideoSubscriptions(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Video(models.Model):
     """ Video model """
@@ -137,10 +144,13 @@ class Video(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     created_at = models.DateField(default=timezone.now)
     duration = models.DurationField()
-    image = models.ImageField(upload_to='uploads/image', blank=True, null=True)            # where to upload, max_length?
-    preview_video = models.FileField(upload_to='uploads/preview', blank=True, null=True)   # where to upload, max_length?
+    image = models.ImageField(upload_to='uploads/image', blank=True, null=True)  # where to upload, max_length?
+    preview_video = models.FileField(upload_to='uploads/preview', blank=True, null=True)  # where to upload, max_length?
     subscription = models.ManyToManyField(VideoSubscriptions)
     url = models.CharField(max_length=400, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
 
 
 class VideoContent(models.Model):
@@ -162,3 +172,6 @@ class Transactions(models.Model):
     project_id = models.ForeignKey(Projects, on_delete=models.PROTECT)
     json_description = jsonfield.JSONField()
     created_at = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
