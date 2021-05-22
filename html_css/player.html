@@ -7,85 +7,210 @@
     <title>AWplayer</title>
     <link rel="stylesheet" href="css/main.min.css">
 </head>
-<body>
-    <div class="wrapper-head d-flex align-items-center">
-        <div class="container">
-          <div class="row header-row d-flex justify-content-between">
-            <div class="col-12 header d-flex justify-content-between">
-              <h1>AWplayer</h1>
-              <div class="registr">
-                <form action="#">
-                  <label for="search">
-                    <span class="searching-mark"></span>
-                  </label>
-                  <input type="text" placeholder="Поиск" id="search">
-                  <!-- <input type="reset" value="" id="reset">
-                  <label for="reset">
-                    <span class="reset-mark"></span>
-                  </label> -->
-                  <button class="subscribe">Подписаться</button>
-                  <button class="enter">войти</button>
-                </form>
+<div>
+  <div class="wrapper-head d-flex align-items-center">
+    <div class="container">
+      <div class="row header-row d-flex justify-content-between">
+        <div class="col-12 header d-flex justify-content-between">
+          <h1><a href="#">AWplayer</a></h1>
+          <div class="registr">
+            <form action="#">
+              <div class="searcing-form">
+                <label for="search">
+                  <span class="searching-mark"></span>
+                </label>
+                <input type="text" placeholder="Поиск" id="search">
+                <button type="reset" class="reset"></button>
               </div>
-            </div>
+              <div class="two_btn">
+                <div class="popUp_subscribe">
+                  <input type="checkbox" id="subscribe_main">
+                  <label for="subscribe_main">
+                    <span>Подписаться</span>
+                  </label>
+                  <div class="bg">
+                    <div class="wrapper_popUp">
+                      <div class="close_popUp">
+                        <button type="button"></button>
+                      </div>
+                      <div class="header_popUp">
+                        <a href="#">Регистрация</a>
+                        <a href="#">Вход</a>
+                      </div>
+                      <div class="inform">
+                        <form action="#">
+                          <input type="text" placeholder="Имя">
+                          <input type="text" placeholder="Электронная почта">
+                          <input type="password" placeholder="Пароль">
+                          <p>Регистрируя новый профиль, вы принимаете условия 
+                            <a href="#">Пользовательского соглашения</a>
+                          </p>
+                          <button type="submit">Зарегистрироваться</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="popUp_enter">
+                  <input type="checkbox" id="enter_main">
+                  <label for="enter_main">
+                    <span>войти</span>
+                  </label>
+                  <div class="bg">
+                    <div class="wrapper_popUp">
+                      <div class="close_popUp">
+                        <button type="button"></button>
+                      </div>
+                      <div class="header_popUp">
+                        <a href="#">Вход</a>
+                        <a href="#">Регистрация</a>
+                      </div>
+                      <div class="inform">
+                        <form action="#">
+                          <input type="text" placeholder="Электронная почта">
+                          <input type="password" placeholder="Пароль">
+                          <div class="check">
+                            <div class="container-for-checkbox">
+                              <label for="remember">
+                                <p>Запомнить меня</p>
+                                <input type="checkbox" id="remember" checked="checked">
+                                <span class="custom-checkbox"></span>
+                              </label>
+                            </div>
+                            <a href="#">Забыли пароль?</a>
+                          </div>
+                          <button type="submit">Войти</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-    </div>
-    <div class="container player_content">
-      <div class="link_back_to_catalog d-flex align-items-center">
-        <a href="index.html"><span class="arrow_back_to_catalog"></span>Каталог</a>
       </div>
-      <div class="row wrapper_block_of_video">
-        <div class="col-12 col-lg-7 block_of_video">
-          <a href="#">
-            <div class="preview_video">
-              <!-- <span></span> -->
-            </div>
-          </a>
+    </div>
+  </div>
+  <div class="container player_content">
+    <div class="link_back_to_catalog d-flex align-items-center">
+      <a href="index.html"><span class="arrow_back_to_catalog"></span>Каталог</a>
+    </div>
+    <div class="row d-flex justify-content-between wrapper_block_of_video">
+      <div class="col-12 col-lg-7 block_of_video">
+        
+          <div class="preview_video">
+            <a href="#">
+              <img src="img/block-3.jpg" alt="ddd">
+            </a>
+          </div>
+        
+      </div>
+      <div class="col-12 col-lg-5 d-flex flex-column justify-content-evenly video_info">
+        <h2>Мечты сбываются</h2>
+        <p>“Мечты сбываются! Сама эта мысль помогает нам пережить сложные времена. А что, если эти мечты недостижимы? 
+          Что, если они о любви, которая утрачена навек? И ничего 
+          уже нельзя изменить, ведь вас разделяет не время или 
+          расстояние, а другие измерения между жизнью и смертью.”</p>
+          <div class="due_personal">
+            <p>Пьеса: <span>Клим</span></p>
+            <p>Режиссер: <span>Алексей Райт</span></p>
+          </div>
+          <div class="btn_payment">
+            <button>Купить за 200 грн</button>
+            <button>Оформить подписку</button>
+          </div>
+      </div>
+    </div>
+    <div class="row description_of_video">
+      <div class="col-12 col-xl-6 description">
+        <strong>Описание</strong>
+        <div class="over">
+          <input type="checkbox" id="show_more">
+          <label for="show_more">
+            <span>Развернуть</span>
+            <span>Свернуть</span>
+          </label>
+          <div class="full_info_description">
+              <p>На сцене невероятная история любви Дэвида и Мерил. Мелодраматическая история наполненая сценами иронии, сарказма или комизма. Именно здесь ответы на вопросы, которые вы боялись себе задать. Именно здесь метафорическое воспроизведения всех человеческих ожиданий, которые разбиваются...</p>
+          </div>
         </div>
-        <div class="col-12 col-lg-5 d-flex flex-column justify-content-evenly video_info">
-          <h2>Мечты сбываются</h2>
-          <p>“Мечты сбываются! Сама эта мысль помогает нам пережить сложные времена. А что, если эти мечты недостижимы? 
-            Что, если они о любви, которая утрачена навек? И ничего 
-            уже нельзя изменить, ведь вас разделяет не время или 
-            расстояние, а другие измерения между жизнью и смертью.”</p>
-            <div class="due_personal">
-              <p>Пьеса: <span>Клим</span></p>
-              <p>Режиссер: <span>Алексей Райт</span></p>
-            </div>
-            <div class="btn_payment">
-              <button>Купить за 200 грн</button>
-              <button>Оформить подписку</button>
-            </div>
-        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2 genre">
+        <strong>Жанр</strong>
+        <p>мелодрамма</p>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2 duration">
+        <strong>Длительность</strong>
+        <p>2 ч 30 мин</p>
+      </div>
+      <div class="col-12 col-md-4 col-xl-2 cast">
+        <strong>В ролях</strong>
+        <ul>
+          <li>
+            <p>Алексей Райт</p>
+          </li>
+          <li>
+            <p>Богдан Адаменко</p>
+          </li>
+          <li>
+            <p>Сергей Анипченко</p>
+          </li>
+          <li>
+            <p>Лара Читака</p>
+          </li>
+          <li>
+            <p>Елизавета Любимова</p>
+          </li>
+          <li>
+            <p>Евгений Шинкарев</p>
+          </li>
+          <li>
+            <p>Геннадий Выпинашко</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="propose_to_watching">
+      <div class="row">
+      <h2>Что еще посмотреть</h2>
       </div>
       <div class="row">
-        <div class="col-6">
-          <strong>Описание</strong>
-          <p>На сцене невероятная история любви Дэвида и Мерил. Мелодраматическая история наполненая сценами иронии, сарказма или комизма. Именно здесь ответы на вопросы, которые вы боялись себе задать. Именно здесь метафорическое воспроизведения всех человеческих ожиданий, которые разбиваются...</p>
-          <p>Развернуть</p>
+        <div class="col-3">
+          <a href="#">
+            <div class="wrapper_slide_propose">
+              <img src="img/block-4.jpg" alt="scscc">
+            </div>
+            <p>Сон Алисы</p>
+          </a>
         </div>
-        <div class="col-2">
-          <strong>Жанр</strong>
-          <p>мелодрамма</p>
+        <div class="col-3">
+          <a href="#">
+            <div class="wrapper_slide_propose">
+              <img src="img/block-5.jpg" alt="dcdcd">
+            </div>
+            <p>Ужин с дураком</p>
+          </a>
         </div>
-        <div class="col-2">
-          <strong>Длительность</strong>
-          <p>2 ч 30 мин</p>
+        <div class="col-3">
+          <a href="#">
+            <div class="wrapper_slide_propose">
+              <img src="img/block-2.jpg" alt="dcdcd">
+            </div>
+            <p>Солнечная линия</p>
+          </a>
         </div>
-        <div class="col-2">
-          <strong>В ролях</strong>
-          <ul>
-            <li>Алексей Райт</li>
-            <li>Богдан Адаменко</li>
-            <li>Сергей Анипченко</li>
-            <li>Лара Читака</li>
-            <li>Елизавета Любимова</li>
-            <li>Евгений Шинкарев</li>
-            <li>Геннадий Выпинашко</li>
-          </ul>
+        <div class="col-3">
+          <a href="#">
+            <div class="wrapper_slide_propose">
+              <img src="img/block-6.jpg" alt="scscsc">
+            </div>
+            <p>Идиот</p>
+          </a>
         </div>
       </div>
     </div>
+  </div>
+  </div>
 </body>
 </html>

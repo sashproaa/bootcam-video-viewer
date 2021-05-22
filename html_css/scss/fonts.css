@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../fonts/icomoon.woff?izb3lh') format('woff');
+  src: url('../fonts/icomoon.woff?wltauv') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -10,7 +10,11 @@
 .searching-mark:before,
 .reset-mark:before,
 .arrow_back_to_catalog:before,
-.preview_video:before {
+.preview_video:before,
+.info:before,
+.reset:before,
+.close_popUp button:before,
+.custom-checkbox:before {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -36,6 +40,9 @@
 }
 .icon-arrow_back:before {
   content: "\e903";
+}
+.icon-done:before {
+  content: "\e904";
 }
 .icon-search:before {
   content: "\e906";
