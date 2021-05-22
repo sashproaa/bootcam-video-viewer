@@ -85,6 +85,7 @@ class User(AbstractUser):
     mobile = PhoneNumberField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, null=True)
+    avatar = models.ImageField(upload_to='uploads/image', blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
@@ -105,7 +106,7 @@ class ProjectSubscriptions(models.Model):
 
 class Projects(models.Model):
     """ Projects model """
-    hash = models.CharField(max_length=200, default= lambda: secrets.token_urlsafe())
+    hash = models.CharField(max_length=200, default=hsh)
     name = models.CharField(max_length=400)
     user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
