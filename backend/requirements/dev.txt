@@ -17,6 +17,3 @@ django-phonenumber-field  # feald model
 phonenumbers  # feald model
 djangorestframework
 drf-yasg  # swagger
-
-
-
