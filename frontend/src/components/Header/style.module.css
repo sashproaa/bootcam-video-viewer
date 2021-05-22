@@ -1,0 +1,183 @@
+.wrapper-head {
+  min-height: 65px;
+  width: 100%;
+  background: var(--shark);
+  margin-bottom: 56px;
+}
+
+.wrapper-head .header-row {
+  width: 100%;
+}
+
+.wrapper-head .header {
+  padding: 0px 21px 0px 18px;
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header {
+    padding: 20px;
+  }
+}
+
+.wrapper-head .header h1 {
+  font: 900 18px/20px 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  padding-top: 7px;
+}
+
+@media (max-width: 767.98px) {
+  .wrapper-head .header h1 {
+    display: block;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr {
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr label {
+    display: flex;
+  }
+}
+
+.wrapper-head .header .registr input[type=text] {
+  background: var(--transparent);
+  width: 0px;
+  border: none;
+  height: 34px;
+  color: var(--ountainMist);
+  font: 500 16px/19px 'Roboto', sans-serif;
+  position: relative;
+  transition: .4s;
+  padding: 0px;
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr input[type=text] {
+    border: solid 1px var(--doveGray);
+    width: 100%;
+    transition: .6s;
+    padding: 0px 37px;
+    outline: var(--doveGray);
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+}
+
+.wrapper-head .header .registr input[type=text]:focus {
+  border: solid 1px var(--doveGray);
+  width: 667px;
+  transition: .6s;
+  padding: 0px 37px;
+  outline: var(--doveGray);
+  border-radius: 5px;
+}
+
+@media (max-width: 1399.98px) {
+  .wrapper-head .header .registr input[type=text]:focus {
+    width: 600px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .wrapper-head .header .registr input[type=text]:focus {
+    width: 350px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr input[type=text]:focus {
+    width: 100%;
+  }
+}
+
+.wrapper-head .header .registr .searching-mark {
+  position: relative;
+}
+
+.wrapper-head .header .registr .searching-mark:before {
+  position: absolute;
+  content: "\e906";
+  top: -20px;
+  left: 7px;
+  color: var(--white);
+  font-size: 31px;
+  display: block;
+  cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr .searching-mark:before {
+    top: 2px;
+    left: 7px;
+  }
+}
+
+.wrapper-head .header .registr .subscribe {
+  background: var(--thunderbird);
+  color: var(--white);
+  font: 500 16px/19px 'Roboto', sans-serif;
+  width: 165px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  transition: .2s;
+  margin-left: 50px;
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr .subscribe {
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .wrapper-head .header .registr .subscribe {
+    width: 100%;
+    margin-left: 0px;
+    margin-bottom: 5px;
+  }
+}
+
+.wrapper-head .header .registr .subscribe:hover {
+  background: var(--tamarillo);
+  transition: .2s;
+}
+
+.wrapper-head .header .registr .subscribe:active {
+  background: var(--tamarilloDark);
+  transition: 0s;
+}
+
+.wrapper-head .header .registr .enter {
+  background: var(--transparent);
+  border: none;
+  color: var(--white);
+  text-transform: uppercase;
+  font: 500 16px/19px 'Roboto', sans-serif;
+  padding: 0px 0px 0px 0px;
+  height: 35px;
+  transition: .2s;
+  margin-left: 30px;
+}
+
+@media (max-width: 575.98px) {
+  .wrapper-head .header .registr .enter {
+    width: 100%;
+    margin-left: 0px;
+  }
+}
+
+.wrapper-head .header .registr .enter:hover {
+  color: var(--thunderbird);
+  transition: .2s;
+}
+
+.wrapper-head .header .registr .enter:active {
+  color: var(--doveGray);
+  transition: .0s;
+}

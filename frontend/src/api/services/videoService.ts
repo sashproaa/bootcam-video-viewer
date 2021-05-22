@@ -30,7 +30,7 @@ export interface FilterResponse {
 export const getAllVideos = async (
   filter?: FilterResponse,
 ): Promise<VideoAllResponse> => {
-  // return await webApi.get(endpoint, filter||{});
+  // return await webApi.get(`${endpoint}/list`, filter||{});
   return await timeoutMock(videoAllMock());
 };
 

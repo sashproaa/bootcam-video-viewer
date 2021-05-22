@@ -9,7 +9,7 @@ export default function ProfilePage() {
   const user = useSelector(userInfo);
 
   useEffect(() => {
-    dispatch(fetchUser(1));
+    dispatch(fetchUser());
   }, []);
 
   return (
