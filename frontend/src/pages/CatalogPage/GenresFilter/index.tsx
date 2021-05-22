@@ -4,7 +4,7 @@ import './style.css';
 const countShowGenres = 4;
 
 interface Props {
-  genres: string[];
+  genres: [string, string][];
   activeGenre: string;
   changeGenre: (genre: string) => void;
 }
@@ -41,12 +41,12 @@ export default function GenresFilter({
               </button>
             </li>
             {genres.slice(0, countGenres).map((genre) => (
-              <li key={genre}>
-                <button
-                  className={genre === activeGenre ? 'active' : ''}
-                  onClick={handleSetActiveGenre(genre)}
-                >
-                  {genre}
+              <li
+                key={genre[0]}
+                className={genre[0] === activeGenre ? 'active' : ''}
+              >
+                <button onClick={handleSetActiveGenre(genre[0])}>
+                  {genre[1]}
                 </button>
               </li>
             ))}

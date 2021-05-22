@@ -8,7 +8,7 @@ interface CatalogState {
   isNextLoading: boolean;
   videos: Video[];
   count: number;
-  genres: string[];
+  genres: [string, string][];
   filter: FilterResponse;
 }
 
@@ -21,6 +21,7 @@ const initialState: CatalogState = {
   filter: {
     limit: 10,
     genre: '',
+    search: '',
   },
 };
 
@@ -43,7 +44,7 @@ export const catalogSlice = createSlice({
     setCount: (state, action: PayloadAction<number>) => {
       state.count = action.payload;
     },
-    setGenres: (state, action: PayloadAction<string[]>) => {
+    setGenres: (state, action: PayloadAction<[string, string][]>) => {
       state.genres = action.payload;
     },
     setFilter: (state, action: PayloadAction<FilterResponse>) => {
@@ -72,9 +73,9 @@ export const fetchVideos = (filter?: FilterResponse): AppThunk => async (
   if (response?.error) {
     console.log('Проблемы при получении каталога');
   } else {
-    dispatch(setVideos(response.videos));
+    dispatch(setVideos(response.results));
     dispatch(setCount(response.count));
-    dispatch(setGenres(response.genres));
+    dispatch(setGenres(response.genre));
   }
   dispatch(setIsLoading(false));
 };
@@ -88,12 +89,12 @@ export const fetchNextVideos = (filter?: FilterResponse): AppThunk => async (
   const response = await getAllVideos({
     ...filterState,
     ...filter,
-    from: getState().catalog.videos.length,
+    offset: getState().catalog.videos.length,
   });
   if (response?.error) {
     console.log('Проблемы при получении каталога');
   } else {
-    dispatch(addVideos(response.videos));
+    dispatch(addVideos(response.results));
   }
   dispatch(setIsNextLoading(false));
 };

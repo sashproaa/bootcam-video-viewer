@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
-import { getVideo } from '../api/services/videoService';
+import { getVideo, updateVideo } from '../api/services/videoService';
 
 interface VideoState {
   isLoading: boolean;
@@ -36,6 +36,25 @@ export const fetchVideo = (id: number): AppThunk => async (dispatch) => {
   } else {
     dispatch(setVideo(response));
   }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchUpdateVideo = (video: Video): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setIsLoading(true));
+  console.log('video data sl: ', video);
+  // const response = await updateVideo({
+  //   ...video,
+  //   id: getState().video.video.id,
+  // });
+  // if (response?.error) {
+  //   console.log('Проблемы при получении видео');
+  // } else {
+  //   console.log(response);
+  //   // dispatch(setVideo(response));
+  // }
   dispatch(setIsLoading(false));
 };
 
