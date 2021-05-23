@@ -42,8 +42,8 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
+    paid_video = serializers.DateTimeField(read_only=True)
 
-    paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
     class Meta:
         model = Video
         fields = '__all__'

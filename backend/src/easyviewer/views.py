@@ -26,7 +26,7 @@ class ProjectListApiView(generics.ListAPIView):
 
 class ProjectCreateApiView(generics.CreateAPIView):
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
@@ -37,22 +37,19 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 
 class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
-    if IsAuthenticated:
-        queryset = Video.objects.annotate(
-            paid_video=ExpressionWrapper(Q(videocontent__data_end__lte=timezone.now()),
-                                         output_field=models.DateTimeField(default=timezone.now()))
-        ).select_related()  # не смог пока реализовать проверку дати на окончание подписки
-    else:
-        queryset = Video.objects.all()
+    queryset = Video.objects.all().annotate(paid_video=Case(
+        When(videocontent__data_end__gte=timezone.now(), then=F('videocontent__data_end')),
+        output_field=models.DateTimeField()))  # пока не смог связать с юзером (пока дает все даже чужое)
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['genre', 'title']
     serializer_class = VideoListSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class VideoContentListApiView(generics.ListAPIView):
     queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly)
 
 
 class VideoContentCreateApiView(generics.CreateAPIView):
