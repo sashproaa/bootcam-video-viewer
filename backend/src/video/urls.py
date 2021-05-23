@@ -3,12 +3,14 @@ from dj_rest_auth.registration.views import VerifyEmailView, RegisterView
 from dj_rest_auth.views import LoginView, LogoutView
 from django.contrib import admin
 from django.urls import path, include, re_path
+from rest_framework.authtoken import views
 from .yasg import urlpatterns as doc_api
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/autн_base/', include('rest_framework.urls')),
+    path('autн-base/', include('rest_framework.urls')),
+    path('api-token-auth/', views.obtain_auth_token, name='api_token_auth'),
     path('api/', include('easyviewer.urls')),
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
