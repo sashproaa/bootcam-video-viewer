@@ -16,5 +16,3 @@ djangorestframework
 drf-yasg  # swagger
 django-cors-headers
 
-
-
