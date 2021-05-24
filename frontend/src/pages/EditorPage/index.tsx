@@ -9,6 +9,7 @@ import {
   videoInfo,
   isLoading,
   fetchUpdateVideo,
+  fetchUpdatMedia,
 } from '../../store/videoSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Spinner from '../../components/Spinner';
@@ -29,6 +30,7 @@ export default function EditorPage() {
   const id = Number(params.id);
 
   const [media, setMedia] = useState({ image: '', preview_video: '' });
+  const [src, setSrc] = useState({ image: '', preview_video: '' });
 
   const {
     register,
@@ -41,8 +43,8 @@ export default function EditorPage() {
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
 
   useEffect(() => {
-    dispatch(fetchVideo(id));
     dispatch(fetchVideos());
+    dispatch(fetchVideo(id));
   }, []);
 
   useEffect(() => {
@@ -60,15 +62,25 @@ export default function EditorPage() {
   };
 
   const onSubmit: SubmitHandler<VideoForm> = (data) => {
-    const videoData = { ...data, ...media };
-    dispatch(fetchUpdateVideo(videoData as Video));
+    // const videoData = { ...data, ...media };
+    // dispatch(fetchUpdateVideo(videoData as Video));
+    dispatch(fetchUpdateVideo(data as Video));
   };
 
-  const handleChangeImage = ({ target }: any) => {
+  const handleChangeMedia = ({ target }: any) => {
     const file = target.files[0];
-    if (target.files[0]) {
-      setMedia({ ...media, [target.name]: file });
+    if (file) {
+      dispatch(fetchUpdatMedia({ [target.name]: file } as Video));
     }
+
+    // if (file) {
+    //   setMedia({ ...media, [target.name]: file });
+    //   const reader = new FileReader();
+    //   reader.onloadend = function () {
+    //     setSrc({ ...src, [target.name]: reader.result });
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
 
   return (
@@ -81,6 +93,40 @@ export default function EditorPage() {
             <h2 className='m-3'>Редактор</h2>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
+            <div>
+              <img
+                src={video.image}
+                alt='Video image'
+                width='100%'
+                height='100%'
+              />
+              <div className='mb-3'>
+                <label htmlFor='image' className='form-label btn btn-light'>
+                  Open Image
+                </label>
+                <input
+                  type='file'
+                  className='form-control invisible'
+                  id='image'
+                  name='image'
+                  onChange={handleChangeMedia}
+                />
+              </div>
+            </div>
+
+            <div className='mb-3'>
+              <label htmlFor='preview_video' className='form-label'>
+                Preview video
+              </label>
+              <input
+                type='file'
+                className='form-control'
+                id='preview_video'
+                name='preview_video'
+                onChange={handleChangeMedia}
+              />
+            </div>
+
             <div className='mb-3'>
               <label htmlFor='title' className='form-label'>
                 Title
@@ -124,7 +170,7 @@ export default function EditorPage() {
                   <option
                     key={genre[0]}
                     value={genre[0]}
-                    selected={video.genre.includes(genre[0])}
+                    // selected={video.genre.includes(genre[0])}
                   >
                     {genre[1]}
                   </option>
@@ -172,31 +218,31 @@ export default function EditorPage() {
               />
             </div>
 
-            <div className='mb-3'>
-              <label htmlFor='image' className='form-label'>
-                Image
-              </label>
-              <input
-                type='file'
-                className='form-control'
-                id='image'
-                name='image'
-                onChange={handleChangeImage}
-              />
-            </div>
+            {/*<div className='mb-3'>*/}
+            {/*  <label htmlFor='image' className='form-label'>*/}
+            {/*    Image*/}
+            {/*  </label>*/}
+            {/*  <input*/}
+            {/*    type='file'*/}
+            {/*    className='form-control'*/}
+            {/*    id='image'*/}
+            {/*    name='image'*/}
+            {/*    onChange={handleChangeImage}*/}
+            {/*  />*/}
+            {/*</div>*/}
 
-            <div className='mb-3'>
-              <label htmlFor='preview_video' className='form-label'>
-                Preview video
-              </label>
-              <input
-                type='file'
-                className='form-control'
-                id='preview_video'
-                name='preview_video'
-                onChange={handleChangeImage}
-              />
-            </div>
+            {/*<div className='mb-3'>*/}
+            {/*  <label htmlFor='preview_video' className='form-label'>*/}
+            {/*    Preview video*/}
+            {/*  </label>*/}
+            {/*  <input*/}
+            {/*    type='file'*/}
+            {/*    className='form-control'*/}
+            {/*    id='preview_video'*/}
+            {/*    name='preview_video'*/}
+            {/*    onChange={handleChangeImage}*/}
+            {/*  />*/}
+            {/*</div>*/}
 
             {/*<div className='mb-3'>*/}
             {/*  <label htmlFor='url' className='form-label'>*/}

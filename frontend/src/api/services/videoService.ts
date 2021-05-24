@@ -37,7 +37,7 @@ export const getVideo = async (id: number): Promise<VideoResponse> => {
 };
 
 export const addVideo = async (request: Video): Promise<VideoResponse> => {
-  return await webApi.post(endpoint, request);
+  return await webApi.formPost(`${endpoint}/${request.id}`, request);
   // return await timeoutMock(videoMock());
 };
 
@@ -47,6 +47,10 @@ export const addVideo = async (request: Video): Promise<VideoResponse> => {
 // };
 
 export const updateVideo = async (request: Video): Promise<VideoResponse> => {
+  return await webApi.patchh(`${endpoint}/${request.id}`, request);
+};
+
+export const updateMedia = async (request: Video): Promise<VideoResponse> => {
   return await webApi.formPatch(`${endpoint}/${request.id}`, request);
 };
 
