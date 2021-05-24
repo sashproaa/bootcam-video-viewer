@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Col, Row } from 'react-bootstrap';
+// import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import CatalogCard from './CatalogCard';
 import {
   isLoading,
@@ -10,9 +10,14 @@ import {
   fetchVideos,
   genresVideos,
   fetchNextVideos,
+  filterVideos,
+  updateFilterVideos,
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
-import cls from './index.module.css';
+import GenresFilter from './GenresFilter';
+import './style.css';
+
+const genresTest = ['Комедия', 'Драма', 'Мелодрама', 'Трагедия', 'Ужасы'];
 
 export default function CatalogPage() {
   const dispatch = useDispatch();
@@ -20,13 +25,18 @@ export default function CatalogPage() {
   const videos = useSelector(allVideos);
   const count = useSelector(countVideos);
   const genres = useSelector(genresVideos);
+  const filter = useSelector(filterVideos);
 
   useEffect(() => {
-    // dispatch(fetchVideos({ limit: 10 }));
+    dispatch(fetchVideos());
   }, []);
 
   const loadNextVideos = () => {
-    dispatch(fetchNextVideos({ limit: 10 }));
+    dispatch(fetchNextVideos());
+  };
+
+  const handleChangeGenre = (genre: string) => {
+    dispatch(updateFilterVideos({ genre }));
   };
 
   return (
@@ -34,25 +44,29 @@ export default function CatalogPage() {
       {loading && videos.length === 0 ? (
         <Spinner />
       ) : (
-        <div className={cls.wrap}>
+        <>
+          <GenresFilter
+            genres={genres}
+            activeGenre={filter.genre || ''}
+            changeGenre={handleChangeGenre}
+          />
+
           <InfiniteScroll
-            pageStart={0}
-            loadMore={loadNextVideos}
-            hasMore={true}
+            className='row content'
+            dataLength={videos.length}
+            next={loadNextVideos}
+            hasMore={count != videos.length}
             loader={
               <div className='loader' key={0}>
                 Loading ...
               </div>
             }
-            // useWindow={false}
           >
             {videos.map((video) => (
-              <Col key={video.id} xs='auto' xl={6}>
-                <CatalogCard video={video} />
-              </Col>
+              <CatalogCard key={video.id} video={video} />
             ))}
           </InfiniteScroll>
-        </div>
+        </>
       )}
     </div>
   );

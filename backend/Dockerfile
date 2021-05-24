@@ -11,20 +11,23 @@ COPY requirements requirements
 
 RUN apk add --no-cache \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
-    libffi-dev jpeg-dev zlib-dev git
+    libffi-dev jpeg-dev zlib-dev git postgresql-client
+#RUN apt-get install build-essential libssl-dev libffi-dev python-dev
 
 RUN pip install -U pip
-
+#RUN pip install cryptography
 RUN pip install -r requirements/dev.txt
 
 COPY src src
 
-COPY .env .env
+#COPY .env .env
+
+COPY entrypoint.sh entrypoint.sh
 
 EXPOSE 8000
 
 
 # run entrypoint.sh
-ENTRYPOINT ["/app/backend/entrypoint.sh"]
+CMD /app/backend/entrypoint.sh
 
 
