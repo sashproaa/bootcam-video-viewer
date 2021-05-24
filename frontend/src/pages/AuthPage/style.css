@@ -1,0 +1,275 @@
+.wrapper_popUp {
+  width: 400px;
+  border-radius: 5px;
+  background: var(--white);
+  /*margin: 10% auto;*/
+  padding-bottom: 20px;
+}
+
+.wrapper_popUp .close_popUp {
+  padding: 11px 8px 20px 8px;
+  text-align: right;
+}
+
+.wrapper_popUp .close_popUp button {
+  position: absolute;
+  background: var(--transparent);
+  border: none;
+}
+
+.wrapper_popUp .close_popUp button:before {
+  content: "\e900";
+  position: absolute;
+  top: 0px;
+  right: 8px;
+  font-size: 20px;
+  color: black;
+}
+
+.wrapper_popUp .close_popUp button:hover::before {
+  color: var(--thunderbird);
+}
+
+.wrapper_popUp .header_popUp {
+  margin: 0px 40px 40px 40px;
+  border-bottom: solid 1px var(--thunderbird);
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0px 15px;
+}
+
+.wrapper_popUp .header_popUp .title_popUp {
+  color: var(--bunker);
+  font: 700 30px/20px 'Roboto', sans-serif;
+  text-decoration: none;
+}
+
+.wrapper_popUp .header_popUp .type_popUp {
+  color: var(--thunderbird);
+  font: 700 20px/20px 'Roboto', sans-serif;
+  text-decoration: none;
+}
+
+.wrapper_popUp .header_popUp .type_popUp:hover {
+  color: var(--tamarillo);
+}
+
+.wrapper_popUp .inform {
+  padding: 0px 40px 20px 40px;
+}
+
+.wrapper_popUp .inform input {
+  width: 100%;
+  border-radius: 5px;
+  outline: none;
+  border: solid 1px var(--ountainMist);
+  height: 45px;
+  padding: 0px 15px;
+  margin: 0px 0px 10px;
+}
+
+.wrapper_popUp .inform input::placeholder {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  color: var(--ountainMist);
+}
+
+.wrapper_popUp .inform input:focus {
+  border-color: var(--thunderbird);
+}
+
+.wrapper_popUp .inform input[type="password"] {
+  margin-bottom: 15px;
+}
+
+.wrapper_popUp .inform input[type="password"]::-ms-reveal:active {
+  color: var(--thunderbird);
+}
+
+.wrapper_popUp .inform p {
+  font: 500 12px/18px 'Roboto', sans-serif;
+  color: var(--bunker);
+  padding-bottom: 35px;
+}
+
+.wrapper_popUp .inform p a {
+  color: var(--thunderbird);
+  text-decoration: none;
+}
+
+.wrapper_popUp .inform button[type="submit"] {
+  width: 100%;
+  background: var(--thunderbird);
+  border-radius: 5px;
+  border: none;
+  color: var(--white);
+  height: 50px;
+}
+
+.wrapper_popUp .inform button[type="submit"]:hover {
+  background: var(--tamarillo);
+}
+
+.wrapper_popUp {
+  width: 400px;
+  border-radius: 5px;
+  background: var(--white);
+  /*margin: 10% auto;*/
+  padding-bottom: 20px;
+}
+
+.wrapper_popUp .close_popUp {
+  padding: 11px 8px 20px 8px;
+  text-align: right;
+}
+
+.wrapper_popUp .close_popUp button {
+  position: absolute;
+  background: var(--transparent);
+  border: none;
+}
+
+.wrapper_popUp .close_popUp button:before {
+  content: "\e900";
+  position: absolute;
+  top: 0px;
+  right: 8px;
+  font-size: 20px;
+  color: black;
+}
+
+.wrapper_popUp .close_popUp button:hover::before {
+  color: var(--thunderbird);
+}
+
+.wrapper_popUp .header_popUp {
+  margin: 0px 40px 40px 40px;
+  border-bottom: solid 1px var(--thunderbird);
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0px 15px;
+}
+
+/*.wrapper_popUp .header_popUp a:first-child {*/
+/*  color: var(--bunker);*/
+/*  font: 700 30px/20px 'Roboto', sans-serif;*/
+/*  text-decoration: none;*/
+/*}*/
+
+/*.wrapper_popUp .header_popUp a:last-child {*/
+/*  color: var(--thunderbird);*/
+/*  font: 700 20px/20px 'Roboto', sans-serif;*/
+/*  text-decoration: none;*/
+/*}*/
+
+.wrapper_popUp .header_popUp a:last-child:hover {
+  color: var(--tamarillo);
+}
+
+.wrapper_popUp .inform {
+  padding: 0px 40px 20px 40px;
+}
+
+.wrapper_popUp .inform input[type="text"], .wrapper_popUp .inform input[type="password"] {
+  width: 100%;
+  border-radius: 5px;
+  outline: none;
+  border: solid 1px var(--ountainMist);
+  height: 45px;
+  padding: 0px 15px;
+  margin: 0px 0px 10px;
+}
+
+.wrapper_popUp .inform input[type="text"]::placeholder, .wrapper_popUp .inform input[type="password"]::placeholder {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  color: var(--ountainMist);
+}
+
+.wrapper_popUp .inform input[type="text"]:focus, .wrapper_popUp .inform input[type="password"]:focus {
+  border-color: var(--thunderbird);
+}
+
+.wrapper_popUp .inform input[type="password"] {
+  margin-bottom: 15px;
+}
+
+.wrapper_popUp .inform p {
+  font: 500 12px/18px 'Roboto', sans-serif;
+  color: var(--bunker);
+  padding-bottom: 35px;
+}
+
+.wrapper_popUp .inform p a {
+  color: var(--thunderbird);
+  text-decoration: none;
+}
+
+.wrapper_popUp .inform button[type="submit"] {
+  width: 100%;
+  background: var(--thunderbird);
+  border-radius: 5px;
+  border: none;
+  color: var(--white);
+  height: 50px;
+}
+
+.wrapper_popUp .inform button[type="submit"]:hover {
+  background: var(--tamarillo);
+}
+
+.wrapper_popUp .inform .check {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.wrapper_popUp .inform .check .container-for-checkbox label {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.wrapper_popUp .inform .check .container-for-checkbox label input[type="checkbox"] {
+  position: absolute;
+  margin-right: 9999px;
+}
+
+.wrapper_popUp .inform .check .container-for-checkbox p {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  color: var(--bunker);
+  cursor: pointer;
+  padding: 0px 0px 0px 5px;
+  margin: 0px;
+}
+
+.wrapper_popUp .inform .check .container-for-checkbox .custom-checkbox {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin: 0px;
+  border-radius: 3px;
+  border: solid 1px var(--doveGray);
+}
+
+.wrapper_popUp .inform .check .container-for-checkbox input[type="checkbox"]:checked + span.custom-checkbox:before {
+  content: "\e904";
+  width: 20px;
+  height: 20px;
+  color: var(--white);
+  font-size: 20px;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  position: absolute;
+  background: var(--thunderbird);
+  border-radius: 3px;
+}
+
+.wrapper_popUp .inform .check a {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  color: var(--bunker);
+  text-decoration: none;
+  border-bottom: solid 1px var(--doveGray);
+}
+
+.wrapper_popUp .inform .check a:hover {
+  border-bottom: solid 1px var(--thunderbird);
+}
