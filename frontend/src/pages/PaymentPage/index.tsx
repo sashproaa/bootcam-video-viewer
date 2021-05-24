@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Image } from 'react-bootstrap';
+import { userInfo } from '../../store/userSlice';
+import { videoInfo } from '../../store/videoSlice';
 
 const $ipsp = window.$ipsp;
+const urlM = process.env.REACT_APP_MERCHANT_URL;
 
 function defaultCallbackTest(data: any, type: any) {
   console.log('data', data);
@@ -49,6 +52,8 @@ export default function PaymentPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const user = useSelector(userInfo);
+  const video = useSelector(videoInfo);
   const [backRoute, setBackRoute] = useState();
 
   useEffect(() => {
@@ -66,11 +71,26 @@ export default function PaymentPage() {
     button.setHost('pay.fondy.eu');
     button.setResponseUrl('http://a65fefcc70d7.ngrok.io/');
     button.addField({
-      name: 'name',
+      name: 'user',
+      value: 12,
+      hidden: true,
+    });
+    button.addField({
+      name: 'type',
+      value: 'video',
+      hidden: true,
+    });
+    button.addField({
+      name: 'video',
+      value: 14,
+      hidden: true,
+    });
+    button.addField({
+      name: 'sub',
       value: { qqq: 'qqq', www: 'www' },
       hidden: true,
     });
-    button.addParam('server_callback_url', 'http://a65fefcc70d7.ngrok.io/');
+    button.addParam('server_callback_url', urlM);
     checkoutInit(button.getUrl());
   }, []);
 

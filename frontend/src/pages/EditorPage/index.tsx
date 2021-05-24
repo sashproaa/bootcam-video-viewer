@@ -155,28 +155,28 @@ export default function EditorPage() {
               />
             </div>
 
-            <div className='mb-3'>
-              <label htmlFor='genre' className='form-label'>
-                Genre
-              </label>
-              <select
-                multiple
-                className='form-control'
-                id='genre'
-                defaultValue={video.genre || []}
-                {...register('genre', { required: true })}
-              >
-                {genres.map((genre) => (
-                  <option
-                    key={genre[0]}
-                    value={genre[0]}
-                    // selected={video.genre.includes(genre[0])}
-                  >
-                    {genre[1]}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/*<div className='mb-3'>*/}
+            {/*  <label htmlFor='genre' className='form-label'>*/}
+            {/*    Genre*/}
+            {/*  </label>*/}
+            {/*  <select*/}
+            {/*    multiple*/}
+            {/*    className='form-control'*/}
+            {/*    id='genre'*/}
+            {/*    defaultValue={video.genre || []}*/}
+            {/*    {...register('genre', { required: true })}*/}
+            {/*  >*/}
+            {/*    {genres.map((genre) => (*/}
+            {/*      <option*/}
+            {/*        key={genre[0]}*/}
+            {/*        value={genre[0]}*/}
+            {/*        // selected={video.genre.includes(genre[0])}*/}
+            {/*      >*/}
+            {/*        {genre[1]}*/}
+            {/*      </option>*/}
+            {/*    ))}*/}
+            {/*  </select>*/}
+            {/*</div>*/}
 
             <div className='mb-3'>
               <label htmlFor='actors' className='form-label'>
