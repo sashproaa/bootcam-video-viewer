@@ -33,7 +33,7 @@ export default function VideoPage() {
               width='100%'
               height='auto'
               controls={true}
-              url={video.preview}
+              url={video.preview_video}
             />
           </div>
           <Row>

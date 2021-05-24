@@ -12,6 +12,7 @@ import {
 } from '../../store/userSlice';
 import Login from './Login';
 import Registration from './Registration';
+import './style.css';
 
 // interface RegistrationData {
 //   email: string;
@@ -32,13 +33,15 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     padding: '0',
+    border: 'none',
+    width: '404px',
   },
 };
 
 export default function AuthPage() {
   const dispatch = useDispatch();
   const isOpen = useSelector(isShowAuth);
-  const [type, setType] = useState<'login' | 'registration'>('login');
+  const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {}, []);
 
@@ -46,8 +49,9 @@ export default function AuthPage() {
     dispatch(setIsShowAuth(false));
   };
 
-  const handleChangeType = (newType: 'login' | 'registration') => {
-    setType(newType);
+  const handleToggleType = (ev: any) => {
+    ev.preventDefault();
+    setIsLogin(!isLogin);
   };
 
   const handleRegistration = (data: RegistrationData) => {
@@ -60,19 +64,29 @@ export default function AuthPage() {
 
   return (
     <Modal style={customStyles} isOpen={isOpen}>
-      <div className='bg-dark h-100 p-3'>
-        <div className='d-flex justify-content-end mb-3'>
-          <button className='btn btn-sm btn-light' onClick={closeModal}>
-            close
-          </button>
+      <div className='wrapper_popUp'>
+        {/*<div className='d-flex justify-content-end mb-3'>*/}
+        {/*  <button className='btn btn-sm btn-light' onClick={closeModal}>*/}
+        {/*    close*/}
+        {/*  </button>*/}
+        {/*</div>*/}
+
+        <div className='close_popUp'>
+          <button type='button' onClick={closeModal}></button>
         </div>
-        {type === 'login' ? (
-          <Login onChangeType={handleChangeType} onLogin={handleLogin} />
+
+        <div className='header_popUp'>
+          <span className='title_popUp'>
+            {isLogin ? 'Вход' : 'Регистрация'}
+          </span>
+          <a href='#' className='type_popUp' onClick={handleToggleType}>
+            {isLogin ? 'Регистрация' : 'Вход'}
+          </a>
+        </div>
+        {isLogin ? (
+          <Login onLogin={handleLogin} />
         ) : (
-          <Registration
-            onChangeType={handleChangeType}
-            onRegistration={handleRegistration}
-          />
+          <Registration onRegistration={handleRegistration} />
         )}
       </div>
     </Modal>

@@ -3,13 +3,15 @@ export interface Video {
   title: string;
   description: string;
   meta: string;
-  genre: string;
+  genre: string[];
   actors: string;
-  price: number;
-  created_at: number;
-  duration: number;
-  video_subscription: string;
+  price: string;
+  created_at: string;
+  duration: string;
   image: string;
-  preview: string;
-  unlock: boolean;
+  preview_video: string;
+  url: string;
+  project_id: number;
+  subscription: number[];
+  paid_video: boolean;
 }
