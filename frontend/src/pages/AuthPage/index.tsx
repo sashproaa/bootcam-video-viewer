@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
+import { Modal } from 'react-bootstrap';
 import {
   fetchLoginUser,
   fetchRegistrationUser,
@@ -13,6 +14,7 @@ import {
 import Login from './Login';
 import Registration from './Registration';
 import './style.css';
+import { IoCloseOutline } from 'react-icons/io5';
 
 // interface RegistrationData {
 //   email: string;
@@ -34,7 +36,7 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     padding: '0',
     border: 'none',
-    width: '404px',
+    // width: '404px',
   },
 };
 
@@ -63,16 +65,41 @@ export default function AuthPage() {
   };
 
   return (
-    <Modal style={customStyles} isOpen={isOpen}>
+    // <Modal style={customStyles} isOpen={isOpen}>
+    //   <div className='wrapper_popUp'>
+    //     {/*<div className='d-flex justify-content-end mb-3'>*/}
+    //     {/*  <button className='btn btn-sm btn-light' onClick={closeModal}>*/}
+    //     {/*    close*/}
+    //     {/*  </button>*/}
+    //     {/*</div>*/}
+    //
+    //     <div className='close_popUp'>
+    //       <button className='button-close' type='button' onClick={closeModal}>
+    //         <IoCloseOutline className='button-close-icon' />
+    //       </button>
+    //     </div>
+    //
+    //     <div className='header_popUp'>
+    //       <span className='title_popUp'>
+    //         {isLogin ? 'Вход' : 'Регистрация'}
+    //       </span>
+    //       <a href='#' className='type_popUp' onClick={handleToggleType}>
+    //         {isLogin ? 'Регистрация' : 'Вход'}
+    //       </a>
+    //     </div>
+    //     {isLogin ? (
+    //       <Login onLogin={handleLogin} />
+    //     ) : (
+    //       <Registration onRegistration={handleRegistration} />
+    //     )}
+    //   </div>
+    // </Modal>
+    <Modal dialogClassName='modal_popUp' show={isOpen} onHide={closeModal}>
       <div className='wrapper_popUp'>
-        {/*<div className='d-flex justify-content-end mb-3'>*/}
-        {/*  <button className='btn btn-sm btn-light' onClick={closeModal}>*/}
-        {/*    close*/}
-        {/*  </button>*/}
-        {/*</div>*/}
-
         <div className='close_popUp'>
-          <button type='button' onClick={closeModal}></button>
+          <button className='button-close' type='button' onClick={closeModal}>
+            <IoCloseOutline className='button-close-icon' />
+          </button>
         </div>
 
         <div className='header_popUp'>

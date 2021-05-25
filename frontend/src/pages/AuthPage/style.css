@@ -1,3 +1,8 @@
+.modal_popUp {
+  max-width: 400px !important;
+  margin-top: 10% !important;
+}
+
 .wrapper_popUp {
   width: 400px;
   border-radius: 5px;
@@ -7,26 +12,38 @@
 }
 
 .wrapper_popUp .close_popUp {
-  padding: 11px 8px 20px 8px;
+  /*padding: 11px 8px 20px 8px;*/
   text-align: right;
 }
 
-.wrapper_popUp .close_popUp button {
-  position: absolute;
+.wrapper_popUp .close_popUp .button-close {
+  /*position: absolute;*/
+  padding: 0;
   background: var(--transparent);
   border: none;
 }
 
-.wrapper_popUp .close_popUp button:before {
-  content: "\e900";
-  position: absolute;
-  top: 0px;
-  right: 8px;
-  font-size: 20px;
+/*.wrapper_popUp .close_popUp button:before {*/
+/*  content: "\e900";*/
+/*  position: absolute;*/
+/*  top: 0px;*/
+/*  right: 8px;*/
+/*  font-size: 20px;*/
+/*  color: black;*/
+/*}*/
+
+/*.wrapper_popUp .close_popUp button:hover::before {*/
+/*  color: var(--thunderbird);*/
+/*}*/
+
+
+
+.wrapper_popUp .close_popUp .button-close-icon {
+  font-size: 32px;
   color: black;
 }
 
-.wrapper_popUp .close_popUp button:hover::before {
+.wrapper_popUp .close_popUp button:hover .button-close-icon {
   color: var(--thunderbird);
 }
 
@@ -109,64 +126,8 @@
   background: var(--tamarillo);
 }
 
-.wrapper_popUp {
-  width: 400px;
-  border-radius: 5px;
-  background: var(--white);
-  /*margin: 10% auto;*/
-  padding-bottom: 20px;
-}
-
-.wrapper_popUp .close_popUp {
-  padding: 11px 8px 20px 8px;
-  text-align: right;
-}
-
-.wrapper_popUp .close_popUp button {
-  position: absolute;
-  background: var(--transparent);
-  border: none;
-}
-
-.wrapper_popUp .close_popUp button:before {
-  content: "\e900";
-  position: absolute;
-  top: 0px;
-  right: 8px;
-  font-size: 20px;
-  color: black;
-}
-
-.wrapper_popUp .close_popUp button:hover::before {
-  color: var(--thunderbird);
-}
-
-.wrapper_popUp .header_popUp {
-  margin: 0px 40px 40px 40px;
-  border-bottom: solid 1px var(--thunderbird);
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 0px 15px;
-}
-
-/*.wrapper_popUp .header_popUp a:first-child {*/
-/*  color: var(--bunker);*/
-/*  font: 700 30px/20px 'Roboto', sans-serif;*/
-/*  text-decoration: none;*/
-/*}*/
-
-/*.wrapper_popUp .header_popUp a:last-child {*/
-/*  color: var(--thunderbird);*/
-/*  font: 700 20px/20px 'Roboto', sans-serif;*/
-/*  text-decoration: none;*/
-/*}*/
-
 .wrapper_popUp .header_popUp a:last-child:hover {
   color: var(--tamarillo);
-}
-
-.wrapper_popUp .inform {
-  padding: 0px 40px 20px 40px;
 }
 
 .wrapper_popUp .inform input[type="text"], .wrapper_popUp .inform input[type="password"] {
@@ -186,34 +147,6 @@
 
 .wrapper_popUp .inform input[type="text"]:focus, .wrapper_popUp .inform input[type="password"]:focus {
   border-color: var(--thunderbird);
-}
-
-.wrapper_popUp .inform input[type="password"] {
-  margin-bottom: 15px;
-}
-
-.wrapper_popUp .inform p {
-  font: 500 12px/18px 'Roboto', sans-serif;
-  color: var(--bunker);
-  padding-bottom: 35px;
-}
-
-.wrapper_popUp .inform p a {
-  color: var(--thunderbird);
-  text-decoration: none;
-}
-
-.wrapper_popUp .inform button[type="submit"] {
-  width: 100%;
-  background: var(--thunderbird);
-  border-radius: 5px;
-  border: none;
-  color: var(--white);
-  height: 50px;
-}
-
-.wrapper_popUp .inform button[type="submit"]:hover {
-  background: var(--tamarillo);
 }
 
 .wrapper_popUp .inform .check {
@@ -242,6 +175,7 @@
 }
 
 .wrapper_popUp .inform .check .container-for-checkbox .custom-checkbox {
+  display: block;
   width: 20px;
   height: 20px;
   position: relative;
@@ -250,15 +184,15 @@
   border: solid 1px var(--doveGray);
 }
 
-.wrapper_popUp .inform .check .container-for-checkbox input[type="checkbox"]:checked + span.custom-checkbox:before {
-  content: "\e904";
-  width: 20px;
-  height: 20px;
+.wrapper_popUp .inform .check .container-for-checkbox input[type="checkbox"]:checked + span.custom-checkbox {
+  border: none;
+}
+
+.wrapper_popUp .inform .check .container-for-checkbox input[type="checkbox"]:checked + span.custom-checkbox .custom-checkbox-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
   color: var(--white);
-  font-size: 20px;
-  top: calc(50% - 10px);
-  left: calc(50% - 10px);
-  position: absolute;
   background: var(--thunderbird);
   border-radius: 3px;
 }

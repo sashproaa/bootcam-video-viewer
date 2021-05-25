@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginData } from '../../../store/userSlice';
+import { IoCheckmark } from 'react-icons/io5';
 
 // interface FormData {
 //   email: string;
@@ -95,7 +96,9 @@ export default function Login({ onLogin }: Props) {
               <label htmlFor='remember'>
                 <p>Запомнить меня</p>
                 <input type='checkbox' id='remember' />
-                <span className='custom-checkbox'></span>
+                <span className='custom-checkbox'>
+                  <IoCheckmark className='custom-checkbox-icon' />
+                </span>
               </label>
             </div>
             <a href='#'>Забыли пароль?</a>
