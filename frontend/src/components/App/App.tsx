@@ -9,6 +9,7 @@ import ProfilePage from '../../pages/ProfilePage';
 import { clearHash, setHash } from '../../common/helpers/hashHelper';
 import './style.css';
 import AuthPage from '../../pages/AuthPage';
+import Notification from '../Notification';
 
 function App() {
   useEffect(() => {
@@ -22,6 +23,7 @@ function App() {
     <>
       <AuthPage />
       <HeaderPage />
+      <Notification />
       <div className='container'>
         <Switch>
           <Route path={Routes.catalog} component={CatalogPage} />
