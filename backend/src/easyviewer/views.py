@@ -26,44 +26,40 @@ class ProjectListApiView(generics.ListAPIView):
 
 class ProjectCreateApiView(generics.CreateAPIView):
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Projects.objects.filter()
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAdminUser, )
 
 
 class VideoListApiView(generics.ListAPIView):
-    pagination_class = VideoPagination
-    if IsAuthenticated:
-        queryset = Video.objects.annotate(
-            paid_video=ExpressionWrapper(Q(videocontent__data_end__lte=timezone.now()),
-                                         output_field=models.DateTimeField(default=timezone.now()))
-        ).select_related()  # не смог пока реализовать проверку дати на окончание подписки
-    else:
-        queryset = Video.objects.all()
+    queryset = Video.objects.all().annotate(paid_video=Case(
+        When(videocontent__data_end__gte=timezone.now(), then=F('videocontent__data_end')),
+        output_field=models.DateTimeField()))  # пока не смог связать с юзером (пока дает все даже чужое)
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['genre', 'title']
     serializer_class = VideoListSerializer
-
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    pagination_class = VideoPagination
 
 class VideoContentListApiView(generics.ListAPIView):
     queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly)
 
 
 class VideoContentCreateApiView(generics.CreateAPIView):
     serializer_class = VideoContentCreateSerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly)
 
 
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = Video.objects.filter()
     serializer_class = VideoDetailSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
 
 
 class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
@@ -77,14 +73,20 @@ class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
 
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProjectSubscriptions.objects.filter()
-    serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    serializer_class = ProjectSubscriptionsDetail
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectSubscriptionsListApiView(generics.ListAPIView):
     queryset = ProjectSubscriptions.objects.all()
-    serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    serializer_class = ProjectSubscriptionsDetail
+    permission_classes = (IsAdminUser, )
+
+
+class VideoSubscriptionApiView(generics.ListAPIView, generics.RetrieveUpdateDestroyAPIView):
+    queryset = VideoSubscriptions.objects.all()
+    serializer_class = VideoSubscriptionListSerializer
+    permission_classes = (IsAdminUser, )
 
 
 class FacebookLogin(SocialLoginView):
@@ -93,7 +95,5 @@ class FacebookLogin(SocialLoginView):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-
-
 
 
