@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactPlayer from 'react-player';
 import { Button, Col, Row } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
@@ -39,8 +38,6 @@ export default function EditorPage() {
     formState: { errors },
     reset,
   } = useForm<VideoForm>();
-
-  const [player, setPlayer] = useState<ReactPlayer | null>(null);
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -155,28 +152,28 @@ export default function EditorPage() {
               />
             </div>
 
-            <div className='mb-3'>
-              <label htmlFor='genre' className='form-label'>
-                Genre
-              </label>
-              <select
-                multiple
-                className='form-control'
-                id='genre'
-                defaultValue={video.genre || []}
-                {...register('genre', { required: true })}
-              >
-                {genres.map((genre) => (
-                  <option
-                    key={genre[0]}
-                    value={genre[0]}
-                    // selected={video.genre.includes(genre[0])}
-                  >
-                    {genre[1]}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/*<div className='mb-3'>*/}
+            {/*  <label htmlFor='genre' className='form-label'>*/}
+            {/*    Genre*/}
+            {/*  </label>*/}
+            {/*  <select*/}
+            {/*    multiple*/}
+            {/*    className='form-control'*/}
+            {/*    id='genre'*/}
+            {/*    defaultValue={video.genre || []}*/}
+            {/*    {...register('genre', { required: true })}*/}
+            {/*  >*/}
+            {/*    {genres.map((genre) => (*/}
+            {/*      <option*/}
+            {/*        key={genre[0]}*/}
+            {/*        value={genre[0]}*/}
+            {/*        // selected={video.genre.includes(genre[0])}*/}
+            {/*      >*/}
+            {/*        {genre[1]}*/}
+            {/*      </option>*/}
+            {/*    ))}*/}
+            {/*  </select>*/}
+            {/*</div>*/}
 
             <div className='mb-3'>
               <label htmlFor='actors' className='form-label'>

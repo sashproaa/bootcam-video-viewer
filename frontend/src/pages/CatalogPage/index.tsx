@@ -64,7 +64,11 @@ export default function CatalogPage() {
             }
           >
             {videos.map((video) => (
-              <CatalogCard className={cls.block} key={video.id} video={video} />
+              <CatalogCard
+                className={`col-12 col-md-6 col-xl-4 ${cls.block}`}
+                key={video.id}
+                video={video}
+              />
             ))}
           </InfiniteScroll>
         </>

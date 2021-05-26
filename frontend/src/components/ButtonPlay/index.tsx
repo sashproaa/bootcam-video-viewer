@@ -13,7 +13,7 @@ export default function ButtonPlay({
   ...props
 }: Props) {
   return (
-    <button className={cls.button}>
+    <button className={`${cls.button} ${className}`}>
       <IoPlaySharp className={cls.icon} {...props} />
     </button>
   );

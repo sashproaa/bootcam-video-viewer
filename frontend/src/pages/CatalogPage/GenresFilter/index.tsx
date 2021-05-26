@@ -37,13 +37,14 @@ export default function GenresFilter({
         <nav>
           <ul className={`d-flex flex-wrap ${cls.wrap}`}>
             <li className={cls.item}>
-              <ButtonLine onClick={handleShowAll}>
+              <ButtonLine size='small' onClick={handleShowAll}>
                 {countGenres === countShowGenres ? 'Все' : 'Убрать'}
               </ButtonLine>
             </li>
             {genres.slice(0, countGenres).map((genre) => (
               <li key={genre[0]} className={cls.item}>
                 <ButtonLine
+                  size='small'
                   active={genre[0] === activeGenre}
                   disabled={genre[0] === activeGenre}
                   onClick={handleSetActiveGenre(genre[0])}
@@ -53,7 +54,7 @@ export default function GenresFilter({
               </li>
             ))}
             <li className={cls.item}>
-              <ButtonLine type='reset' onClick={handleReset}>
+              <ButtonLine size='small' type='reset' onClick={handleReset}>
                 Сбросить
               </ButtonLine>
             </li>

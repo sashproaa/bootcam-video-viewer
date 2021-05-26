@@ -50,3 +50,16 @@
   color: var(--doveGray);
   transition: .0s;
 }
+
+.small {
+  height: 35px;
+}
+
+.base {
+  height: 50px;
+}
+
+.big {
+  height: 55px;
+  font: 500 16px/19px 'Roboto', sans-serif;
+}

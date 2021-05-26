@@ -8,6 +8,7 @@ import { setVideo } from '../../../store/videoSlice';
 import cls from './style.module.css';
 import { IoPlaySharp } from 'react-icons/io5';
 import ButtonPlay from '../../../components/ButtonPlay';
+import { images } from '../../../common/helpers/imageMockHelper';
 
 interface Props {
   className?: string;
@@ -46,7 +47,11 @@ export default function CatalogCard({ className = '', video }: Props) {
       <div className={`${cls.block} ${className}`}>
         <Link className={cls.link} to={`${Routes.video}/${video.id}`}>
           <div className={cls.video}>
-            <img className={cls.img} src={video.image} alt={video.title} />
+            <img
+              className={cls.img}
+              src={video.image || images[video.id]}
+              alt={video.title}
+            />
             <div className={cls.info}>
               <p className={cls.description}>{video.description}</p>
               <ButtonPlay className={cls.play} />

@@ -9,7 +9,7 @@
   }
 }
 
-.link {
+.link, .link:hover {
   text-decoration: none;
   color: var(--white);
   display: block;
@@ -55,7 +55,10 @@
   min-height: 292px;
   padding: 15px;
   padding: 12px 15px;
-  display: none;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity .4s;
 }
 
 .play {
@@ -67,8 +70,7 @@
 }
 
 .video:hover .info {
-  display: flex;
-  align-items: flex-end;
+  opacity: 1;
 }
 
 .description {

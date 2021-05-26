@@ -24,6 +24,8 @@ export interface FilterResponse {
   genre?: string;
 }
 
+export type GenresResponse = [string, string][];
+
 export const getAllVideos = async (
   filter?: FilterResponse,
 ): Promise<VideoAllResponse> => {
@@ -56,4 +58,9 @@ export const updateMedia = async (request: Video): Promise<VideoResponse> => {
 
 export const deleteVideo = async (id: number): Promise<void> => {
   return await webApi.delete(`${endpoint}/${id}`);
+};
+
+export const getGenres = async (): Promise<GenresResponse> => {
+  const res = await webApi.get(`${endpoint}/list/`, { limit: 1 });
+  return res.genre;
 };
