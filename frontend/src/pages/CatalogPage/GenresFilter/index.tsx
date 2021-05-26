@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './style.css';
+import ButtonLine from '../../../components/ButtonLine';
+import cls from './style.module.css';
 
 const countShowGenres = 4;
 
@@ -31,29 +32,30 @@ export default function GenresFilter({
   };
 
   return (
-    <div className='row sorting'>
+    <div className={`row ${cls.sorting}`}>
       <div className='col-12'>
         <nav>
-          <ul className='d-flex flex-wrap'>
-            <li>
-              <button onClick={handleShowAll}>
+          <ul className={`d-flex flex-wrap ${cls.wrap}`}>
+            <li className={cls.item}>
+              <ButtonLine onClick={handleShowAll}>
                 {countGenres === countShowGenres ? 'Все' : 'Убрать'}
-              </button>
+              </ButtonLine>
             </li>
             {genres.slice(0, countGenres).map((genre) => (
-              <li
-                key={genre[0]}
-                className={genre[0] === activeGenre ? 'active' : ''}
-              >
-                <button onClick={handleSetActiveGenre(genre[0])}>
+              <li key={genre[0]} className={cls.item}>
+                <ButtonLine
+                  active={genre[0] === activeGenre}
+                  disabled={genre[0] === activeGenre}
+                  onClick={handleSetActiveGenre(genre[0])}
+                >
                   {genre[1]}
-                </button>
+                </ButtonLine>
               </li>
             ))}
-            <li>
-              <button type='reset' onClick={handleReset}>
+            <li className={cls.item}>
+              <ButtonLine type='reset' onClick={handleReset}>
                 Сбросить
-              </button>
+              </ButtonLine>
             </li>
           </ul>
         </nav>

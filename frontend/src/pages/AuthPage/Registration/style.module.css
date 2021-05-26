@@ -1,0 +1,14 @@
+.inputLast {
+  margin-bottom: 15px;
+}
+
+.contract {
+  font: 500 12px/18px 'Roboto', sans-serif;
+  color: var(--bunker);
+  padding-bottom: 35px;
+}
+
+.contract a {
+  color: var(--thunderbird);
+  text-decoration: none;
+}

@@ -1,0 +1,15 @@
+.button {
+  background: var(--thunderbird);
+  border-radius: 5px;
+  border: none;
+  color: var(--white);
+  height: 50px;
+}
+
+.fill {
+  width: 100%;
+}
+
+.button:hover {
+  background: var(--tamarillo);
+}

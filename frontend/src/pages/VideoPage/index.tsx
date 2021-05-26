@@ -7,6 +7,7 @@ import { fetchVideo, videoInfo, isLoading } from '../../store/videoSlice';
 import VideoSlider from './VideoSlider';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Spinner from '../../components/Spinner';
+import cls from './style.module.css';
 
 export default function VideoPage() {
   const dispatch = useDispatch();

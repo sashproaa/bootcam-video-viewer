@@ -15,7 +15,8 @@ import {
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
 import GenresFilter from './GenresFilter';
-import './style.css';
+// import './style.css';
+import cls from './style.module.css';
 
 const genresTest = ['Комедия', 'Драма', 'Мелодрама', 'Трагедия', 'Ужасы'];
 
@@ -52,7 +53,7 @@ export default function CatalogPage() {
           />
 
           <InfiniteScroll
-            className='row content'
+            className={`row ${cls.content}`}
             dataLength={videos.length}
             next={loadNextVideos}
             hasMore={count != videos.length}
@@ -63,7 +64,7 @@ export default function CatalogPage() {
             }
           >
             {videos.map((video) => (
-              <CatalogCard key={video.id} video={video} />
+              <CatalogCard className={cls.block} key={video.id} video={video} />
             ))}
           </InfiniteScroll>
         </>
