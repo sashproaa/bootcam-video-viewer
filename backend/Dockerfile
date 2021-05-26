@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 WORKDIR /app/backend
 
-COPY requirements requirements
+COPY ./backend/requirements requirements
 
 RUN apk add --no-cache \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
@@ -16,18 +16,18 @@ RUN apk add --no-cache \
 
 RUN pip install -U pip
 #RUN pip install cryptography
-RUN pip install -r requirements/dev.txt
+RUN pip install -r /app/backend/requirements/dev.txt
 
-COPY src src
+#COPY src src
 
 #COPY .env .env
 
-COPY entrypoint.sh entrypoint.sh
+#COPY ./backend/entrypoint.sh entrypoint.sh
 
 EXPOSE 8000
 
 
 # run entrypoint.sh
-CMD /app/backend/entrypoint.sh
+#CMD /app/backend/entrypoint.sh
 
 
