@@ -80,3 +80,14 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.edit {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.editIcon {
+  width: 30px;
+  height: 30px;
+}
