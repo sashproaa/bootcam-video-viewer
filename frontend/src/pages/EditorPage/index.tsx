@@ -67,6 +67,7 @@ export default function EditorPage() {
   const handleChangeMedia = ({ target }: any) => {
     const file = target.files[0];
     if (file) {
+      // @ts-ignore
       dispatch(fetchUpdatMedia({ [target.name]: file } as Video));
     }
 
