@@ -42,11 +42,13 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
+    paid_video = serializers.CharField(read_only=True)  # CharField
 
-    paid_video = serializers.DateTimeField(default=False, read_only=True, source='VideoContent.data_end')
+    # (urlfield)
     class Meta:
         model = Video
-        fields = '__all__'
+        exclude = ['url']
+        # fields = '__all__'
 
 
 class TransactionsDetailSerializer(serializers.ModelSerializer):

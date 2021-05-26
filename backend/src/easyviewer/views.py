@@ -4,7 +4,7 @@ from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Ada
 from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q
 from django.utils import timezone
-from rest_framework import generics
+from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
@@ -21,7 +21,7 @@ class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProjectListApiView(generics.ListAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectListSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class ProjectCreateApiView(generics.CreateAPIView):
@@ -37,16 +37,27 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 
 class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
-    if IsAuthenticated:
-        queryset = Video.objects.annotate(
-            paid_video=ExpressionWrapper(Q(videocontent__data_end__lte=timezone.now()),
-                                         output_field=models.DateTimeField(default=timezone.now()))
-        ).select_related()  # не смог пока реализовать проверку дати на окончание подписки
-    else:
-        queryset = Video.objects.all()
+    serializer_class = VideoListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['genre', 'title']
-    serializer_class = VideoListSerializer
+
+    temp = ""
+
+    def get(self, request, *args, **kwargs):
+
+        self.temp = request.GET.get('temp')
+        print("Get request user_id", request.user.id)
+        return super(VideoListApiView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            queryset = Video.objects.all().annotate(paid_video=Case(
+                When( Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
+                      then=F('url')),
+                output_field=models.CharField()))
+        else:
+            queryset = Video.objects.all()
+        return queryset
 
 
 class VideoContentListApiView(generics.ListAPIView):
@@ -93,7 +104,3 @@ class FacebookLogin(SocialLoginView):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-
-
-
-
