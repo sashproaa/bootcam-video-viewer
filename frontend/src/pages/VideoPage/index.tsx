@@ -3,7 +3,6 @@ import { useParams, Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Player } from 'video-react';
 import 'video-react/dist/video-react.css';
-import { Col, Row } from 'react-bootstrap';
 import { fetchVideo, videoInfo, isLoading } from '../../store/videoSlice';
 import VideoSlider from './VideoSlider';
 import { Routes } from '../../common/enums/RoutesEnum';
@@ -30,7 +29,7 @@ export default function VideoPage() {
   }, []);
 
   const handleBuy = () => {
-    history.push(Routes.subscription);
+    history.push(Routes.payment);
   };
 
   const handleSubscribe = () => {
@@ -43,39 +42,11 @@ export default function VideoPage() {
         <Spinner />
       ) : (
         <>
-          {/*<div className='mb-5'>*/}
-          {/*  <ReactPlayer*/}
-          {/*    ref={setPlayer}*/}
-          {/*    width='100%'*/}
-          {/*    height='auto'*/}
-          {/*    controls={true}*/}
-          {/*    url={video.preview_video}*/}
-          {/*  />*/}
-          {/*</div>*/}
-          {/*<Row>*/}
-          {/*  <Col>*/}
-          {/*    <h1>{video.title}</h1>*/}
-          {/*  </Col>*/}
-          {/*  <Col>*/}
-          {/*    <Link to={Routes.subscription}>*/}
-          {/*      <Button className='mr-3'>Оплатить подписку</Button>*/}
-          {/*    </Link>*/}
-          {/*    <Button className='mr-3'>Купить билет</Button>*/}
-          {/*  </Col>*/}
-          {/*</Row>*/}
-          {/*<p>{video.description}</p>*/}
-          {/*<div className='mt-5 mb-5'>*/}
-          {/*  <VideoSlider />*/}
-          {/*</div>*/}
-
           <div
             className={`row d-flex justify-content-between ${cls.wrapperBlockVideo}`}
           >
             <div className={`col-12 col-lg-7 ${cls.blockVideo}`}>
               <div className={cls.previewVideo}>
-                {/*<a href='#'>*/}
-                {/*  <img src='img/block-3.jpg' alt='ddd' />*/}
-                {/*</a>*/}
                 <Player poster={video.image || images[video.id]}>
                   <source
                     src={

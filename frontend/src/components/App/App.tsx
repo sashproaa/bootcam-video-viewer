@@ -8,6 +8,7 @@ import EditorPage from '../../pages/EditorPage';
 import SubscriptionPage from '../../pages/SubscriptionPage';
 import ProfilePage from '../../pages/ProfilePage';
 import AuthPage from '../../pages/AuthPage';
+import PaymentPage from '../../pages/PaymentPage';
 import { clearHash, setHash } from '../../common/helpers/hashHelper';
 import './style.css';
 
@@ -32,6 +33,7 @@ function App() {
           {/*<Route path={Routes.registration} component={AuthPage} />*/}
           <Route path={Routes.profile} component={ProfilePage} />
           <Route path={Routes.subscription} component={SubscriptionPage} />
+          <Route path={Routes.payment} component={PaymentPage} />
           <Redirect from='/' to={Routes.catalog} />
         </Switch>
       </div>
