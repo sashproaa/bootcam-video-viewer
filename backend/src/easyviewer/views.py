@@ -26,13 +26,13 @@ class ProjectListApiView(generics.ListAPIView):
 
 class ProjectCreateApiView(generics.CreateAPIView):
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Projects.objects.filter()
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAdminUser, )
 
 
 class VideoListApiView(generics.ListAPIView):
@@ -63,18 +63,18 @@ class VideoListApiView(generics.ListAPIView):
 class VideoContentListApiView(generics.ListAPIView):
     queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly)
 
 
 class VideoContentCreateApiView(generics.CreateAPIView):
     serializer_class = VideoContentCreateSerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly)
 
 
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = Video.objects.filter()
     serializer_class = VideoDetailSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
 
 
 class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
@@ -88,14 +88,20 @@ class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
 
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProjectSubscriptions.objects.filter()
-    serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    serializer_class = ProjectSubscriptionsDetail
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectSubscriptionsListApiView(generics.ListAPIView):
     queryset = ProjectSubscriptions.objects.all()
-    serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, IsAuthenticatedOrReadOnly)
+    serializer_class = ProjectSubscriptionsDetail
+    permission_classes = (IsAdminUser, )
+
+
+class VideoSubscriptionApiView(generics.ListAPIView, generics.RetrieveUpdateDestroyAPIView):
+    queryset = VideoSubscriptions.objects.all()
+    serializer_class = VideoSubscriptionListSerializer
+    permission_classes = (IsAdminUser, )
 
 
 class FacebookLogin(SocialLoginView):
@@ -104,3 +110,4 @@ class FacebookLogin(SocialLoginView):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
+

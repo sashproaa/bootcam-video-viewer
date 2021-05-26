@@ -44,31 +44,36 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 class VideoListSerializer(serializers.ModelSerializer):
     paid_video = serializers.CharField(read_only=True)  # CharField
 
-    # (urlfield)
     class Meta:
         model = Video
         exclude = ['url']
         # fields = '__all__'
 
 
+class VideoSubscriptionListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VideoSubscriptions
+        fields = '__all__'
+
+
 class TransactionsDetailSerializer(serializers.ModelSerializer):
-    content = VideoContentDetailSerializer(many=True, read_only=True)
+    videocontent = VideoContentDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Transactions
         fields = ('hash', 'user_id', 'title',
                   'status', 'price', 'project_id',
                   'json_description', 'created_at',
-                  'content'
+                  'videocontent'
                   )
 
 
 class VideoContentCreateSerializer(serializers.ModelSerializer):
-    transaction = TransactionsDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = VideoContent
-        fields = ('data_start', 'data_end', 'user_id', 'video_id', 'video_subscription', 'transaction')
+        fields = '__all__'
 
 
 class ProjectSubscriptionsDetail(serializers.ModelSerializer):
