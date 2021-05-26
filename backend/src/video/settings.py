@@ -27,7 +27,7 @@ SECRET_KEY = '5c!+nw__jh7!=^o6!%fz^gq=mh%(24of&@lbaqrt3swv5(^)ry'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.com', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
 
 
 # Application definition
