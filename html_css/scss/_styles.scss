@@ -1424,7 +1424,7 @@ body{
                     display: flex;
                     flex-direction: row-reverse;
                     justify-content: flex-end;
-                    width: auto;
+                    width: min-content;
                     input[type="checkbox"]{
                         position: absolute;
                         margin-left: -9999px;
@@ -1559,6 +1559,9 @@ body{
                                     color: var(--white);
                                     border: none;
                                     border-radius: 5px;
+                                    &:hover{
+                                        background: var(--tamarillo);
+                                    }
                                 }
                             }
                         }
@@ -1672,39 +1675,157 @@ body{
 }
 //payment end
 // subscribes control
-    .my-subscribes-control{
-        padding-bottom: 35px;
-        margin-bottom: 45px;
-        strong{
-            font: 700 23px/20px 'Roboto', sans-serif;
-            margin: 0px;
-            padding-bottom: 10px;
+.my-subscribes-control{
+    padding-bottom: 35px;
+    margin-bottom: 45px;
+    strong{
+        font: 700 23px/20px 'Roboto', sans-serif;
+        margin: 0px;
+        padding-bottom: 10px;
+    }
+    p{
+        font: 700 12px/20px 'Roboto', sans-serif;
+        color: var(--doveGray)
+    }
+    button{
+        min-width: 178px;
+        height: 45px;
+        background: var(--thunderbird);
+        border: none;
+        border-radius: 5px;
+        font: 500 16px/19px 'Roboto', sans-serif;
+        color: var(--white);
+        &:hover{
+            background: var(--tamarillo);
         }
-        p{
+    }
+    .btn-control{
+        a{
             font: 700 12px/20px 'Roboto', sans-serif;
-            color: var(--doveGray)
-        }
-        button{
-            min-width: 178px;
-            height: 45px;
-            background: var(--thunderbird);
-            border: none;
-            border-radius: 5px;
-            font: 500 16px/19px 'Roboto', sans-serif;
             color: var(--white);
-            &:hover{
-                background: var(--tamarillo);
-            }
-        }
-        .btn-control{
-            a{
-                font: 700 12px/20px 'Roboto', sans-serif;
-                color: var(--white);
-                text-decoration: none;
-                margin-right: 25px;
-                &:last-child{
-                    color: var(--ountainMist);
-                }
+            text-decoration: none;
+            margin-right: 25px;
+            &:last-child{
+                color: var(--ountainMist);
             }
         }
     }
+}
+//history
+.history{
+    ul{
+        padding: 0px;
+        list-style: none;
+        width: 87%;
+        li:not(:first-child){
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding-bottom: 40px;
+            p{
+                padding: 0px;
+                margin: 0px;
+                font: 500 14px/20px 'Roboto', sans-serif;
+            }
+        }
+        li:first-child{
+            padding-bottom: 13px;
+            span{
+                display: inline-block;
+                &:nth-child(1){
+                    width: 310px
+                }
+                &:nth-child(2){
+                    width: 100px
+                }
+                &:nth-child(3){
+                    width: 203px
+                }
+                &:nth-child(4){
+                    width: 70px
+                }
+            }
+            
+            
+        }
+    }
+}
+//spectacle
+.spectacle{
+    .subscribe-navigation{
+        padding-bottom: 43px;
+        ul{
+            list-style: none;
+            display: flex;
+            padding: 0px;
+            margin-bottom: 0px;
+            li:not(.active){
+                a{
+                    font: 500 14px/20px 'Roboto', sans-serif;
+                    color: var(--white);
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    margin-right: 56px;
+                    &:hover{
+                        color: var(--thunderbird);
+                        border-bottom: solid 1px var(--thunderbird);
+                    }
+                }
+            }
+            li.active{
+                a{
+                    font: 500 14px/20px 'Roboto', sans-serif;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    color: var(--thunderbird);
+                    border-bottom: solid 1px var(--thunderbird);
+                    margin-right: 56px;
+                }
+            }
+            
+        }
+    }
+    .my-spectacle{
+        & > div{
+            padding-bottom: 40px;
+        }
+        a{
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            &::first-line:last-child{
+                margin-right: 0px;
+            }
+            img{
+                min-width: 178px;
+                max-height: 136px;
+                object-fit: cover;
+                border-radius: 5px;
+                
+                
+            }
+        }
+    }
+}
+//bought spectacles
+.catalog-link{
+    min-height: 183px;
+    span{
+        font: 500 16px/23px 'Roboto', sans-serif;
+        padding-bottom: 23px;
+    }
+    a{
+        text-decoration: none;
+        border: solid 1px var(--white);
+        min-width: 225px;
+        min-height: 55px;
+        font: 500 16px/56px 'Roboto', sans-serif;
+        color: var(--white);
+        border-radius: 5px;
+        display: inline-block;
+        text-align: center;
+        &:hover{
+            background: var(--sharkLighter);
+        }
+    }
+}
