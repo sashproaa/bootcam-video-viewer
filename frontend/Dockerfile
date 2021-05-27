@@ -12,7 +12,6 @@ COPY src src
 
 COPY public public
 
-COPY .env .env
 
 # RUN npm install react-scripts@3.0.1 -g --silent
 

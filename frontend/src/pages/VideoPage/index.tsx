@@ -10,7 +10,7 @@ import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
 import cls from './style.module.css';
 import ButtonLine from '../../components/ButtonLine';
-import ClampLines from 'react-clamp-lines';
+import {ClampLines} from 'react-clamp-lines';
 import './style.css';
 import { images } from '../../common/helpers/imageMockHelper';
 
