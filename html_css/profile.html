@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWplayer</title>
+    <link rel="stylesheet" href="css/main.min.css">
+</head>
+<body>
+  <div class="wrapper-head_profile d-flex align-items-center">
+    <div class="container">
+      <div class="row header-row d-flex justify-content-between">
+        <div class="col-12 header d-flex justify-content-between align-items-center">
+          <h1>
+            <a href="#">AWplayer</a>
+          </h1>
+          <div class="registr_profile">
+            <div class="searcing-form d-flex ">
+              <form action="#">
+                <label for="search">
+                  <span class="searching-mark"></span>
+                </label>
+                <input type="text" placeholder="Поиск" id="search">
+                <button type="reset" class="reset"></button>
+              </form>
+              <div class="users_Photo">
+                <a href="#">
+                  <img src="img/user.jpg" alt="user">
+                  <span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container profile_content">
+    <div class="link_back_to_catalog d-flex align-items-center">
+      <a href="index.html"><span class="arrow_back_to_catalog"></span>Каталог</a>
+    </div>
+    <div class="row">
+      <div class="col-4 block_of_users">
+        <div class="users_info">
+          <img src="img/user.jpg" alt="user">
+          <ul>
+            <li>
+              <p>Ольга</p>
+            </li>
+            <li>
+              <span>ID пользователя: 43567984</span>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li class="active">
+              <a href="#">Профиль</a>
+            </li>
+            <li>
+              <a href="payment.html">Подписки и платежи</a>
+            </li>
+            <li>
+              <a href="#">Мои спектакли </a>
+            </li>
+            <li>
+              <a href="#" class="exit_from_profile">Выйти</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-4 fill_profile">
+        <h1>Профиль</h1>
+        <form action="#">
+          <p>Имя</p>
+          <input type="text">
+          <p>Электронная почта</p>
+          <input type="text">
+          <p>Телефон</p>
+          <input type="text">
+          <div class="save">
+            <button type="submit">Сохранить изменения</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-3 offset-1 some_profile_action">
+        <ul>
+          <li>
+            <p>Уведомления</p>
+          </li>
+          <li class="remember-email">
+            <div class="container-for-remember-checkbox">
+              <label for="remember-mail">
+                <p>Email</p>
+                <input type="checkbox" id="remember-mail" checked="checked">
+                <span class="remember-email-checkbox"></span>
+              </label>
+            </div>
+          </li>
+          <li class="change-pass">
+            <input type="checkbox" id="ch-pass">
+            <label for="ch-pass">
+              <p>Изменить пароль</p>
+            </label>
+              <div class="bg-popUp">
+                <div class="wrapper-popUp-change-pass">
+                  <div class="close_popUp">
+                    <button type="button"></button>
+                  </div>
+                  <div class="form-to-change-pass">
+                    <h1>Смена пароля</h1>
+                    <form action="#">
+                      <input type="password" placeholder="Старый пароль">
+                      <input type="password" placeholder="Новый пароль">
+                      <div class="save-pass">
+                        <button type="submit">Сохранить</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+</body>
+</html>

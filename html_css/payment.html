@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWplayer</title>
+    <link rel="stylesheet" href="css/main.min.css">
+</head>
+<body>
+  <div class="wrapper-head_profile d-flex align-items-center">
+    <div class="container">
+      <div class="row header-row d-flex justify-content-between">
+        <div class="col-12 header d-flex justify-content-between align-items-center">
+          <h1>
+            <a href="#">AWplayer</a>
+          </h1>
+          <div class="registr_profile">
+            <div class="searcing-form d-flex ">
+              <form action="#">
+                <label for="search">
+                  <span class="searching-mark"></span>
+                </label>
+                <input type="text" placeholder="Поиск" id="search">
+                <button type="reset" class="reset"></button>
+              </form>
+              <div class="users_Photo">
+                <a href="#">
+                  <img src="img/user.jpg" alt="user">
+                  <span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container profile_content">
+    <div class="link_back_to_catalog d-flex align-items-center">
+      <a href="index.html"><span class="arrow_back_to_catalog"></span>Каталог</a>
+    </div>
+    <div class="row">
+      <div class="col-4 block_of_users">
+        <div class="users_info">
+          <img src="img/user.jpg" alt="user">
+          <ul>
+            <li>
+              <p>Ольга</p>
+            </li>
+            <li>
+              <span>ID пользователя: 43567984</span>
+            </li>
+          </ul>
+        </div>
+        <div class="list">
+          <ul>
+            <li>
+              <a href="profile.html">Профиль</a>
+            </li>
+            <li class="active">
+              <a href="#">Подписки и платежи</a>
+            </li>
+            <li>
+              <a href="#">Мои спектакли </a>
+            </li>
+            <li>
+              <a href="#" class="exit_from_profile">Выйти</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-8 fill_profile subscribe-and-payment">
+        <h1>Подписки и платежи</h1>
+        <div class="row">
+            <div class="col-8 subscribe-navigation">
+                <ul>
+                    <li class="active">
+                        <a href="#">подписки</a>
+                    </li>
+                    <li>
+                        <a href="subscribescontrol.html">Управление подписками</a>
+                    </li>
+                    <li>
+                        <a href="#">История платежей</a>
+                    </li>
+                </ul>
+            </div>
+            <span>Мои подписки</span>
+            <div class="row my-subscribes">
+                <div class="col-8 d-flex flex-column">
+                    <strong>6 месяцев</strong>
+                    <p>Подписка действительна до 25.08.2021</p>
+                </div>
+                <div class="col-2 offset-1">
+                    <button type="button">Продлить</button>
+                </div>
+            </div>
+        </div>
+        <div class="row main-subscribe">
+            <span>Основные подписки</span>
+            <div class="row recomended-subscribe">
+                <div class="col-8 d-flex flex-column">
+                    <strong>1 месяцев</strong>
+                    <p>Просмотр всех спектаклей  в течении одного месяца</p>
+                </div>
+                <div class="col-2 offset-1">
+                    <button type="button">Продлить</button>
+                </div>
+            </div>
+        </div>
+        <div class="row main-subscribe">
+            <div class="row recomended-subscribe">
+                <div class="col-8 d-flex flex-column">
+                    <strong>1 год</strong>
+                    <p>Просмотр всех спектаклей  в течении одного месяца</p>
+                </div>
+                <div class="col-2 offset-1">
+                    <button type="button">Продлить</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    </div>
+</body>
+</html>

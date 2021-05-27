@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../fonts/icomoon.woff?izb3lh') format('woff');
+  src: url('../fonts/icomoon.woff?l4lori') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -10,7 +10,16 @@
 .searching-mark:before,
 .reset-mark:before,
 .arrow_back_to_catalog:before,
-.preview_video:before {
+.arrow_back:before,
+.preview_video:before,
+.info:before,
+.reset:before,
+.close_popUp button:before,
+.custom-checkbox:before,
+.users_Photo span:before,
+.exit_from_profile:before,
+.remember-email-checkbox:before,
+.change-pass label p:before {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -25,17 +34,50 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-in-alt:before {
+  content: "\e905";
+}
+.icon-right:before {
+  content: "\e905";
+}
+.icon-enter:before {
+  content: "\e905";
+}
+.icon-sign-in:before {
+  content: "\e905";
+}
+.icon-login:before {
+  content: "\e905";
+}
 .icon-triangle-right:before {
   content: "\e901";
 }
 .icon-close:before {
   content: "\e900";
 }
+.icon-logout:before {
+  content: "\e90b";
+}
 .icon-arrow_back_ios:before {
   content: "\e902";
 }
 .icon-arrow_back:before {
   content: "\e903";
+}
+.icon-done:before {
+  content: "\e904";
+}
+.icon-unlock:before {
+  content: "\e907";
+}
+.icon-lock:before {
+  content: "\e909";
+}
+.icon-log-out:before {
+  content: "\e90a";
+}
+.icon-plus:before {
+  content: "\e908";
 }
 .icon-search:before {
   content: "\e906";
