@@ -11,6 +11,8 @@ import ButtonPlay from '../../../components/ButtonPlay';
 import { images } from '../../../common/helpers/imageMockHelper';
 import { IoPencil } from 'react-icons/io5';
 import ButtonLine from '../../../components/ButtonLine';
+import { Edit } from 'react-feather';
+import ButtonClean from '../../../components/ButtonClean';
 
 interface Props {
   className?: string;
@@ -41,9 +43,9 @@ export default function CatalogCard({ className = '', video }: Props) {
             <p className={cls.description}>{video.description}</p>
             <ButtonPlay className={cls.play} />
           </div>
-          <ButtonLine className={cls.edit} type='reset' onClick={handleEdit}>
-            <IoPencil className={cls.editIcon} />
-          </ButtonLine>
+          <ButtonClean className={cls.edit} onClick={handleEdit}>
+            <Edit size={24} />
+          </ButtonClean>
         </div>
         <strong className={cls.title}>{video.title}</strong>
       </Link>

@@ -1,70 +1,112 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
 import { Routes } from '../../common/enums/RoutesEnum';
 import cls from './style.module.css';
-import './style.css';
-import tt from '../../assets/ticket.svg';
-import { IoTicket } from 'react-icons/io5';
-import { IoLogInOutline } from 'react-icons/io5';
-import { IoLogIn } from 'react-icons/io5';
 import { setIsShowAuth } from '../../store/userSlice';
+import Button from '../Button';
+import ButtonClean from '../ButtonClean';
+import { Search } from 'react-feather';
+import { X } from 'react-feather';
+import { Cast } from 'react-feather';
+import { LogIn } from 'react-feather';
+import { updateFilterVideos } from '../../store/catalogSlice';
+import { useDebouncedCallback } from 'use-debounce';
 
 export default function HeaderPage() {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
+  const history = useHistory();
+  const location = useLocation();
+  const [search, setSearch] = useState('');
+  const debounced = useDebouncedCallback((value) => {
+    dispatch(updateFilterVideos({ search: value }));
+  }, 1000);
 
   useEffect(() => {}, []);
+
+  const updateSearch = (value: string) => {
+    setSearch(value);
+    if (location.pathname === Routes.catalog) {
+      debounced(value);
+    }
+  };
+
+  const handleChangeSearch = (ev: { target: { value: string } }) => {
+    updateSearch(ev.target.value);
+  };
+
+  const handleCleanSearch = () => {
+    updateSearch('');
+  };
+
+  const handleSubmitSearch = (ev: any) => {
+    ev.preventDefault();
+    if (location.pathname !== Routes.catalog) {
+      dispatch(updateFilterVideos({ search }));
+      history.push(Routes.catalog);
+    }
+  };
+
+  const handleSubscribe = () => {
+    history.push(Routes.subscription);
+  };
 
   const handleAuth = () => {
     dispatch(setIsShowAuth(true));
   };
 
-  const handleSearch = (ev: { target: { value: string } }) => {
-    setTitle(ev.target.value);
-  };
-
   return (
-    <div className='wrapper-head d-flex align-items-center'>
+    <div className={`d-flex align-items-center ${cls.wrapper}`}>
       <div className='container'>
-        <div className='row header-row d-flex justify-content-between'>
-          <div className='col-12 header d-flex justify-content-between'>
-            <h1>
-              <Link className='logoLink' to={Routes.catalog}>
+        <div className={`row d-flex justify-content-between ${cls.headerRow}`}>
+          <div
+            className={`col-12 d-flex justify-content-between ${cls.header}`}
+          >
+            <h1 className={cls.h1}>
+              <Link className={cls.logoLink} to={Routes.catalog}>
                 AWplayer
               </Link>
             </h1>
 
-            <div className='registr d-flex'>
-              <form className='search-form'>
-                <label htmlFor='search'>
-                  <span className='searching-mark'></span>
-                </label>
-                <input
-                  type='text'
-                  placeholder='Поиск'
-                  id='search'
-                  value={title}
-                  onChange={handleSearch}
+            <form className={cls.searchForm} onSubmit={handleSubmitSearch}>
+              <label className={cls.labelSearch} htmlFor='search'>
+                <Search className={cls.searchMark} size={24} />
+              </label>
+              <input
+                className={cls.input}
+                type='text'
+                placeholder='Поиск'
+                id='search'
+                value={search}
+                onChange={handleChangeSearch}
+              />
+              <label className={cls.labelX} htmlFor='search'>
+                <X
+                  className={cls.xMark}
+                  size={24}
+                  onClick={handleCleanSearch}
                 />
-              </form>
-              <Link to={Routes.subscription}>
-                {/*<button className='subscribe'>Подписаться</button>*/}
-                <button className='subscribe'>
-                  <span className='subscribe-text'>Подписаться</span>
-                  <span className='subscribe-icon'>
-                    <IoTicket size={24} />
-                  </span>
-                </button>
-              </Link>
-              <button className='enter' onClick={handleAuth}>
-                <span className='auth-text'>Войти</span>
-                <span className='auth-icon'>
-                  <IoLogInOutline size={32} />
-                </span>
-              </button>
-            </div>
+              </label>
+            </form>
+
+            <Button
+              className={cls.subscribe}
+              size='small'
+              onClick={handleSubscribe}
+            >
+              <span className={cls.subscribeText}>Подписаться</span>
+              <Cast className={cls.subscribeIcon} size={24} />
+            </Button>
+
+            <ButtonClean
+              className={cls.auth}
+              size='small'
+              style='uppercase'
+              onClick={handleAuth}
+            >
+              <span className={cls.subscribeText}>Войти</span>
+              <LogIn className={cls.authIcon} size={24} />
+            </ButtonClean>
           </div>
         </div>
       </div>
