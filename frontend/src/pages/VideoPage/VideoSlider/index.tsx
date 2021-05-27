@@ -31,7 +31,7 @@ export default function VideoSlider({
 
     (async () => {
       const data = await getAllVideos({ ...filter, limit });
-      if (!cleanup) setVideos(data.videos || []);
+      if (!cleanup) setVideos(data.results || []);
     })();
 
     return () => {

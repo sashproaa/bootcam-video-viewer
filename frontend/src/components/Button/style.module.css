@@ -1,0 +1,30 @@
+.button {
+  background: var(--thunderbird);
+  border-radius: 5px;
+  border: none;
+  padding: 0 9px;
+  color: var(--white);
+  /*height: 50px;*/
+  transition: .2s;
+}
+
+.fill {
+  width: 100%;
+}
+
+.button:hover {
+  background: var(--tamarillo);
+}
+
+.small {
+  height: 35px;
+}
+
+.base {
+  height: 50px;
+}
+
+.big {
+  height: 55px;
+  font: 500 16px/19px 'Roboto', sans-serif;
+}

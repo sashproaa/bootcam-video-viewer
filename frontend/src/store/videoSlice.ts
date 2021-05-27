@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
-import { getVideo } from '../api/services/videoService';
+import {
+  addVideo,
+  getVideo,
+  updateMedia,
+  updateVideo,
+} from '../api/services/videoService';
 
 interface VideoState {
   isLoading: boolean;
@@ -34,6 +39,44 @@ export const fetchVideo = (id: number): AppThunk => async (dispatch) => {
   if (response?.error) {
     console.log('Проблемы при получении видео');
   } else {
+    dispatch(setVideo(response));
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchUpdateVideo = (video: Video): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setIsLoading(true));
+  console.log('video data sl: ', video);
+  const response = await updateVideo({
+    ...video,
+    id: getState().video.video.id,
+  });
+  if (response?.error) {
+    console.log('Проблемы при получении видео');
+  } else {
+    console.log(response);
+    dispatch(setVideo(response));
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchUpdatMedia = (video: Video): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setIsLoading(true));
+  console.log('video data sl: ', video);
+  const response = await updateMedia({
+    ...video,
+    id: getState().video.video.id,
+  });
+  if (response?.error) {
+    console.log('Проблемы при получении видео');
+  } else {
+    console.log(response);
     dispatch(setVideo(response));
   }
   dispatch(setIsLoading(false));
