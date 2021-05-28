@@ -1,4 +1,11 @@
+from collections import OrderedDict
+
+from dj_rest_auth.serializers import LoginSerializer
+from django.db import transaction
 from rest_framework import serializers
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
 
 from .models import *
 
@@ -35,12 +42,121 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
+    video_url = serializers.CharField(read_only=True, default=None)  # CharField
+
     class Meta:
         model = Video
+        exclude = ['url']
+        # fields = '__all__'
+
+
+class VideoSubscriptionListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VideoSubscriptions
         fields = '__all__'
 
 
-class TransactionsDetail(serializers.ModelSerializer):
+class TransactionsDetailSerializer(serializers.ModelSerializer):
+    videocontent = VideoContentDetailSerializer(many=True, read_only=True)
+
     class Meta:
         model = Transactions
+        fields = ('hash', 'user_id', 'title',
+                  'status', 'price', 'project_id',
+                  'json_description', 'created_at',
+                  'videocontent'
+                  )
+
+
+class VideoContentCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VideoContent
         fields = '__all__'
+
+
+class ProjectSubscriptionsDetail(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectSubscriptions
+        fields = '__all__'
+
+
+class TransactionsDetailSerializer(serializers.ModelSerializer):
+
+    videocontent = VideoContentCreateSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Transactions
+        fields = ('hash', 'user_id', 'title',
+                  'status', 'price', 'project_id',
+                  'json_description', 'created_at',
+                  'videocontent'
+                  )
+
+
+class MerchantFondySerializer(serializers.Serializer):
+
+    transaction = TransactionsDetailSerializer(many=True, read_only=True)
+
+    rrn = serializers.CharField(max_length=255)
+    masked_card = serializers.CharField(max_length=255)
+    sender_cell_phone = serializers.CharField(max_length=255)
+    response_signature_string = serializers.CharField(max_length=255)
+    response_status = serializers.CharField(max_length=255)
+    sender_account = serializers.CharField(max_length=255)
+    fee = serializers.CharField(max_length=255)
+    rectoken_lifetime = serializers.CharField(max_length=255)
+    reversal_amount = serializers.CharField(max_length=255)
+    settlement_amount = serializers.CharField(max_length=255)
+    actual_amount = serializers.CharField(max_length=255)
+    order_status = serializers.CharField(max_length=255)
+    response_description = serializers.CharField(max_length=255)
+    verification_status = serializers.CharField(max_length=255)
+    order_time = serializers.CharField(max_length=255)
+    actual_currency = serializers.CharField(max_length=255)
+    order_id = serializers.CharField(max_length=255)
+    parent_order_id = serializers.CharField(max_length=255)
+    merchant_data = serializers.CharField(max_length=1555)
+    tran_type = serializers.CharField(max_length=255)
+    eci = serializers.CharField(max_length=255)
+    settlement_date = serializers.CharField(max_length=255)
+    payment_system = serializers.CharField(max_length=255)
+    rectoken = serializers.CharField(max_length=255)
+    approval_code = serializers.CharField(max_length=255)
+    merchant_id = serializers.CharField(max_length=255)
+    settlement_currency = serializers.CharField(max_length=255)
+    payment_id = serializers.CharField(max_length=255)
+    product_id = serializers.CharField(max_length=255)
+    currency = serializers.CharField(max_length=255)
+    card_bin = serializers.CharField(max_length=255)
+    response_code = serializers.CharField(max_length=255)
+    card_type = serializers.CharField(max_length=255)
+    amount = serializers.CharField(max_length=255)
+    sender_email = serializers.CharField(max_length=255)
+    signature = serializers.CharField(max_length=255)
+
+class CustomRegisterSerializer(RegisterSerializer):
+    username = None
+
+    # Define transaction.atomic to rollback the save operation in case of error
+    @transaction.atomic
+    def save(self, request):
+        user = super().save(request)
+        user.save()
+        return user
+
+
+class CustomLoginSerializer(LoginSerializer):
+    username = None
+
+
+class VideoPagination(LimitOffsetPagination):
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ('count', self.count),
+            ('genre', GENRE_CHOICES),
+            ('next', self.get_next_link()),
+            ('previous', self.get_previous_link()),
+            ('results', data)
+        ]))

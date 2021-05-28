@@ -7,12 +7,16 @@ sqlparse
 
 
 Pillow
-django-jsonfield
-django-multiselectfield
-django-phonenumber-field
-phonenumbers
-djangorestframework
-drf-yasg
 
-dj-rest-auth
+django-allauth
+django-rest-auth[with_social]
+dj-rest-auth  # token
+django-jsonfield  #feald model
+django-multiselectfield   #feald model
+django-phonenumber-field  # feald model
+phonenumbers  # feald model
+djangorestframework
+drf-yasg  # swagger
+
+
 
