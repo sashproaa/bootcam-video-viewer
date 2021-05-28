@@ -1,6 +1,7 @@
 nginx:
   restart: unless-stopped
-  build: ./docker/Dockerfile
+  build: .
+  dockerfile: ./docker/Dockerfile
   ports:
     - 8001:80
   environment:
@@ -18,7 +19,7 @@ nginx:
 
 backend:
   restart: unless-stopped
-  build: ./backend/Dockerfile
+  build: ./backend
   entrypoint: /app/backend/entrypoint.sh
   volumes:
     - static_volume:/app/backend/src/django_static
@@ -27,6 +28,7 @@ backend:
     - 8000
   links:
     - db
+
 db:
   image: postgres
   expose:

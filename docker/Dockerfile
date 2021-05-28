@@ -1,13 +1,14 @@
 FROM node:13.12.0-alpine as build
 
 WORKDIR /app/frontend
-COPY ./frontend/package.json ./
+#COPY ~/bootcam-video-viewer/frontend/package.json ./
 #COPY ./frontend/package-lock.json ./
 #RUN npm ci --silent
 #RUN npm run build
+COPY ./frontend ./
 RUN npm  install
 
-COPY ./frontend/ ./
+#COPY ../frontend ./
 RUN npm run build
 
 # The second stage
