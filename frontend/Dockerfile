@@ -5,17 +5,15 @@ WORKDIR /app/frontend
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json .
-COPY package-lock.json .
+COPY yarn.lock .
 
-RUN npm install --silent
+RUN yarn
 
 COPY src src
 
 COPY public public
 
 
-# RUN npm install react-scripts@3.0.1 -g --silent
-
 EXPOSE 3000
 
-CMD npm start
+CMD yarn start
