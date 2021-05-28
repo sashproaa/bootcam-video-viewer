@@ -11,9 +11,9 @@ urlpatterns = [
     path('video/subscription/', VideoSubscriptionApiView.as_view()),
     path('video/list/', VideoListApiView.as_view()),
     path('video/content/list/', VideoContentListApiView.as_view()),
+    path('video/content/create/', VideoContentCreateApiView.as_view()),
     path('video/<int:pk>', VideoApiView.as_view()),
+    path('video/create', VideoCreateApiView.as_view()),
     path('user/<int:pk>', UserProfileApiView.as_view()),
-    path('user/transactions/', TransactionsApiView.as_view()),
-    path('user/transactions/list/', TransactionsListApiView.as_view()),
+    path('user/transactions', TransactionsApiView.as_view()),
     path('facebook/', FacebookLogin.as_view(), name='fb_login')
-]
