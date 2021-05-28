@@ -1,14 +1,24 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Notifcation.css';
 import { showNotice, clearNotice } from '../../store/notificationSlice';
 import { RootState } from '../../store/store';
 
 function Notification() {
-  const text = useSelector((state: RootState) => state.notification.text);
-  const status = useSelector((state: RootState) => state.notification.status);
-  const isShow = useSelector((state: RootState) => state.notification.isShow);
+  const text = useSelector(
+    (state: RootState) => state.notification.text,
+    shallowEqual,
+  );
+  const status = useSelector(
+    (state: RootState) => state.notification.status,
+    shallowEqual,
+  );
+  const isShow = useSelector(
+    (state: RootState) => state.notification.isShow,
+    shallowEqual,
+  );
   const dispatch = useDispatch();
 
   let notify: React.MouseEventHandler<HTMLButtonElement> = () => null;
@@ -36,9 +46,9 @@ function Notification() {
         onClick={() => {
           dispatch(
             showNotice({
-              text: 'Возникла ошибка',
+              text: 'lalala',
               isShow: true,
-              status: 'error',
+              status: 'info',
             }),
           );
         }}
