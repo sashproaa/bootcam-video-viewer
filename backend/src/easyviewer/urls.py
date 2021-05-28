@@ -17,3 +17,4 @@ urlpatterns = [
     path('user/transactions/list/', TransactionsListApiView.as_view()),
     path('facebook/', FacebookLogin.as_view(), name='fb_login')
 ]
+
