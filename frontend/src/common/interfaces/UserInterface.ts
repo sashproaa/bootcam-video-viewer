@@ -3,6 +3,7 @@ export interface User {
   name: string;
   lastName: string;
   email: string;
+  avatar: string;
   isAdmin: boolean;
   subscription: string;
 }

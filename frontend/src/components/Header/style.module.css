@@ -135,3 +135,21 @@
     display: none;
   }
 }
+
+.btnUser {
+  color: var(--white);
+  background: var(--transparent);
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.btnUser:hover {
+  opacity: .7;
+}
+
+.userImg {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}

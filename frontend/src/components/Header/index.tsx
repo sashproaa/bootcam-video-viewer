@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Routes } from '../../common/enums/RoutesEnum';
 import cls from './style.module.css';
-import { setIsShowAuth } from '../../store/userSlice';
+import { setIsShowAuth, userInfo } from '../../store/userSlice';
 import Button from '../Button';
 import ButtonClean from '../ButtonClean';
 import { Search } from 'react-feather';
 import { X } from 'react-feather';
 import { Cast } from 'react-feather';
 import { LogIn } from 'react-feather';
+import { User } from 'react-feather';
 import { updateFilterVideos } from '../../store/catalogSlice';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -17,6 +18,7 @@ export default function HeaderPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const user = useSelector(userInfo);
   const [search, setSearch] = useState('');
   const debounced = useDebouncedCallback((value) => {
     dispatch(updateFilterVideos({ search: value }));
@@ -107,6 +109,10 @@ export default function HeaderPage() {
               <span className={cls.subscribeText}>Войти</span>
               <LogIn className={cls.authIcon} size={24} />
             </ButtonClean>
+            <button className={cls.btnUser}>
+              <User size={45} />
+              <img className={cls.userImg} src={user.avatar} alt={user.name} />
+            </button>
           </div>
         </div>
       </div>
