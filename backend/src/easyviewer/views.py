@@ -1,5 +1,4 @@
 import json
-
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -36,12 +35,12 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectDetailSerializer
     permission_classes = (IsAdminUser, )
 
-
 class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
+    serializer_class = VideoListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['genre', 'title']
-    serializer_class = VideoListSerializer
+
     temp = ""
 
     def get(self, request, *args, **kwargs):
@@ -52,7 +51,7 @@ class VideoListApiView(generics.ListAPIView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            queryset = Video.objects.all().annotate(paid_video=Case(
+            queryset = Video.objects.all().annotate(video_url=Case(
                 When(Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
                      then=F('url')),
                 output_field=models.CharField()))
