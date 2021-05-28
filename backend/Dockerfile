@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 WORKDIR /app/backend
 
-COPY ./backend/requirements requirements
+COPY ./requirements requirements
 
 RUN apk add --no-cache \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
@@ -22,7 +22,7 @@ RUN pip install -r /app/backend/requirements/dev.txt
 
 #COPY .env .env
 
-#COPY ./backend/entrypoint.sh entrypoint.sh
+COPY ./entrypoint.sh entrypoint.sh
 
 EXPOSE 8000
 

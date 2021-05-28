@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import InfiniteScroll from 'react-infinite-scroller';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CatalogCard from './CatalogCard';
 import {
@@ -15,7 +14,8 @@ import {
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
 import GenresFilter from './GenresFilter';
-import './style.css';
+// import './style.css';
+import cls from './style.module.css';
 
 const genresTest = ['Комедия', 'Драма', 'Мелодрама', 'Трагедия', 'Ужасы'];
 
@@ -52,7 +52,7 @@ export default function CatalogPage() {
           />
 
           <InfiniteScroll
-            className='row content'
+            className={`row ${cls.content}`}
             dataLength={videos.length}
             next={loadNextVideos}
             hasMore={count != videos.length}
@@ -63,7 +63,11 @@ export default function CatalogPage() {
             }
           >
             {videos.map((video) => (
-              <CatalogCard key={video.id} video={video} />
+              <CatalogCard
+                className={`col-12 col-md-6 col-xl-4 ${cls.block}`}
+                key={video.id}
+                video={video}
+              />
             ))}
           </InfiniteScroll>
         </>
