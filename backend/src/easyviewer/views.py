@@ -167,7 +167,6 @@ class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProjectSubscriptionsListApiView(generics.ListAPIView):
     queryset = ProjectSubscriptions.objects.all()
     serializer_class = ProjectSubscriptionsDetail
-    permission_classes = (IsAdminUser, )
 
 
 class VideoSubscriptionApiView(generics.ListAPIView, generics.RetrieveUpdateDestroyAPIView):
