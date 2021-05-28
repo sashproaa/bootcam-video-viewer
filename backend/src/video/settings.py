@@ -27,7 +27,7 @@ SECRET_KEY = '5c!+nw__jh7!=^o6!%fz^gq=mh%(24of&@lbaqrt3swv5(^)ry'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.com', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
 
 
 # Application definition
@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
 
+    'corsheaders',
+
 ]
 
 SITE_ID = 1
@@ -63,6 +65,7 @@ SITE_ID = 1
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,7 +147,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATIC_URL = '/django_static/'
+STATIC_ROOT = BASE_DIR / 'django_static'
 
 LOGIN_URL = 'rest_framework:login'
 LOGOUT_URL = 'rest_framework:logout'
@@ -200,6 +205,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',}
 
 
+ACCOUNT_EMAIL_VERIFICATION = None
+
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -234,3 +241,24 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v7.0',
     }
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS=['*']
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'access-control-allow-origin',
+    'hash-project',
+    'mode',
+    'withcredentials',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Credentials'
+]
