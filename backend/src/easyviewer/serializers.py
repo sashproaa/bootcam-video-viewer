@@ -42,11 +42,12 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
-    paid_video = serializers.CharField(default=None, read_only=True)
+    video_url = serializers.CharField(read_only=True, default=None)  # CharField
 
     class Meta:
         model = Video
-        fields = '__all__'
+        exclude = ['url']
+        # fields = '__all__'
 
 
 class VideoSubscriptionListSerializer(serializers.ModelSerializer):
@@ -54,6 +55,18 @@ class VideoSubscriptionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoSubscriptions
         fields = '__all__'
+
+
+class TransactionsDetailSerializer(serializers.ModelSerializer):
+    videocontent = VideoContentDetailSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Transactions
+        fields = ('hash', 'user_id', 'title',
+                  'status', 'price', 'project_id',
+                  'json_description', 'created_at',
+                  'videocontent'
+                  )
 
 
 class VideoContentCreateSerializer(serializers.ModelSerializer):
@@ -122,7 +135,6 @@ class MerchantFondySerializer(serializers.Serializer):
     amount = serializers.CharField(max_length=255)
     sender_email = serializers.CharField(max_length=255)
     signature = serializers.CharField(max_length=255)
-
 
 class CustomRegisterSerializer(RegisterSerializer):
     username = None
