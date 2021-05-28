@@ -23,7 +23,8 @@ class UserAdmin(userAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (msg('Personal info'), {'fields': ('first_name', 'last_name')}),
+        (msg('Personal info'), {'fields': ('first_name', 'last_name', 'mobile', 'date_of_birth', 'gender',
+                                           'avatar')}),
         (msg('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         (msg('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
