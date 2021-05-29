@@ -86,7 +86,6 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class VideoCreateApiView(generics.CreateAPIView):
-    queryset = Video.objects.filter()
     serializer_class = VideoDetailSerializer
     permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
 
@@ -117,10 +116,11 @@ class TransactionsApiView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         post_obj = self.request.data
+        subscription, duration, video_id = 1, 1, None
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            price = float(post_obj['amount']) / 100  # может есть по прощче перенести знак на два чила
+            price = float(post_obj['amount']) / 100  # может есть по проще перенести знак на два чила
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
@@ -145,7 +145,7 @@ class TransactionsApiView(generics.CreateAPIView):
                 subs = VideoSubscriptions.objects.get(video=video_id)
                 subscription = subs.id
                 duration = video.duration
-            elif 'subscription' == merchant_data['value']['target']:  # тут проблема когда подписка нечего записивать в відео id
+            elif 'subscription' == merchant_data['value']['target']:
                 subscription = VideoSubscriptions.objects.get(id=instance_id)
                 duration = subscription.duration
             data_start = timezone.now()
