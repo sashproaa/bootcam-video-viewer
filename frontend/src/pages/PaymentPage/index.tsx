@@ -3,24 +3,42 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { merchantId, merchantUrl } from '../../common/config';
-import { merchantDataState, priceState } from '../../store/paymentSlice';
+import {
+  cleanPaymentData,
+  merchantDataState,
+  priceState,
+  updatePaymentUserId,
+} from '../../store/paymentSlice';
 import cls from './style.module.css';
 import { showNoticeError } from '../../store/notificationSlice';
 import ModalWin from '../../components/ModalWin';
 import { Routes } from '../../common/enums/RoutesEnum';
+import { setIsShowAuth, userInfo } from '../../store/userSlice';
 
 const $ipsp = window.$ipsp;
 
 export default function PaymentPage() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = useSelector(userInfo);
   const merchantData = useSelector(merchantDataState);
   const price = useSelector(priceState);
 
   const [showApproved, setShowApproved] = useState(false);
 
   useEffect(() => {
-    if (merchantData) createPaymentForm();
+    if (!user.id) dispatch(setIsShowAuth(true));
+    return () => {
+      dispatch(cleanPaymentData());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (user.id) dispatch(updatePaymentUserId());
+  }, [user.id]);
+
+  useEffect(() => {
+    if (merchantData && merchantData.userId && price) createPaymentForm();
   }, [merchantData]);
 
   const createPaymentForm = () => {
@@ -116,10 +134,19 @@ export default function PaymentPage() {
       <ModalWin show={showApproved} onClose={closeApproved}>
         <div className='d-flex flex-column justify-content-center align-items-center text-dark'>
           <h4>Оплата прошла успешно!</h4>
-          <p>
-            Благодарим за покупку! Ваша подписка оформлена, теперь вы можете
-            перейти в каталог и выбрать спектакль. Приятного просмотра!
-          </p>
+          {merchantData.target === 'video' ? (
+            <p>
+              Благодарим за покупку! Спектакль доступен к просмотру. Он
+              сохраняется в вашем профиле в разделе “Мои спектакли”, вкладка
+              “Купленные”. Приятного просмотра!
+            </p>
+          ) : (
+            <p>
+              Благодарим за покупку! Ваша подписка оформлена, теперь вы можете
+              перейти в каталог и выбрать спектакль. Приятного просмотра!
+            </p>
+          )}
+
           <button className='btn btn-danger' onClick={closeApproved}>
             {merchantData.target === 'video'
               ? 'Смотреть спектакль'

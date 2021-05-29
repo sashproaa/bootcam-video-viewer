@@ -33,10 +33,18 @@ export const catalogSlice = createSlice({
     setPrice: (state, action: PayloadAction<string>) => {
       state.price = action.payload;
     },
+    cleanPaymentData: () => {
+      return initialState;
+    },
   },
 });
 
-export const { setIsLoading, setMerchantData, setPrice } = catalogSlice.actions;
+export const {
+  setIsLoading,
+  setMerchantData,
+  setPrice,
+  cleanPaymentData,
+} = catalogSlice.actions;
 
 export const setPaymentData = ({
   data,
@@ -48,6 +56,15 @@ export const setPaymentData = ({
   const userId = getState().user.user.id;
   dispatch(setPrice(price));
   dispatch(setMerchantData({ ...data, userId }));
+};
+
+export const updatePaymentUserId = (): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  const userId = getState().user.user.id;
+  const merchantData = getState().payment.merchantData;
+  if (merchantData) dispatch(setMerchantData({ ...merchantData, userId }));
 };
 
 export const isLoading = (state: RootState) => state.payment.isLoading;
