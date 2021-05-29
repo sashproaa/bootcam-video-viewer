@@ -1,30 +1,26 @@
 .button {
-  background: var(--thunderbird);
-  border-radius: 5px;
-  border: none;
-  padding: 0 20px;
+  font: 500 15px/18px 'Roboto', sans-serif;
   color: var(--white);
+  padding: 0;
+  background: var(--transparent);
+  border: none;
   transition: .2s;
 }
 
-.fill {
-  width: 100%;
-}
-
 .button:hover {
-  background: var(--tamarillo);
+  color: var(--thunderbird);
 }
 
 .button:active {
-  background: var(--tamarilloDark);
+  color: var(--doveGray);
 }
 
 .uppercase {
   text-transform: uppercase;
 }
 
-.icon {
-  padding: 0 5px;
+.fill {
+  width: 100%;
 }
 
 .small {

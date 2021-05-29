@@ -66,17 +66,37 @@ export default function PaymentPage() {
     button.setAmount(100, 'UAH', true);
     button.setHost('pay.fondy.eu');
     button.setResponseUrl(urlM);
+    // button.addField({
+    //   name: 'target',
+    //   value: 'video',
+    //   hidden: true,
+    // });
+    // button.addField({
+    //   name: 'id',
+    //   value: 3,
+    //   hidden: true,
+    // });
+    // button.addField({
+    //   name: 'userId',
+    //   value: 2,
+    //   hidden: true,
+    // });
     button.addField({
-      // name: 'name',
-      // value: { qqq: 'qqq', www: 'www' },
-      data: {
-        target: 'video',
-        id: 3,
-        userId: 2,
-      },
+      name: 'data',
+      value: { target: 'video', id: 3, userId: 2 },
       hidden: true,
     });
     button.addParam('server_callback_url', urlM);
+
+    button.addParam(
+      'server_callback_url',
+      'https://4db602935b38.ngrok.io/api-auth/login/',
+    );
+    button.addParam(
+      'product_id',
+      JSON.stringify({ target: 'video', id: 3, userId: 2 }),
+    );
+    // button.addParam('parent_order_id', '54');
     checkoutInit(button.getUrl());
   }, []);
 

@@ -2,7 +2,7 @@
   min-width: 103px;
   font: 500 15px/18px 'Roboto', sans-serif;
   color: var(--white);
-  padding: 9px 9px;
+  padding: 0 9px;
   background: var(--transparent);
   border: solid 1px var(--doveGray);
   border-radius: 5px;
@@ -51,8 +51,13 @@
   transition: .0s;
 }
 
+.fill {
+  width: 100%;
+}
+
 .small {
   height: 35px;
+  font: 500 16px/35px Roboto,sans-serif;
 }
 
 .base {

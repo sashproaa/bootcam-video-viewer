@@ -4,4 +4,5 @@ export interface Subscription {
   description: string;
   duration: number;
   price: number;
+  project_id: number;
 }
