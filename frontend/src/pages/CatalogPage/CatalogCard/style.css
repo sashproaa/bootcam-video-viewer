@@ -1,0 +1,69 @@
+.content .video-block {
+  overflow: hidden;
+  padding: 0px 0px 47px 18px;
+}
+
+@media (max-width: 767.98px) {
+  .content .video-block {
+    padding: 25px 0px;
+  }
+}
+
+.content .video-block a {
+  text-decoration: none;
+  color: var(--white);
+  display: block;
+}
+
+.content .video-block a strong {
+  font: 500 20px/20px 'Roboto', sans-serif;
+}
+
+.content .video-block .video {
+  position: relative;
+  max-width: 381px;
+  min-height: 292px;
+  border-radius: 5px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 767.98px) {
+  .content .video-block .video {
+    max-width: 100%;
+  }
+}
+
+.content .video-block .video:hover .info {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.content .video-block .video .info {
+  background: var(--bunkerOpacity);
+  min-height: 292px;
+  padding: 12px 15px;
+  display: none;
+}
+
+.content .video-block .video .info p {
+  font: 400 16px/22px 'Roboto', sans-serif;
+}
+
+.cardImage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/************/
+.edit-video {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}

@@ -1,7 +1,7 @@
 export enum Endpoints {
-  video = '/video',
+  video = '/api/video',
   login = '/login',
   registration = 'registration',
-  user = '/user',
-  subscription = '/subscription',
+  user = '/api-auth',
+  subscription = '/api/video/subscription',
 }

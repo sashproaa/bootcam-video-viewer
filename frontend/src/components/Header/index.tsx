@@ -1,28 +1,96 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Button, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Routes } from '../../common/enums/RoutesEnum';
+import cls from './style.module.css';
+import { setIsShowAuth, userInfo } from '../../store/userSlice';
+import Button from '../Button';
+import ButtonClean from '../ButtonClean';
+import { Search } from 'react-feather';
+import { X } from 'react-feather';
+import { Cast } from 'react-feather';
+import { LogIn } from 'react-feather';
+import { User } from 'react-feather';
+import { updateFilterVideos } from '../../store/catalogSlice';
+import { useDebouncedCallback } from 'use-debounce';
+import ButtonAuth from './ButtonAuth';
+import InputSearch from './InputSearch';
 
 export default function HeaderPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const user = useSelector(userInfo);
+  const [search, setSearch] = useState('');
+  const debounced = useDebouncedCallback((value) => {
+    dispatch(updateFilterVideos({ search: value }));
+  }, 1000);
 
   useEffect(() => {}, []);
 
+  const updateSearch = (value: string) => {
+    setSearch(value);
+    if (location.pathname === Routes.catalog) {
+      debounced(value);
+    }
+  };
+
+  const handleChangeSearch = (ev: { target: { value: string } }) => {
+    updateSearch(ev.target.value);
+  };
+
+  const handleCleanSearch = () => {
+    updateSearch('');
+  };
+
+  const handleSubmitSearch = (ev: any) => {
+    ev.preventDefault();
+    if (location.pathname !== Routes.catalog) {
+      dispatch(updateFilterVideos({ search }));
+      history.push(Routes.catalog);
+    }
+  };
+
+  const handleSubscribe = () => {
+    history.push(Routes.subscription);
+  };
+
+  const handleAuth = () => {
+    dispatch(setIsShowAuth(true));
+  };
+
+  const handleClickUser = () => {
+    history.push(Routes.profile);
+  };
+
   return (
-    <Navbar className='mb-3' bg='dark' variant='dark'>
-      <Link to={Routes.catalog}>
-        <Navbar.Brand>Logo</Navbar.Brand>
-      </Link>
-      <Form className='mr-auto ml-auto' inline>
-        <FormControl type='text' placeholder='Search' className='mr-sm-2' />
-        <Button variant='outline-info'>Search</Button>
-      </Form>
-      <Nav>
-        <Link to={Routes.profile}>
-          <Navbar.Text>Login</Navbar.Text>
-        </Link>
-      </Nav>
-    </Navbar>
+    <div className={`d-flex align-items-center ${cls.wrapper}`}>
+      <div className='container'>
+        <div className={`row d-flex justify-content-between ${cls.headerRow}`}>
+          <div
+            className={`col-12 d-flex justify-content-between ${cls.header}`}
+          >
+            <h1 className={cls.h1}>
+              <Link className={cls.logoLink} to={Routes.catalog}>
+                AWplayer
+              </Link>
+            </h1>
+
+            <InputSearch />
+
+            <Button
+              className={cls.subscribe}
+              size='small'
+              onClick={handleSubscribe}
+            >
+              <span className={cls.subscribeText}>Подписаться</span>
+              <Cast className={cls.subscribeIcon} size={24} />
+            </Button>
+
+            <ButtonAuth />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

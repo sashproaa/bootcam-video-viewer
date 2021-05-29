@@ -1,18 +1,37 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, CardDeck, Col, Row } from 'react-bootstrap';
 import {
   allSubscriptions,
   fetchSubscriptions,
 } from '../../store/subscriptionSlice';
+import { setPaymentData } from '../../store/paymentSlice';
+import { Routes } from '../../common/enums/RoutesEnum';
+import { Subscription } from '../../common/interfaces/SubscriptionInterface';
 
 export default function SubscriptionPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const subscriptions = useSelector(allSubscriptions);
 
   useEffect(() => {
     dispatch(fetchSubscriptions());
   }, []);
+
+  const handlePayment = (subscription: Subscription) => () => {
+    dispatch(
+      setPaymentData({
+        data: {
+          target: 'subscription',
+          id: subscription.id,
+          projectId: subscription.project_id,
+        },
+        price: subscription.price,
+      }),
+    );
+    history.push(Routes.payment);
+  };
 
   return (
     <div>
@@ -28,7 +47,9 @@ export default function SubscriptionPage() {
               <Card.Text>{subscription.description}</Card.Text>
             </Card.Body>
             <Card.Footer className='text-center'>
-              <Button>Купить за {subscription.price}грн</Button>
+              <Button onClick={handlePayment(subscription)}>
+                Купить за {subscription.price}грн
+              </Button>
             </Card.Footer>
           </Card>
         ))}

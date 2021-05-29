@@ -13,13 +13,15 @@ interface SubscriptionResponse extends Subscription {
   error?: string;
 }
 
-type SubscriptionAllResponse = Subscription[];
-
-interface FilterResponse {}
+interface SubscriptionAllResponse {
+  count: number;
+  results: Subscription[];
+  error?: string;
+}
 
 export const getAllSubscriptions = async (): Promise<SubscriptionAllResponse> => {
-  // return await webApi.get(endpoint);
-  return await timeoutMock(subscriptionAllMock);
+  return await webApi.get(`${endpoint}/`);
+  // return await timeoutMock(subscriptionAllMock);
 };
 
 export const getSubscription = async (
