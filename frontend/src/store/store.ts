@@ -4,6 +4,7 @@ import videoReducer from './videoSlice';
 import catalogReducer from './catalogSlice';
 import subscriptionReducer from './subscriptionSlice';
 import noticeReducer from './notificationSlice';
+import paymentReducer from './paymentSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     catalog: catalogReducer,
     subscription: subscriptionReducer,
     notification: noticeReducer,
+    payment: paymentReducer,
   },
 });
 

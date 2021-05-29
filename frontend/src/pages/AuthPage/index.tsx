@@ -5,9 +5,13 @@ import ModalWin from '../../components/ModalWin';
 import AuthMain from './AuthMain';
 import Recovery from './Recovery';
 import cls from './style.module.css';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Routes } from '../../common/enums/RoutesEnum';
 
 export default function AuthPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const isOpen = useSelector(isShowAuth);
   const [auth, setAuth] = useState(true);
 
@@ -15,6 +19,7 @@ export default function AuthPage() {
 
   const closeModal = () => {
     dispatch(setIsShowAuth(false));
+    if (location.pathname === Routes.payment) history.goBack();
   };
 
   const handleExited = () => {
