@@ -12,12 +12,9 @@ import AuthPage from '../../pages/AuthPage';
 import PaymentPage from '../../pages/PaymentPage';
 import { clearHash, setHash } from '../../common/helpers/hashHelper';
 import './style.css';
-
-import AuthPage from '../../pages/AuthPage';
 import Notification from '../Notification';
 
 import { fetchUser } from '../../store/userSlice';
-
 
 function App() {
   const dispatch = useDispatch();
