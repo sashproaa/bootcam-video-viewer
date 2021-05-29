@@ -3,6 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Image } from 'react-bootstrap';
+import { merchantId, merchantUrl } from '../../common/config';
+import {
+  merchantData,
+  merchantDataState,
+  priceState,
+} from '../../store/paymentSlice';
 
 const $ipsp = window.$ipsp;
 const urlM = process.env.REACT_APP_MERCHANT_URL;
@@ -50,55 +56,50 @@ export default function PaymentPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const merchantData = useSelector(merchantDataState);
+  const price = useSelector(priceState);
+
   const [backRoute, setBackRoute] = useState();
 
   useEffect(() => {
-    console.log('history: ', history);
-    console.log('history .length: ', history.length);
-    console.log(
-      'history []: ',
-      history[history.length - 1],
-      history[history.length - 2],
-    );
-    console.log('location: ', location);
-    const button = $ipsp.get('button');
-    button.setMerchantId(1396424);
-    button.setAmount(100, 'UAH', true);
-    button.setHost('pay.fondy.eu');
-    button.setResponseUrl(urlM);
-    // button.addField({
-    //   name: 'target',
-    //   value: 'video',
-    //   hidden: true,
-    // });
-    // button.addField({
-    //   name: 'id',
-    //   value: 3,
-    //   hidden: true,
-    // });
-    // button.addField({
-    //   name: 'userId',
-    //   value: 2,
-    //   hidden: true,
-    // });
-    button.addField({
-      name: 'data',
-      value: { target: 'video', id: 3, userId: 2 },
-      hidden: true,
-    });
-    button.addParam('server_callback_url', urlM);
+    // if (merchantData) {
+    //   const button = $ipsp.get('button');
+    //   button.setMerchantId(merchantId);
+    //   button.setAmount(100, 'UAH', true);
+    //   button.setHost('pay.fondy.eu');
+    //   button.setResponseUrl(urlM);
+    //   button.addField({
+    //     name: 'data',
+    //     value: merchantData,
+    //     hidden: true,
+    //   });
+    //   button.addParam('server_callback_url', merchantUrl);
+    //   button.addParam(
+    //     'product_id',
+    //     JSON.stringify(merchantData),
+    //   );
+    //   checkoutInit(button.getUrl());
+    // }
+    createPaymentForm();
+  }, [merchantData]);
 
-    button.addParam(
-      'server_callback_url',
-      'https://4db602935b38.ngrok.io/api-auth/login/',
-    );
-    button.addParam(
-      'product_id',
-      JSON.stringify({ target: 'video', id: 3, userId: 2 }),
-    );
-    // button.addParam('parent_order_id', '54');
-    checkoutInit(button.getUrl());
-  }, []);
+  const createPaymentForm = () => {
+    if (merchantData) {
+      const button = $ipsp.get('button');
+      button.setMerchantId(merchantId);
+      button.setAmount(price, 'UAH', true);
+      button.setHost('pay.fondy.eu');
+      button.setResponseUrl(urlM);
+      button.addField({
+        name: 'data',
+        value: merchantData,
+        hidden: true,
+      });
+      button.addParam('server_callback_url', merchantUrl);
+      button.addParam('product_id', JSON.stringify(merchantData));
+      checkoutInit(button.getUrl());
+    }
+  };
 
   const handleResult = (data: any, type: any) => {
     console.log('Оплата успешна');
