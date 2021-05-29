@@ -40,24 +40,7 @@ function Notification() {
     }
   }, [isShow, text, status, dispatch]);
 
-  return (
-    <div>
-      <button
-        onClick={() => {
-          dispatch(
-            showNotice({
-              text: 'lalala',
-              isShow: true,
-              status: 'info',
-            }),
-          );
-        }}
-      >
-        Notify!
-      </button>
-      <ToastContainer />
-    </div>
-  );
+  return <ToastContainer />;
 }
 
 export default Notification;
