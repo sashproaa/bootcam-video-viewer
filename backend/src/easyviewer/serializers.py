@@ -82,19 +82,6 @@ class ProjectSubscriptionsDetail(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TransactionsDetailSerializer(serializers.ModelSerializer):
-
-    videocontent = VideoContentCreateSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Transactions
-        fields = ('hash', 'user_id', 'title',
-                  'status', 'price', 'project_id',
-                  'json_description', 'created_at',
-                  'videocontent'
-                  )
-
-
 class MerchantFondySerializer(serializers.Serializer):
 
     transaction = TransactionsDetailSerializer(many=True, read_only=True)
@@ -135,6 +122,7 @@ class MerchantFondySerializer(serializers.Serializer):
     amount = serializers.CharField(max_length=255)
     sender_email = serializers.CharField(max_length=255)
     signature = serializers.CharField(max_length=255)
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     username = None
