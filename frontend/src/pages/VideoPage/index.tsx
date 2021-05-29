@@ -13,6 +13,7 @@ import ButtonLine from '../../components/ButtonLine';
 import ClampLines from 'react-clamp-lines';
 import './style.css';
 import { images } from '../../common/helpers/imageMockHelper';
+import { setPaymentData } from '../../store/paymentSlice';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
@@ -29,6 +30,12 @@ export default function VideoPage() {
   }, []);
 
   const handleBuy = () => {
+    dispatch(
+      setPaymentData({
+        data: { target: 'video', id: video.id, projectId: video.project_id },
+        price: video.price,
+      }),
+    );
     history.push(Routes.payment);
   };
 
