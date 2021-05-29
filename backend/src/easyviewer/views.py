@@ -120,7 +120,7 @@ class TransactionsApiView(generics.CreateAPIView):
             merchant_data = json.loads(post_obj['merchant_data'])[0]
             instance_id = merchant_data['value']['id']
             user = merchant_data['value']['userId']
-            project_id = 1  # merchant_data['value']['project_id'] Вітя должен добавить в мерчант дату
+            project_id = merchant_data['value']['projectId']
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
                 'project_id': project_id, 'json_description': json_description,
