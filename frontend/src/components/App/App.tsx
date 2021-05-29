@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Routes } from '../../common/enums/RoutesEnum';
 import HeaderPage from '../Header';
 import CatalogPage from '../../pages/CatalogPage';
@@ -11,10 +12,14 @@ import AuthPage from '../../pages/AuthPage';
 import PaymentPage from '../../pages/PaymentPage';
 import { clearHash, setHash } from '../../common/helpers/hashHelper';
 import './style.css';
+import { fetchUser } from '../../store/userSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setHash();
+    dispatch(fetchUser());
     return () => {
       clearHash();
     };

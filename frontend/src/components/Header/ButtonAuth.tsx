@@ -31,7 +31,7 @@ export default function ButtonAuth() {
           {user.avatar ? (
             <img className={cls.userImg} src={user.avatar} alt={user.name} />
           ) : (
-            <User size={45} />
+            <User size={32} />
           )}
         </button>
       ) : (
