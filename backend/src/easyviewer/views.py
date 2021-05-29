@@ -122,7 +122,8 @@ class TransactionsApiView(generics.CreateAPIView):
             json_description = post_obj
             price = float(post_obj['amount']) / 100  # может есть по проще перенести знак на два чила
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
-            title = post_obj['order_id']  # надо что то придумать может что то другое
+            title = post_obj['order_id']  # надо что то придумать может чт
+            # о то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
             instance_id = merchant_data['value']['id']
