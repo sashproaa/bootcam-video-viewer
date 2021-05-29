@@ -22,18 +22,18 @@ class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProjectListApiView(generics.ListAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectListSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectCreateApiView(generics.CreateAPIView):
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Projects.objects.filter()
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser, )
 
 
 class VideoListApiView(generics.ListAPIView):
@@ -64,7 +64,7 @@ class VideoListApiView(generics.ListAPIView):
 class VideoContentListApiView(generics.ListAPIView):
     queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
         self.temp = request.GET.get('temp')
@@ -79,13 +79,13 @@ class VideoContentListApiView(generics.ListAPIView):
         return queryset
 
 
-class VideoCreateApiView(generics.CreateAPIView):
-    serializer_class = VideoDetailSerializer
-    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly)
-
-
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Video.objects.filter()
+    serializer_class = VideoDetailSerializer
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
+
+
+class VideoCreateApiView(generics.CreateAPIView):
     serializer_class = VideoDetailSerializer
     permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
 
@@ -110,24 +110,24 @@ class TransactionsListApiView(generics.ListAPIView):
         return queryset
 
 
-class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
+class TransactionsApiView(generics.CreateAPIView):
     serializer_class = MerchantFondySerializer
     permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
     def create(self, request, *args, **kwargs):
         post_obj = self.request.data
-        subscription, duration, video_id = 1,  1, None
+        subscription, duration, video_id = 1, 1, None
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            price = float(post_obj['amount']) / 100  # может есть по прощче перенести знак на два чила
+            price = float(post_obj['amount']) / 100  # может есть по проще перенести знак на два чила
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
             instance_id = merchant_data['value']['id']
             user = merchant_data['value']['userId']
-            project_id = 1  # merchant_data['value']['project_id'] Вітя должен добавить в мерчант дату
+            project_id = merchant_data['value']['projectId']
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
                 'project_id': project_id, 'json_description': json_description,
@@ -145,7 +145,7 @@ class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
                 subs = VideoSubscriptions.objects.get(video=video_id)
                 subscription = subs.id
                 duration = video.duration
-            elif 'subscription' == merchant_data['value']['target']:  # тут проблема когда подписка нечего записивать в відео id
+            elif 'subscription' == merchant_data['value']['target']:
                 subscription = VideoSubscriptions.objects.get(id=instance_id)
                 duration = subscription.duration
             data_start = timezone.now()
@@ -168,7 +168,7 @@ class TransactionsApiView(generics.ListAPIView, generics.CreateAPIView):
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProjectSubscriptions.objects.filter()
     serializer_class = ProjectSubscriptionsDetail
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser, )
 
 
 class ProjectSubscriptionsListApiView(generics.ListAPIView):
