@@ -1,0 +1,21 @@
+.content {
+  width: 100%;
+}
+
+@media (max-width: 767.98px) {
+  .content {
+    text-align: center;
+    margin: 0;
+    padding: 0px 20px;
+  }
+}
+
+.block {
+  padding: 0px 0px 47px 18px;
+}
+
+@media (max-width: 767.98px) {
+  .block {
+    padding: 25px 0px;
+  }
+}

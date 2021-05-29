@@ -85,6 +85,7 @@ class User(AbstractUser):
     mobile = PhoneNumberField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, null=True)
+    avatar = models.ImageField(upload_to='uploads/image', blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
@@ -125,7 +126,7 @@ class VideoSubscriptions(models.Model):
     """ Video subscriptions model """
     name = models.CharField(max_length=200)
     description = models.TextField()
-    duration = models.DurationField()
+    duration = models.DurationField()  # days
     price = models.DecimalField(max_digits=6, decimal_places=2)
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
 
@@ -153,15 +154,6 @@ class Video(models.Model):
         return self.title
 
 
-class VideoContent(models.Model):
-    """ Video content model """
-    data_start = models.DateTimeField()
-    data_end = models.DateTimeField()
-    user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
-    video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
-
-
 class Transactions(models.Model):
     """ Transactions model """
     hash = models.CharField(max_length=200, unique=True, default=hsh)  # function to generate hash
@@ -175,3 +167,13 @@ class Transactions(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class VideoContent(models.Model):
+    """ Video content model """
+    data_start = models.DateTimeField()
+    data_end = models.DateTimeField()
+    user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
+    video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
+    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)

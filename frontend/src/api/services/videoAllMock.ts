@@ -4,7 +4,7 @@ import { Video } from '../../common/interfaces/VideoInterface';
 const countVideo = 6;
 
 export function videoAllMock() {
-  const videos: Video[] = [];
+  const videos = [];
   for (let i = 0; i < countVideo; i++) {
     videos.push(videoMock());
   }

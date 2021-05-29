@@ -53,11 +53,74 @@ class Api {
       .catch(this.handleError);
   }
 
+  async patchh(url: string, data: any) {
+    return await this.instance
+      .patch(url, data, {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+          'Hash-Project': await getHash(),
+        },
+      })
+      .then(this.handleResponse)
+      .catch(this.handleError);
+  }
+
   async image(url: string, image: Blob) {
     const data = new FormData();
     data.append('image', image);
     return await this.instance
       .post(url, data, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          'Hash-Project': await getHash(),
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(this.handleResponse)
+      .catch(this.handleError);
+  }
+
+  async formPost(url: string, data: any) {
+    const formData = new FormData();
+    for (let key in data) {
+      formData.append(key, data[key]);
+    }
+    return await this.instance
+      .post(url, formData, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          'Hash-Project': await getHash(),
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(this.handleResponse)
+      .catch(this.handleError);
+  }
+
+  async formPut(url: string, data: any) {
+    const formData = new FormData();
+    for (let key in data) {
+      formData.append(key, data[key]);
+    }
+    return await this.instance
+      .put(url, formData, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          'Hash-Project': await getHash(),
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(this.handleResponse)
+      .catch(this.handleError);
+  }
+
+  async formPatch(url: string, data: any) {
+    const formData = new FormData();
+    for (let key in data) {
+      formData.append(key, data[key]);
+    }
+    return await this.instance
+      .patch(url, formData, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
           'Hash-Project': await getHash(),

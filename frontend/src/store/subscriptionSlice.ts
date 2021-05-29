@@ -35,7 +35,7 @@ export const fetchSubscriptions = (): AppThunk => async (dispatch) => {
   if (response?.error) {
     console.log('Проблемы при получении подписок');
   } else {
-    dispatch(setSubscriptions(response));
+    dispatch(setSubscriptions(response.results));
   }
   dispatch(setIsLoading(false));
 };
