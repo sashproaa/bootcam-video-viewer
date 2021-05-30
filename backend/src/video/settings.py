@@ -198,7 +198,7 @@ ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True # після зміни пароля а
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'easyviewer.serializers.CustomLoginSerializer',
-    'USER_DETAILS_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'easyviewer.serializers.CustomUserDetailsSerializer',
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
