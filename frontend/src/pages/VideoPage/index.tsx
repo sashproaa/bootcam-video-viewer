@@ -14,6 +14,7 @@ import './style.css';
 import { images } from '../../common/helpers/imageMockHelper';
 import { setPaymentData } from '../../store/paymentSlice';
 import GoBack from '../../components/GoBack';
+import VideoSlider from './VideoSlider';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
@@ -136,6 +137,12 @@ export default function VideoPage() {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className={cls.sliders}>
+            <div className='row'>
+              <h2 className={cls.sliderTitle}>Что еще посмотреть</h2>
+            </div>
+            <VideoSlider />
           </div>
         </>
       )}
