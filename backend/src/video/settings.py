@@ -205,7 +205,6 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'easyviewer.serializers.CustomRegisterSerializer',}
 
 
-ACCOUNT_EMAIL_VERIFICATION = None
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
