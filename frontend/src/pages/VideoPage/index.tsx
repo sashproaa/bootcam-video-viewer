@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Player } from 'video-react';
 import 'video-react/dist/video-react.css';
-import { fetchVideo, videoInfo, isLoading } from '../../store/videoSlice';
-import VideoSlider from './VideoSlider';
+import { fetchVideo, isLoading, videoInfo } from '../../store/videoSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
@@ -14,6 +13,7 @@ import ClampLines from 'react-clamp-lines';
 import './style.css';
 import { images } from '../../common/helpers/imageMockHelper';
 import { setPaymentData } from '../../store/paymentSlice';
+import GoBack from '../../components/GoBack';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ export default function VideoPage() {
         <Spinner />
       ) : (
         <>
+          <GoBack href={Routes.catalog}>Каталог</GoBack>
           <div
             className={`row d-flex justify-content-between ${cls.wrapperBlockVideo}`}
           >
