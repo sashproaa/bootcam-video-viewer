@@ -424,6 +424,9 @@ body{
                                     &:hover{
                                         background: var(--tamarillo);
                                     }
+                                    &:active{
+                                        background: var(--tamarilloDark);
+                                    }
                                 }
                                 .check{
                                     display: flex;
@@ -845,6 +848,10 @@ body{
                     background: var(--sharkLighter);
                     transition: .2s;
                 }
+                &:first-child:active{
+                    background: var(--thunderbird);
+                    border-color: var(--thunderbird);
+                }
                 &:last-child{
                     background: var(--thunderbird);
                     border: solid 1px var(--thunderbird);
@@ -852,6 +859,9 @@ body{
                 &:hover:last-child{
                     background: var(--tamarillo);
                     transition: .2s;
+                }
+                &:last-child:active{
+                    background: var(--tamarilloDark);
                 }
             }
         }
@@ -962,23 +972,87 @@ body{
             margin: 0px;
             padding: 0px 0px 39px 11px;
         }
-        a{
-            text-decoration: none;
-            p{
-                font: 700 18px/20px 'Roboto', sans-serif;
-                color: var(--white);
-                letter-spacing: 1px;
-            } 
-            .wrapper_slide_propose{
-                max-height: 215px;
-                max-width: 282px;
-                display: block;
-                margin-bottom: 20px;
-                img{
-                    min-width: 282px;
+        .slide{
+            position: relative;
+            a{
+                text-decoration: none;
+                p{
+                    font: 700 18px/20px 'Roboto', sans-serif;
+                    color: var(--white);
+                    letter-spacing: 1px;
+                } 
+                .wrapper_slide_propose{
                     max-height: 215px;
-                    object-fit: cover;
-                    border-radius: 5px;
+                    max-width: 282px;
+                    display: block;
+                    margin-bottom: 20px;
+                    img{
+                        min-width: 282px;
+                        max-height: 215px;
+                        object-fit: cover;
+                        border-radius: 5px;
+                    }
+                }
+            }
+            span:first-child{
+                width: 60px;
+                height: 215px;
+                background: var(--transparent);
+                display: block;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                transition: .4s;
+                transform: rotate(180deg);
+                &:hover{
+                    background: var(--bunkerOpacity);
+                    transition: .4s;
+                }
+                &:hover:before{
+                    color: var(--white);
+                    transition: .4s;
+                }
+                &:before{
+                    content: "\e902";
+                    position: absolute;
+                    right: 20px;
+                    top: 90px;
+                    font-size: 32px;
+                    color: var(--transparent);
+                    display: block;
+                    transform: rotate(180deg);
+                    cursor: pointer;
+                    transition: .4s;
+                }
+            }
+            span:nth-child(2){
+                width: 60px;
+                height: 215px;
+                background: var(--transparent);
+                display: block;
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                transition: .4s;
+                &:hover{
+                    background: var(--bunkerOpacity);
+                    transition: .4s;
+                }
+                &:hover:before{
+                    color: var(--white);
+                    transition: .4s;
+                }
+                &:before{
+                    content: "\e902";
+                    position: absolute;
+                    right: 20px;
+                    top: 90px;
+                    font-size: 32px;
+                    color: var(--transparent);
+                    display: block;
+                    transform: rotate(180deg);
+                    cursor: pointer;
+                    transition: .4s;
                 }
             }
         }
@@ -1270,6 +1344,9 @@ body{
             &:last-of-type{
                 margin-bottom: 50px;
             }
+            &:focus{
+                border-color: var(--tamarillo);
+            }
         }
         .save{
             width: 100%;
@@ -1285,6 +1362,9 @@ body{
                 color: var(--white);
                 &:hover{
                     background: var(--tamarillo);
+                }
+                &:active{
+                    background: var(--tamarilloDark);
                 }
             }
         }
@@ -1520,6 +1600,9 @@ body{
             &:hover{
                 background: var(--tamarillo);
             }
+            &:active{
+                background: var(--tamarilloDark);
+            }
         }
     }
     .main-subscribe{
@@ -1549,6 +1632,10 @@ body{
                 border-radius: 5px;
                 font: 500 16px/19px 'Roboto', sans-serif;;
                 color: var(--white);
+                &:active{
+                    background: var(--thunderbird);
+                    border-color: var(--thunderbird);
+                }
             }
         }
     }
@@ -1705,6 +1792,10 @@ body{
         &:hover{
             background: var(--sharkLighter);
         }
+        &:active{
+            background: var(--thunderbird);
+            border-color: var(--thunderbird);
+        }
     }
 }
 //bought spectacles end
@@ -1817,7 +1908,6 @@ body{
 //price list end
 //bought list video start
 .wrapper_of_video{
-    margin-bottom: 300px;
     .block_of_video{
         padding: 0px;
         margin-bottom: 56px;
@@ -1899,6 +1989,10 @@ body{
                 display: inline-block;
                 &:hover{
                     background: var(--sharkLighter);
+                }
+                &:active{
+                    background: var(--thunderbird);
+                    border-color: var(--thunderbird);
                 }
             }
         }
@@ -2211,6 +2305,76 @@ body{
     }
 }
 //spiner end
+//popUp payment start
+.bg-popUpPayment{
+    position: absolute;
+    left: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: var(--bunkerOpacity);
+    .wrapper-popUpPayment{
+        max-width: 500px;
+        min-height: 330px;
+        background: var(--white);
+        border-radius: 5px;
+        margin: 10% auto;
+        .close_popUp{
+            text-align: right;
+            padding-bottom: 40px;
+            button{
+                position: relative;
+                background: var(--transparent);
+                border: none;
+                &:before{
+                    content: "\e900";
+                    position: absolute;
+                    top: 0px;
+                    right: 8px;
+                    font-size: 20px;
+                    color: black;
+                }
+                &:hover::before{
+                    color: var(--thunderbird);
+                }
+            }
+        }
+        .inform-about-result{
+            text-align: center;
+            strong{
+                font: 700 30px/30px 'Roboto', sans-serif;
+                color: var(--bunker);
+                margin-bottom: 20px;
+                display: block;
+            }
+            p{
+                font: 500 16px/22px 'Roboto', sans-serif;
+                color: var(--bunker);
+                max-width: 400px;
+                margin: 0 auto;
+                margin-bottom: 30px;
+            }
+            a{
+                text-decoration: none;
+                background: var(--thunderbird);
+                color: var(--white);
+                font: 500 16px/48px 'Roboto', sans-serif;
+                min-width: 225px;
+                padding: 0px 15px;
+                border-radius: 5px;
+                height: 50px;
+                display: inline-block;
+                text-align: center;
+                &:hover{
+                    background: var(--tamarillo);
+                }
+                &:active{
+                    background: var(--tamarilloDark);
+                }
+            }
+        }
+    }
+}
 
 
 

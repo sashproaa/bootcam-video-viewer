@@ -19,7 +19,9 @@
 .users_Photo span:before,
 .exit_from_profile:before,
 .remember-email-checkbox:before,
-.change-pass label p:before {
+.change-pass label p:before,
+.slide span:first-child:before,
+.slide span:nth-child(2):before {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
