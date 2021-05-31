@@ -52,8 +52,8 @@ export const addUser = async (
 };
 
 export const updateUser = async (request: User): Promise<UserResponse> => {
-  // return await webApi.put(`${endpoint}/${request.id}`, request);
-  return await timeoutMock(userMock);
+  return await webApi.patchh(`${endpoint}/user/`, request);
+  // return await timeoutMock(userMock);
 };
 
 export const deleteUser = async (id: number): Promise<void> => {

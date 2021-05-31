@@ -8,6 +8,7 @@ import {
   getUser,
   loginUser,
   logoutUser,
+  updateUser,
 } from '../api/services/userService';
 import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
@@ -112,6 +113,17 @@ export const fetchLogoutUser = (): AppThunk => async (dispatch) => {
   logoutUser();
   clearToken();
   dispatch(clearUser());
+};
+
+export const fetchUpdateUser = (data: User): AppThunk => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  const response = await updateUser(data);
+  if (response?.error) {
+    console.log('Проблемы при обновлении пользователя');
+  } else {
+    dispatch(fetchUser());
+  }
+  dispatch(setIsLoading(false));
 };
 
 export const isLoading = (state: RootState) => state.user.isLoading;
