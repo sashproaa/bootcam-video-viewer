@@ -1,4 +1,4 @@
-FROM node:12.2.0-alpine
+FROM node:lts-alpine
 
 WORKDIR /app/frontend
 
@@ -12,6 +12,8 @@ RUN yarn
 COPY src src
 
 COPY public public
+
+COPY .env.example .env
 
 
 EXPOSE 3000

@@ -1,0 +1,18 @@
+.root {
+  /*padding: 0px 0px 0px 35px;*/
+  min-height: 80px;
+}
+
+.link, .link:hover {
+  font: 500 15px/18px 'Roboto', sans-serif;
+  text-decoration: none;
+  color: var(--whiteOpacity);
+}
+
+.link:hover {
+  color: var(--white);
+}
+
+.icon {
+  margin-right: 8px;
+}
