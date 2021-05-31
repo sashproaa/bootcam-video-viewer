@@ -1,0 +1,35 @@
+.button {
+  /*color: var(--white);*/
+  /*fill: var(--white);*/
+  background: var(--transparent);
+  border: none;
+  transition: .3s;
+}
+
+/*.button:hover {*/
+/*  color: var(--thunderbird);*/
+/*  fill: var(--thunderbird);*/
+/*}*/
+
+/*.button:active {*/
+/*  color: var(--alto);*/
+/*  fill: var(--alto);*/
+/*}*/
+
+.icon {
+  width: 76px;
+  height: 76px;
+  color: var(--white);
+  fill: var(--white);
+  transition: .3s;
+}
+
+.icon:hover {
+  color: var(--thunderbird);
+  fill: var(--thunderbird);
+}
+
+.icon:active {
+  color: var(--alto);
+  fill: var(--alto);
+}

@@ -1,0 +1,42 @@
+.button {
+  background: var(--thunderbird);
+  border-radius: 5px;
+  border: none;
+  padding: 0 20px;
+  color: var(--white);
+  transition: .2s;
+}
+
+.fill {
+  width: 100%;
+}
+
+.button:hover {
+  background: var(--tamarillo);
+}
+
+.button:active {
+  background: var(--tamarilloDark);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.icon {
+  padding: 0 5px;
+}
+
+.small {
+  height: 35px;
+  font: 500 16px/35px Roboto,sans-serif;
+}
+
+.base {
+  height: 50px;
+}
+
+.big {
+  height: 55px;
+  font: 500 16px/19px 'Roboto', sans-serif;
+}
