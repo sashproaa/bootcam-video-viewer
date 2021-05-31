@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from dj_rest_auth.serializers import LoginSerializer
+from dj_rest_auth.serializers import LoginSerializer, UserDetailsSerializer
 from django.db import transaction
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
