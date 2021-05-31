@@ -3,10 +3,15 @@ import { AppThunk, RootState } from './store';
 import { User } from '../common/interfaces/UserInterface';
 import { getVideo } from '../api/services/videoService';
 import { setVideo } from './videoSlice';
-import { addUser, getUser, loginUser } from '../api/services/userService';
+import {
+  addUser,
+  getUser,
+  loginUser,
+  logoutUser,
+} from '../api/services/userService';
 import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
-import { getToken, setToken } from '../common/helpers/tokenHelper';
+import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
 
 export interface RegistrationData {
   email: string;
@@ -43,10 +48,18 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    clearUser: () => {
+      return initialState;
+    },
   },
 });
 
-export const { setIsLoading, setIsShowAuth, setUser } = userSlice.actions;
+export const {
+  setIsLoading,
+  setIsShowAuth,
+  setUser,
+  clearUser,
+} = userSlice.actions;
 
 export const fetchUser = (): AppThunk => async (dispatch) => {
   if (!getToken()) return;
@@ -93,6 +106,12 @@ export const fetchRegistrationUser = (
     dispatch(fetchLoginUser({ email: data.email, password: data.password }));
   }
   dispatch(setIsLoading(false));
+};
+
+export const fetchLogoutUser = (): AppThunk => async (dispatch) => {
+  logoutUser();
+  clearToken();
+  dispatch(clearUser());
 };
 
 export const isLoading = (state: RootState) => state.user.isLoading;

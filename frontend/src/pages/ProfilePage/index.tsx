@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import { Link, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Image } from 'react-bootstrap';
 import userImg from '../../assets/user.png';
-import { fetchUser, userInfo } from '../../store/userSlice';
+import { fetchLogoutUser, fetchUser, userInfo } from '../../store/userSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Profile from './Profile';
 import Subscription from './Subscription';
@@ -19,13 +19,17 @@ enum RoutesProfile {
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector(userInfo);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, []);
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(fetchLogoutUser());
+    history.push(Routes.catalog);
+  };
 
   return (
     <div>
