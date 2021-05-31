@@ -13,6 +13,8 @@ COPY src src
 
 COPY public public
 
+COPY .env.example .env
+
 
 EXPOSE 3000
 
