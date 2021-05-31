@@ -220,3 +220,15 @@
     margin-bottom: 60px;
   }
 }
+
+.sliders {
+  padding: 0px 0px 20px 7px;
+  width: 100%;
+  margin: 0px;
+}
+
+.sliderTitle {
+  font: 500 25px/20px 'Roboto', sans-serif;
+  margin: 0px;
+  padding: 0px 0px 39px 11px;
+}

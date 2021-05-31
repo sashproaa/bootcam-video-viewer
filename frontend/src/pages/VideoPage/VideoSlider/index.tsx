@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import 'slick-carousel/slick/slick-theme.css';
 import { Routes } from '../../../common/enums/RoutesEnum';
 import {
   FilterResponse,
@@ -10,6 +10,8 @@ import {
 } from '../../../api/services/videoService';
 import { Video } from '../../../common/interfaces/VideoInterface';
 import Spinner from '../../../components/Spinner';
+import cls from './style.module.css';
+import './style.css';
 
 interface Props {
   className?: string;
@@ -40,7 +42,7 @@ export default function VideoSlider({
   }, []);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -54,9 +56,12 @@ export default function VideoSlider({
       ) : (
         <Slider className={classSlider} {...settings}>
           {videos?.map((vd) => (
-            <div key={vd.id}>
-              <Link to={`${Routes.video}/${vd.id}`}>
-                <img src={vd.image} alt={vd.title} />
+            <div className='' key={vd.id}>
+              <Link className={cls.link} to={`${Routes.video}/${vd.id}`}>
+                <div className={cls.wrapImg}>
+                  <img className={cls.img} src={vd.image} alt={vd.title} />
+                </div>
+                <p className={cls.title}>{vd.title}</p>
               </Link>
             </div>
           ))}
