@@ -3,5 +3,6 @@ export interface Subscription {
   name: string;
   description: string;
   duration: number;
-  price: number;
+  price: string;
+  project_id: number;
 }

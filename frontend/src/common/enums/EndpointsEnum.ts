@@ -3,5 +3,5 @@ export enum Endpoints {
   login = '/login',
   registration = 'registration',
   user = '/api-auth',
-  subscription = '/subscription',
+  subscription = '/api/video/subscription',
 }

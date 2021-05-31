@@ -1,6 +1,6 @@
 import React from 'react';
 import cls from './style.module.css';
-import { IoPlaySharp } from 'react-icons/io5';
+import { Play } from 'react-feather';
 
 interface Props {
   className?: string;
@@ -14,7 +14,7 @@ export default function ButtonPlay({
 }: Props) {
   return (
     <button className={`${cls.button} ${className}`}>
-      <IoPlaySharp className={cls.icon} {...props} />
+      <Play className={cls.icon} {...props} />
     </button>
   );
 }

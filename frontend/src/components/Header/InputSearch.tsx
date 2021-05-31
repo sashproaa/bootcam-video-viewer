@@ -8,19 +8,13 @@ import Button from '../Button';
 import ButtonClean from '../ButtonClean';
 import { Search } from 'react-feather';
 import { X } from 'react-feather';
-import { Cast } from 'react-feather';
-import { LogIn } from 'react-feather';
-import { User } from 'react-feather';
 import { updateFilterVideos } from '../../store/catalogSlice';
 import { useDebouncedCallback } from 'use-debounce';
-import ButtonAuth from './ButtonAuth';
-import InputSearch from './InputSearch';
 
-export default function HeaderPage() {
+export default function InputSearch() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const user = useSelector(userInfo);
   const [search, setSearch] = useState('');
   const debounced = useDebouncedCallback((value) => {
     dispatch(updateFilterVideos({ search: value }));
@@ -51,46 +45,22 @@ export default function HeaderPage() {
     }
   };
 
-  const handleSubscribe = () => {
-    history.push(Routes.subscription);
-  };
-
-  const handleAuth = () => {
-    dispatch(setIsShowAuth(true));
-  };
-
-  const handleClickUser = () => {
-    history.push(Routes.profile);
-  };
-
   return (
-    <div className={`d-flex align-items-center ${cls.wrapper}`}>
-      <div className='container'>
-        <div className={`row d-flex justify-content-between ${cls.headerRow}`}>
-          <div
-            className={`col-12 d-flex justify-content-between ${cls.header}`}
-          >
-            <h1 className={cls.h1}>
-              <Link className={cls.logoLink} to={Routes.catalog}>
-                AWplayer
-              </Link>
-            </h1>
-
-            <InputSearch />
-
-            <Button
-              className={cls.subscribe}
-              size='small'
-              onClick={handleSubscribe}
-            >
-              <span className={cls.subscribeText}>Подписаться</span>
-              <Cast className={cls.subscribeIcon} size={24} />
-            </Button>
-
-            <ButtonAuth />
-          </div>
-        </div>
-      </div>
-    </div>
+    <form className={cls.searchForm} onSubmit={handleSubmitSearch}>
+      <label className={cls.labelSearch} htmlFor='search'>
+        <Search className={cls.searchMark} size={24} />
+      </label>
+      <input
+        className={cls.input}
+        type='text'
+        placeholder='Поиск'
+        id='search'
+        value={search}
+        onChange={handleChangeSearch}
+      />
+      <label className={cls.labelX} htmlFor='search'>
+        <X className={cls.xMark} size={24} onClick={handleCleanSearch} />
+      </label>
+    </form>
   );
 }

@@ -1,0 +1,23 @@
+.link, .link:hover {
+  text-decoration: none;
+}
+
+.wrapImg {
+  max-height: 215px;
+  max-width: 282px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.img {
+  min-width: 282px;
+  max-height: 215px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.title {
+  font: 700 18px/20px 'Roboto', sans-serif;
+  color: var(--white);
+  letter-spacing: 1px;
+}

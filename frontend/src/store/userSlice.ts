@@ -6,7 +6,7 @@ import { setVideo } from './videoSlice';
 import { addUser, getUser, loginUser } from '../api/services/userService';
 import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
-import { setToken } from '../common/helpers/tokenHelper';
+import { getToken, setToken } from '../common/helpers/tokenHelper';
 
 export interface RegistrationData {
   email: string;
@@ -49,13 +49,16 @@ export const userSlice = createSlice({
 export const { setIsLoading, setIsShowAuth, setUser } = userSlice.actions;
 
 export const fetchUser = (): AppThunk => async (dispatch) => {
+  if (!getToken()) return;
   dispatch(setIsLoading(true));
   const response = await getUser();
   console.log('user res: ', response);
   if (response?.error) {
     console.log('Проблемы при получении пользователя');
   } else {
-    dispatch(setUser(response));
+    // dispatch(setUser(response));
+    dispatch(setUser({ ...response, id: 12 }));
+    dispatch(setIsShowAuth(false));
   }
   dispatch(setIsLoading(false));
 };

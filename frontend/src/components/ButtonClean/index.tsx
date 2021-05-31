@@ -7,11 +7,12 @@ interface Props {
   fill?: boolean;
   size?: 'small' | 'base' | 'big';
   style?: 'normal' | 'uppercase' | 'icon';
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   type?: 'button' | 'submit' | 'reset' | undefined;
+  disabled?: boolean;
 }
 
-export default function Button({
+export default function ButtonClean({
   className = '',
   children,
   fill = false,
@@ -24,9 +25,8 @@ export default function Button({
     <button
       className={`
       ${cls.button} ${fill ? cls.fill : ''}
-      ${cls[size]}
       ${style === 'uppercase' ? cls.uppercase : ''}
-      ${style === 'icon' ? cls.uppercase : ''}
+      ${cls[size]}
       ${className}`}
       {...props}
       onClick={onClick}
