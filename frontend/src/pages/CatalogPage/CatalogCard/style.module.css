@@ -1,0 +1,93 @@
+.block {
+  overflow: hidden;
+  /*padding: 0px 0px 47px 18px;*/
+}
+
+@media (max-width: 767.98px) {
+  .block {
+    /*padding: 25px 0px;*/
+  }
+}
+
+.link, .link:hover {
+  text-decoration: none;
+  color: var(--white);
+  display: block;
+}
+
+.title {
+  font: 500 20px/20px 'Roboto', sans-serif;
+}
+
+.video {
+  max-width: 381px;
+  min-height: 292px;
+  border-radius: 5px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+@media (max-width: 1199.98px) {
+  .video {
+    max-width: 100%;
+  }
+}
+
+.img {
+  min-width: 381px;
+  max-height: 292px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin: 0px;
+}
+
+@media (max-width: 1199.98px) {
+  .img {
+    min-width: 100%;
+  }
+}
+
+.info {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: var(--bunkerOpacity);
+  min-height: 292px;
+  padding: 15px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity .4s;
+}
+
+.play {
+  position: absolute;
+  top: calc(50% - 42px);
+  left: calc(50% - 38px);
+  /*width: 76px;*/
+  /*height: 76px;*/
+}
+
+.video:hover .info {
+  opacity: 1;
+}
+
+.description {
+  font: 400 16px/22px 'Roboto', sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.edit {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.editIcon {
+  width: 30px;
+  height: 30px;
+}

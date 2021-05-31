@@ -82,10 +82,10 @@ class User(AbstractUser):
     """User model.(not Base)"""
     username = None
     email = models.EmailField(msg('email address'), unique=True)
-    mobile = PhoneNumberField(blank=True, null=True)
+    mobile = PhoneNumberField(blank=True, null=True, region='UA')
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, null=True)
-    avatar = models.ImageField(upload_to='uploads/image', blank=True, null=True)
+    avatar = models.ImageField(blank=True, null=True, upload_to='uploads/image')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
@@ -98,7 +98,7 @@ class ProjectSubscriptions(models.Model):
     disk_size = models.PositiveIntegerField()
     fee = models.FloatField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    duration = models.DurationField()  # days?
+    duration = models.PositiveIntegerField()  # days?
 
     def __str__(self):
         return self.name
@@ -126,7 +126,7 @@ class VideoSubscriptions(models.Model):
     """ Video subscriptions model """
     name = models.CharField(max_length=200)
     description = models.TextField()
-    duration = models.DurationField()  # days
+    duration = models.PositiveIntegerField()  # days
     price = models.DecimalField(max_digits=6, decimal_places=2)
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
 
@@ -171,9 +171,8 @@ class Transactions(models.Model):
 
 class VideoContent(models.Model):
     """ Video content model """
-    data_start = models.DateTimeField()
     data_end = models.DateTimeField()
     user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(Video, on_delete=models.CASCADE, null=True)
     video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)

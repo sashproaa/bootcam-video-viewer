@@ -39,7 +39,7 @@ class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['genre', 'title']
+    search_fields = ['^genre', 'title']
 
     temp = ""
 

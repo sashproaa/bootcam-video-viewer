@@ -21,7 +21,7 @@ services:
       - "8000:8000"
     stdin_open: true
     tty: true
-    command: sh -c "/app/backend/entrypoint.sh && psql postgresql://postgres:postgres@db:5432/postgres -f dbdump.sql && cd src  && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    command: sh -c "/app/backend/entrypoint.sh"
     depends_on:
       - db
 

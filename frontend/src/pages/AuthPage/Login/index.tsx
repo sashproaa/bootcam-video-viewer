@@ -3,18 +3,18 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginData } from '../../../store/userSlice';
-
-// interface FormData {
-//   email: string;
-//   password: string;
-// }
+import { IoCheckmark } from 'react-icons/io5';
+import Checkbox from '../../../components/Checkbox';
+import Input from '../../../components/Input';
+import cls from './style.module.css';
+import Button from '../../../components/Button';
 
 interface Props {
-  onChangeType: (type: 'login' | 'registration') => void;
   onLogin: (data: LoginData) => void;
+  onRecovery: () => void;
 }
 
-export default function Login({ onChangeType, onLogin }: Props) {
+export default function Login({ onLogin, onRecovery }: Props) {
   const dispatch = useDispatch();
   const {
     register,
@@ -22,11 +22,21 @@ export default function Login({ onChangeType, onLogin }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
+  const [isRemember, setIsRemember] = useState(true);
 
   useEffect(() => {}, []);
 
-  const handleRegistration = () => {
-    onChangeType('registration');
+  // const handleRegistration = () => {
+  //   onChangeType('registration');
+  // };
+
+  const handleRemember = () => {
+    setIsRemember(!isRemember);
+  };
+
+  const handleRecovery = (ev: any) => {
+    ev.preventDefault();
+    onRecovery();
   };
 
   const onSubmit: SubmitHandler<LoginData> = (data) => {
@@ -34,43 +44,37 @@ export default function Login({ onChangeType, onLogin }: Props) {
   };
 
   return (
-    <div>
-      <div className='d-flex align-items-center mb-3'>
-        <h2 className='m-3'>Login</h2>
-        <button className='btn btn-light' onClick={handleRegistration}>
-          Registration
-        </button>
-      </div>
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='mb-3'>
-          <label htmlFor='inputEmailL' className='form-label'>
-            Email address
-          </label>
-          <input
-            type='email'
-            className='form-control'
-            id='inputEmailL'
-            {...register('email', { required: true })}
-          />
-          <div id='emailHelpL' className='form-text'>
-            We'll never share your email with anyone else.
+        <Input
+          fill
+          type='text'
+          placeholder='Электронная почта'
+          {...register('email', { required: true })}
+        />
+        <Input
+          className={cls.inputLast}
+          fill
+          type='password'
+          placeholder='Пароль'
+          {...register('password', { required: true })}
+        />
+        <div className={cls.check}>
+          <div className='container-for-checkbox'>
+            <Checkbox
+              label='Запомнить меня'
+              checked={isRemember}
+              onChange={handleRemember}
+            />
           </div>
+          <a className={cls.forget} href='#' onClick={handleRecovery}>
+            Забыли пароль?
+          </a>
         </div>
-        <div className='mb-3'>
-          <label htmlFor='inputPasswordL' className='form-label'>
-            Password
-          </label>
-          <input
-            type='password'
-            className='form-control'
-            id='inputPasswordL'
-            {...register('password', { required: true })}
-          />
-        </div>
-        <button type='submit' className='btn btn-primary'>
-          Login
-        </button>
+        <Button fill type='submit'>
+          Войти
+        </Button>
       </form>
-    </div>
+    </>
   );
 }
