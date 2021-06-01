@@ -116,14 +116,13 @@ class TransactionsApiView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         post_obj = self.request.data
-        subscription, duration, video_id = 1, 1, None
+        subscription, duration, video_id = None, 0, None
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            price = float(post_obj['amount']) / 100  # может есть по проще перенести знак на два чила
+            price = float(post_obj['amount']) / 100
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
-            title = post_obj['order_id']  # надо что то придумать может чт
-            # о то другое
+            title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
             print(merchant_data)
@@ -145,13 +144,11 @@ class TransactionsApiView(generics.CreateAPIView):
             if 'video' == merchant_data_val['target']:
                 video = Video.objects.get(id=instance_id)
                 video_id = instance_id
-                sub = video.subscription
-                #subs = VideoSubscriptions.objects.get(video=video_id)
-                subscription = None # subs.id
                 duration = video.duration
             elif 'subscription' == merchant_data_val['target']:
-                subscription = VideoSubscriptions.objects.get(id=instance_id)
-                duration = subscription.duration
+                sub = VideoSubscriptions.objects.get(id=instance_id)
+                subscription = sub.id
+                duration = sub.duration
             data_start = timezone.now()
             data_end = timezone.now() + duration
             videocontent_data = {
