@@ -71,7 +71,7 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
     console.log('Проблемы при получении пользователя');
   } else {
     // dispatch(setUser(response));
-    dispatch(setUser({ ...response, id: 12 }));
+    dispatch(setUser(response));
     dispatch(setIsShowAuth(false));
   }
   dispatch(setIsLoading(false));

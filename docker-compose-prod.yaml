@@ -11,6 +11,7 @@ nginx:
     - LETSENCRYPT_EMAIL=o.tsiapa@quantumobile.com
   volumes:
     - static_volume:/app/backend/src/django_static
+    - ./backend/src/uploads:/app/backend/src/media/uploads
     - ./docker/nginx/production:/etc/nginx/conf.d
  #   - ./docker/nginx/certbot/conf:/etc/letsencrypt
  #   - ./docker/nginx/certbot/www:/var/www/certbot
