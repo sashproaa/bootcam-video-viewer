@@ -14,6 +14,7 @@ import { showNoticeError } from '../../store/notificationSlice';
 import ModalWin from '../../components/ModalWin';
 import { Routes } from '../../common/enums/RoutesEnum';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';
+import GoBack from '../../components/GoBack';
 
 const $ipsp = window.$ipsp;
 
@@ -111,49 +112,52 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className='d-flex justify-content-center align-items-center'>
-      <div className={cls.testCards}>
-        <div>
-          4444555566661111 &emsp; <b>успешный</b> &emsp; <i>3DSecure</i>
+    <>
+      {/*<GoBack>Назад</GoBack>*/}
+      <div className='d-flex justify-content-center align-items-center'>
+        <div className={cls.testCards}>
+          <div>
+            4444555566661111 &emsp; <b>успешный</b> &emsp; <i>3DSecure</i>
+          </div>
+          <div>
+            4444111166665555 &emsp; <b>отказ</b> &emsp; &emsp; <i>3DSecure</i>
+          </div>
+          <div>
+            4444555511116666 &emsp; <b>успешный</b> <i></i>
+          </div>
+          <div>
+            4444111155556666 &emsp; <b>отказ</b> <i></i>
+          </div>
+          <div>Срок действия и cvv любые</div>
         </div>
-        <div>
-          4444111166665555 &emsp; <b>отказ</b> &emsp; &emsp; <i>3DSecure</i>
+        <div id='checkout'>
+          {/*<div id='checkout_wrapper' style={{ width: 500, height: 600 }}></div>*/}
+          <div id='checkout_wrapper'></div>
         </div>
-        <div>
-          4444555511116666 &emsp; <b>успешный</b> <i></i>
-        </div>
-        <div>
-          4444111155556666 &emsp; <b>отказ</b> <i></i>
-        </div>
-        <div>Срок действия и cvv любые</div>
-      </div>
-      <div id='checkout'>
-        {/*<div id='checkout_wrapper' style={{ width: 500, height: 600 }}></div>*/}
-        <div id='checkout_wrapper'></div>
-      </div>
-      <ModalWin show={showApproved} onClose={closeApproved}>
-        <div className='d-flex flex-column justify-content-center align-items-center text-dark'>
-          <h4>Оплата прошла успешно!</h4>
-          {merchantData.target === 'video' ? (
-            <p>
-              Благодарим за покупку! Спектакль доступен к просмотру. Он
-              сохраняется в вашем профиле в разделе “Мои спектакли”, вкладка
-              “Купленные”. Приятного просмотра!
-            </p>
-          ) : (
-            <p>
-              Благодарим за покупку! Ваша подписка оформлена, теперь вы можете
-              перейти в каталог и выбрать спектакль. Приятного просмотра!
-            </p>
-          )}
+        <ModalWin show={showApproved} onClose={closeApproved}>
+          <div className='d-flex flex-column justify-content-center align-items-center text-dark'>
+            <h4>Оплата прошла успешно!</h4>
+            {merchantData.target === 'video' ? (
+              <p>
+                Благодарим за покупку! Спектакль доступен к просмотру. Он
+                сохраняется в вашем профиле в разделе “Мои спектакли”, вкладка
+                “Купленные”. Приятного просмотра!
+              </p>
+            ) : (
+              <p>
+                Благодарим за покупку! Ваша подписка оформлена, теперь вы можете
+                перейти в каталог и выбрать спектакль. Приятного просмотра!
+              </p>
+            )}
 
-          <button className='btn btn-danger' onClick={closeApproved}>
-            {merchantData.target === 'video'
-              ? 'Смотреть спектакль'
-              : 'Перейти в каталог'}
-          </button>
-        </div>
-      </ModalWin>
-    </div>
+            <button className='btn btn-danger' onClick={closeApproved}>
+              {merchantData.target === 'video'
+                ? 'Смотреть спектакль'
+                : 'Перейти в каталог'}
+            </button>
+          </div>
+        </ModalWin>
+      </div>
+    </>
   );
 }
