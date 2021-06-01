@@ -9,6 +9,8 @@ interface Props {
   dark?: boolean;
   id?: string;
   defaultValue?: string;
+  value?: string;
+  onChange?: (value: any) => void;
 }
 
 export default function Input({

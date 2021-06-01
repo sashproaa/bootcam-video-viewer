@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../../../common/interfaces/UserInterface';
@@ -7,6 +7,13 @@ import cls from './style.module.css';
 import Header from '../Header';
 import Input from '../../../components/Input';
 import Select from '../../../components/Select';
+import Button from '../../../components/Button';
+import ButtonLine from '../../../components/ButtonLine';
+import Checkbox from '../../../components/Checkbox';
+import ButtonClean from '../../../components/ButtonClean';
+import { Lock } from 'react-feather';
+import ModalWin from '../../../components/ModalWin';
+import ChangePassword from '../ChangePassword';
 
 interface UserForm extends Omit<User, 'avatar'> {
   image?: any;
@@ -20,6 +27,9 @@ export default function Profile({ className = '' }: Props) {
   const dispatch = useDispatch();
   const user = useSelector(userInfo);
 
+  const [isNotice, setIsNotice] = useState(true);
+  const [showWin, setShowWin] = useState(false);
+
   const {
     register,
     setValue,
@@ -29,11 +39,24 @@ export default function Profile({ className = '' }: Props) {
   } = useForm<UserForm>();
 
   const onSubmit: SubmitHandler<UserForm> = (data) => {
-    dispatch(fetchUpdateUser(data as User));
+    const filterData = { ...data, gender: data.gender ? data.gender : null };
+    dispatch(fetchUpdateUser(filterData as User));
   };
 
   const handleReset = () => {
     reset();
+  };
+
+  const handleChangeIsNotice = () => {
+    setIsNotice(!isNotice);
+  };
+
+  const handleShowWin = () => {
+    setShowWin(true);
+  };
+
+  const handleCloseWin = () => {
+    setShowWin(false);
   };
 
   return (
@@ -42,211 +65,110 @@ export default function Profile({ className = '' }: Props) {
         <h1 className={cls.header}>Профиль</h1>
       </Header>
       <div className='row'>
-        <form onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
-          <div className={cls.inputBlock}>
-            <label htmlFor='first_name' className={cls.label}>
-              Имя
-            </label>
-            <Input
-              type='text'
-              id='first_name'
-              fill
+        <div className={`col-6 ${cls.fillProfile}`}>
+          <form onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
+            <div className={cls.inputBlock}>
+              <label htmlFor='first_name' className={cls.label}>
+                Имя
+              </label>
+              <Input
+                type='text'
+                id='first_name'
+                fill
+                dark
+                defaultValue={user.first_name}
+                {...register('first_name', { required: false })}
+              />
+            </div>
+
+            <div className={cls.inputBlock}>
+              <label htmlFor='last_name' className={cls.label}>
+                Фамилия
+              </label>
+              <Input
+                type='text'
+                id='last_name'
+                fill
+                dark
+                defaultValue={user.last_name}
+                {...register('last_name', { required: false })}
+              />
+            </div>
+
+            {/*<div className={cls.inputBlock}>*/}
+            {/*  <label htmlFor='mobile' className={cls.label}>*/}
+            {/*    Телефон*/}
+            {/*  </label>*/}
+            {/*  <Input*/}
+            {/*    type='tel'*/}
+            {/*    id='mobile'*/}
+            {/*    fill*/}
+            {/*    dark*/}
+            {/*    defaultValue={user.mobile}*/}
+            {/*    {...register('mobile', { required: false })}*/}
+            {/*  />*/}
+            {/*</div>*/}
+
+            <div className={cls.inputBlock}>
+              <label htmlFor='date_of_birth' className={cls.label}>
+                День рождения
+              </label>
+              <Input
+                type='date'
+                id='date_of_birth'
+                fill
+                dark
+                defaultValue={user.date_of_birth}
+                {...register('date_of_birth', { required: false })}
+              />
+            </div>
+
+            <div className={cls.inputBlock}>
+              <label htmlFor='gender' className={cls.label}>
+                Пол
+              </label>
+              <Select
+                id='gender'
+                fill
+                dark
+                defaultValue={user.gender || ''}
+                {...register('gender', { required: false })}
+              >
+                <option value='M'>Мужской</option>
+                <option value='F'>Женский</option>
+                <option value=''>Хз. Еще не решил</option>
+                <option value=''>Решил, но сказать стыдно</option>
+              </Select>
+            </div>
+
+            <div className={cls.buttons}>
+              <ButtonLine type='reset'>Сброс</ButtonLine>
+              <Button className='flex-grow-1' type='submit'>
+                Сохранить
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className={`col-5 offset-1 ${cls.profileAction}`}>
+          <div className={cls.action}>
+            <p>Уведомления</p>
+            <Checkbox
+              label='Email'
               dark
-              defaultValue={user.first_name}
-              {...register('first_name', { required: false })}
+              checked={isNotice}
+              onChange={handleChangeIsNotice}
             />
           </div>
-
-          <div className={cls.inputBlock}>
-            <label htmlFor='last_name' className={cls.label}>
-              Фамилия
-            </label>
-            <Input
-              type='text'
-              id='last_name'
-              fill
-              dark
-              defaultValue={user.last_name}
-              {...register('last_name', { required: false })}
-            />
+          <div className={cls.action}>
+            <ButtonClean onClick={handleShowWin}>
+              <Lock size={20} />
+              <span>&emsp;Изменить пароль</span>
+            </ButtonClean>
           </div>
-
-          <div className={cls.inputBlock}>
-            <label htmlFor='mobile' className={cls.label}>
-              Телефон
-            </label>
-            <Input
-              type='tel'
-              id='mobile'
-              fill
-              dark
-              defaultValue={user.mobile}
-              {...register('mobile', { required: false })}
-            />
-          </div>
-
-          <div className={cls.inputBlock}>
-            <label htmlFor='date_of_birth' className={cls.label}>
-              День рождения
-            </label>
-            <Input
-              type='date'
-              id='date_of_birth'
-              fill
-              dark
-              defaultValue={user.date_of_birth}
-              {...register('date_of_birth', { required: false })}
-            />
-          </div>
-
-          <div className={cls.inputBlock}>
-            <label htmlFor='gender' className={cls.label}>
-              День рождения
-            </label>
-            <Select
-              id='gender'
-              fill
-              dark
-              {...register('gender', { required: false })}
-            >
-              <option value='M'>Mr</option>
-              <option value='F'>Mrs</option>
-              <option value={undefined}>Miss</option>
-              <option value='Dr'>Dr</option>
-            </Select>
-          </div>
-
-          {/*<div className={cls.inputBlock}>*/}
-          {/*  <label htmlFor='gender' className={cls.label}>*/}
-          {/*    Пол*/}
-          {/*  </label>*/}
-          {/*  <input*/}
-          {/*    type='radio'*/}
-          {/*    id='genderM'*/}
-          {/*    {...register('gender', { required: false })}*/}
-          {/*    defaultValue={user.gender}*/}
-          {/*    value='M'*/}
-          {/*  />*/}
-          {/*  <input*/}
-          {/*    type='radio'*/}
-          {/*    className='form-control'*/}
-          {/*    id='genderF'*/}
-          {/*    {...register('gender', { required: false })}*/}
-          {/*    defaultValue={user.gender}*/}
-          {/*    value='F'*/}
-          {/*  />*/}
-          {/*</div>*/}
-
-          <button type='submit' className='btn btn-primary'>
-            Сохранить
-          </button>
-          <button type='reset' className='btn btn-primary'>
-            Сброс
-          </button>
-          <div className='save'>
-            <button type='submit'>Сохранить изменения</button>
-          </div>
-        </form>
+        </div>
       </div>
-    </>
 
-    // <div className={className}>
-    //   <h1>Профиль</h1>
-    //   <form onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
-    //     <div className='mb-6'>
-    //       <label htmlFor='first_name' className='form-label'>
-    //         Имя
-    //       </label>
-    //       <input
-    //         type='text'
-    //         className='form-control'
-    //         id='first_name'
-    //         defaultValue={user.first_name}
-    //         {...register('first_name', { required: false })}
-    //       />
-    //     </div>
-    //
-    //     <div className='mb-6'>
-    //       <label htmlFor='last_name' className='form-label'>
-    //         Фамилия
-    //       </label>
-    //       <input
-    //         type='text'
-    //         className='form-control'
-    //         id='last_name'
-    //         defaultValue={user.last_name}
-    //         {...register('last_name', { required: false })}
-    //       />
-    //     </div>
-    //
-    //     {/*<div className='mb-6'>*/}
-    //     {/*  <label htmlFor='email' className='form-label'>*/}
-    //     {/*    Почта*/}
-    //     {/*  </label>*/}
-    //     {/*  <input*/}
-    //     {/*    type='text'*/}
-    //     {/*    className='form-control'*/}
-    //     {/*    id='email'*/}
-    //     {/*    defaultValue={user.email}*/}
-    //     {/*    {...register('email', { required: true })}*/}
-    //     {/*  />*/}
-    //     {/*</div>*/}
-    //
-    //     <div className='mb-6'>
-    //       <label htmlFor='mobile' className='form-label'>
-    //         Телефон
-    //       </label>
-    //       <input
-    //         type='tel'
-    //         className='form-control'
-    //         id='mobile'
-    //         defaultValue={user.mobile}
-    //         {...register('mobile', { required: false })}
-    //       />
-    //     </div>
-    //
-    //     {/*<div className='mb-6'>*/}
-    //     {/*  <label htmlFor='date_of_birth' className='form-label'>*/}
-    //     {/*    День рождения*/}
-    //     {/*  </label>*/}
-    //     {/*  <input*/}
-    //     {/*    type='date'*/}
-    //     {/*    className='form-control'*/}
-    //     {/*    id='date_of_birth'*/}
-    //     {/*    defaultValue={user.date_of_birth}*/}
-    //     {/*    {...register('date_of_birth', { required: false })}*/}
-    //     {/*  />*/}
-    //     {/*</div>*/}
-    //
-    //     <div className='mb-6'>
-    //       <label htmlFor='gender' className='form-label'>
-    //         Пол
-    //       </label>
-    //       <input
-    //         type='radio'
-    //         className='form-control'
-    //         id='genderM'
-    //         {...register('gender', { required: false })}
-    //         defaultValue={user.gender}
-    //         value='M'
-    //       />
-    //       <input
-    //         type='radio'
-    //         className='form-control'
-    //         id='genderF'
-    //         {...register('gender', { required: false })}
-    //         defaultValue={user.gender}
-    //         value='F'
-    //       />
-    //     </div>
-    //
-    //     <button type='submit' className='btn btn-primary'>
-    //       Сохранить
-    //     </button>
-    //     <button type='reset' className='btn btn-primary'>
-    //       Сброс
-    //     </button>
-    //   </form>
-    // </div>
+      <ChangePassword show={showWin} onClose={handleCloseWin} />
+    </>
   );
 }

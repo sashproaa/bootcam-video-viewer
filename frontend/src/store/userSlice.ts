@@ -5,6 +5,7 @@ import { getVideo } from '../api/services/videoService';
 import { setVideo } from './videoSlice';
 import {
   addUser,
+  changePassword,
   getUser,
   loginUser,
   logoutUser,
@@ -13,6 +14,7 @@ import {
 import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
 import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
+import ChangePassword from '../pages/ProfilePage/ChangePassword';
 
 export interface RegistrationData {
   email: string;
@@ -22,6 +24,11 @@ export interface RegistrationData {
 export interface LoginData {
   email: string;
   password: string;
+}
+
+export interface ChangePasswordData {
+  new_password1: string;
+  new_password2: string;
 }
 
 interface UserState {
@@ -122,6 +129,19 @@ export const fetchUpdateUser = (data: User): AppThunk => async (dispatch) => {
     console.log('Проблемы при обновлении пользователя');
   } else {
     dispatch(fetchUser());
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchChangePassword = (
+  data: ChangePasswordData,
+): AppThunk => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  const response = await changePassword(data);
+  if (response?.error) {
+    console.log('Проблемы при изменении пароля');
+  } else {
+    // dispatch(fetchUser());
   }
   dispatch(setIsLoading(false));
 };

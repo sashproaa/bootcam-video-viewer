@@ -22,7 +22,7 @@ export default function SideBar() {
         />
         <ul>
           <li>
-            <p className={cls.name}>Ольга</p>
+            <p className={cls.name}>{user.first_name}</p>
           </li>
           <li>
             <span className={cls.email}>{user.email}</span>

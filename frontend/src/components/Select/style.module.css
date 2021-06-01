@@ -8,10 +8,6 @@
   transition: border-color .3s;
 }
 
-.select option {
-
-}
-
 .fill {
   width: 100%;
 }
@@ -31,9 +27,7 @@
 }
 
 .dark option {
-  color: var(--white);
-  /*background: transparent;*/
-  background: black;
+  background: var(--shark);
 }
 
 .dark:focus {

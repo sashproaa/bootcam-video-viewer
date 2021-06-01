@@ -39,6 +39,16 @@ interface LogoutUserResponse {
   error?: string;
 }
 
+export interface ChangePasswordRequest {
+  new_password1: string;
+  new_password2: string;
+}
+
+export interface ChangePasswordResponse {
+  detail?: string;
+  error?: string;
+}
+
 export const getUser = async (): Promise<UserResponse> => {
   return await webApi.get(`${endpoint}/user/`);
   // return await timeoutMock(userMock);
@@ -70,5 +80,12 @@ export const loginUser = async (
 
 export const logoutUser = async (): Promise<LogoutUserResponse> => {
   return await webApi.get(`${endpoint}/logout/`);
+  // return await timeoutMock(null);
+};
+
+export const changePassword = async (
+  request: ChangePasswordRequest,
+): Promise<ChangePasswordResponse> => {
+  return await webApi.post(`${endpoint}/password/change/`, request);
   // return await timeoutMock(null);
 };
