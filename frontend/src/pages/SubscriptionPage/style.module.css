@@ -1,0 +1,64 @@
+.content {
+  padding: 0px 0px 0px 17px;
+}
+
+.header {
+  padding: 0px;
+  font: 500 35px/41px 'Roboto', sans-serif;
+  margin-bottom: 13px;
+}
+
+.headerSub {
+  font: 500 18px/25px 'Roboto', sans-serif;
+  padding: 0px;
+  margin-bottom: 43px;
+}
+
+.card {
+  border: solid 1px var(--white);
+  border-radius: 5px;
+  /*margin-right: 30px;*/
+  /*max-width: 386px;*/
+  padding: 6px 0px 45px;
+  margin-bottom: 25px;
+}
+
+.card:hover {
+  border-color: var(--thunderbird);
+  cursor: pointer;
+}
+
+.inside {
+  padding-top: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.imgBg {
+  width: 100%;
+}
+
+.title {
+  font: 500 50px/59px 'Roboto', sans-serif;
+  margin-bottom: 10px;
+  color: var(--white);
+}
+
+.description {
+  font: 500 16px/22px 'Roboto', sans-serif;
+  color: var(--doveGray);
+  /*width: 300px;*/
+  margin: auto;
+  /*padding-bottom: 20px;*/
+  padding: 0 10px 20px;
+}
+
+.price {
+  font: 500 30px/35px 'Roboto', sans-serif;
+  margin-bottom: 25px;
+  color: var(--white);
+}
+
+.button {
+  max-width: 240px;
+}
