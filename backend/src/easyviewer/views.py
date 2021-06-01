@@ -112,7 +112,7 @@ class TransactionsListApiView(generics.ListAPIView):
 
 class TransactionsApiView(generics.CreateAPIView):
     serializer_class = MerchantFondySerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    #permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
     def create(self, request, *args, **kwargs):
         post_obj = self.request.data
@@ -126,9 +126,12 @@ class TransactionsApiView(generics.CreateAPIView):
             # о то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
-            instance_id = merchant_data['value']['id']
-            user = merchant_data['value']['userId']
-            project_id = merchant_data['value']['projectId']
+            print(merchant_data)
+            merchant_data_val = eval(merchant_data['value']) 
+            instance_id = int(merchant_data_val['id'])
+            user = int(merchant_data_val['userId'])
+
+            project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
                 'project_id': project_id, 'json_description': json_description,
