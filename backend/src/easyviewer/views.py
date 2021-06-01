@@ -5,6 +5,7 @@ from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Ada
 from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -39,8 +40,10 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoListSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['genre', 'title']
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    search_fields = ['genre']
+    filter_fields = ['title', 'actors', 'price', ]
+    ordering_fields = ['title', 'price', ]
 
     temp = ""
 
