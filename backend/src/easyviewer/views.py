@@ -142,14 +142,14 @@ class TransactionsApiView(generics.CreateAPIView):
             else:
                 print(transaction.errors)
                 raise
-            if 'video' == merchant_data['value']['target']:
+            if 'video' == merchant_data_val['target']:
                 video = Video.objects.get(id=instance_id)
                 video_id = instance_id
                 sub = video.subscription
-                subs = VideoSubscriptions.objects.get(video=video_id)
-                subscription = subs.id
+                #subs = VideoSubscriptions.objects.get(video=video_id)
+                subscription = None # subs.id
                 duration = video.duration
-            elif 'subscription' == merchant_data['value']['target']:
+            elif 'subscription' == merchant_data_val['target']:
                 subscription = VideoSubscriptions.objects.get(id=instance_id)
                 duration = subscription.duration
             data_start = timezone.now()
