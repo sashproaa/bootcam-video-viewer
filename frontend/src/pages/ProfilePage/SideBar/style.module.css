@@ -1,0 +1,46 @@
+.avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userInfo ul {
+  list-style: none;
+  margin: 0px;
+}
+
+.userInfo ul li {
+  line-height: 26px;
+}
+
+.name {
+  font: 500 18px/21px 'Roboto', sans-serif;
+  margin: 0px;
+}
+
+.email {
+  font: 500 15px/18px 'Roboto', sans-serif;
+  color: var(--doveGray);
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+}
+
+.link, .link:hover {
+  display: flex;
+  margin-bottom: 13px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-decoration: none;
+  font: 500 16px/22px 'Roboto', sans-serif;
+  color: var(--white);
+  transition: color .3s;
+}
+
+.link:hover, .link.active {
+  color: var(--thunderbird);
+}
