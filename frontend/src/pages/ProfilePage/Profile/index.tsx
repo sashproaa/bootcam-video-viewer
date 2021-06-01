@@ -89,18 +89,18 @@ export default function Profile({ className = '' }: Props) {
           />
         </div>
 
-        <div className='mb-6'>
-          <label htmlFor='date_of_birth' className='form-label'>
-            День рождения
-          </label>
-          <input
-            type='date'
-            className='form-control'
-            id='date_of_birth'
-            defaultValue={user.date_of_birth}
-            {...register('date_of_birth', { required: false })}
-          />
-        </div>
+        {/*<div className='mb-6'>*/}
+        {/*  <label htmlFor='date_of_birth' className='form-label'>*/}
+        {/*    День рождения*/}
+        {/*  </label>*/}
+        {/*  <input*/}
+        {/*    type='date'*/}
+        {/*    className='form-control'*/}
+        {/*    id='date_of_birth'*/}
+        {/*    defaultValue={user.date_of_birth}*/}
+        {/*    {...register('date_of_birth', { required: false })}*/}
+        {/*  />*/}
+        {/*</div>*/}
 
         <div className='mb-6'>
           <label htmlFor='gender' className='form-label'>
@@ -117,10 +117,10 @@ export default function Profile({ className = '' }: Props) {
           <input
             type='radio'
             className='form-control'
-            id='genderW'
+            id='genderF'
             {...register('gender', { required: false })}
             defaultValue={user.gender}
-            value='W'
+            value='F'
           />
         </div>
 
