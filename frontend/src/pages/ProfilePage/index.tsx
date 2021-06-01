@@ -13,14 +13,6 @@ import cls from './style.module.css';
 import SideBar from './SideBar';
 import { RoutesProfile } from './RoutesProfileEnum';
 
-// const baseRoute = Routes.profile;
-//
-// enum RoutesProfile {
-//   profile = '/profile',
-//   subscription = '/subscription',
-//   video = '/video',
-// }
-
 export default function ProfilePage() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -52,31 +44,5 @@ export default function ProfilePage() {
         </div>
       </div>
     </>
-    // <div>
-    //   <div>
-    //     <Link to={`${baseRoute}${RoutesProfile.profile}`}>Профиль</Link>
-    //     <Link to={`${baseRoute}${RoutesProfile.subscription}`}>Подписки</Link>
-    //     <Link to={`${baseRoute}${RoutesProfile.video}`}>Видео</Link>
-    //     <button onClick={handleLogout}>Выйти</button>
-    //   </div>
-    //   <Row className='justify-content-center mb-3'>
-    //     <Image src={userImg} rounded />
-    //   </Row>
-    //   <Switch>
-    //     <Route
-    //       path={`${baseRoute}${RoutesProfile.profile}`}
-    //       component={Profile}
-    //     />
-    //     <Route
-    //       path={`${baseRoute}${RoutesProfile.subscription}`}
-    //       component={Subscription}
-    //     />
-    //     <Route path={`${baseRoute}${RoutesProfile.video}`} component={Video} />
-    //     <Redirect
-    //       from={`${baseRoute}`}
-    //       to={`${baseRoute}${RoutesProfile.profile}`}
-    //     />
-    //   </Switch>
-    // </div>
   );
 }

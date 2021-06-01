@@ -29,7 +29,7 @@ export default function SideBar() {
           </li>
         </ul>
       </Header>
-      <menu className='links'>
+      <menu className={cls.links}>
         <Link className={cls.link} to={RoutesProfile.profile}>
           Профиль
         </Link>

@@ -1,0 +1,14 @@
+.header {
+  font: 500 40px/23px 'Roboto', sans-serif;
+  margin: 0px;
+}
+
+.inputBlock {
+  margin-bottom: 32px;
+}
+
+.label {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  margin: 0px;
+  padding-bottom: 9px;
+}

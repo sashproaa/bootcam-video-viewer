@@ -3,30 +3,32 @@ import cls from './style.module.css';
 
 interface Props {
   className?: string;
-  type?: string;
+  children: JSX.Element | JSX.Element[] | null;
   placeholder?: string;
   fill?: boolean;
   dark?: boolean;
   id?: string;
   defaultValue?: string;
+  name: string;
 }
 
-export default function Input({
+export default function Select({
   className = '',
-  type = 'text',
+  children,
   fill = true,
   dark = false,
   ...props
 }: Props) {
   return (
-    <input
+    <select
       className={`
-      ${cls.input}
+      ${cls.select}
       ${className}
       ${fill ? cls.fill : ''}
       ${dark ? cls.dark : ''}`}
-      type={type}
       {...props}
-    />
+    >
+      {children}
+    </select>
   );
 }

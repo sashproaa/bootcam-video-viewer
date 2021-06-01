@@ -1,33 +1,39 @@
-.input {
+.select {
   border-radius: 5px;
   outline: none;
   border: solid 1px var(--ountainMist);
   height: 45px;
   padding: 0px 15px;
   margin: 0px 0px 10px;
-  transition: border-color 300ms;
+  transition: border-color .3s;
+}
+
+.select option {
+
 }
 
 .fill {
   width: 100%;
 }
 
-.input::placeholder {
+.select::placeholder {
   font: 500 14px/20px 'Roboto', sans-serif;
   color: var(--ountainMist);
 }
 
-.input:focus {
+.select:focus {
   border-color: var(--thunderbird);
 }
 
-.input[type="password"]::-ms-reveal:active {
-  color: var(--thunderbird);
-}
-
-.dark {
+.dark, .dark option {
   color: var(--white);
   background: transparent;
+}
+
+.dark option {
+  color: var(--white);
+  /*background: transparent;*/
+  background: black;
 }
 
 .dark:focus {
