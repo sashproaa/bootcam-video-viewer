@@ -29,7 +29,11 @@ export default function ButtonAuth() {
       {user.email ? (
         <button className={cls.btnUser} onClick={handleClickUser}>
           {user.avatar ? (
-            <img className={cls.userImg} src={user.avatar} alt={user.name} />
+            <img
+              className={cls.userImg}
+              src={user.avatar}
+              alt={user.first_name}
+            />
           ) : (
             <User size={32} />
           )}

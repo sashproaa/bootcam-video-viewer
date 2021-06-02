@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import cls from './style.module.css';
 
 interface Props {
   className?: string;
-  type?: string;
+  children: JSX.Element | JSX.Element[] | null;
   placeholder?: string;
   fill?: boolean;
   dark?: boolean;
   id?: string;
   defaultValue?: string;
-  value?: string;
-  onChange?: (value: any) => void;
+  name: string;
 }
 
-export default function Input({
+export default function Select({
   className = '',
-  type = 'text',
+  children,
   fill = true,
   dark = false,
   ...props
 }: Props) {
   return (
-    <input
+    <select
       className={`
-      ${cls.input}
+      ${cls.select}
       ${className}
       ${fill ? cls.fill : ''}
       ${dark ? cls.dark : ''}`}
-      type={type}
       {...props}
-    />
+    >
+      {children}
+    </select>
   );
 }

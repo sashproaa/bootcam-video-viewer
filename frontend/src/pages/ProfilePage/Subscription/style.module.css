@@ -1,0 +1,25 @@
+nav.tabs {
+  padding-bottom: 43px;
+  border: none;
+}
+
+nav.tabs a {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  color: var(--white);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  background: none;
+}
+
+nav.tabs a:hover,
+nav.tabs a.active {
+  color: var(--thunderbird) !important;
+  border: none !important;
+  border-bottom: solid 1px var(--thunderbird);
+  background: none !important;
+
+}
+
+.tab {
+}
