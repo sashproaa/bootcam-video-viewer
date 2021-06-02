@@ -115,7 +115,7 @@ export default function VideoPage() {
                 </p>
               </div>
               <div className={cls.btnPayment}>
-                {!!video.url && !admin && (
+                {!video.url && !admin && (
                   <ButtonLine
                     className={cls.button}
                     size='big'
@@ -163,9 +163,6 @@ export default function VideoPage() {
             <div className={`col-6 col-md-4 col-xl-2 ${cls.genre}`}>
               <strong>Жанр</strong>
               {video.genre?.map((genreName) => (
-                // <p className={cls.descriptionItem}>
-                //   <a href='#'>{genresObj[genreName]}</a>
-                // </p>
                 <p className={cls.descriptionItem}>
                   <OverlayTrigger
                     overlay={
@@ -180,7 +177,6 @@ export default function VideoPage() {
                   </OverlayTrigger>
                 </p>
               ))}
-              {/*<p>мелодрамма</p>*/}
             </div>
             <div className={`col-6 col-md-4 col-xl-2 ${cls.duration}`}>
               <strong>Длительность</strong>
@@ -193,8 +189,6 @@ export default function VideoPage() {
               <ul>
                 {video?.actors?.split(',').map((actor) => (
                   <li>
-                    {/*<p className={cls.descriptionItem}>{actor.trim()}</p>*/}
-
                     <p className={cls.descriptionItem}>
                       <OverlayTrigger
                         overlay={
