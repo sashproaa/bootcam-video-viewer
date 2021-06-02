@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import cls from './style.module.css';
+import { Eye, EyeOff } from 'react-feather';
 
 interface Props {
   className?: string;
@@ -20,15 +21,33 @@ export default function Input({
   dark = false,
   ...props
 }: Props) {
+  const [inputType, setInputType] = useState(type);
+
+  const handleToggleInputType = () => {
+    setInputType(inputType === 'password' ? 'text' : 'password');
+  };
+
   return (
-    <input
-      className={`
+    <label className={`${cls.label} ${fill ? cls.fill : ''}`}>
+      <input
+        className={`
       ${cls.input}
       ${className}
       ${fill ? cls.fill : ''}
       ${dark ? cls.dark : ''}`}
-      type={type}
-      {...props}
-    />
+        type={inputType}
+        {...props}
+      />
+      {type === 'password' &&
+        (inputType === 'password' ? (
+          <Eye className={cls.icon} size={20} onClick={handleToggleInputType} />
+        ) : (
+          <EyeOff
+            className={cls.icon}
+            size={20}
+            onClick={handleToggleInputType}
+          />
+        ))}
+    </label>
   );
 }
