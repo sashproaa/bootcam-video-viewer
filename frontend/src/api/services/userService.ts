@@ -3,6 +3,7 @@ import { User } from '../../common/interfaces/UserInterface';
 import { timeoutMock } from './timeoutMock';
 import { userMock } from './userMock';
 import { Endpoints } from '../../common/enums/EndpointsEnum';
+import { FetchError } from '../../common/interfaces/FetchErrorInterface';
 
 const endpoint = Endpoints.user;
 
@@ -11,7 +12,7 @@ const endpoint = Endpoints.user;
 // }
 
 interface UserResponse extends User {
-  error?: string;
+  error?: FetchError;
 }
 
 interface AddUserRequest {
@@ -22,7 +23,7 @@ interface AddUserRequest {
 
 interface AddUserResponse {
   key: string;
-  error?: string;
+  error?: FetchError;
 }
 
 interface LoginUserRequest {
@@ -32,11 +33,11 @@ interface LoginUserRequest {
 
 interface LoginUserResponse {
   key: string;
-  error?: string;
+  error?: FetchError;
 }
 
 interface LogoutUserResponse {
-  error?: string;
+  error?: FetchError;
 }
 
 export interface ChangePasswordRequest {
@@ -45,8 +46,7 @@ export interface ChangePasswordRequest {
 }
 
 export interface ChangePasswordResponse {
-  detail?: string;
-  error?: string;
+  error?: FetchError;
 }
 
 export const getUser = async (): Promise<UserResponse> => {
