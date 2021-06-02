@@ -46,7 +46,7 @@ export default function CatalogPage() {
       ) : (
         <>
           <GenresFilter
-            genres={genres}
+            genresObj={genres}
             activeGenre={filter.genre || ''}
             changeGenre={handleChangeGenre}
           />
