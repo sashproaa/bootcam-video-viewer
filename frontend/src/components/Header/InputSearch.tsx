@@ -8,22 +8,29 @@ import Button from '../Button';
 import ButtonClean from '../ButtonClean';
 import { Search } from 'react-feather';
 import { X } from 'react-feather';
-import { updateFilterVideos } from '../../store/catalogSlice';
+import {
+  searchVideos,
+  setSearch,
+  updateFilterVideos,
+  updateSearchVideos,
+} from '../../store/catalogSlice';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function InputSearch() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const [search, setSearch] = useState('');
+  const search = useSelector(searchVideos);
+  // const [search, setSearch] = useState('');
   const debounced = useDebouncedCallback((value) => {
-    dispatch(updateFilterVideos({ search: value }));
+    dispatch(updateFilterVideos({ title: value }));
   }, 1000);
 
   useEffect(() => {}, []);
 
   const updateSearch = (value: string) => {
-    setSearch(value);
+    // setSearch(value);
+    dispatch(setSearch(value));
     if (location.pathname === Routes.catalog) {
       debounced(value);
     }
@@ -34,13 +41,14 @@ export default function InputSearch() {
   };
 
   const handleCleanSearch = () => {
-    updateSearch('');
+    dispatch(setSearch(''));
+    dispatch(updateFilterVideos({ title: '', actors: '' }));
   };
 
   const handleSubmitSearch = (ev: any) => {
     ev.preventDefault();
     if (location.pathname !== Routes.catalog) {
-      dispatch(updateFilterVideos({ search }));
+      dispatch(updateSearchVideos(search));
       history.push(Routes.catalog);
     }
   };

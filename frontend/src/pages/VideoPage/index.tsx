@@ -15,12 +15,20 @@ import { images } from '../../common/helpers/imageMockHelper';
 import { setPaymentData } from '../../store/paymentSlice';
 import GoBack from '../../components/GoBack';
 import VideoSlider from './VideoSlider';
+import {
+  genresVideos,
+  setSearch,
+  updateFilterVideos,
+  updateSearchVideos,
+} from '../../store/catalogSlice';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const loading = useSelector(isLoading);
   const video = useSelector(videoInfo);
+  const genresObj = useSelector(genresVideos);
   const params = useParams() as { id: string };
   const id = Number(params.id);
 
@@ -42,6 +50,19 @@ export default function VideoPage() {
 
   const handleSubscribe = () => {
     history.push(Routes.subscription);
+  };
+
+  const handleChoiceGenre = (genre: string) => (ev: any) => {
+    ev.preventDefault();
+    dispatch(updateFilterVideos({ genre }));
+    history.push(Routes.catalog);
+  };
+
+  const handleChoiceActor = (actor: string) => (ev: any) => {
+    ev.preventDefault();
+    dispatch(setSearch(actor));
+    dispatch(updateFilterVideos({ actors: actor }));
+    history.push(Routes.catalog);
   };
 
   return (
@@ -119,7 +140,25 @@ export default function VideoPage() {
             </div>
             <div className={`col-6 col-md-4 col-xl-2 ${cls.genre}`}>
               <strong>Жанр</strong>
-              <p>мелодрамма</p>
+              {video.genre?.map((genreName) => (
+                // <p className={cls.descriptionItem}>
+                //   <a href='#'>{genresObj[genreName]}</a>
+                // </p>
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip id={`tooltip-${genreName}`}>
+                      Показать все спектакли жанра {genresObj[genreName]}
+                    </Tooltip>
+                  }
+                >
+                  <p className={cls.descriptionItem}>
+                    <a href='#' onClick={handleChoiceGenre(genreName)}>
+                      {genresObj[genreName]}
+                    </a>
+                  </p>
+                </OverlayTrigger>
+              ))}
+              {/*<p>мелодрамма</p>*/}
             </div>
             <div className={`col-6 col-md-4 col-xl-2 ${cls.duration}`}>
               <strong>Длительность</strong>
@@ -132,7 +171,21 @@ export default function VideoPage() {
               <ul>
                 {video?.actors?.split(',').map((actor) => (
                   <li>
-                    <p>{actor.trim()}</p>
+                    {/*<p className={cls.descriptionItem}>{actor.trim()}</p>*/}
+
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip id={`tooltip-${actor}`}>
+                          Показать все спектакли с актером {actor.trim()}
+                        </Tooltip>
+                      }
+                    >
+                      <p className={cls.descriptionItem}>
+                        <a href='#' onClick={handleChoiceActor(actor)}>
+                          {actor.trim()}
+                        </a>
+                      </p>
+                    </OverlayTrigger>
                   </li>
                 ))}
               </ul>

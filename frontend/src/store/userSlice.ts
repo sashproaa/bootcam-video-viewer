@@ -3,10 +3,18 @@ import { AppThunk, RootState } from './store';
 import { User } from '../common/interfaces/UserInterface';
 import { getVideo } from '../api/services/videoService';
 import { setVideo } from './videoSlice';
-import { addUser, getUser, loginUser } from '../api/services/userService';
+import {
+  addUser,
+  changePassword,
+  getUser,
+  loginUser,
+  logoutUser,
+  updateUser,
+} from '../api/services/userService';
 import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
-import { getToken, setToken } from '../common/helpers/tokenHelper';
+import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
+import ChangePassword from '../pages/ProfilePage/ChangePassword';
 
 export interface RegistrationData {
   email: string;
@@ -16,6 +24,11 @@ export interface RegistrationData {
 export interface LoginData {
   email: string;
   password: string;
+}
+
+export interface ChangePasswordData {
+  new_password1: string;
+  new_password2: string;
 }
 
 interface UserState {
@@ -43,10 +56,18 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    clearUser: () => {
+      return initialState;
+    },
   },
 });
 
-export const { setIsLoading, setIsShowAuth, setUser } = userSlice.actions;
+export const {
+  setIsLoading,
+  setIsShowAuth,
+  setUser,
+  clearUser,
+} = userSlice.actions;
 
 export const fetchUser = (): AppThunk => async (dispatch) => {
   if (!getToken()) return;
@@ -57,7 +78,7 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
     console.log('Проблемы при получении пользователя');
   } else {
     // dispatch(setUser(response));
-    dispatch(setUser({ ...response, id: 12 }));
+    dispatch(setUser(response));
     dispatch(setIsShowAuth(false));
   }
   dispatch(setIsLoading(false));
@@ -91,6 +112,36 @@ export const fetchRegistrationUser = (
     console.log('Проблемы при регистрации');
   } else {
     dispatch(fetchLoginUser({ email: data.email, password: data.password }));
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchLogoutUser = (): AppThunk => async (dispatch) => {
+  logoutUser();
+  clearToken();
+  dispatch(clearUser());
+};
+
+export const fetchUpdateUser = (data: User): AppThunk => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  const response = await updateUser(data);
+  if (response?.error) {
+    console.log('Проблемы при обновлении пользователя');
+  } else {
+    dispatch(fetchUser());
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchChangePassword = (
+  data: ChangePasswordData,
+): AppThunk => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  const response = await changePassword(data);
+  if (response?.error) {
+    console.log('Проблемы при изменении пароля');
+  } else {
+    // dispatch(fetchUser());
   }
   dispatch(setIsLoading(false));
 };

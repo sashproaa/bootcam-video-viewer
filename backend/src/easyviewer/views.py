@@ -5,6 +5,7 @@ from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Ada
 from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -39,8 +40,10 @@ class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoListSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['genre', 'title']
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    search_fields = ['genre']
+    filter_fields = ['title', 'actors', 'price', ]
+    ordering_fields = ['title', 'price', ]
 
     temp = ""
 
@@ -112,23 +115,25 @@ class TransactionsListApiView(generics.ListAPIView):
 
 class TransactionsApiView(generics.CreateAPIView):
     serializer_class = MerchantFondySerializer
-    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    #permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
     def create(self, request, *args, **kwargs):
         post_obj = self.request.data
-        subscription, duration, video_id = 1, 1, None
+        subscription, duration, video_id = None, 0, None
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            price = float(post_obj['amount']) / 100  # может есть по проще перенести знак на два чила
+            price = float(post_obj['amount']) / 100
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
-            title = post_obj['order_id']  # надо что то придумать может чт
-            # о то другое
+            title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
-            instance_id = merchant_data['value']['id']
-            user = merchant_data['value']['userId']
-            project_id = merchant_data['value']['projectId']
+            print(merchant_data)
+            merchant_data_val = eval(merchant_data['value']) 
+            instance_id = int(merchant_data_val['id'])
+            user = int(merchant_data_val['userId'])
+
+            project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
                 'project_id': project_id, 'json_description': json_description,
@@ -139,16 +144,14 @@ class TransactionsApiView(generics.CreateAPIView):
             else:
                 print(transaction.errors)
                 raise
-            if 'video' == merchant_data['value']['target']:
+            if 'video' == merchant_data_val['target']:
                 video = Video.objects.get(id=instance_id)
                 video_id = instance_id
-                sub = video.subscription
-                subs = VideoSubscriptions.objects.get(video=video_id)
-                subscription = subs.id
                 duration = video.duration
-            elif 'subscription' == merchant_data['value']['target']:
-                subscription = VideoSubscriptions.objects.get(id=instance_id)
-                duration = subscription.duration
+            elif 'subscription' == merchant_data_val['target']:
+                sub = VideoSubscriptions.objects.get(id=instance_id)
+                subscription = sub.id
+                duration = sub.duration
             data_start = timezone.now()
             data_end = timezone.now() + duration
             videocontent_data = {

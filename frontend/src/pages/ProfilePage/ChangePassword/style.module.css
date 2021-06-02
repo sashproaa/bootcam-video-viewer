@@ -1,0 +1,19 @@
+.win {
+  /*padding: 20px 40px;*/
+}
+
+.winTitle {
+  font: 700 30px/20px 'Roboto', sans-serif;
+  color: var(--bunker);
+  padding-bottom: 30px;
+}
+
+.savePass {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.saveBtn {
+  min-width: 240px;
+  /*margin: 35px auto 0;*/
+}

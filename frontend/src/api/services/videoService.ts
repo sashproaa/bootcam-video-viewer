@@ -20,8 +20,11 @@ export interface VideoAllResponse {
 export interface FilterResponse {
   offset?: number;
   limit?: number;
-  search?: string;
+  // search?: string;
+  title?: string;
   genre?: string;
+  actors?: string;
+  price?: string;
 }
 
 export type GenresResponse = [string, string][];

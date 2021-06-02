@@ -175,5 +175,5 @@ class VideoContent(models.Model):
     data_end = models.DateTimeField()
     user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     video_id = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True)
-    video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE)
+    video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE, null=True, blank=True)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
