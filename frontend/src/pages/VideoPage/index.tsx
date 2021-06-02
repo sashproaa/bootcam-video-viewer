@@ -166,19 +166,19 @@ export default function VideoPage() {
                 // <p className={cls.descriptionItem}>
                 //   <a href='#'>{genresObj[genreName]}</a>
                 // </p>
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip id={`tooltip-${genreName}`}>
-                      Показать все спектакли жанра {genresObj[genreName]}
-                    </Tooltip>
-                  }
-                >
-                  <p className={cls.descriptionItem}>
+                <p className={cls.descriptionItem}>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id={`tooltip-${genreName}`}>
+                        Показать все спектакли жанра {genresObj[genreName]}
+                      </Tooltip>
+                    }
+                  >
                     <a href='#' onClick={handleChoiceGenre(genreName)}>
                       {genresObj[genreName]}
                     </a>
-                  </p>
-                </OverlayTrigger>
+                  </OverlayTrigger>
+                </p>
               ))}
               {/*<p>мелодрамма</p>*/}
             </div>
@@ -195,19 +195,19 @@ export default function VideoPage() {
                   <li>
                     {/*<p className={cls.descriptionItem}>{actor.trim()}</p>*/}
 
-                    <OverlayTrigger
-                      overlay={
-                        <Tooltip id={`tooltip-${actor}`}>
-                          Показать все спектакли с актером {actor.trim()}
-                        </Tooltip>
-                      }
-                    >
-                      <p className={cls.descriptionItem}>
+                    <p className={cls.descriptionItem}>
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id={`tooltip-${actor}`}>
+                            Показать все спектакли с актером {actor.trim()}
+                          </Tooltip>
+                        }
+                      >
                         <a href='#' onClick={handleChoiceActor(actor)}>
                           {actor.trim()}
                         </a>
-                      </p>
-                    </OverlayTrigger>
+                      </OverlayTrigger>
+                    </p>
                   </li>
                 ))}
               </ul>
