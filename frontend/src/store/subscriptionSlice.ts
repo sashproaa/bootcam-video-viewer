@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { Subscription } from '../common/interfaces/SubscriptionInterface';
 import { getAllSubscriptions } from '../api/services/subscriptionService';
+import { showNoticeError } from './notificationSlice';
 
 interface CatalogState {
   isLoading: boolean;
@@ -31,9 +32,9 @@ export const { setIsLoading, setSubscriptions } = catalogSlice.actions;
 export const fetchSubscriptions = (): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
   const response = await getAllSubscriptions();
-  // @ts-ignore
   if (response?.error) {
-    console.log('Проблемы при получении подписок');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при получении подписок: ', response.error);
   } else {
     dispatch(setSubscriptions(response.results));
   }
