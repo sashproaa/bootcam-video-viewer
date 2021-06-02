@@ -157,17 +157,16 @@ class Api {
   }
 
   private handleResponse(response: AxiosResponse) {
-    console.log('axios response: ', response);
     return response.data;
   }
 
   private handleError(error: AxiosError) {
     if (error.response) {
-      return { error: error.response?.data };
-    } else if (error.request) {
-      return { error: error.request?.responseText };
+      const data = error.response?.data;
+      const message = Object.values(data).flat().join(' ');
+      return { error: { data, message } };
     } else {
-      return { error: error?.message };
+      return { error: { data: {}, message: error?.message } };
     }
   }
 
