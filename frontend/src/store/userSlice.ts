@@ -35,12 +35,14 @@ interface UserState {
   isLoading: boolean;
   isShowAuth: boolean;
   user: User;
+  isEditor: boolean;
 }
 
 const initialState: UserState = {
   isLoading: false,
   isShowAuth: false,
   user: {} as User,
+  isEditor: false,
 };
 
 export const userSlice = createSlice({
@@ -56,6 +58,9 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    setIsEditor: (state, action: PayloadAction<boolean>) => {
+      state.isEditor = action.payload;
+    },
     clearUser: () => {
       return initialState;
     },
@@ -66,6 +71,7 @@ export const {
   setIsLoading,
   setIsShowAuth,
   setUser,
+  setIsEditor,
   clearUser,
 } = userSlice.actions;
 
@@ -80,6 +86,7 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
     // dispatch(setUser(response));
     dispatch(setUser(response));
     dispatch(setIsShowAuth(false));
+    dispatch(setIsEditor(response.is_staff || response.is_superUser));
   }
   dispatch(setIsLoading(false));
 };
@@ -149,5 +156,6 @@ export const fetchChangePassword = (
 export const isLoading = (state: RootState) => state.user.isLoading;
 export const isShowAuth = (state: RootState) => state.user.isShowAuth;
 export const userInfo = (state: RootState) => state.user.user;
+export const isEditorUser = (state: RootState) => state.user.isEditor;
 
 export default userSlice.reducer;

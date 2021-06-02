@@ -37,8 +37,6 @@ function App() {
           <Route path={Routes.catalog} component={CatalogPage} />
           <Route path={`${Routes.video}/:id`} component={VideoPage} />
           <Route path={`${Routes.editor}/:id`} component={EditorPage} />
-          {/*<Route path={Routes.login} component={LoginPage} />*/}
-          {/*<Route path={Routes.registration} component={AuthPage} />*/}
           <Route path={Routes.profile} component={ProfilePage} />
           <Route path={Routes.subscription} component={SubscriptionPage} />
           <Route path={Routes.payment} component={PaymentPage} />
