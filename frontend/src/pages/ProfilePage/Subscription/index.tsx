@@ -1,6 +1,6 @@
 import React from 'react';
-import cls from './style.module.css';
 import { Tab, Tabs } from 'react-bootstrap';
+import cls from './style.module.css';
 
 interface Props {
   className?: string;
@@ -10,15 +10,19 @@ export default function Subscription({ className = '' }: Props) {
   return (
     <div className={className}>
       <h2>Подписки и платежи</h2>
-      <Tabs defaultActiveKey='profile' id='uncontrolled-tab-example'>
-        <Tab eventKey='home' title='Подписки'>
-          <div>qqq</div>
+      <Tabs
+        className='tabs'
+        defaultActiveKey='profile'
+        id='uncontrolled-tab-example'
+      >
+        <Tab className={cls.tab} eventKey='home' title='Подписки'>
+          <div>Подписки</div>
         </Tab>
         <Tab eventKey='profile' title='Управление подписками'>
-          <div>www</div>
+          <div>Управление подписками</div>
         </Tab>
         <Tab eventKey='contact' title='История платежей'>
-          <div>eee</div>
+          <div>История платежей</div>
         </Tab>
       </Tabs>
     </div>

@@ -12,6 +12,7 @@ import GoBack from '../../components/GoBack';
 import cls from './style.module.css';
 import SideBar from './SideBar';
 import { RoutesProfile } from './RoutesProfileEnum';
+import './style.css';
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
