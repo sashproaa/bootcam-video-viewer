@@ -25,6 +25,7 @@
   border-radius: 5px;
   margin-bottom: 24px;
   position: relative;
+  overflow: hidden;
 }
 
 @media (max-width: 1199.98px) {

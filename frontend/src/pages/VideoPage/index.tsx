@@ -3,7 +3,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Player } from 'video-react';
 import 'video-react/dist/video-react.css';
-import { fetchVideo, isLoading, videoInfo } from '../../store/videoSlice';
+import {
+  fetchVideo,
+  isLoading,
+  setVideo,
+  videoInfo,
+} from '../../store/videoSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
@@ -19,9 +24,11 @@ import {
   genresVideos,
   setSearch,
   updateFilterVideos,
-  updateSearchVideos,
 } from '../../store/catalogSlice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { isAdminUser } from '../../store/userSlice';
+
+const testVideo = 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
@@ -29,6 +36,7 @@ export default function VideoPage() {
   const loading = useSelector(isLoading);
   const video = useSelector(videoInfo);
   const genresObj = useSelector(genresVideos);
+  const admin = useSelector(isAdminUser);
   const params = useParams() as { id: string };
   const id = Number(params.id);
 
@@ -65,6 +73,10 @@ export default function VideoPage() {
     history.push(Routes.catalog);
   };
 
+  const handleEdit = () => {
+    history.push(`${Routes.editor}/${video.id}`);
+  };
+
   return (
     <div>
       {loading ? (
@@ -78,12 +90,7 @@ export default function VideoPage() {
             <div className={`col-12 col-lg-7 ${cls.blockVideo}`}>
               <div className={cls.previewVideo}>
                 <Player poster={video.image || images[video.id]}>
-                  <source
-                    src={
-                      video.url ||
-                      'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
-                    }
-                  />
+                  <source src={video.url || video.preview_video || testVideo} />
                 </Player>
               </div>
             </div>
@@ -108,20 +115,35 @@ export default function VideoPage() {
                 </p>
               </div>
               <div className={cls.btnPayment}>
-                <ButtonLine
-                  className={cls.button}
-                  size='big'
-                  onClick={handleBuy}
-                >
-                  Купить за {video.price} грн
-                </ButtonLine>
-                <Button
-                  className={cls.button}
-                  size='big'
-                  onClick={handleSubscribe}
-                >
-                  Оформить подписку
-                </Button>
+                {!!video.url && !admin && (
+                  <ButtonLine
+                    className={cls.button}
+                    size='big'
+                    onClick={handleBuy}
+                  >
+                    Купить за {video.price} грн
+                  </ButtonLine>
+                )}
+
+                {!admin && (
+                  <Button
+                    className={cls.button}
+                    size='big'
+                    onClick={handleSubscribe}
+                  >
+                    Оформить подписку
+                  </Button>
+                )}
+
+                {admin && (
+                  <Button
+                    className={cls.button}
+                    size='big'
+                    onClick={handleEdit}
+                  >
+                    Редактировать Видео
+                  </Button>
+                )}
               </div>
             </div>
           </div>
