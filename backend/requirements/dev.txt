@@ -15,4 +15,5 @@ phonenumbers  # feald model
 djangorestframework
 drf-yasg  # swagger
 django-cors-headers
+django-filter  # for params filter
 

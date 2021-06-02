@@ -16,5 +16,6 @@ urlpatterns = [
     path('video/create', VideoCreateApiView.as_view()),
     path('user/<int:pk>', UserProfileApiView.as_view()),
     path('user/transactions', TransactionsApiView.as_view()),
+    path('user/transactions/list/', TransactionsListApiView.as_view()),
     path('facebook/', FacebookLogin.as_view(), name='fb_login')
 ]
