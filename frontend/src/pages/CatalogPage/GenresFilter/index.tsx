@@ -5,17 +5,20 @@ import cls from './style.module.css';
 const countShowGenres = 4;
 
 interface Props {
-  genres: [string, string][];
+  // genres: [string, string][];
+  genresObj: { [index: string]: string };
   activeGenre: string;
   changeGenre: (genre: string) => void;
 }
 
 export default function GenresFilter({
-  genres,
+  genresObj,
   activeGenre,
   changeGenre,
 }: Props) {
   const [countGenres, setCountGenres] = useState(countShowGenres);
+
+  const genres = Object.entries(genresObj);
 
   const handleShowAll = () => {
     countGenres === countShowGenres

@@ -8,7 +8,9 @@ interface CatalogState {
   isNextLoading: boolean;
   videos: Video[];
   count: number;
-  genres: [string, string][];
+  // genres: [string, string][];
+  genres: { [index: string]: string };
+  search: string;
   filter: FilterResponse;
 }
 
@@ -17,11 +19,13 @@ const initialState: CatalogState = {
   isNextLoading: false,
   videos: [],
   count: 0,
-  genres: [],
+  // genres: [],
+  genres: {},
+  search: '',
   filter: {
     limit: 10,
     genre: '',
-    search: '',
+    // search: '',
   },
 };
 
@@ -44,8 +48,11 @@ export const catalogSlice = createSlice({
     setCount: (state, action: PayloadAction<number>) => {
       state.count = action.payload;
     },
-    setGenres: (state, action: PayloadAction<[string, string][]>) => {
+    setGenres: (state, action: PayloadAction<{ [index: string]: string }>) => {
       state.genres = action.payload;
+    },
+    setSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
     },
     setFilter: (state, action: PayloadAction<FilterResponse>) => {
       state.filter = { ...state.filter, ...action.payload };
@@ -60,6 +67,7 @@ export const {
   addVideos,
   setCount,
   setGenres,
+  setSearch,
   setFilter,
 } = catalogSlice.actions;
 
@@ -75,7 +83,11 @@ export const fetchVideos = (filter?: FilterResponse): AppThunk => async (
   } else {
     dispatch(setVideos(response.results));
     dispatch(setCount(response.count));
-    dispatch(setGenres(response.genre));
+    const genres: { [index: string]: string } = {};
+    for (let genre of response.genre) {
+      genres[genre[0]] = genre[1];
+    }
+    dispatch(setGenres(genres));
   }
   dispatch(setIsLoading(false));
 };
@@ -107,10 +119,18 @@ export const updateFilterVideos = (filter: FilterResponse): AppThunk => async (
   dispatch(fetchVideos());
 };
 
+export const updateSearchVideos = (search: string): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(updateFilterVideos({ title: search, actors: search }));
+};
+
 export const isLoading = (state: RootState) => state.catalog.isLoading;
 export const allVideos = (state: RootState) => state.catalog.videos;
 export const countVideos = (state: RootState) => state.catalog.count;
 export const genresVideos = (state: RootState) => state.catalog.genres;
+export const searchVideos = (state: RootState) => state.catalog.search;
 export const filterVideos = (state: RootState) => state.catalog.filter;
 
 export default catalogSlice.reducer;

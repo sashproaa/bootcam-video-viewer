@@ -202,14 +202,23 @@
   min-width: 200px;
 }
 
-.descriptionVideo ul li p {
+.descriptionItem {
   margin: 0px;
 }
 
 @media (max-width: 1199.98px) {
-  .descriptionVideo ul li p {
+  .descriptionItem {
     padding: 0px;
   }
+}
+
+.descriptionItem a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.descriptionItem a:hover {
+  opacity: .7;
 }
 
 .over {

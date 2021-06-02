@@ -11,7 +11,10 @@ import { X } from 'react-feather';
 import { Cast } from 'react-feather';
 import { LogIn } from 'react-feather';
 import { User } from 'react-feather';
-import { updateFilterVideos } from '../../store/catalogSlice';
+import {
+  updateFilterVideos,
+  updateSearchVideos,
+} from '../../store/catalogSlice';
 import { useDebouncedCallback } from 'use-debounce';
 import ButtonAuth from './ButtonAuth';
 import InputSearch from './InputSearch';
@@ -19,49 +22,49 @@ import InputSearch from './InputSearch';
 export default function HeaderPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
-  const user = useSelector(userInfo);
-  const [search, setSearch] = useState('');
-  const debounced = useDebouncedCallback((value) => {
-    dispatch(updateFilterVideos({ search: value }));
-  }, 1000);
+  // const location = useLocation();
+  // const user = useSelector(userInfo);
+  // const [search, setSearch] = useState('');
+  // const debounced = useDebouncedCallback((value) => {
+  //   dispatch(updateSearchVideos(value));
+  // }, 1000);
 
   useEffect(() => {}, []);
 
-  const updateSearch = (value: string) => {
-    setSearch(value);
-    if (location.pathname === Routes.catalog) {
-      debounced(value);
-    }
-  };
+  // const updateSearch = (value: string) => {
+  //   setSearch(value);
+  //   if (location.pathname === Routes.catalog) {
+  //     debounced(value);
+  //   }
+  // };
 
-  const handleChangeSearch = (ev: { target: { value: string } }) => {
-    updateSearch(ev.target.value);
-  };
+  // const handleChangeSearch = (ev: { target: { value: string } }) => {
+  //   updateSearch(ev.target.value);
+  // };
 
-  const handleCleanSearch = () => {
-    updateSearch('');
-  };
+  // const handleCleanSearch = () => {
+  //   updateSearch('');
+  // };
 
-  const handleSubmitSearch = (ev: any) => {
-    ev.preventDefault();
-    if (location.pathname !== Routes.catalog) {
-      dispatch(updateFilterVideos({ search }));
-      history.push(Routes.catalog);
-    }
-  };
+  // const handleSubmitSearch = (ev: any) => {
+  //   ev.preventDefault();
+  //   if (location.pathname !== Routes.catalog) {
+  //     dispatch(updateSearchVideos(search));
+  //     history.push(Routes.catalog);
+  //   }
+  // };
 
   const handleSubscribe = () => {
     history.push(Routes.subscription);
   };
 
-  const handleAuth = () => {
-    dispatch(setIsShowAuth(true));
-  };
+  // const handleAuth = () => {
+  //   dispatch(setIsShowAuth(true));
+  // };
 
-  const handleClickUser = () => {
-    history.push(Routes.profile);
-  };
+  // const handleClickUser = () => {
+  //   history.push(Routes.profile);
+  // };
 
   return (
     <div className={`d-flex align-items-center ${cls.wrapper}`}>
