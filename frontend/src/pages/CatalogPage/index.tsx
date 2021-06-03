@@ -14,10 +14,8 @@ import {
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
 import GenresFilter from './GenresFilter';
-// import './style.css';
 import cls from './style.module.css';
-
-const genresTest = ['Комедия', 'Драма', 'Мелодрама', 'Трагедия', 'Ужасы'];
+import { isAdminUser } from '../../store/userSlice';
 
 export default function CatalogPage() {
   const dispatch = useDispatch();
@@ -26,6 +24,7 @@ export default function CatalogPage() {
   const count = useSelector(countVideos);
   const genres = useSelector(genresVideos);
   const filter = useSelector(filterVideos);
+  const admin = useSelector(isAdminUser);
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -65,6 +64,7 @@ export default function CatalogPage() {
             className={`col-12 col-md-6 col-xl-4 ${cls.block}`}
             key={video.id}
             video={video}
+            editable={admin}
           />
         ))}
       </InfiniteScroll>

@@ -15,6 +15,8 @@ import './style.css';
 import Notification from '../Notification';
 
 import { fetchUser } from '../../store/userSlice';
+import PrivateRoute from '../PrivateRoute';
+import AdminRoute from '../AdminRoute';
 
 function App() {
   const dispatch = useDispatch();
@@ -36,10 +38,8 @@ function App() {
         <Switch>
           <Route path={Routes.catalog} component={CatalogPage} />
           <Route path={`${Routes.video}/:id`} component={VideoPage} />
-          <Route path={`${Routes.editor}/:id`} component={EditorPage} />
-          {/*<Route path={Routes.login} component={LoginPage} />*/}
-          {/*<Route path={Routes.registration} component={AuthPage} />*/}
-          <Route path={Routes.profile} component={ProfilePage} />
+          <AdminRoute path={`${Routes.editor}/:id`} component={EditorPage} />
+          <PrivateRoute path={Routes.profile} component={ProfilePage} />
           <Route path={Routes.subscription} component={SubscriptionPage} />
           <Route path={Routes.payment} component={PaymentPage} />
           <Redirect from='/' to={Routes.catalog} />

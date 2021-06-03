@@ -4,19 +4,20 @@ import { timeoutMock } from './timeoutMock';
 import { subscriptionMock } from './subscriptionMock';
 import { subscriptionAllMock } from './subscriptionAllMock';
 import { Endpoints } from '../../common/enums/EndpointsEnum';
+import { FetchError } from '../../common/interfaces/FetchErrorInterface';
 
 const endpoint = Endpoints.subscription;
 
 interface SubscriptionRequest extends Subscription {}
 
 interface SubscriptionResponse extends Subscription {
-  error?: string;
+  error?: FetchError;
 }
 
 interface SubscriptionAllResponse {
   count: number;
   results: Subscription[];
-  error?: string;
+  error?: FetchError;
 }
 
 export const getAllSubscriptions = async (): Promise<SubscriptionAllResponse> => {

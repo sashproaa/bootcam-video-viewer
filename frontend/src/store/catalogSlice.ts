@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
 import { FilterResponse, getAllVideos } from '../api/services/videoService';
+import { showNoticeError } from './notificationSlice';
 
 interface CatalogState {
   isLoading: boolean;
@@ -79,7 +80,8 @@ export const fetchVideos = (filter?: FilterResponse): AppThunk => async (
   const filterState = getState().catalog.filter;
   const response = await getAllVideos({ ...filterState, ...filter });
   if (response?.error) {
-    console.log('Проблемы при получении каталога');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при получении каталога: ', response.error);
   } else {
     dispatch(setVideos(response.results));
     dispatch(setCount(response.count));
@@ -104,7 +106,8 @@ export const fetchNextVideos = (filter?: FilterResponse): AppThunk => async (
     offset: getState().catalog.videos.length,
   });
   if (response?.error) {
-    console.log('Проблемы при получении каталога');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при получении каталога: ', response.error);
   } else {
     dispatch(addVideos(response.results));
   }
