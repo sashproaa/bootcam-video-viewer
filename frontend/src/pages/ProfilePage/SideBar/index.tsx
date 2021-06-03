@@ -3,14 +3,19 @@ import { Link, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Image } from 'react-bootstrap';
 import userImg from '../../../assets/user.png';
-import { userInfo } from '../../../store/userSlice';
+import { fetchLogoutUser, userInfo } from '../../../store/userSlice';
 import cls from './style.module.css';
 import Header from '../Header';
 import { RoutesProfile } from '../RoutesProfileEnum';
 import { LogOut } from 'react-feather';
 
 export default function SideBar() {
+  const dispatch = useDispatch();
   const user = useSelector(userInfo);
+
+  const handleLogout = () => {
+    dispatch(fetchLogoutUser());
+  };
 
   return (
     <>
@@ -39,7 +44,7 @@ export default function SideBar() {
         <Link className={cls.link} to={RoutesProfile.video}>
           Мои спектакли
         </Link>
-        <button className={cls.link}>
+        <button className={cls.link} onClick={handleLogout}>
           Выйти &emsp; <LogOut size={20} />
         </button>
       </menu>
