@@ -3,7 +3,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Player } from 'video-react';
 import 'video-react/dist/video-react.css';
-import { fetchVideo, isLoading, videoInfo } from '../../store/videoSlice';
+import {
+  fetchVideo,
+  isLoading,
+  setVideo,
+  videoInfo,
+} from '../../store/videoSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
@@ -19,9 +24,11 @@ import {
   genresVideos,
   setSearch,
   updateFilterVideos,
-  updateSearchVideos,
 } from '../../store/catalogSlice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { isAdminUser } from '../../store/userSlice';
+
+const testVideo = 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4';
 
 export default function VideoPage() {
   const dispatch = useDispatch();
@@ -29,6 +36,7 @@ export default function VideoPage() {
   const loading = useSelector(isLoading);
   const video = useSelector(videoInfo);
   const genresObj = useSelector(genresVideos);
+  const admin = useSelector(isAdminUser);
   const params = useParams() as { id: string };
   const id = Number(params.id);
 
@@ -65,6 +73,10 @@ export default function VideoPage() {
     history.push(Routes.catalog);
   };
 
+  const handleEdit = () => {
+    history.push(`${Routes.editor}/${video.id}`);
+  };
+
   return (
     <div>
       {loading ? (
@@ -78,12 +90,7 @@ export default function VideoPage() {
             <div className={`col-12 col-lg-7 ${cls.blockVideo}`}>
               <div className={cls.previewVideo}>
                 <Player poster={video.image || images[video.id]}>
-                  <source
-                    src={
-                      video.url ||
-                      'https://media.w3.org/2010/05/sintel/trailer_hd.mp4'
-                    }
-                  />
+                  <source src={video.url || video.preview_video || testVideo} />
                 </Player>
               </div>
             </div>
@@ -108,20 +115,35 @@ export default function VideoPage() {
                 </p>
               </div>
               <div className={cls.btnPayment}>
-                <ButtonLine
-                  className={cls.button}
-                  size='big'
-                  onClick={handleBuy}
-                >
-                  Купить за {video.price} грн
-                </ButtonLine>
-                <Button
-                  className={cls.button}
-                  size='big'
-                  onClick={handleSubscribe}
-                >
-                  Оформить подписку
-                </Button>
+                {!video.url && !admin && (
+                  <ButtonLine
+                    className={cls.button}
+                    size='big'
+                    onClick={handleBuy}
+                  >
+                    Купить за {video.price} грн
+                  </ButtonLine>
+                )}
+
+                {!admin && (
+                  <Button
+                    className={cls.button}
+                    size='big'
+                    onClick={handleSubscribe}
+                  >
+                    Оформить подписку
+                  </Button>
+                )}
+
+                {admin && (
+                  <Button
+                    className={cls.button}
+                    size='big'
+                    onClick={handleEdit}
+                  >
+                    Редактировать Видео
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -141,24 +163,20 @@ export default function VideoPage() {
             <div className={`col-6 col-md-4 col-xl-2 ${cls.genre}`}>
               <strong>Жанр</strong>
               {video.genre?.map((genreName) => (
-                // <p className={cls.descriptionItem}>
-                //   <a href='#'>{genresObj[genreName]}</a>
-                // </p>
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip id={`tooltip-${genreName}`}>
-                      Показать все спектакли жанра {genresObj[genreName]}
-                    </Tooltip>
-                  }
-                >
-                  <p className={cls.descriptionItem}>
+                <p className={cls.descriptionItem}>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id={`tooltip-${genreName}`}>
+                        Показать все спектакли жанра {genresObj[genreName]}
+                      </Tooltip>
+                    }
+                  >
                     <a href='#' onClick={handleChoiceGenre(genreName)}>
                       {genresObj[genreName]}
                     </a>
-                  </p>
-                </OverlayTrigger>
+                  </OverlayTrigger>
+                </p>
               ))}
-              {/*<p>мелодрамма</p>*/}
             </div>
             <div className={`col-6 col-md-4 col-xl-2 ${cls.duration}`}>
               <strong>Длительность</strong>
@@ -171,21 +189,19 @@ export default function VideoPage() {
               <ul>
                 {video?.actors?.split(',').map((actor) => (
                   <li>
-                    {/*<p className={cls.descriptionItem}>{actor.trim()}</p>*/}
-
-                    <OverlayTrigger
-                      overlay={
-                        <Tooltip id={`tooltip-${actor}`}>
-                          Показать все спектакли с актером {actor.trim()}
-                        </Tooltip>
-                      }
-                    >
-                      <p className={cls.descriptionItem}>
+                    <p className={cls.descriptionItem}>
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id={`tooltip-${actor}`}>
+                            Показать все спектакли с актером {actor.trim()}
+                          </Tooltip>
+                        }
+                      >
                         <a href='#' onClick={handleChoiceActor(actor)}>
                           {actor.trim()}
                         </a>
-                      </p>
-                    </OverlayTrigger>
+                      </OverlayTrigger>
+                    </p>
                   </li>
                 ))}
               </ul>

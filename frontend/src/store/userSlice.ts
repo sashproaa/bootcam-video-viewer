@@ -35,12 +35,14 @@ interface UserState {
   isLoading: boolean;
   isShowAuth: boolean;
   user: User;
+  isAdmin: boolean;
 }
 
 const initialState: UserState = {
   isLoading: false,
   isShowAuth: false,
   user: {} as User,
+  isAdmin: false,
 };
 
 export const userSlice = createSlice({
@@ -56,6 +58,9 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    setIsAdmin: (state, action: PayloadAction<boolean>) => {
+      state.isAdmin = action.payload;
+    },
     clearUser: () => {
       return initialState;
     },
@@ -66,6 +71,7 @@ export const {
   setIsLoading,
   setIsShowAuth,
   setUser,
+  setIsAdmin,
   clearUser,
 } = userSlice.actions;
 
@@ -79,6 +85,7 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
   } else {
     // dispatch(setUser(response));
     dispatch(setUser(response));
+    dispatch(setIsAdmin(response.is_staff || response.is_superUser));
     dispatch(setIsShowAuth(false));
   }
   dispatch(setIsLoading(false));
@@ -149,5 +156,6 @@ export const fetchChangePassword = (
 export const isLoading = (state: RootState) => state.user.isLoading;
 export const isShowAuth = (state: RootState) => state.user.isShowAuth;
 export const userInfo = (state: RootState) => state.user.user;
+export const isAdminUser = (state: RootState) => state.user.isAdmin;
 
 export default userSlice.reducer;

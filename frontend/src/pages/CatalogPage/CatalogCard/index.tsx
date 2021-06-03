@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Video } from '../../../common/interfaces/VideoInterface';
 import { Routes } from '../../../common/enums/RoutesEnum';
-// import './style.css';
 import { useDispatch } from 'react-redux';
 import { setVideo } from '../../../store/videoSlice';
 import cls from './style.module.css';
@@ -17,9 +16,14 @@ import ButtonClean from '../../../components/ButtonClean';
 interface Props {
   className?: string;
   video: Video;
+  editable?: boolean;
 }
 
-export default function CatalogCard({ className = '', video }: Props) {
+export default function CatalogCard({
+  className = '',
+  video,
+  editable = false,
+}: Props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -43,9 +47,11 @@ export default function CatalogCard({ className = '', video }: Props) {
             <p className={cls.description}>{video.description}</p>
             <ButtonPlay className={cls.play} />
           </div>
-          <ButtonClean className={cls.edit} onClick={handleEdit}>
-            <Edit size={24} />
-          </ButtonClean>
+          {editable && (
+            <ButtonClean className={cls.edit} onClick={handleEdit}>
+              <Edit size={24} />
+            </ButtonClean>
+          )}
         </div>
         <strong className={cls.title}>{video.title}</strong>
       </Link>
