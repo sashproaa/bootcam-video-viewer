@@ -12,6 +12,7 @@ interface Props {
   defaultValue?: string;
   value?: string;
   onChange?: (value: any) => void;
+  errorText?: string;
 }
 
 export default function Input({
@@ -19,6 +20,7 @@ export default function Input({
   type = 'text',
   fill = true,
   dark = false,
+  errorText = '',
   ...props
 }: Props) {
   const [inputType, setInputType] = useState(type);
@@ -28,11 +30,10 @@ export default function Input({
   };
 
   return (
-    <label className={`${cls.label} ${fill ? cls.fill : ''}`}>
+    <label className={`${cls.label} ${fill ? cls.fill : ''} ${className}`}>
       <input
         className={`
       ${cls.input}
-      ${className}
       ${fill ? cls.fill : ''}
       ${dark ? cls.dark : ''}`}
         type={inputType}
@@ -48,6 +49,10 @@ export default function Input({
             onClick={handleToggleInputType}
           />
         ))}
+      <p className={cls.error}>
+        {errorText}Пароль должен содержать хотя бы одну строчную букву, одну
+        заглавную, одну цифру. И состоять не менее чем из 8 символов.
+      </p>
     </label>
   );
 }

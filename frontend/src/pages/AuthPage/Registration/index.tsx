@@ -6,11 +6,18 @@ import { RegistrationData } from '../../../store/userSlice';
 import cls from './style.module.css';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 // interface FormData {
 //   email: string;
 //   password: string;
 // }
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
 
 interface Props {
   // onChangeType: (type: 'login' | 'registration') => void;
@@ -24,7 +31,9 @@ export default function Registration({ onRegistration }: Props) {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegistrationData>();
+  } = useForm<RegistrationData>({
+    resolver: yupResolver(schema),
+  });
 
   useEffect(() => {}, []);
 
@@ -44,17 +53,14 @@ export default function Registration({ onRegistration }: Props) {
           fill
           type='email'
           placeholder='Электронная почта'
-          {...register('email', {
-            required: true,
-            pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-          })}
+          {...register('email')}
         />
         <Input
           className={cls.inputLast}
           fill
           type='password'
           placeholder='Пароль'
-          {...register('password', { required: true, minLength: 8 })}
+          {...register('password')}
         />
         <p className={cls.contract}>
           Регистрируя новый профиль, вы принимаете условия

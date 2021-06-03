@@ -49,3 +49,9 @@
   color: var(--ountainMist);
   cursor: pointer;
 }
+
+.error {
+  margin: 12px 0;
+  font: 500 14px 'Roboto', sans-serif;
+  color: var(--tamarillo);
+}
