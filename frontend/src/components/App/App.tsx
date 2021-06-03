@@ -22,7 +22,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setHash();
+    // setHash();
     dispatch(fetchUser());
     return () => {
       clearHash();
