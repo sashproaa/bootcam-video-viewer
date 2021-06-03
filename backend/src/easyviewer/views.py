@@ -44,7 +44,7 @@ class VideoListApiView(generics.ListAPIView):
     serializer_class = VideoListSerializer
     filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
     search_fields = ['genre']
-    filter_fields = ['title', 'actors', 'price', ]
+    filterset_fields = ['title', 'actors', 'price', ]
     ordering_fields = ['title', 'price', ]
 
     temp = ""
@@ -56,14 +56,14 @@ class VideoListApiView(generics.ListAPIView):
         return super(VideoListApiView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        project = Projects.objects.get(hash=self.hash_project)
+        #project = Projects.objects.get(hash=self.hash_project) project_id=project.id а ето в кверисет
         if self.request.user.is_authenticated:
-            queryset = Video.objects.filter(project_id=project.id).annotate(video_url=Case(
+            queryset = Video.objects.all().annotate(video_url=Case(
                 When(Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
                      then=F('url')),
                 output_field=models.CharField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id)
+            queryset = Video.objects.all()
         return queryset
 
 
