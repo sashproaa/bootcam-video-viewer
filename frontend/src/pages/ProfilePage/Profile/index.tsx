@@ -14,6 +14,8 @@ import ButtonClean from '../../../components/ButtonClean';
 import { Lock } from 'react-feather';
 import ModalWin from '../../../components/ModalWin';
 import ChangePassword from '../ChangePassword';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schemaProfile } from '../../../common/validation/userScheme';
 
 interface UserForm extends Omit<User, 'avatar'> {
   image?: any;
@@ -22,6 +24,12 @@ interface UserForm extends Omit<User, 'avatar'> {
 interface Props {
   className?: string;
 }
+
+const getDate = (years: number) => {
+  const current = new Date();
+  const date = current.setFullYear(current.getFullYear() - years);
+  return new Date(date).toISOString().split('T')[0];
+};
 
 export default function Profile({ className = '' }: Props) {
   const dispatch = useDispatch();
@@ -36,7 +44,9 @@ export default function Profile({ className = '' }: Props) {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<UserForm>();
+  } = useForm<UserForm>({
+    resolver: yupResolver(schemaProfile),
+  });
 
   const onSubmit: SubmitHandler<UserForm> = (data) => {
     const filterData = { ...data, gender: data.gender ? data.gender : null };
@@ -77,6 +87,7 @@ export default function Profile({ className = '' }: Props) {
                 fill
                 dark
                 defaultValue={user.first_name}
+                errorText={errors.first_name?.message}
                 {...register('first_name', { required: false })}
               />
             </div>
@@ -91,23 +102,25 @@ export default function Profile({ className = '' }: Props) {
                 fill
                 dark
                 defaultValue={user.last_name}
+                errorText={errors.last_name?.message}
                 {...register('last_name', { required: false })}
               />
             </div>
 
-            {/*<div className={cls.inputBlock}>*/}
-            {/*  <label htmlFor='mobile' className={cls.label}>*/}
-            {/*    Телефон*/}
-            {/*  </label>*/}
-            {/*  <Input*/}
-            {/*    type='tel'*/}
-            {/*    id='mobile'*/}
-            {/*    fill*/}
-            {/*    dark*/}
-            {/*    defaultValue={user.mobile}*/}
-            {/*    {...register('mobile', { required: false })}*/}
-            {/*  />*/}
-            {/*</div>*/}
+            <div className={cls.inputBlock}>
+              <label htmlFor='mobile' className={cls.label}>
+                Телефон
+              </label>
+              <Input
+                type='tel'
+                id='mobile'
+                fill
+                dark
+                defaultValue={user.mobile}
+                errorText={errors.mobile?.message}
+                {...register('mobile', { required: false })}
+              />
+            </div>
 
             <div className={cls.inputBlock}>
               <label htmlFor='date_of_birth' className={cls.label}>
@@ -118,7 +131,10 @@ export default function Profile({ className = '' }: Props) {
                 id='date_of_birth'
                 fill
                 dark
+                min={getDate(101)}
+                max={getDate(14)}
                 defaultValue={user.date_of_birth}
+                errorText={errors.date_of_birth?.message}
                 {...register('date_of_birth', { required: false })}
               />
             </div>
@@ -150,15 +166,15 @@ export default function Profile({ className = '' }: Props) {
           </form>
         </div>
         <div className={`col-5 offset-1 ${cls.profileAction}`}>
-          <div className={cls.action}>
-            <p>Уведомления</p>
-            <Checkbox
-              label='Email'
-              dark
-              checked={isNotice}
-              onChange={handleChangeIsNotice}
-            />
-          </div>
+          {/*<div className={cls.action}>*/}
+          {/*  <p>Уведомления</p>*/}
+          {/*  <Checkbox*/}
+          {/*    label='Email'*/}
+          {/*    dark*/}
+          {/*    checked={isNotice}*/}
+          {/*    onChange={handleChangeIsNotice}*/}
+          {/*  />*/}
+          {/*</div>*/}
           <div className={cls.action}>
             <ButtonClean onClick={handleShowWin}>
               <Lock size={20} />

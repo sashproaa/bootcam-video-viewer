@@ -7,17 +7,7 @@ import cls from './style.module.css';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-// interface FormData {
-//   email: string;
-//   password: string;
-// }
-
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
-});
+import { schemaRegistration } from '../../../common/validation/userScheme';
 
 interface Props {
   // onChangeType: (type: 'login' | 'registration') => void;
@@ -32,7 +22,7 @@ export default function Registration({ onRegistration }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm<RegistrationData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaRegistration),
   });
 
   useEffect(() => {}, []);
@@ -51,8 +41,9 @@ export default function Registration({ onRegistration }: Props) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           fill
-          type='email'
+          // type='email'
           placeholder='Электронная почта'
+          errorText={errors.email?.message}
           {...register('email')}
         />
         <Input
@@ -60,6 +51,7 @@ export default function Registration({ onRegistration }: Props) {
           fill
           type='password'
           placeholder='Пароль'
+          errorText={errors.password?.message}
           {...register('password')}
         />
         <p className={cls.contract}>

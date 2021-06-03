@@ -12,6 +12,8 @@ interface Props {
   defaultValue?: string;
   value?: string;
   onChange?: (value: any) => void;
+  min?: string;
+  max?: string;
   errorText?: string;
 }
 
@@ -49,10 +51,7 @@ export default function Input({
             onClick={handleToggleInputType}
           />
         ))}
-      <p className={cls.error}>
-        {errorText}Пароль должен содержать хотя бы одну строчную букву, одну
-        заглавную, одну цифру. И состоять не менее чем из 8 символов.
-      </p>
+      <p className={cls.error}>{errorText}</p>
     </label>
   );
 }
