@@ -15,6 +15,7 @@ import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
 import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
 import ChangePassword from '../pages/ProfilePage/ChangePassword';
+import { showNoticeError } from './notificationSlice';
 
 export interface RegistrationData {
   email: string;
@@ -79,9 +80,9 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
   if (!getToken()) return;
   dispatch(setIsLoading(true));
   const response = await getUser();
-  console.log('user res: ', response);
   if (response?.error) {
-    console.log('Проблемы при получении пользователя');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при получении пользователя: ', response.error);
   } else {
     // dispatch(setUser(response));
     dispatch(setUser(response));
@@ -97,7 +98,8 @@ export const fetchLoginUser = (data: LoginData): AppThunk => async (
   dispatch(setIsLoading(true));
   const response = await loginUser(data);
   if (response?.error) {
-    console.log('Проблемы при логине');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при логине: ', response.error);
   } else {
     setToken(response.key);
     dispatch(fetchUser());
@@ -114,9 +116,9 @@ export const fetchRegistrationUser = (
     password1: data.password,
     password2: data.password,
   });
-  console.log('reg response: ', response);
   if (response?.error) {
-    console.log('Проблемы при регистрации');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при регистрации: ', response.error);
   } else {
     dispatch(fetchLoginUser({ email: data.email, password: data.password }));
   }
@@ -133,7 +135,8 @@ export const fetchUpdateUser = (data: User): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
   const response = await updateUser(data);
   if (response?.error) {
-    console.log('Проблемы при обновлении пользователя');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при обновлении пользователя: ', response.error);
   } else {
     dispatch(fetchUser());
   }
@@ -146,7 +149,8 @@ export const fetchChangePassword = (
   dispatch(setIsLoading(true));
   const response = await changePassword(data);
   if (response?.error) {
-    console.log('Проблемы при изменении пароля');
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при изменении пароля: ', response.error);
   } else {
     // dispatch(fetchUser());
   }

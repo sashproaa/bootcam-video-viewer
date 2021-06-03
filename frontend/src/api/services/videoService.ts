@@ -1,26 +1,26 @@
 import webApi from '../webApiHelper';
 import { Video } from '../../common/interfaces/VideoInterface';
 import { Endpoints } from '../../common/enums/EndpointsEnum';
+import { FetchError } from '../../common/interfaces/FetchErrorInterface';
 
 const endpoint = Endpoints.video;
 
 interface VideoRequest extends Video {}
 
 interface VideoResponse extends Video {
-  error?: string;
+  error?: FetchError;
 }
 
 export interface VideoAllResponse {
   count: number;
   genre: [string, string][];
   results: Video[];
-  error?: string;
+  error?: FetchError;
 }
 
 export interface FilterResponse {
   offset?: number;
   limit?: number;
-  // search?: string;
   title?: string;
   genre?: string;
   actors?: string;
