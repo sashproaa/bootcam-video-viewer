@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('../fonts/icomoon.woff?l4lori') format('woff');
+  src: url('../fonts/icomoon.woff?fmqun1') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -21,7 +21,13 @@
 .remember-email-checkbox:before,
 .change-pass label p:before,
 .slide span:first-child:before,
-.slide span:nth-child(2):before {
+.slide span:nth-child(2):before,
+.basic li p:before,
+.advanced li p:before,
+.premium li p:before,
+.media li:first-child span::before,
+.media li:nth-child(2) span:before,
+.media li:last-child span:before {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -36,6 +42,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-telegram:before {
+  content: "\e90c";
+  color: #2ca5e0;
+}
 .icon-in-alt:before {
   content: "\e905";
 }
@@ -50,6 +60,12 @@
 }
 .icon-login:before {
   content: "\e905";
+}
+.icon-instagram:before {
+  content: "\e90e";
+}
+.icon-facebook:before {
+  content: "\e90d";
 }
 .icon-triangle-right:before {
   content: "\e901";
