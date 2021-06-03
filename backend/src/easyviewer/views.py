@@ -68,10 +68,9 @@ class VideoListApiView(generics.ListAPIView):
 
 
 class VideoContentListApiView(generics.ListAPIView):
-    queryset = VideoContent.objects.all()
-    serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated, )
-
+    pagination_class = VideoPagination
+    serializer_class = VideoListSerializer
+    permission_classes = (IsAuthenticated,)
     temp = ""
 
     def get(self, request, *args, **kwargs):
@@ -81,7 +80,10 @@ class VideoContentListApiView(generics.ListAPIView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            queryset = VideoContent.objects.filter(user_id=self.request.user.id)
+            queryset = Video.objects.filter(Q(videocontent__user_id=self.request.user.id) &
+                                            Q(videocontent__data_end__gte=timezone.now())
+                                            ).annotate(video_url=ExpressionWrapper(F('url'),
+                                                                                   output_field=models.CharField()))
         else:
             queryset = None
         return queryset
