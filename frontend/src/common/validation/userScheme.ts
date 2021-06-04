@@ -25,17 +25,20 @@ const getDate = (years: number) => {
 };
 
 export const schemaProfile = yup.object().shape({
-  first_name: yup.string(),
-  last_name: yup.string(),
-  mobile: yup.string(),
-  // date_of_birth: yup
-  //   .date()
-  //   .max(getDate(14), 'У родителей деньги тыришь?')
-  //   .max(new Date().toISOString(), 'Вернись в реальность.')
-  //   .min(getDate(100), 'Столько не живут')
-  //   .transform((value) => {
-  //     return new Date(value).toISOString().split('T')[0];
-  //   }),
+  first_name: yup
+    .string()
+    .min(2, 'Имя должно состоять минимум из 2 букв')
+    .matches(/^\w+$/, 'Недопустимые символы'),
+  last_name: yup.string().min(2, 'Фамилия должна состоять минимум из 2 букв'),
+  mobile: yup
+    .string()
+    .matches(/\+38\d{10}/, 'Телефон должен быть в формате +38xxxyyyyyyy')
+    .matches(/^\w+$/, 'Недопустимые символы'),
+  date_of_birth: yup
+    .date()
+    .max(getDate(14), 'У родителей деньги тыришь?')
+    .max(new Date().toISOString(), 'Вернись в реальность.')
+    .min(getDate(100), 'Столько не живут'),
   gender: yup.string(),
 });
 

@@ -62,6 +62,9 @@ export const addUser = async (
 };
 
 export const updateUser = async (request: User): Promise<UserResponse> => {
+  request.date_of_birth = request.date_of_birth
+    ? new Date(request.date_of_birth).toISOString().split('T')[0]
+    : request.date_of_birth;
   return await webApi.patchh(`${endpoint}/user/`, request);
   // return await timeoutMock(userMock);
 };

@@ -88,7 +88,7 @@ export default function Profile({ className = '' }: Props) {
                 dark
                 defaultValue={user.first_name}
                 errorText={errors.first_name?.message}
-                {...register('first_name', { required: false })}
+                {...register('first_name')}
               />
             </div>
 
@@ -103,7 +103,7 @@ export default function Profile({ className = '' }: Props) {
                 dark
                 defaultValue={user.last_name}
                 errorText={errors.last_name?.message}
-                {...register('last_name', { required: false })}
+                {...register('last_name')}
               />
             </div>
 
@@ -116,9 +116,10 @@ export default function Profile({ className = '' }: Props) {
                 id='mobile'
                 fill
                 dark
+                placeholder='+38xxxyyyyyyy'
                 defaultValue={user.mobile}
                 errorText={errors.mobile?.message}
-                {...register('mobile', { required: false })}
+                {...register('mobile')}
               />
             </div>
 
@@ -135,7 +136,7 @@ export default function Profile({ className = '' }: Props) {
                 max={getDate(14)}
                 defaultValue={user.date_of_birth}
                 errorText={errors.date_of_birth?.message}
-                {...register('date_of_birth', { required: false })}
+                {...register('date_of_birth')}
               />
             </div>
 
@@ -148,7 +149,7 @@ export default function Profile({ className = '' }: Props) {
                 fill
                 dark
                 defaultValue={user.gender || ''}
-                {...register('gender', { required: false })}
+                {...register('gender')}
               >
                 <option value='M'>Мужской</option>
                 <option value='F'>Женский</option>
