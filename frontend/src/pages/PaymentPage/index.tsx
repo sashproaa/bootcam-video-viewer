@@ -42,6 +42,11 @@ export default function PaymentPage() {
     if (merchantData && merchantData.userId && price) createPaymentForm();
   }, [merchantData]);
 
+  if (!merchantData) {
+    history.goBack();
+    return null;
+  }
+
   const createPaymentForm = () => {
     const button = $ipsp.get('button');
     button.setMerchantId(Number(merchantId));
@@ -106,8 +111,10 @@ export default function PaymentPage() {
     setShowApproved(false);
     if (merchantData.target === 'video') {
       history.push(`${Routes.video}/${merchantData.id}`);
+      // history.replace(`${Routes.video}/${merchantData.id}`);
     } else {
       history.push(Routes.catalog);
+      // history.replace(Routes.catalog);
     }
   };
 
