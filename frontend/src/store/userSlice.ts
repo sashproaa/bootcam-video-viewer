@@ -37,6 +37,7 @@ interface UserState {
   isShowAuth: boolean;
   user: User;
   isAdmin: boolean;
+  isSaveToken: boolean;
 }
 
 const initialState: UserState = {
@@ -44,6 +45,7 @@ const initialState: UserState = {
   isShowAuth: false,
   user: {} as User,
   isAdmin: false,
+  isSaveToken: true,
 };
 
 export const userSlice = createSlice({
@@ -62,6 +64,12 @@ export const userSlice = createSlice({
     setIsAdmin: (state, action: PayloadAction<boolean>) => {
       state.isAdmin = action.payload;
     },
+    setIsSaveToken: (state, action: PayloadAction<boolean>) => {
+      state.isSaveToken = action.payload;
+    },
+    toggleIsSaveToken: (state) => {
+      state.isSaveToken = !state.isSaveToken;
+    },
     clearUser: () => {
       return initialState;
     },
@@ -73,6 +81,8 @@ export const {
   setIsShowAuth,
   setUser,
   setIsAdmin,
+  setIsSaveToken,
+  toggleIsSaveToken,
   clearUser,
 } = userSlice.actions;
 
@@ -94,6 +104,7 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
 
 export const fetchLoginUser = (data: LoginData): AppThunk => async (
   dispatch,
+  getState,
 ) => {
   dispatch(setIsLoading(true));
   const response = await loginUser(data);
@@ -101,7 +112,7 @@ export const fetchLoginUser = (data: LoginData): AppThunk => async (
     dispatch(showNoticeError(response.error.message));
     console.error('Проблемы при логине: ', response.error);
   } else {
-    setToken(response.key);
+    setToken(response.key, getState().user.isSaveToken);
     dispatch(fetchUser());
   }
   dispatch(setIsLoading(false));
@@ -163,5 +174,6 @@ export const isLoading = (state: RootState) => state.user.isLoading;
 export const isShowAuth = (state: RootState) => state.user.isShowAuth;
 export const userInfo = (state: RootState) => state.user.user;
 export const isAdminUser = (state: RootState) => state.user.isAdmin;
+export const isSaveToken = (state: RootState) => state.user.isSaveToken;
 
 export default userSlice.reducer;

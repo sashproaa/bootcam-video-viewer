@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LoginData } from '../../../store/userSlice';
+import {
+  isSaveToken,
+  LoginData,
+  setIsSaveToken,
+  toggleIsSaveToken,
+} from '../../../store/userSlice';
 import { IoCheckmark } from 'react-icons/io5';
 import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
@@ -16,13 +21,13 @@ interface Props {
 
 export default function Login({ onLogin, onRecovery }: Props) {
   const dispatch = useDispatch();
+  const isSave = useSelector(isSaveToken);
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
-  const [isRemember, setIsRemember] = useState(true);
 
   useEffect(() => {}, []);
 
@@ -31,7 +36,7 @@ export default function Login({ onLogin, onRecovery }: Props) {
   // };
 
   const handleRemember = () => {
-    setIsRemember(!isRemember);
+    dispatch(toggleIsSaveToken());
   };
 
   const handleRecovery = (ev: any) => {
@@ -63,7 +68,7 @@ export default function Login({ onLogin, onRecovery }: Props) {
           <div className='container-for-checkbox'>
             <Checkbox
               label='Запомнить меня'
-              checked={isRemember}
+              checked={isSave}
               onChange={handleRemember}
             />
           </div>
