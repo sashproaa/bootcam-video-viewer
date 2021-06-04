@@ -1,20 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { User } from '../common/interfaces/UserInterface';
-import { getVideo } from '../api/services/videoService';
-import { setVideo } from './videoSlice';
 import {
   addUser,
   changePassword,
   getUser,
   loginUser,
   logoutUser,
+  updateMedia,
   updateUser,
+  UserMediaRequest,
 } from '../api/services/userService';
-import Registration from '../pages/AuthPage/Registration';
-import Login from '../pages/AuthPage/Login';
 import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
-import ChangePassword from '../pages/ProfilePage/ChangePassword';
 import { showNoticeError, showNoticeSuccess } from './notificationSlice';
 
 export interface RegistrationData {
@@ -166,6 +163,24 @@ export const fetchChangePassword = (
   } else {
     // dispatch(fetchUser());
     dispatch(showNoticeSuccess('Пароль изменён.'));
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchUpdateAvatar = (file: Blob): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setIsLoading(true));
+  const response = await updateMedia({
+    avatar: file,
+  } as UserMediaRequest);
+  if (response?.error) {
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при изменении аватара: ', response.error);
+  } else {
+    // dispatch(fetchUser());
+    dispatch(showNoticeSuccess('Аватар изменён.'));
   }
   dispatch(setIsLoading(false));
 };

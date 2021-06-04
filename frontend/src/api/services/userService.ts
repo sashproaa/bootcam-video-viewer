@@ -49,6 +49,10 @@ export interface ChangePasswordResponse {
   error?: FetchError;
 }
 
+export interface UserMediaRequest extends Omit<User, 'avatar'> {
+  avatar: Blob;
+}
+
 export const getUser = async (): Promise<UserResponse> => {
   return await webApi.get(`${endpoint}/user/`);
   // return await timeoutMock(userMock);
@@ -67,6 +71,13 @@ export const updateUser = async (request: User): Promise<UserResponse> => {
     : request.date_of_birth;
   return await webApi.patchh(`${endpoint}/user/`, request);
   // return await timeoutMock(userMock);
+};
+
+export const updateMedia = async (
+  request: UserMediaRequest,
+): Promise<UserResponse> => {
+  return await webApi.formPatch(`${endpoint}/user/`, request);
+  // return await timeoutMock(null);
 };
 
 export const deleteUser = async (id: number): Promise<void> => {

@@ -3,11 +3,17 @@ import { Link, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Image } from 'react-bootstrap';
 import userImg from '../../../assets/user.png';
-import { fetchLogoutUser, userInfo } from '../../../store/userSlice';
+import {
+  fetchLogoutUser,
+  fetchUpdateAvatar,
+  userInfo,
+} from '../../../store/userSlice';
 import cls from './style.module.css';
 import Header from '../Header';
 import { RoutesProfile } from '../RoutesProfileEnum';
-import { LogOut } from 'react-feather';
+import { Edit, LogOut } from 'react-feather';
+import ButtonClean from '../../../components/ButtonClean';
+import { Video } from '../../../common/interfaces/VideoInterface';
 
 export default function SideBar() {
   const dispatch = useDispatch();
@@ -17,14 +23,34 @@ export default function SideBar() {
     dispatch(fetchLogoutUser());
   };
 
+  const handleChangeAvatar = ({ target }: any) => {
+    const file = target.files[0];
+    if (file) {
+      dispatch(fetchUpdateAvatar(file));
+    }
+  };
+
   return (
     <>
       <Header className={cls.userInfo}>
-        <img
-          className={cls.avatar}
-          src={user.avatar || userImg}
-          alt={user.first_name}
-        />
+        <div className={cls.avatarWrap}>
+          <img
+            className={cls.avatar}
+            src={user.avatar || userImg}
+            alt={user.first_name}
+          />
+          <label className={cls.labelAvatar} htmlFor='inputAvatar'>
+            <Edit size={20} />
+          </label>
+          <input
+            className={cls.inputAvatar}
+            type='file'
+            id='inputAvatar'
+            name='avatar'
+            accept='image/*'
+            onChange={handleChangeAvatar}
+          />
+        </div>
         <ul>
           <li>
             <p className={cls.name}>{user.first_name}</p>

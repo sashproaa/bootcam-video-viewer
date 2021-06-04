@@ -1,3 +1,9 @@
+.avatarWrap {
+  position: relative;
+  width: 74px;
+  height: 74px;
+}
+
 .avatar {
   width: 74px;
   height: 74px;
@@ -42,5 +48,22 @@
 }
 
 .link:hover, .link.active {
+  color: var(--thunderbird);
+}
+
+.inputAvatar {
+  display: none;
+}
+
+.labelAvatar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: color .2s;
+}
+
+.labelAvatar:hover {
   color: var(--thunderbird);
 }
