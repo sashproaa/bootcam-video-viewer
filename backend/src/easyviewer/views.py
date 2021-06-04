@@ -61,7 +61,8 @@ class VideoListApiView(generics.ListAPIView):
             queryset = Video.objects.all().annotate(video_url=Case(
                 When(Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
                      then=F('url')),
-                output_field=models.CharField()))
+                output_field=models.CharField())).annotate(payed=ExpressionWrapper(Case(When(video_url__isnull=False,
+                                                                    then=True)), output_field=models.BooleanField()))
         else:
             queryset = Video.objects.all()
         return queryset
