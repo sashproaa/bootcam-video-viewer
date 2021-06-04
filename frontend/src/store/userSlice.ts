@@ -15,7 +15,7 @@ import Registration from '../pages/AuthPage/Registration';
 import Login from '../pages/AuthPage/Login';
 import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
 import ChangePassword from '../pages/ProfilePage/ChangePassword';
-import { showNoticeError } from './notificationSlice';
+import { showNoticeError, showNoticeSuccess } from './notificationSlice';
 
 export interface RegistrationData {
   email: string;
@@ -139,6 +139,7 @@ export const fetchUpdateUser = (data: User): AppThunk => async (dispatch) => {
     console.error('Проблемы при обновлении пользователя: ', response.error);
   } else {
     dispatch(fetchUser());
+    dispatch(showNoticeSuccess('Профиль обновлен.'));
   }
   dispatch(setIsLoading(false));
 };
@@ -153,6 +154,7 @@ export const fetchChangePassword = (
     console.error('Проблемы при изменении пароля: ', response.error);
   } else {
     // dispatch(fetchUser());
+    dispatch(showNoticeSuccess('Пароль изменён.'));
   }
   dispatch(setIsLoading(false));
 };
