@@ -17,6 +17,7 @@ import Notification from '../Notification';
 import { fetchUser } from '../../store/userSlice';
 import PrivateRoute from '../PrivateRoute';
 import AdminRoute from '../AdminRoute';
+import ClearButton from '../ClearButton';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <>
+      <ClearButton />
       <AuthPage />
       <HeaderPage />
       <Notification />
