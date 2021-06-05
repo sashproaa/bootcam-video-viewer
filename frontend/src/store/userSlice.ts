@@ -1,21 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 import { User } from '../common/interfaces/UserInterface';
-import { getVideo } from '../api/services/videoService';
-import { setVideo } from './videoSlice';
 import {
   addUser,
   changePassword,
   getUser,
   loginUser,
   logoutUser,
+  updateMedia,
   updateUser,
+  UserMediaRequest,
 } from '../api/services/userService';
-import Registration from '../pages/AuthPage/Registration';
-import Login from '../pages/AuthPage/Login';
 import { clearToken, getToken, setToken } from '../common/helpers/tokenHelper';
-import ChangePassword from '../pages/ProfilePage/ChangePassword';
-import { showNoticeError } from './notificationSlice';
+import { showNoticeError, showNoticeSuccess } from './notificationSlice';
 
 export interface RegistrationData {
   email: string;
@@ -37,6 +34,7 @@ interface UserState {
   isShowAuth: boolean;
   user: User;
   isAdmin: boolean;
+  isSaveToken: boolean;
 }
 
 const initialState: UserState = {
@@ -44,6 +42,7 @@ const initialState: UserState = {
   isShowAuth: false,
   user: {} as User,
   isAdmin: false,
+  isSaveToken: true,
 };
 
 export const userSlice = createSlice({
@@ -62,6 +61,12 @@ export const userSlice = createSlice({
     setIsAdmin: (state, action: PayloadAction<boolean>) => {
       state.isAdmin = action.payload;
     },
+    setIsSaveToken: (state, action: PayloadAction<boolean>) => {
+      state.isSaveToken = action.payload;
+    },
+    toggleIsSaveToken: (state) => {
+      state.isSaveToken = !state.isSaveToken;
+    },
     clearUser: () => {
       return initialState;
     },
@@ -73,6 +78,8 @@ export const {
   setIsShowAuth,
   setUser,
   setIsAdmin,
+  setIsSaveToken,
+  toggleIsSaveToken,
   clearUser,
 } = userSlice.actions;
 
@@ -94,6 +101,7 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
 
 export const fetchLoginUser = (data: LoginData): AppThunk => async (
   dispatch,
+  getState,
 ) => {
   dispatch(setIsLoading(true));
   const response = await loginUser(data);
@@ -101,7 +109,7 @@ export const fetchLoginUser = (data: LoginData): AppThunk => async (
     dispatch(showNoticeError(response.error.message));
     console.error('Проблемы при логине: ', response.error);
   } else {
-    setToken(response.key);
+    setToken(response.key, getState().user.isSaveToken);
     dispatch(fetchUser());
   }
   dispatch(setIsLoading(false));
@@ -139,6 +147,7 @@ export const fetchUpdateUser = (data: User): AppThunk => async (dispatch) => {
     console.error('Проблемы при обновлении пользователя: ', response.error);
   } else {
     dispatch(fetchUser());
+    dispatch(showNoticeSuccess('Профиль обновлен.'));
   }
   dispatch(setIsLoading(false));
 };
@@ -153,6 +162,25 @@ export const fetchChangePassword = (
     console.error('Проблемы при изменении пароля: ', response.error);
   } else {
     // dispatch(fetchUser());
+    dispatch(showNoticeSuccess('Пароль изменён.'));
+  }
+  dispatch(setIsLoading(false));
+};
+
+export const fetchUpdateAvatar = (file: Blob): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(setIsLoading(true));
+  const response = await updateMedia({
+    avatar: file,
+  } as UserMediaRequest);
+  if (response?.error) {
+    dispatch(showNoticeError(response.error.message));
+    console.error('Проблемы при изменении аватара: ', response.error);
+  } else {
+    // dispatch(fetchUser());
+    dispatch(showNoticeSuccess('Аватар изменён.'));
   }
   dispatch(setIsLoading(false));
 };
@@ -161,5 +189,6 @@ export const isLoading = (state: RootState) => state.user.isLoading;
 export const isShowAuth = (state: RootState) => state.user.isShowAuth;
 export const userInfo = (state: RootState) => state.user.user;
 export const isAdminUser = (state: RootState) => state.user.isAdmin;
+export const isSaveToken = (state: RootState) => state.user.isSaveToken;
 
 export default userSlice.reducer;

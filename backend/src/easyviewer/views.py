@@ -81,16 +81,23 @@ class VideoContentListApiView(generics.ListAPIView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            queryset = VideoContent.objects.filter(video_subscription__isnull=False
-                                                   ).filter(data_end__gte=timezone.now())
+            queryset = VideoContent.objects.filter(user_id=self.request.user.id
+                                                   ).filter(video_subscription__isnull=False
+                                                            ).filter(data_end__gte=timezone.now())
             if queryset:
                 queryset = Video.objects.all().annotate(video_url=ExpressionWrapper(F('url'),
-                                                                                    output_field=models.CharField()))
+                                                                                    output_field=models.CharField())
+                                                        ).annotate(payed=ExpressionWrapper(Case(
+                    When(video_url__isnull=False,
+                         then=True)), output_field=models.BooleanField()))
             else:
                 queryset = Video.objects.filter(Q(videocontent__user_id=self.request.user.id) &
                                                 Q(videocontent__data_end__gte=timezone.now())
                                                 ).annotate(video_url=ExpressionWrapper(F('url'),
-                                                                                    output_field=models.CharField()))
+                                                                                       output_field=models.CharField())
+                                                           ).annotate(payed=ExpressionWrapper(Case(
+                    When(video_url__isnull=False,
+                         then=True)), output_field=models.BooleanField()))
         else:
             queryset = None
         return queryset

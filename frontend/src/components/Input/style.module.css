@@ -1,10 +1,16 @@
+.label {
+  position: relative;
+  margin-bottom: 10px;
+}
+
 .input {
   border-radius: 5px;
   outline: none;
   border: solid 1px var(--ountainMist);
   height: 45px;
   padding: 0px 15px;
-  margin: 0px 0px 10px;
+  /*margin: 0px 0px 10px;*/
+  margin: 0;
   transition: border-color 300ms;
 }
 
@@ -32,4 +38,20 @@
 
 .dark:focus {
   border-color: var(--tamarillo);
+}
+
+.icon {
+  position: absolute;
+  /*top: 50%;*/
+  top: 12px;
+  right: 15px;
+  /*margin-top: -10px;*/
+  color: var(--ountainMist);
+  cursor: pointer;
+}
+
+.error {
+  margin: 12px 0;
+  font: 500 14px 'Roboto', sans-serif;
+  color: var(--tamarillo);
 }
