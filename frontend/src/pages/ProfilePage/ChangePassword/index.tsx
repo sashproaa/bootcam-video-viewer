@@ -9,6 +9,8 @@ import cls from './style.module.css';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import ModalWin from '../../../components/ModalWin';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schemaChangePassword } from '../../../common/validation/userScheme';
 
 interface Props {
   className?: string;
@@ -27,7 +29,9 @@ export default function ChangePassword({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ChangePasswordData>();
+  } = useForm<ChangePasswordData>({
+    resolver: yupResolver(schemaChangePassword),
+  });
 
   const onSubmit: SubmitHandler<ChangePasswordData> = (data) => {
     dispatch(fetchChangePassword(data));
@@ -42,12 +46,14 @@ export default function ChangePassword({
           <Input
             type='password'
             placeholder='Новый пароль'
-            {...register('new_password1', { required: true })}
+            errorText={errors.new_password1?.message}
+            {...register('new_password1')}
           />
           <Input
             type='password'
             placeholder='Подтвердите пароль'
-            {...register('new_password2', { required: true })}
+            errorText={errors.new_password2?.message}
+            {...register('new_password2')}
           />
           <div className={cls.savePass}>
             <Button className={cls.saveBtn} type='submit'>

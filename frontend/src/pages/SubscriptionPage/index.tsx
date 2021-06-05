@@ -45,7 +45,7 @@ export default function SubscriptionPage() {
       <GoBack>Назад</GoBack>
       <div className={cls.content}>
         <div className='row'>
-          <h1 className={cls.header}>Виберете подписку</h1>
+          <h1 className={cls.header}>Выберите подписку</h1>
         </div>
         <div className='row'>
           <p className={cls.headerSub}>

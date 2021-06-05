@@ -8,6 +8,9 @@ import { store } from './store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './theme/variables.css';
 import './index.css';
+import { setHash } from './common/helpers/hashHelper';
+
+setHash();
 
 ReactDOM.render(
   <Provider store={store}>
