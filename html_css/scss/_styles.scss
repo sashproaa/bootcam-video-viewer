@@ -2376,14 +2376,13 @@ body{
     }
 }
 //popUp payment end
+
+
 //landing start
-// .wrap-body-land{
-//     color:var(--bunker);
-// }
 .wrap-header-land{
     width: 100%;
     // background: var(--transparent);
-    background: var(--maroonOak);
+    // background: var(--maroonOak);
     position: fixed;
     z-index: 1;
     .header-land{
@@ -2442,7 +2441,7 @@ body{
                     color: var(--white);
                     font: 400 15px/20px 'Roboto', sans-serif;
                     &:hover{
-                    color: var(--royalBlue);
+                    color: var(--royalBlue) !important;
                     }
                 }
             }
@@ -2943,7 +2942,126 @@ body{
         }
     }
 }
+//landing end
+
+//popUplanding
 
 
-
+.popUp_Welcome{  
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: var(--bunkerOpacity);
+        position: absolute;
+        z-index: 1;
+        left: 0px;
+        top: 0px;
+        .wrapper_popUp{
+            width: 500px;
+            min-height: 580px;
+            border-radius: 5px;
+            background: var(--white);
+            margin: 10% auto;
+            padding-bottom: 20px;
+            @include media-breakpoint-down(sm){
+                width: 100%;
+            }
+            .close_popUp{
+                text-align: right;
+                padding-bottom: 20px;
+                button{
+                    position: relative;
+                    background: var(--transparent);
+                    border: none;
+                    &:before{
+                        content: "\e900";
+                        position: absolute;
+                        top: 0px;
+                        right: 8px;
+                        font-size: 20px;
+                        color: black;
+                    }
+                    &:hover::before{
+                        color: var(--royalBlue);
+                    }
+                }
+            }
+            .header_popUp{
+                margin: 0px 40px 25px 40px;
+                border-bottom: solid 1px var(--royalBlue);
+                padding: 20px 0px 15px;
+                strong{
+                    font: 700 20px/20px 'Roboto', sans-serif;
+                    color: var(--bunker);
+                }
+            }
+            .inform{
+                padding: 0px 40px 20px 40px;
+                input{
+                    width: 100%;
+                    border-radius: 5px;
+                    outline: none;
+                    border: solid 1px var(--ountainMist);
+                    height: 45px;
+                    padding: 0px 15px;
+                    margin: 0px 0px 25px;
+                    &:focus{
+                        border-color: var(--royalBlue);
+                    }
+                }
+                textarea{
+                    resize: none;
+                    outline: none;
+                    width: 100%;
+                    height: 90px;
+                    border-radius: 5px;
+                    border: solid 1px var(--ountainMist);
+                    padding: 0px 15px;
+                    margin-bottom: 40px;
+                    &:focus{
+                        border-color: var(--royalBlue);
+                    }
+                    & + div{
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+                select{
+                    width: 100%;
+                    border-radius: 5px;
+                    outline: none;
+                    border: solid 1px var(--ountainMist);
+                    height: 45px;
+                    padding: 0px 15px;
+                    margin: 0px 0px 25px;
+                    font: 500 14px/20px 'Roboto', sans-serif;
+                    color: var(--doveGray);
+                    // appearance: none;
+                    position: relative;
+                    &:focus{
+                        border-color: var(--royalBlue);
+                    }
+                }
+                p{
+                    font: 500 14px/20px 'Roboto', sans-serif;
+                    color: var(--bunker);
+                    padding-bottom: 0px;
+                    margin-bottom: 10px;
+                }
+                button[type="submit"]{
+                    min-width: 200px;
+                    min-height: 50px;
+                    background: var(--royalBlue);
+                    border-radius: 5px;
+                    border: none;
+                    color: var(--white);
+                    font: 500 18px/21px 'Roboto', sans-serif;
+                    &:hover{
+                        background: var(--lightRoyalBlue);
+                    }
+                }
+            }
+        }
+    }
+}
     

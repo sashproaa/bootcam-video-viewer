@@ -27,7 +27,8 @@
 .premium li p:before,
 .media li:first-child span::before,
 .media li:nth-child(2) span:before,
-.media li:last-child span:before {
+.media li:last-child span:before,
+.inform select:before {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;

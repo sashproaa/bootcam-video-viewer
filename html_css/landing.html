@@ -7,6 +7,11 @@
     <title>AWplayer</title>
     <link rel="stylesheet" href="css/main.min.css">
 </head>
+<style>
+    body{
+        scroll-behavior: smooth;
+    }
+</style>
 <body>
     <div class="wrap-body-land">
         <div class="wrap-header-land">
@@ -14,25 +19,25 @@
                 <div class="row header-land">
                     <div class="col-12 col-lg-2 p-0 logo">
                         <a href="#">
-                            <h1>a<span>w</span>player</h1>
+                            <h1  class="linkLogo">a<span>w</span>player</h1>
                         </a>
                     </div>
                     <div class="col-12 col-lg-10 p-0">
                         <ul>
                             <li>
-                                <a href="#">О плеере</a>
+                                <a href="#about-AWPlayer" class="linkColor">О плеере</a>
                             </li>
                             <li>
-                                <a href="#">Преимущества</a>
+                                <a href="#six-reason-AWPlayer" class="linkColor2">Преимущества</a>
                             </li>
                             <li>
-                                <a href="#">Тарифы</a>
+                                <a href="#AWPlayer-price" class="linkColor3">Тарифы</a>
                             </li>
                             <li>
-                                <a href="#">Подключение</a>
+                                <a href="#AWPlayer-conecting" class="linkColor4">Подключение</a>
                             </li>
                             <li>
-                                <a href="#">Контакты</a>
+                                <a href="#AWPlayer-contact" class="linkColor5">Контакты</a>
                             </li>
                         </ul>
                     </div>
@@ -47,7 +52,7 @@
                 <button>Подключить</button>
             </div>
         </div>
-        <div class="wrap-about-player">
+        <div class="wrap-about-player"  id="about-AWPlayer">
             <div class="container about-player">
                 <h2>О плеере</h2>
                 <div class="row">
@@ -61,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="wrap-six-reason">
+        <div class="wrap-six-reason" id="six-reason-AWPlayer">
             <div class="container six-reason">
                 <h2>6 причин выбрать AWPlayer</h2>
                 <div class="row d-flex justify-content-center justify-content-xxl-between">
@@ -93,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <div class="wrap-price-of-player">
+        <div class="wrap-price-of-player" id="AWPlayer-price">
             <div class="container price-of-player">
                 <h2>Тарифы</h2>
                 <p>Выберите тарифный план, подходящий для профессиональных трансляций и видеохостинга.</p>
@@ -197,7 +202,7 @@
                 </div>
             </div>
         </div>
-        <div class="wrap-conecting">
+        <div class="wrap-conecting" id="AWPlayer-conecting">
             <div class="container conecting">
                 <h2>Подключение</h2>
                 <div class="row">
@@ -244,7 +249,7 @@
                     <button>Написать</button>
             </div>
         </div>
-        <div class="wrap-footer">
+        <div class="wrap-footer" id="AWPlayer-contact">
             <div class="container">
                 <div class="row  footer">
                     <div class="col-12 col-lg-2 p-0 logo">
@@ -255,19 +260,19 @@
                     <div class="col-12 col-lg-10 p-0">
                         <ul>
                             <li>
-                                <a href="#">О плеере</a>
+                                <a href="#about-AWPlayer">О плеере</a>
                             </li>
                             <li>
-                                <a href="#">Преимущества</a>
+                                <a href="#six-reason-AWPlayer">Преимущества</a>
                             </li>
                             <li>
-                                <a href="#">Тарифы</a>
+                                <a href="#AWPlayer-price">Тарифы</a>
                             </li>
                             <li>
-                                <a href="#">Подключение</a>
+                                <a href="#AWPlayer-conecting">Подключение</a>
                             </li>
                             <li>
-                                <a href="#">Контакты</a>
+                                <a href="#AWPlayer-contact">Контакты</a>
                             </li>
                             <li>
                                 <a href="mailto:awplayer_support@gmail.com">awplayer_support@gmail.com</a>
@@ -299,6 +304,8 @@
             </div>
         </div>
     </div>
+    <script src="js/scrollHeader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    
 </body>
 </html>
