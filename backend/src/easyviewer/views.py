@@ -26,18 +26,18 @@ class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProjectListApiView(generics.ListAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectListSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class ProjectCreateApiView(generics.CreateAPIView):
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Projects.objects.filter()
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class VideoListApiView(generics.ListAPIView):
@@ -273,6 +273,23 @@ class VideoSubscriptionApiView(generics.ListAPIView):
         else:
             queryset = VideoSubscriptions.objects.filter(project_id=project.id)
         return queryset
+
+
+class CommentApiView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentListSerializer
+
+
+class CommentCreateApiView(generics.CreateAPIView):
+    serializer_class = CommentDetailSerializer
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
+
+
+class CommentDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.filter()
+    serializer_class = CommentDetailSerializer
+    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
 
 
 class FacebookLogin(SocialLoginView):
