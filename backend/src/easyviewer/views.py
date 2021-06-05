@@ -25,18 +25,18 @@ class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProjectListApiView(generics.ListAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectListSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class ProjectCreateApiView(generics.CreateAPIView):
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class ProjectDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Projects.objects.filter()
     serializer_class = ProjectDetailSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class VideoListApiView(generics.ListAPIView):
@@ -70,7 +70,7 @@ class VideoListApiView(generics.ListAPIView):
 class VideoContentListApiView(generics.ListAPIView):
     queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     temp = ""
 
@@ -99,7 +99,6 @@ class VideoCreateApiView(generics.CreateAPIView):
 
 
 class TransactionsListApiView(generics.ListAPIView):
-
     serializer_class = TransactionsDetailSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     temp = ""
@@ -120,7 +119,8 @@ class TransactionsListApiView(generics.ListAPIView):
 
 class TransactionsApiView(generics.CreateAPIView):
     serializer_class = MerchantFondySerializer
-    #permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+
+    # permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
     def create(self, request, *args, **kwargs):
         post_obj = self.request.data
@@ -135,14 +135,14 @@ class TransactionsApiView(generics.CreateAPIView):
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
-            merchant_data_val = eval(merchant_data['value']) 
+            merchant_data_val = eval(merchant_data['value'])
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
             project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
                 'project_id': project_id, 'json_description': json_description,
-                'created_at': created_at, 'videocontent': None            }
+                'created_at': created_at, 'videocontent': None}
             transaction = TransactionsDetailSerializer(data=transactions_data)
             if transaction.is_valid():
                 transaction_obj = transaction.save()
@@ -177,7 +177,7 @@ class TransactionsApiView(generics.CreateAPIView):
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProjectSubscriptions.objects.filter()
     serializer_class = ProjectSubscriptionsDetail
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class ProjectSubscriptionsListApiView(generics.ListAPIView):
@@ -188,6 +188,23 @@ class ProjectSubscriptionsListApiView(generics.ListAPIView):
 class VideoSubscriptionApiView(generics.ListAPIView):
     queryset = VideoSubscriptions.objects.all()
     serializer_class = VideoSubscriptionListSerializer
+
+
+class CommentApiView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentListSerializer
+
+
+class CommentCreateApiView(generics.CreateAPIView):
+    serializer_class = CommentDetailSerializer
+    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
+
+
+class CommentDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.filter()
+    serializer_class = CommentDetailSerializer
+    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
 
 
 class FacebookLogin(SocialLoginView):
