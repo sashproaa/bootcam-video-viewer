@@ -146,7 +146,7 @@ class Video(models.Model):
     created_at = models.DateField(default=timezone.now)
     duration = models.DurationField()
     image = models.ImageField(upload_to='uploads/image', blank=True, null=True)  # where to upload, max_length?
-    preview_video = models.FileField(upload_to='uploads/preview', blank=True, null=True)  # where to upload, max_length?
+    preview_video = models.CharField(max_length=500, blank=True, null=True)
     subscription = models.ManyToManyField(VideoSubscriptions)
     url = models.CharField(max_length=400, blank=True, null=True)
 
