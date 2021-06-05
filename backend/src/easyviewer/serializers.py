@@ -43,6 +43,7 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 class VideoListSerializer(serializers.ModelSerializer):
     video_url = serializers.CharField(read_only=True, default=None)  # CharField
+    payed = serializers.BooleanField(read_only=True, default=None)
 
     class Meta:
         model = Video

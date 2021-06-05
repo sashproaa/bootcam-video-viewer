@@ -1,4 +1,6 @@
 import json
+from decimal import Decimal
+
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -42,32 +44,35 @@ class VideoListApiView(generics.ListAPIView):
     serializer_class = VideoListSerializer
     filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
     search_fields = ['genre']
-    filter_fields = ['title', 'actors', 'price', ]
+    filterset_fields = ['title', 'actors', 'price', ]
     ordering_fields = ['title', 'price', ]
 
     temp = ""
+    hash_project = ""
 
     def get(self, request, *args, **kwargs):
-
+        self.hash_project = request.headers['Hash-Project']
         self.temp = request.GET.get('temp')
-        print("Get request user_id", request.user.id)
         return super(VideoListApiView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
+        #project = Projects.objects.get(hash=self.hash_project) project_id=project.id а ето в кверисет
         if self.request.user.is_authenticated:
             queryset = Video.objects.all().annotate(video_url=Case(
                 When(Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
                      then=F('url')),
-                output_field=models.CharField()))
+                output_field=models.CharField())).annotate(payed=ExpressionWrapper(Case(When(video_url__isnull=False,
+                                                                    then=True)), output_field=models.BooleanField()))
         else:
             queryset = Video.objects.all()
         return queryset
 
 
 class VideoContentListApiView(generics.ListAPIView):
-    queryset = VideoContent.objects.all()
-    serializer_class = VideoContentDetailSerializer
-    permission_classes = (IsAuthenticated, )
+    pagination_class = VideoPagination
+    serializer_class = VideoListSerializer
+    permission_classes = (IsAuthenticated,)
+    temp = ""
 
     def get(self, request, *args, **kwargs):
         self.temp = request.GET.get('temp')
@@ -76,7 +81,23 @@ class VideoContentListApiView(generics.ListAPIView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            queryset = VideoContent.objects.filter(user_id=self.request.user.id)
+            queryset = VideoContent.objects.filter(user_id=self.request.user.id
+                                                   ).filter(video_subscription__isnull=False
+                                                            ).filter(data_end__gte=timezone.now())
+            if queryset:
+                queryset = Video.objects.all().annotate(video_url=ExpressionWrapper(F('url'),
+                                                                                    output_field=models.CharField())
+                                                        ).annotate(payed=ExpressionWrapper(Case(
+                    When(video_url__isnull=False,
+                         then=True)), output_field=models.BooleanField()))
+            else:
+                queryset = Video.objects.filter(Q(videocontent__user_id=self.request.user.id) &
+                                                Q(videocontent__data_end__gte=timezone.now())
+                                                ).annotate(video_url=ExpressionWrapper(F('url'),
+                                                                                       output_field=models.CharField())
+                                                           ).annotate(payed=ExpressionWrapper(Case(
+                    When(video_url__isnull=False,
+                         then=True)), output_field=models.BooleanField()))
         else:
             queryset = None
         return queryset
@@ -123,16 +144,16 @@ class TransactionsApiView(generics.CreateAPIView):
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            price = float(post_obj['amount']) / 100
+            # з банка приходит цифра без точки но две последних цифри ето копейки
+            # что б не делить сделал по срезу так как при деление может измениться цифра
+            price = Decimal(post_obj['amount'][:-2] + '.' + post_obj['amount'][-2:])
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
-            print(merchant_data)
             merchant_data_val = eval(merchant_data['value']) 
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
-
             project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
