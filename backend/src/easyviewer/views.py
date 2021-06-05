@@ -1,6 +1,4 @@
 import json
-from decimal import Decimal
-
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -48,22 +46,21 @@ class VideoListApiView(generics.ListAPIView):
     ordering_fields = ['title', 'price', ]
 
     temp = ""
-    hash_project = ""
 
     def get(self, request, *args, **kwargs):
-        self.hash_project = request.headers['Hash-Project']
+
         self.temp = request.GET.get('temp')
+        print("Get request user_id", request.user.id)
         return super(VideoListApiView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        project = Projects.objects.get(hash=self.hash_project)
         if self.request.user.is_authenticated:
-            queryset = Video.objects.filter(project_id=project.id).annotate(video_url=Case(
+            queryset = Video.objects.all().annotate(video_url=Case(
                 When(Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
                      then=F('url')),
                 output_field=models.CharField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id)
+            queryset = Video.objects.all()
         return queryset
 
 
@@ -71,8 +68,6 @@ class VideoContentListApiView(generics.ListAPIView):
     queryset = VideoContent.objects.all()
     serializer_class = VideoContentDetailSerializer
     permission_classes = (IsAuthenticated, )
-
-    temp = ""
 
     def get(self, request, *args, **kwargs):
         self.temp = request.GET.get('temp')
@@ -128,16 +123,16 @@ class TransactionsApiView(generics.CreateAPIView):
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            # з банка приходит цифра без точки но две последних цифри ето копейки
-            # что б не делить сделал по срезу так как при деление может измениться цифра
-            price = Decimal(post_obj['amount'][:-2] + '.' + post_obj['amount'][-2:])
+            price = float(post_obj['amount']) / 100
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
+            print(merchant_data)
             merchant_data_val = eval(merchant_data['value']) 
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
+
             project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
