@@ -5,6 +5,7 @@ import catalogReducer from './catalogSlice';
 import subscriptionReducer from './subscriptionSlice';
 import noticeReducer from './notificationSlice';
 import paymentReducer from './paymentSlice';
+import catalogContentReducer from './catalogContentSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     subscription: subscriptionReducer,
     notification: noticeReducer,
     payment: paymentReducer,
+    catalogContent: catalogContentReducer,
   },
 });
 

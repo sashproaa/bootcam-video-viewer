@@ -1,0 +1,22 @@
+.bought {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px 50px;
+}
+
+.card, .card:hover {
+  display: block;
+  text-decoration: none;
+  font: 500 14px/20px Roboto,sans-serif;
+  color: var(--white);
+}
+
+.cardImg {
+  /*min-width: 178px;*/
+  /*max-height: 136px;*/
+  width: 178px;
+  height: 136px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
