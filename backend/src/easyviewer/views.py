@@ -1,6 +1,4 @@
 import json
-from decimal import Decimal
-
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -11,6 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadonly
 from .serializers import *
@@ -43,7 +42,7 @@ class VideoListApiView(generics.ListAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoListSerializer
     filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
-    search_fields = ['genre']
+    search_fields = ['genre', ]
     filterset_fields = ['title', 'actors', 'price', ]
     ordering_fields = ['title', 'price', ]
 
@@ -51,20 +50,30 @@ class VideoListApiView(generics.ListAPIView):
     hash_project = ""
 
     def get(self, request, *args, **kwargs):
-        self.hash_project = request.headers['Hash-Project']
         self.temp = request.GET.get('temp')
+        self.hash_project = request.headers.get('Hash-Project')
+        print("Get request user_id", request.user.id)
         return super(VideoListApiView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        #project = Projects.objects.get(hash=self.hash_project) project_id=project.id а ето в кверисет
-        if self.request.user.is_authenticated:
-            queryset = Video.objects.all().annotate(video_url=Case(
-                When(Q(videocontent__data_end__gte=timezone.now()) & Q(videocontent__user_id=self.request.user.id),
-                     then=F('url')),
-                output_field=models.CharField())).annotate(payed=ExpressionWrapper(Case(When(video_url__isnull=False,
-                                                                    then=True)), output_field=models.BooleanField()))
+        project = get_object_or_404(Projects, hash=self.hash_project)
+        if self.request.user.is_authenticated and project:
+            video_subscriptions_id = VideoSubscriptions.objects.filter(
+                project_id=project.id, videocontent__data_end__gte=timezone.now(),
+                videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            video_subscriptions_id = list(video_subscriptions_id)
+            video_ids_subscriptions = Video.objects.filter(
+                subscription__in=video_subscriptions_id).values_list('id', flat=True)
+            video_ids_video = Video.objects.filter(
+                project_id=project.id, videocontent__data_end__gte=timezone.now(),
+                videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
+
+            queryset = Video.objects.filter(project_id=project.id).annotate(
+                video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
+                ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
         else:
-            queryset = Video.objects.all()
+            queryset = Video.objects.filter(project_id=project.id)
         return queryset
 
 
@@ -73,45 +82,86 @@ class VideoContentListApiView(generics.ListAPIView):
     serializer_class = VideoListSerializer
     permission_classes = (IsAuthenticated,)
     temp = ""
+    hash_project = ""
 
     def get(self, request, *args, **kwargs):
+        self.hash_project = request.headers.get('Hash-Project')
         self.temp = request.GET.get('temp')
         print("Get request user_id", request.user.id)
         return super(VideoContentListApiView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            queryset = VideoContent.objects.filter(user_id=self.request.user.id
-                                                   ).filter(video_subscription__isnull=False
-                                                            ).filter(data_end__gte=timezone.now())
-            if queryset:
-                queryset = Video.objects.all().annotate(video_url=ExpressionWrapper(F('url'),
-                                                                                    output_field=models.CharField())
-                                                        ).annotate(payed=ExpressionWrapper(Case(
-                    When(video_url__isnull=False,
-                         then=True)), output_field=models.BooleanField()))
-            else:
-                queryset = Video.objects.filter(Q(videocontent__user_id=self.request.user.id) &
-                                                Q(videocontent__data_end__gte=timezone.now())
-                                                ).annotate(video_url=ExpressionWrapper(F('url'),
-                                                                                       output_field=models.CharField())
-                                                           ).annotate(payed=ExpressionWrapper(Case(
-                    When(video_url__isnull=False,
-                         then=True)), output_field=models.BooleanField()))
+        project = get_object_or_404(Projects, hash=self.hash_project)
+        if self.request.user.is_authenticated and project:
+            video_subscriptions_id = VideoSubscriptions.objects.filter(
+                project_id=project.id, videocontent__data_end__gte=timezone.now(),
+                videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            video_subscriptions_id = list(video_subscriptions_id)
+            video_ids_subscriptions = Video.objects.filter(
+                subscription__in=video_subscriptions_id).values_list('id', flat=True)
+            video_ids_video = Video.objects.filter(
+                project_id=project.id, videocontent__data_end__gte=timezone.now(),
+                videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
+            queryset = Video.objects.filter(id__in=video_list).annotate(
+                video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
+                ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
         else:
             queryset = None
         return queryset
 
 
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Video.objects.filter()
+    pagination_class = VideoPagination
     serializer_class = VideoDetailSerializer
-    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
+
+    temp = ""
+    hash_project = ""
+    permission_classes = ""
+
+    def get(self, request, *args, **kwargs):
+        self.temp = request.GET.get('temp')
+        self.hash_project = request.headers.get('Hash-Project')
+        print("Get request user_id", request.user.id)
+        return super(VideoApiView, self).get(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        self.permission_classes = (IsAdminUser,)
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        self.permission_classes = (IsAdminUser,)
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        self.permission_classes = (IsAdminUser,)
+        return self.destroy(request, *args, **kwargs)
+
+    def get_queryset(self):
+        project = get_object_or_404(Projects, hash=self.hash_project)
+        if self.request.user.is_authenticated and project:
+            video = get_object_or_404(Video, id=self.kwargs['pk'])
+            video_subscriptions_id = VideoSubscriptions.objects.filter(
+                project_id=project.id, videocontent__data_end__gte=timezone.now(),
+                videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            video_ids_video = Video.objects.filter(
+                project_id=project.id, videocontent__video_id=self.kwargs['pk'],
+                videocontent__data_end__gte=timezone.now(), videocontent__user_id=self.request.user.id
+                                                                                    ).values_list('id', flat=True)
+            video_subscriptions_id = list(video_subscriptions_id)
+            video_ids_video = list(video_ids_video)
+            video_list = list(set(list(video_subscriptions_id) + list(video_ids_video)))
+            queryset = Video.objects.filter(id=video.id).annotate(
+                video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()
+                ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
+        else:
+            queryset = Video.objects.filter(project_id=project.id, id=self.kwargs['pk'])
+        return queryset
 
 
 class VideoCreateApiView(generics.CreateAPIView):
     serializer_class = VideoDetailSerializer
-    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminUser,)
 
 
 class TransactionsListApiView(generics.ListAPIView):
@@ -144,16 +194,16 @@ class TransactionsApiView(generics.CreateAPIView):
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            # з банка приходит цифра без точки но две последних цифри ето копейки
-            # что б не делить сделал по срезу так как при деление может измениться цифра
-            price = Decimal(post_obj['amount'][:-2] + '.' + post_obj['amount'][-2:])
+            price = float(post_obj['amount']) / 100
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
-            merchant_data_val = eval(merchant_data['value']) 
+            print(merchant_data)
+            merchant_data_val = eval(merchant_data['value'])
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
+
             project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
