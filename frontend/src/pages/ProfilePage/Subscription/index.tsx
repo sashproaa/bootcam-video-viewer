@@ -1,6 +1,10 @@
 import React from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import cls from './style.module.css';
+import Subscriptions from './Subscriptions';
+import Management from './Management';
+import History from './History';
+import Header from '../Header';
 
 interface Props {
   className?: string;
@@ -9,20 +13,23 @@ interface Props {
 export default function Subscription({ className = '' }: Props) {
   return (
     <div className={className}>
-      <h2>Подписки и платежи</h2>
+      <Header>
+        <h2>Подписки и платежи</h2>
+      </Header>
+
       <Tabs
         className='tabs'
-        defaultActiveKey='profile'
-        id='uncontrolled-tab-example'
+        defaultActiveKey='subscriptions'
+        id='subscription-tabs'
       >
-        <Tab className={cls.tab} eventKey='home' title='Подписки'>
-          <div>Подписки</div>
+        <Tab className={cls.tab} eventKey='subscriptions' title='Подписки'>
+          <Subscriptions />
         </Tab>
-        <Tab eventKey='profile' title='Управление подписками'>
-          <div>Управление подписками</div>
+        <Tab eventKey='management' title='Управление подписками'>
+          <Management />
         </Tab>
-        <Tab eventKey='contact' title='История платежей'>
-          <div>История платежей</div>
+        <Tab eventKey='history' title='История платежей'>
+          <History />
         </Tab>
       </Tabs>
     </div>
