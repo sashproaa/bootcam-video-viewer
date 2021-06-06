@@ -1,4 +1,6 @@
 import json
+from decimal import Decimal
+
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -194,21 +196,21 @@ class TransactionsApiView(generics.CreateAPIView):
         # user = self.request.user.id # берем из реквеста банка (фронт записал туда id)
         if post_obj['order_status'] == 'approved':
             json_description = post_obj
-            price = float(post_obj['amount']) / 100
+            # з банка приходит цифра без точки но две последних цифри ето копейки
+            # что б не делить сделал по срезу так как при деление может измениться цифра
+            price = Decimal(post_obj['amount'][:-2] + '.' + post_obj['amount'][-2:])
             status = 'Payed'  # post_obj['order_status']  тут у нас не совпадают чойс філди
             title = post_obj['order_id']  # надо что то придумать может что то другое
             created_at = timezone.now()
             merchant_data = json.loads(post_obj['merchant_data'])[0]
-            print(merchant_data)
             merchant_data_val = eval(merchant_data['value'])
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
-
             project_id = int(merchant_data_val['projectId'])
             transactions_data = {
                 'user_id': user, 'title': title, 'stutus': status, 'price': price,
                 'project_id': project_id, 'json_description': json_description,
-                'created_at': created_at, 'videocontent': None            }
+                'created_at': created_at, 'videocontent': None}
             transaction = TransactionsDetailSerializer(data=transactions_data)
             if transaction.is_valid():
                 transaction_obj = transaction.save()
