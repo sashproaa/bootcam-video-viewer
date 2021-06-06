@@ -4,7 +4,8 @@
 }
 
 .wrapper {
-  width: 400px;
+  /*width: 400px;*/
+  width: 100%;
   border-radius: 5px;
   background: var(--white);
   /*margin: 10% auto;*/
