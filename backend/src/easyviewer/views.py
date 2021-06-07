@@ -118,6 +118,7 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoDetailSerializer
     permission_classes = (IsStaff, )
+    queryset = Video.objects.filter()
 
     temp = ""
     hash_project = ""
