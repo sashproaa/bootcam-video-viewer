@@ -61,6 +61,8 @@ class VideoListSerializer(serializers.ModelSerializer):
 
 
 class VideoSubscriptionListSerializer(serializers.ModelSerializer):
+    data_end = serializers.DateTimeField(read_only=True, default=None)
+    paid = serializers.BooleanField(read_only=True, default=False)
 
     class Meta:
         model = VideoSubscriptions
