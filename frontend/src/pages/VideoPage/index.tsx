@@ -90,7 +90,9 @@ export default function VideoPage() {
             <div className={`col-12 col-lg-7 ${cls.blockVideo}`}>
               <div className={cls.previewVideo}>
                 <Player poster={video.image || images[video.id]}>
-                  <source src={video.url || video.preview_video || testVideo} />
+                  <source
+                    src={video.paid ? video.video_url : video.preview_video}
+                  />
                 </Player>
               </div>
             </div>
@@ -115,7 +117,7 @@ export default function VideoPage() {
                 </p>
               </div>
               <div className={cls.btnPayment}>
-                {!video.url && !admin && (
+                {!video.paid && !admin && (
                   <ButtonLine
                     className={cls.button}
                     size='big'
