@@ -1,6 +1,7 @@
 .tabs.nav-tabs {
-  justify-content: space-between;
-  gap: 12px;
+  /*justify-content: space-between;*/
+  justify-content: flex-start;
+  gap: 40px;
   width: 100%;
   margin-bottom: 0;
   padding-bottom: 43px;

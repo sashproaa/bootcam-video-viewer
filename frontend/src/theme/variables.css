@@ -15,4 +15,14 @@
   --whiteOpacity: rgba(255, 255, 255, 0.8);
   --alabaster: #fafafa;
   --shuttleGray: #5F6165;
+
+  --royalBlue: #2C4DE1;
+  --lightRoyalBlue: #4764E7;
+  --hawkesBlue: #EDF0FE;
+  --emperor: #565454;
+  --pinkSwan: #BEB7B7;
+  --curiousBlue: #2F89CE;
+  --kashmirblue: #4E6297;
+  --instagram: linear-gradient(45deg, #eea054 0%,#d64763 49%,#b62a99 100%);
+  --maroonOak: #62102D;
 }
