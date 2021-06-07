@@ -3,7 +3,7 @@ import cls from './style.module.css';
 
 interface Props {
   className?: string;
-  children: string | string[] | JSX.Element | JSX.Element[];
+  children: string | string[] | JSX.Element | JSX.Element[] | null;
   fill?: boolean;
   size?: 'small' | 'base' | 'big';
   style?: 'normal' | 'uppercase' | 'icon';

@@ -15,6 +15,7 @@ import ModalWin from '../../components/ModalWin';
 import { Routes } from '../../common/enums/RoutesEnum';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';
 import GoBack from '../../components/GoBack';
+import SuccessWin from './SuccessWin';
 
 const $ipsp = window.$ipsp;
 
@@ -141,30 +142,13 @@ export default function PaymentPage() {
           {/*<div id='checkout_wrapper' style={{ width: 500, height: 600 }}></div>*/}
           <div id='checkout_wrapper'></div>
         </div>
-        <ModalWin show={showApproved} onClose={closeApproved}>
-          <div className='d-flex flex-column justify-content-center align-items-center text-dark'>
-            <h4>Оплата прошла успешно!</h4>
-            {merchantData.target === 'video' ? (
-              <p>
-                Благодарим за покупку! Спектакль доступен к просмотру. Он
-                сохраняется в вашем профиле в разделе “Мои спектакли”, вкладка
-                “Купленные”. Приятного просмотра!
-              </p>
-            ) : (
-              <p>
-                Благодарим за покупку! Ваша подписка оформлена, теперь вы можете
-                перейти в каталог и выбрать спектакль. Приятного просмотра!
-              </p>
-            )}
-
-            <button className='btn btn-danger' onClick={closeApproved}>
-              {merchantData.target === 'video'
-                ? 'Смотреть спектакль'
-                : 'Перейти в каталог'}
-            </button>
-          </div>
-        </ModalWin>
       </div>
+
+      <SuccessWin
+        show={showApproved}
+        onClose={closeApproved}
+        type={merchantData.target}
+      />
     </>
   );
 }
