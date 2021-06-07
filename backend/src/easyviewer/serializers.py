@@ -30,9 +30,12 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
 
 class VideoDetailSerializer(serializers.ModelSerializer):
+    video_url = serializers.CharField(read_only=True, default=None)
+    paid = serializers.BooleanField(read_only=True, default=False)
+
     class Meta:
         model = Video
-        fields = '__all__'
+        exclude = ['url']
 
 
 class VideoContentDetailSerializer(serializers.ModelSerializer):
@@ -42,12 +45,12 @@ class VideoContentDetailSerializer(serializers.ModelSerializer):
 
 
 class VideoListSerializer(serializers.ModelSerializer):
-    video_url = serializers.CharField(read_only=True, default=None)  # CharField
+    video_url = serializers.CharField(read_only=True, default=None)
+    paid = serializers.BooleanField(read_only=True, default=False)
 
     class Meta:
         model = Video
         exclude = ['url']
-        # fields = '__all__'
 
 
 class VideoSubscriptionListSerializer(serializers.ModelSerializer):
