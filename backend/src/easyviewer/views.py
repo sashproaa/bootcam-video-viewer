@@ -70,7 +70,7 @@ class VideoListApiView(generics.ListAPIView):
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
-            video_list = video_list if video_list else [0]
+            video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(project_id=project.id).annotate(
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
@@ -105,7 +105,7 @@ class VideoContentListApiView(generics.ListAPIView):
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
-            video_list = video_list if video_list else [0]
+            video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(id__in=video_list).annotate(
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
@@ -154,7 +154,7 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
             video_subscriptions_id = list(video_subscriptions_id)
             video_ids_video = list(video_ids_video)
             video_list = list(set(list(video_subscriptions_id) + list(video_ids_video)))
-            video_list = video_list if video_list else [0]
+            video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(id=video.id).annotate(
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
