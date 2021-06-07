@@ -38,6 +38,13 @@ class VideoDetailSerializer(serializers.ModelSerializer):
         exclude = ['url']
 
 
+class VideoCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Video
+        fields = '__all__'
+
+
 class VideoContentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoContent

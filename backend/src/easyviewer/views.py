@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
-from .permissions import IsOwnerOrReadonly
+from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
 
 
@@ -117,28 +117,16 @@ class VideoContentListApiView(generics.ListAPIView):
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoDetailSerializer
+    permission_classes = (IsStaff, )
 
     temp = ""
     hash_project = ""
-    permission_classes = ""
 
     def get(self, request, *args, **kwargs):
         self.temp = request.GET.get('temp')
         self.hash_project = request.headers.get('Hash-Project')
         print("Get request user_id", request.user.id)
         return super(VideoApiView, self).get(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        self.permission_classes = (IsAdminUser,)
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        self.permission_classes = (IsAdminUser,)
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        self.permission_classes = (IsAdminUser,)
-        return self.destroy(request, *args, **kwargs)
 
     def get_queryset(self):
         project = get_object_or_404(Projects, hash=self.hash_project)
@@ -164,8 +152,8 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class VideoCreateApiView(generics.CreateAPIView):
-    serializer_class = VideoDetailSerializer
-    permission_classes = (IsAdminUser,)
+    serializer_class = VideoCreateSerializer
+    permission_classes = (IsStaff,)
 
 
 class TransactionsListApiView(generics.ListAPIView):
