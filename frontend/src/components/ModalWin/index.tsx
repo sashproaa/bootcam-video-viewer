@@ -20,7 +20,7 @@ export default function ModalWin({
 }: Props) {
   return (
     <Modal
-      dialogClassName={cls.modal}
+      dialogClassName={`${cls.modal} ${className}`}
       show={show}
       onHide={onClose}
       onExited={onExited}

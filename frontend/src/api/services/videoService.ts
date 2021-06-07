@@ -67,3 +67,9 @@ export const getGenres = async (): Promise<GenresResponse> => {
   const res = await webApi.get(`${endpoint}/list/`, { limit: 1 });
   return res.genre;
 };
+
+export const getAllContentVideos = async (
+  filter?: FilterResponse,
+): Promise<VideoAllResponse> => {
+  return await webApi.get(`${endpoint}/content/list/`, filter || {});
+};

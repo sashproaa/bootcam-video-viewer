@@ -4,4 +4,5 @@ export enum Endpoints {
   registration = 'registration',
   user = '/api-auth',
   subscription = '/api/video/subscription',
+  transaction = '/api/user/transactions',
 }

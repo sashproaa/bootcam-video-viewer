@@ -1,25 +1,82 @@
-nav.tabs {
-  padding-bottom: 43px;
-  border: none;
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 45px 0 35px;
+}
+.my {
+  border-bottom: solid 1px var(--shuttleGray);
 }
 
-nav.tabs a {
-  font: 500 14px/20px 'Roboto', sans-serif;
-  color: var(--white);
-  text-decoration: none;
+.header {
+  font: 700 12px/20px Roboto,sans-serif;
+  color: var(--thunderbird);
   text-transform: uppercase;
-  border: none;
-  background: none;
+  margin: 0;
 }
 
-nav.tabs a:hover,
-nav.tabs a.active {
-  color: var(--thunderbird) !important;
-  border: none !important;
-  border-bottom: solid 1px var(--thunderbird);
-  background: none !important;
+.table {
+  width: 100%;
+  font: 500 14px/20px Roboto,sans-serif;
+}
 
+.table tr {
+  height: 60px;
 }
 
 .tab {
+}
+
+.subscriptionCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 35px;
+  padding: 10px 9px;
+}
+
+.buy:hover {
+  background: var(--shark);
+}
+
+.cardDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardName {
+  font: 700 23px/20px 'Roboto', sans-serif;
+  margin: 0px;
+  /*padding-bottom: 10px;*/
+}
+
+.cardText {
+  font: 700 12px/20px 'Roboto', sans-serif;
+  color: var(--doveGray);
+}
+
+.cardAction {
+  display: flex;
+  justify-content: flex-start;
+  gap: 25px
+}
+
+.cardActionBtn {
+  font: 700 12px/20px 'Roboto', sans-serif;
+  color: var(--white);
+  text-decoration: none;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.cardActionBtn:hover {
+  color: var(--ountainMist);
+}
+
+.cardBtn {
+  min-width: 178px;
 }
