@@ -146,7 +146,7 @@ class Video(models.Model):
     created_at = models.DateField(default=timezone.now)
     duration = models.DurationField()
     image = models.ImageField(upload_to='uploads/image', blank=True, null=True)  # where to upload, max_length?
-    preview_video = models.FileField(upload_to='uploads/preview', blank=True, null=True)  # where to upload, max_length?
+    preview_video = models.CharField(max_length=500, blank=True, null=True)
     subscription = models.ManyToManyField(VideoSubscriptions)
     url = models.CharField(max_length=400, blank=True, null=True)
 
@@ -177,3 +177,13 @@ class VideoContent(models.Model):
     video_id = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True)
     video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE, null=True, blank=True)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+
+
+class Comment(models.Model):
+    user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
+    data_publication = models.DateTimeField(default=timezone.now)
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.comment

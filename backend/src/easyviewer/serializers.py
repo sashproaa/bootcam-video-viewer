@@ -72,6 +72,19 @@ class TransactionsDetailSerializer(serializers.ModelSerializer):
                   )
 
 
+class CommentListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
+class CommentDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
 class VideoContentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
