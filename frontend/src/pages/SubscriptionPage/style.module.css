@@ -21,11 +21,20 @@
   /*max-width: 386px;*/
   padding: 6px 0px 45px;
   margin-bottom: 25px;
+  cursor: pointer;
 }
 
 .card:hover {
   border-color: var(--thunderbird);
-  cursor: pointer;
+}
+
+.disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.disabled:hover {
+  border-color: var(--white);
 }
 
 .inside {

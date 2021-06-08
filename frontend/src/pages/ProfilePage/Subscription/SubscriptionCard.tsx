@@ -22,7 +22,7 @@ export default function SubscriptionCard({
         <h3 className={cls.cardName}>{subscription.name}</h3>
         {(type === 'extend' || type === 'management') && (
           <div className={cls.cardText}>
-            Подписка действительна {subscription.duration} дней
+            Подписка действительна до {subscription.data_end}
           </div>
         )}
         {type === 'buy' && (

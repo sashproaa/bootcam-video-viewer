@@ -12,9 +12,8 @@ import { Routes } from '../../common/enums/RoutesEnum';
 import { Subscription } from '../../common/interfaces/SubscriptionInterface';
 import GoBack from '../../components/GoBack';
 import cls from './style.module.css';
-import cardBg from '../../assets/colage.png';
-import ButtonLine from '../../components/ButtonLine';
 import Spinner from '../../components/Spinner';
+import SubscriptionCard from './subscriptionCard';
 
 export default function SubscriptionPage() {
   const dispatch = useDispatch();
@@ -59,24 +58,11 @@ export default function SubscriptionPage() {
         {subscriptions.map((subscription) => (
           // <a href='#'>
           <div className={`col-12 col-md-6 col-lg-4`}>
-            <div className={`${cls.card}`}>
-              <img className={cls.imgBg} src={cardBg} alt={subscription.name} />
-              <div className={cls.inside}>
-                <h2 className={cls.title}>{subscription.name}</h2>
-                <p className={cls.description}>
-                  Просмотр всех спектаклей театра МДТ в течение{' '}
-                  {subscription.duration} дней в Full HD качестве
-                </p>
-                <h3 className={cls.price}>{subscription.price} грн.</h3>
-                <ButtonLine
-                  className={cls.button}
-                  fill
-                  onClick={handlePayment(subscription)}
-                >
-                  Оформить подписку
-                </ButtonLine>
-              </div>
-            </div>
+            <SubscriptionCard
+              subscription={subscription}
+              onBuy={handlePayment(subscription)}
+              disabled={subscription.paid}
+            />
           </div>
           // </a>
         ))}

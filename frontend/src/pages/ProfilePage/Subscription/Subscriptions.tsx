@@ -15,8 +15,12 @@ export default function Subscriptions({ className = '' }: Props) {
   const dispatch = useDispatch();
   const subscriptions = useSelector(allSubscriptions);
 
-  const activeSubscriptions = subscriptions[0] ? [subscriptions[0]] : [];
-  const subscriptionsBuy = subscriptions;
+  const activeSubscriptions = subscriptions.filter(
+    (subscription) => subscription.paid,
+  );
+  const subscriptionsBuy = subscriptions.filter(
+    (subscription) => !subscription.paid,
+  );
 
   useEffect(() => {
     dispatch(fetchSubscriptions());

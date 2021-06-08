@@ -5,4 +5,6 @@ export interface Subscription {
   duration: number;
   price: string;
   project_id: number;
+  paid: boolean;
+  data_end: string;
 }
