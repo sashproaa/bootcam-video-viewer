@@ -542,7 +542,8 @@ CREATE TABLE public.easyviewer_user (
     email character varying(254) NOT NULL,
     mobile character varying(128),
     date_of_birth date,
-    gender character varying(10)
+    gender character varying(10),
+    avatar character varying(100)
 );
 
 
@@ -729,8 +730,9 @@ CREATE TABLE public.easyviewer_videocontent (
     data_start timestamp with time zone NOT NULL,
     data_end timestamp with time zone NOT NULL,
     user_id_id integer NOT NULL,
-    video_id_id integer NOT NULL,
-    video_subscription_id integer NOT NULL
+    video_id_id integer,
+    video_subscription_id integer,
+    transaction_id_id integer NOT NULL
 );
 
 
@@ -1121,6 +1123,8 @@ ALTER TABLE ONLY public.socialaccount_socialtoken ALTER COLUMN id SET DEFAULT ne
 COPY public.account_emailaddress (id, email, verified, "primary", user_id) FROM stdin;
 1	user@gmail.com	f	t	2
 2	user1@gmail.com	f	t	3
+3	sashpro.aa@gmail.com	f	t	4
+4	test@test.test	f	t	5
 \.
 
 
@@ -1247,6 +1251,8 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 COPY public.authtoken_token (key, created, user_id) FROM stdin;
 1e9ab3941bb8a3b6d626517ddcf365d3a7e5e131	2021-05-18 17:46:27.310666+00	2
 04e24b526eb09cc65431b22b7f7a620cb0644309	2021-05-18 17:57:25.683304+00	3
+04556e86612e760580477d329ca58e7b8336c792	2021-06-07 15:01:19.808435+00	4
+9ee913186b86c899cf5d0f11f2022b0b6ed69533	2021-06-07 15:24:04.539772+00	5
 \.
 
 
@@ -1286,6 +1292,16 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 29	2021-05-27 07:08:56.211396+00	8	Оркестр	2	[{"changed": {"fields": ["image"]}}]	18	1
 30	2021-05-27 07:09:06.930714+00	9	Зайцы повсюду!	2	[{"changed": {"fields": ["image"]}}]	18	1
 31	2021-05-27 07:09:22.741775+00	10	Начать сначала	2	[{"changed": {"fields": ["image"]}}]	18	1
+32	2021-06-07 16:52:24.726445+00	10	Начать сначала	2	[{"changed": {"fields": ["url"]}}]	18	1
+33	2021-06-07 17:03:02.664463+00	9	Зайцы повсюду!	2	[{"changed": {"fields": ["url"]}}]	18	1
+34	2021-06-07 17:04:09.58112+00	8	Оркестр	2	[{"changed": {"fields": ["url"]}}]	18	1
+35	2021-06-07 17:10:25.94532+00	7	Украденное счастье	2	[{"changed": {"fields": ["url"]}}]	18	1
+36	2021-06-07 17:11:00.339391+00	6	Ищу работу	2	[{"changed": {"fields": ["url"]}}]	18	1
+37	2021-06-07 17:11:50.106941+00	5	Чмо	2	[{"changed": {"fields": ["url"]}}]	18	1
+38	2021-06-07 17:12:24.107287+00	4	NOVECENTO	2	[{"changed": {"fields": ["url"]}}]	18	1
+39	2021-06-07 17:14:09.929331+00	3	Ужин с дураком	2	[{"changed": {"fields": ["url"]}}]	18	1
+40	2021-06-07 17:15:01.430057+00	2	Я... ОНА не Я и Я	2	[{"changed": {"fields": ["url"]}}]	18	1
+41	2021-06-07 17:15:50.767584+00	1	Печальный спектакль	2	[{"changed": {"fields": ["url"]}}]	18	1
 \.
 
 
@@ -1358,6 +1374,9 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 33	socialaccount	0004_auto_20210519_1743	2021-05-19 17:43:40.602873+00
 34	socialaccount	0004_auto_20210521_2035	2021-05-21 20:36:00.165026+00
 35	socialaccount	0004_auto_20210527_0653	2021-05-27 06:53:56.544011+00
+36	easyviewer	0002_user_avatar	2021-06-07 15:01:05.225815+00
+37	easyviewer	0003_videocontent_transaction_id	2021-06-07 15:01:05.248547+00
+38	easyviewer	0004_auto_20210601_1837	2021-06-07 15:01:05.340698+00
 \.
 
 
@@ -1369,6 +1388,23 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 58r9c2yqm9pdst6mfivxez0bgpn8qnkl	MDgwZWY4OTcyMWUwNDdhMThiY2MxOGUyYzBmMWZiM2JlZjIxNmRhODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNjgyNDhlZTRlODM3M2FmY2UzMjhkMjk4MzgwMjBkYzRiNTdkMzc4NSJ9	2021-06-01 18:06:02.144141+00
 vv6o3pjhk64d61wtucxohoxdiswg4kw6	MDgwZWY4OTcyMWUwNDdhMThiY2MxOGUyYzBmMWZiM2JlZjIxNmRhODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNjgyNDhlZTRlODM3M2FmY2UzMjhkMjk4MzgwMjBkYzRiNTdkMzc4NSJ9	2021-06-02 17:43:55.148123+00
 sk17egkyfgzx2do977tgtr9f40031tc5	MDgwZWY4OTcyMWUwNDdhMThiY2MxOGUyYzBmMWZiM2JlZjIxNmRhODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNjgyNDhlZTRlODM3M2FmY2UzMjhkMjk4MzgwMjBkYzRiNTdkMzc4NSJ9	2021-06-04 20:47:41.304511+00
+3cle0gwxw7kj3cu8kaihsct3d71oepaj	MDgwZWY4OTcyMWUwNDdhMThiY2MxOGUyYzBmMWZiM2JlZjIxNmRhODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNjgyNDhlZTRlODM3M2FmY2UzMjhkMjk4MzgwMjBkYzRiNTdkMzc4NSJ9	2021-06-21 15:02:15.78109+00
+5tw0z6gwsefhfq1o673ow3rxcmm6h3ie	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 15:22:51.827046+00
+apsd7xyqho7vu8q24uarf3tv33a940r8	ODJjYTg2OTRjMWI4ZjgwNmU2Y2Y2ZjA1N2ZiNDZlNzIxZjBhYzE2NTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWYwOWRhNzJmMmY4YTJkYzQ4NzhiNDAzMmU4ZWJjNjdkZDJmYWZlNCJ9	2021-06-21 16:48:20.461831+00
+sptdo55ubqcx2abrrbtza25jnoe2oe2a	NDYxMjE5ZDI5NDc4YzgyYmRjNmIyYzYzMDdmYmM0NGYwYzE2OTg1NTp7ImFjY291bnRfdmVyaWZpZWRfZW1haWwiOm51bGwsIl9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWYwOWRhNzJmMmY4YTJkYzQ4NzhiNDAzMmU4ZWJjNjdkZDJmYWZlNCJ9	2021-06-21 16:48:46.603036+00
+2a4bmdairce60c4l20zja4yfr8i5hlba	ODJjYTg2OTRjMWI4ZjgwNmU2Y2Y2ZjA1N2ZiNDZlNzIxZjBhYzE2NTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWYwOWRhNzJmMmY4YTJkYzQ4NzhiNDAzMmU4ZWJjNjdkZDJmYWZlNCJ9	2021-06-21 16:49:12.51675+00
+ctd1ya2hrhbizgtk6icxj6x4hrtxgc3h	ODJjYTg2OTRjMWI4ZjgwNmU2Y2Y2ZjA1N2ZiNDZlNzIxZjBhYzE2NTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWYwOWRhNzJmMmY4YTJkYzQ4NzhiNDAzMmU4ZWJjNjdkZDJmYWZlNCJ9	2021-06-21 16:55:10.360097+00
+a0dzcqrbtewm9x6aft3mxjwj15nckmdw	ZTg1NTNiNTc2NzA1MjBmYTQzMTE2OTJiZDhkYmVjOTVlMDQ4NTkyMDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYWUyOTI1Mjk0NGI1YWYwMTkyNmNmYjZhYzEyMzcwM2E0NzZiMmQ0YiJ9	2021-06-21 16:57:07.229084+00
+eu9dnpsk64aw49f8h83nrmtyz2rt0ts1	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:47:04.343487+00
+5ypdvxil9o5ooqmrnqitm1po8f1hntei	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:49:07.890387+00
+zksev2yte9jtyzoqrtimohuntblk08av	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:49:23.48525+00
+pepj8stlau931bei6haz8u94w9kpszod	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:49:54.885078+00
+a2nro3eu8q6o0lphdl4rj2tctag8wep8	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:50:33.260547+00
+htogkbvjbmoht7ichziu8k00i4c4slp1	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:50:51.061389+00
+kurblzlcus9xxifaijbzga44hjtaowa8	NDRlZjIzY2Y5MTc5ZmMzODE1MTQxZTAzZmY0ZWFhYWU5MjhkYTkxZTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZmUzM2MwOWIwOGE0ZmQyMTI2OGRlZjkyMmQ3N2QxNDQxOTQ3M2IyYiJ9	2021-06-21 17:51:38.418586+00
+n9k7jnslxthnlhj5npndd9z6bdi3jxz2	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:52:26.705604+00
+6y8qqteo2ykoh31dod3j64m8ongzjs16	MjIxOTU1ZTExYTg4N2U3ZTAwNTI3NzNlZmM3NGZiOTcyZTdjMTkwNTp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMDBmZDU2YmQwMTc3YWNhMmJmYjI4MzEwZjU2YTg1NGU3YzZlZGEwMSJ9	2021-06-21 17:52:50.894348+00
+myxft6nk2p8trtd2m50wqvslux8x6zbu	MDgwZWY4OTcyMWUwNDdhMThiY2MxOGUyYzBmMWZiM2JlZjIxNmRhODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNjgyNDhlZTRlODM3M2FmY2UzMjhkMjk4MzgwMjBkYzRiNTdkMzc4NSJ9	2021-06-21 18:27:54.490469+00
 \.
 
 
@@ -1412,6 +1448,9 @@ COPY public.easyviewer_projectsubscriptions (id, name, description, disk_size, f
 --
 
 COPY public.easyviewer_transactions (id, hash, title, status, price, json_description, created_at, project_id_id, user_id_id) FROM stdin;
+1	lhUsVcgarDTVtfKSTEXIn71NM-Y6IS2snJ0ecJjAIDg	Order_1396424_7NUNiigIm0_1623084819	Active	250.00	{"eci": "5", "fee": "", "rrn": "111111111111", "amount": "25000", "card_bin": 444455, "currency": "UAH", "order_id": "Order_1396424_7NUNiigIm0_1623084819", "rectoken": "", "card_type": "VISA", "signature": "69a44307be777597812b30c7aca7d053ca37569d", "tran_type": "purchase", "order_time": "07.06.2021 19:53:39", "payment_id": 414336878, "product_id": "", "masked_card": "444455XXXXXX1111", "merchant_id": 1396424, "order_status": "approved", "sender_email": "", "actual_amount": "25000", "approval_code": "123456", "merchant_data": "[{\\"name\\":\\"paymentData\\",\\"label\\":\\"Payment data\\",\\"value\\":\\"{\\\\\\"target\\\\\\":\\\\\\"video\\\\\\",\\\\\\"id\\\\\\":10,\\\\\\"projectId\\\\\\":1,\\\\\\"userId\\\\\\":3}\\",\\"hidden\\":true}]", "response_code": "", "payment_system": "card", "sender_account": "", "actual_currency": "UAH", "parent_order_id": "", "response_status": "success", "reversal_amount": "0", "settlement_date": "", "rectoken_lifetime": "", "sender_cell_phone": "", "settlement_amount": "0", "settlement_currency": "", "verification_status": "", "response_description": "", "response_signature_string": "**********|25000|UAH|25000|123456|444455|VISA|UAH|5|444455XXXXXX1111|[{\\"name\\":\\"paymentData\\",\\"label\\":\\"Payment data\\",\\"value\\":\\"{\\\\\\"target\\\\\\":\\\\\\"video\\\\\\",\\\\\\"id\\\\\\":10,\\\\\\"projectId\\\\\\":1,\\\\\\"userId\\\\\\":3}\\",\\"hidden\\":true}]|1396424|Order_1396424_7NUNiigIm0_1623084819|approved|07.06.2021 19:53:39|414336878|card|success|0|111111111111|0|purchase"}	2021-06-07 16:53:44.845801+00	1	3
+2	Yv7_1pvpA5MV9Q4mqVx91K2dyTZpxTs0-KM6dQLYgWs	Order_1396424_SkFhV1Oxi2_1623085055	Active	250.00	{"eci": "7", "fee": "", "rrn": "111111111111", "amount": "25000", "card_bin": 444455, "currency": "UAH", "order_id": "Order_1396424_SkFhV1Oxi2_1623085055", "rectoken": "", "card_type": "VISA", "signature": "ca9e399ba6837eedeb77bde908aca061979f9f20", "tran_type": "purchase", "order_time": "07.06.2021 19:57:35", "payment_id": 414338207, "product_id": "", "masked_card": "444455XXXXXX6666", "merchant_id": 1396424, "order_status": "approved", "sender_email": "", "actual_amount": "25000", "approval_code": "123456", "merchant_data": "[{\\"name\\":\\"paymentData\\",\\"label\\":\\"Payment data\\",\\"value\\":\\"{\\\\\\"target\\\\\\":\\\\\\"video\\\\\\",\\\\\\"id\\\\\\":10,\\\\\\"projectId\\\\\\":1,\\\\\\"userId\\\\\\":3}\\",\\"hidden\\":true}]", "response_code": "", "payment_system": "card", "sender_account": "", "actual_currency": "UAH", "parent_order_id": "", "response_status": "success", "reversal_amount": "0", "settlement_date": "", "rectoken_lifetime": "", "sender_cell_phone": "", "settlement_amount": "0", "settlement_currency": "", "verification_status": "", "response_description": "", "response_signature_string": "**********|25000|UAH|25000|123456|444455|VISA|UAH|7|444455XXXXXX6666|[{\\"name\\":\\"paymentData\\",\\"label\\":\\"Payment data\\",\\"value\\":\\"{\\\\\\"target\\\\\\":\\\\\\"video\\\\\\",\\\\\\"id\\\\\\":10,\\\\\\"projectId\\\\\\":1,\\\\\\"userId\\\\\\":3}\\",\\"hidden\\":true}]|1396424|Order_1396424_SkFhV1Oxi2_1623085055|approved|07.06.2021 19:57:35|414338207|card|success|0|111111111111|0|purchase"}	2021-06-07 16:57:36.846866+00	1	3
+3	shaZ9Ce4rRYoOqSue5OkYC0i9FCsoao2a1POrialYKE	Order_1396424_F4YORuSPMN_1623086378	Active	159.99	{"eci": "7", "fee": "", "rrn": "111111111111", "amount": "15999", "card_bin": 444455, "currency": "UAH", "order_id": "Order_1396424_F4YORuSPMN_1623086378", "rectoken": "", "card_type": "VISA", "signature": "c19b5c6fbd6dd411319e27eb166a262c3ad7d128", "tran_type": "purchase", "order_time": "07.06.2021 20:19:38", "payment_id": 414345489, "product_id": "", "masked_card": "444455XXXXXX6666", "merchant_id": 1396424, "order_status": "approved", "sender_email": "", "actual_amount": "15999", "approval_code": "123456", "merchant_data": "[{\\"name\\":\\"paymentData\\",\\"label\\":\\"Payment data\\",\\"value\\":\\"{\\\\\\"target\\\\\\":\\\\\\"video\\\\\\",\\\\\\"id\\\\\\":5,\\\\\\"projectId\\\\\\":1,\\\\\\"userId\\\\\\":3}\\",\\"hidden\\":true}]", "response_code": "", "payment_system": "card", "sender_account": "", "actual_currency": "UAH", "parent_order_id": "", "response_status": "success", "reversal_amount": "0", "settlement_date": "", "rectoken_lifetime": "", "sender_cell_phone": "", "settlement_amount": "0", "settlement_currency": "", "verification_status": "", "response_description": "", "response_signature_string": "**********|15999|UAH|15999|123456|444455|VISA|UAH|7|444455XXXXXX6666|[{\\"name\\":\\"paymentData\\",\\"label\\":\\"Payment data\\",\\"value\\":\\"{\\\\\\"target\\\\\\":\\\\\\"video\\\\\\",\\\\\\"id\\\\\\":5,\\\\\\"projectId\\\\\\":1,\\\\\\"userId\\\\\\":3}\\",\\"hidden\\":true}]|1396424|Order_1396424_F4YORuSPMN_1623086378|approved|07.06.2021 20:19:38|414345489|card|success|0|111111111111|0|purchase"}	2021-06-07 17:19:38.922269+00	1	3
 \.
 
 
@@ -1419,10 +1458,12 @@ COPY public.easyviewer_transactions (id, hash, title, status, price, json_descri
 -- Data for Name: easyviewer_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.easyviewer_user (id, password, last_login, is_superuser, first_name, last_name, is_staff, is_active, date_joined, email, mobile, date_of_birth, gender) FROM stdin;
-3	pbkdf2_sha256$150000$2ZdAtGij4foU$r4Xe51+F88brbrcnNfYdLMwvR2SkEd9BWsubWoW9or4=	2021-05-18 17:57:25.687033+00	f			f	t	2021-05-18 17:57:25.591874+00	user1@gmail.com	\N	\N	\N
-2	pbkdf2_sha256$150000$L8bRvOLMJBx4$nEsWMJsoScPrLaCJ81aCyX3v4FiBrpgb669Fchc4I0o=	2021-05-18 18:01:43.337213+00	f			f	t	2021-05-18 17:46:27.218217+00	user@gmail.com	\N	\N	\N
-1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-05-21 20:47:41.287224+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N
+COPY public.easyviewer_user (id, password, last_login, is_superuser, first_name, last_name, is_staff, is_active, date_joined, email, mobile, date_of_birth, gender, avatar) FROM stdin;
+5	pbkdf2_sha256$150000$SWSGlQ7ZMGc3$CZxSQfEg6HNYvj2LrLE6uH0R5feZNd/NQhpkF4xTdCk=	2021-06-07 16:55:10.3572+00	f			f	t	2021-06-07 15:24:04.413571+00	test@test.test	\N	\N	\N	
+3	pbkdf2_sha256$150000$2ZdAtGij4foU$r4Xe51+F88brbrcnNfYdLMwvR2SkEd9BWsubWoW9or4=	2021-06-07 16:57:07.226159+00	f			f	t	2021-05-18 17:57:25.591874+00	user1@gmail.com	\N	\N	\N	\N
+2	pbkdf2_sha256$150000$L8bRvOLMJBx4$nEsWMJsoScPrLaCJ81aCyX3v4FiBrpgb669Fchc4I0o=	2021-06-07 17:51:38.415602+00	f			f	t	2021-05-18 17:46:27.218217+00	user@gmail.com	\N	\N	\N	\N
+4	pbkdf2_sha256$150000$C9bNpqzGktuI$rjHBNJHZSy8v1AaccYW2Ocg22NMYGHK5d7T2b6+0Y0I=	2021-06-07 17:52:50.89159+00	f			f	t	2021-06-07 15:01:19.681275+00	sashpro.aa@gmail.com	\N	\N	\N	
+1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-06-07 18:27:54.487853+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N	\N
 \.
 
 
@@ -1447,16 +1488,16 @@ COPY public.easyviewer_user_user_permissions (id, user_id, permission_id) FROM s
 --
 
 COPY public.easyviewer_video (id, title, description, meta, genre, actors, price, created_at, duration, image, preview_video, url, project_id_id) FROM stdin;
-1	Печальный спектакль	Спектакль, который вам нужно увидеть.\r\n\r\nУспешно играющий по всей Украине спектакль "Ужин с дураком" актер и режиссер Алексей Райт создал проект Страсти по Идиоту, а также ранее осуществил постановку спектаклей: "Дракон", "Ужин с дураком", "Монолог ангела или Е.Ж.", "Печальный спектакль", "Падший ангел", "Новеченто", "Однорукий из Спокана", "Сиротливый запад" и др. спектакли идут на малой сцене Дворца студентов юридического университета.		DRAMA,MELODRAMA	Анастасия Колесникова	120.00	2021-05-22	02:00:00	uploads/image/block-1_rC8nMZJ.jpg		\N	1
-2	Я... ОНА не Я и Я	Я не знаю, как вам описать то, что будет происходить...\r\n\r\nя не уверен, что это описание будет о спектакле ...\r\n\r\nя не знаю, имеет ли вообще это, какое отношение к театру…\r\n\r\nя даже не знаю, если я вам расскажу, о чем спектакль придете ли вы на него... Этот текст, текст надежды... Я попытаюсь вам все рассказать, что бы вы пришли, потому что без вас ничего не получиться.\r\n\r\nЭто план побега. Я пытаюсь найти упражнения, что бы вернуть своему телу и своей душе красоту, что бы Гении-Божества снова обратили на меня внимание.		DRAMA,COMEDY,TRAGEDY	Алексей Райт	190.00	2021-05-22	02:10:00	uploads/image/block-2.jpg		\N	1
-3	Ужин с дураком	В этот вечер Вы узнаете, что такое настоящая французская комедия. Эта феноменальная история… Представьте, что сегодня у вас традиционный ужин с друзьями, обязательным условием которого является необходимость привести с собой … дурака! Дурак, естественно, не должен ни о чем догадаться. Суть такой шутки в том, чтобы развязать необычному гостю язык. Тот из участников ужина, кто приведет «лучшего» дурака – победитель!		COMEDY	Алексей Райт, Богдан Адаменко, Сергей Анипченко, Лара Читака, Елизавета Любимова, Евгений Шинкарев, Геннадий Выпинашко	150.00	2021-05-21	02:30:00	uploads/image/block-3.jpg		\N	1
-4	NOVECENTO	История о пианисте — это целая эпоха, впитавшая в себя множество историй, множество людей.\r\nЧеловек, который видел сушу только с корабля, непонятным образом научившийся виртуозно играть на пианино,  он впитал в себя эту эпоху.		DRAMA,TRAGEDY	Андрей Пятаха	210.00	2021-05-22	01:50:00	uploads/image/block-4.jpg		\N	1
-6	Ищу работу	Cпектакль по пьесе Жорди Гальсерана. Групповое собеседование в 1 действии.\r\n\r\nДобро пожаловать в мир корпоративных манипуляций, предательств и лицемерия. Устраивайтесь поудобнее - специалисты по отбору персонала тайно анализируют каждый Ваш шаг. Современный офис крупной корпорации. Четыре кандидата пришли сюда на собеседование, каждый рассчитывает занять вакантное место топ-менеджера, каждый уверен, что с ним будут проводить индивидуальное собеседование. Но общаться четверым кандидатам приходится только друг с другом, следуя воле невидимых экзаменаторов и выполняя их абсурдные задания, психологические тесты и проверки. Впрочем, постепенно выясняется, что не все четверо — кандидаты…		MORALITY,PARODY,SOTI,Extravaganza	Евгения Белова/ Наталья Иванская (Мерседес), Олег Дидык (Фернандо), Сергей Листунов (Энрике), Юрий Николаенко (Карлос)	185.00	2021-05-21	01:45:00	uploads/image/block-6.jpg		\N	1
-5	Чмо	ЧМО - «человек малообразованный», «человек мешающий обществу», «человек морально отсталый», «человек морально опущенный», «чемпион московской области», «чемпион московской олимпиады», «чрезвычайно мобильный организм», «человек материально обеспеченный», «чрезвычайно малогабаритный объект» (фольклорн.).\r\n\r\nЧМО - человек морально опустившийся (аббревиатура, употреблявшаяся работниками исправительных учреждений).\r\n\r\nОднажды в подсобном хозяйстве одного воинского подразделения, где сержант Хрустяшин по прозвищу Хруст выращивает свиней, появляется "пополнение": вчерашний студент из-под Питера Андрей Новиков, играющий на скрипке и верящий в Бога...\r\n\r\nЭто пронзительная и трогательная, одновременно смешная и грустная история о дружбе, совести и страхе, подлости и благородстве. Этот спектакль не об армии, он - о жизни. Свиньи людей - или люди свиней: кто кого?.. И еще наш спектакль пытается дать ответ на вопрос: так что же такое ЧМО?		MIME,MONODRAMA,PASTORAL,FARCE	Сергей Савлук / Максим Стерлик (Хрустяшин (Хруст), Юрий Николаенко (Новиков), Олег Дидык (Бес), Сергей Листунов (Алтынов), Наталья Иванская (Анна), Евгения Белова (Катя)	159.99	2021-05-21	02:35:00	uploads/image/block-5.jpg		\N	1
-7	Украденное счастье	Конфликт в спектакле - в одном противостоянии между чисто житейскими установками и законами, которые отражают непреложную гармонию Вселенной.\r\n\r\nНа фоне быта бойков, населяющих украинские Карпаты, вырисовываются судьбы героев в так называемом любовном треугольнике.\r\n\r\nАвторы спектакля отстранились от социальной направленности пьесы и тем самым приблизили зрителей к душевной катастрофе Анны, ее нелюбимого мужа Николая и издавна влюбленного в нее Михаила.\r\n\r\nКаждый из них борется за свое человеческое право на любовь.Но неумолимый Бог Карпат Мольфар - персонаж, введенный в спектакль режиссером, - жестоко наказывает всех троих.\r\n\r\nМастерски разработанные массовые сцены спектакля (ритуальные, танцевальные, песенные) дают представление о быте бойков позапрошлого века.		DRAMA,MELODRAMA,TRAGEDY	А Жиляков, Р. Жиров, М. Козюлина, А. Шпилевой, Ю. Забутная.	210.00	2021-05-22	02:15:00	uploads/image/block-7.jpg		\N	1
-8	Оркестр	Если Вы мечтаете о Париже, считайте, что Ваши сокровенные желания осуществились. Стоит только посетить спектакль «Оркестр» на малой сцене театра. В уютном кафе Вас ждут «сюрпризы» от эксцентричных персонажей этого действа. Ануив оркестр - женский ...		MIME,MONODRAMA,MORALITY,SOTI,TRAGICOMEDY	Александр Гричаный, Юлия Шаршонь, Игорь Гайденко, Алексей Серегин	115.00	2021-05-21	01:45:00	uploads/image/block-8.jpg		\N	1
-9	Зайцы повсюду!	Куда пойти с ребенком, чтобы было интересно и ему, и родителям? Новое шоу-представление "Зайцы повсюду!" театра "Стрекоза" ни за что не оставит никого равнодушными. Ведь дети всех возрастов смогут и поиграть, и увидеть необыкновенные перевоплощения! В нашем интерактивном иллюзионном игровом представлении каждый ребенок сможет принять участие. А какое животное может быть милее, чем кролик? А если они появляются в самый неожиданный момент? Разных размеров, цветов, из ниоткуда, везде!		COMEDY,MIME,MUSICAL,PARODY	Олег Русов, Игорь Ладенко	290.00	2021-05-22	01:55:00	uploads/image/block-9.jpg		\N	1
-10	Начать сначала	Герои без имен и фамилий, без географических координат и временных рамок. Они видели спасение и будущее в загранице, но стали заложниками самих себя – вечные гости. Одиночество - главный спутник героев на протяжении всей постановки. Дружба этих людей - абсолютно непохожих – не могла бы родиться в другой ситуации. Они – это единственное, что есть друг у друга настоящего.\r\n\r\nСобытия происходят в новогоднюю ночь – весь мир застыл в ожидании чего-то нового. Под влиянием момента герои пьесы решаются на отчаянные поступки ради своего освобождения, ведь это ли не время, чтобы начать все сначала?		MYSTERY,PARODY,PASTORAL,SOTI	Николай Михальченко, Богдан Синявский	250.00	2021-05-21	02:15:00	uploads/image/block-10.jpg		\N	1
+5	Чмо	ЧМО - «человек малообразованный», «человек мешающий обществу», «человек морально отсталый», «человек морально опущенный», «чемпион московской области», «чемпион московской олимпиады», «чрезвычайно мобильный организм», «человек материально обеспеченный», «чрезвычайно малогабаритный объект» (фольклорн.).\r\n\r\nЧМО - человек морально опустившийся (аббревиатура, употреблявшаяся работниками исправительных учреждений).\r\n\r\nОднажды в подсобном хозяйстве одного воинского подразделения, где сержант Хрустяшин по прозвищу Хруст выращивает свиней, появляется "пополнение": вчерашний студент из-под Питера Андрей Новиков, играющий на скрипке и верящий в Бога...\r\n\r\nЭто пронзительная и трогательная, одновременно смешная и грустная история о дружбе, совести и страхе, подлости и благородстве. Этот спектакль не об армии, он - о жизни. Свиньи людей - или люди свиней: кто кого?.. И еще наш спектакль пытается дать ответ на вопрос: так что же такое ЧМО?		MIME,MONODRAMA,PASTORAL,FARCE	Сергей Савлук / Максим Стерлик (Хрустяшин (Хруст), Юрий Николаенко (Новиков), Олег Дидык (Бес), Сергей Листунов (Алтынов), Наталья Иванская (Анна), Евгения Белова (Катя)	159.99	2021-05-21	02:35:00	uploads/image/block-5.jpg		https://static.videezy.com/system/resources/previews/000/039/662/original/DSFC7201-4.mp4	1
+4	NOVECENTO	История о пианисте — это целая эпоха, впитавшая в себя множество историй, множество людей.\r\nЧеловек, который видел сушу только с корабля, непонятным образом научившийся виртуозно играть на пианино,  он впитал в себя эту эпоху.		DRAMA,TRAGEDY	Андрей Пятаха	210.00	2021-05-22	01:50:00	uploads/image/block-4.jpg		https://static.videezy.com/system/resources/previews/000/018/793/original/Bacteria-blue.mp4	1
+2	Я... ОНА не Я и Я	Я не знаю, как вам описать то, что будет происходить...\r\n\r\nя не уверен, что это описание будет о спектакле ...\r\n\r\nя не знаю, имеет ли вообще это, какое отношение к театру…\r\n\r\nя даже не знаю, если я вам расскажу, о чем спектакль придете ли вы на него... Этот текст, текст надежды... Я попытаюсь вам все рассказать, что бы вы пришли, потому что без вас ничего не получиться.\r\n\r\nЭто план побега. Я пытаюсь найти упражнения, что бы вернуть своему телу и своей душе красоту, что бы Гении-Божества снова обратили на меня внимание.		DRAMA,COMEDY,TRAGEDY	Алексей Райт	190.00	2021-05-22	02:10:00	uploads/image/block-2.jpg		https://static.videezy.com/system/resources/previews/000/008/220/original/Triangles_01.mp4	1
+1	Печальный спектакль	Спектакль, который вам нужно увидеть.\r\n\r\nУспешно играющий по всей Украине спектакль "Ужин с дураком" актер и режиссер Алексей Райт создал проект Страсти по Идиоту, а также ранее осуществил постановку спектаклей: "Дракон", "Ужин с дураком", "Монолог ангела или Е.Ж.", "Печальный спектакль", "Падший ангел", "Новеченто", "Однорукий из Спокана", "Сиротливый запад" и др. спектакли идут на малой сцене Дворца студентов юридического университета.		DRAMA,MELODRAMA	Анастасия Колесникова	120.00	2021-05-22	02:00:00	uploads/image/block-1_rC8nMZJ.jpg		https://static.videezy.com/system/resources/previews/000/041/209/original/clean04.mp4	1
+10	Начать сначала	Герои без имен и фамилий, без географических координат и временных рамок. Они видели спасение и будущее в загранице, но стали заложниками самих себя – вечные гости. Одиночество - главный спутник героев на протяжении всей постановки. Дружба этих людей - абсолютно непохожих – не могла бы родиться в другой ситуации. Они – это единственное, что есть друг у друга настоящего.\r\n\r\nСобытия происходят в новогоднюю ночь – весь мир застыл в ожидании чего-то нового. Под влиянием момента герои пьесы решаются на отчаянные поступки ради своего освобождения, ведь это ли не время, чтобы начать все сначала?		MYSTERY,PARODY,PASTORAL,SOTI	Николай Михальченко, Богдан Синявский	250.00	2021-05-21	02:15:00	uploads/image/block-10.jpg		https://static.videezy.com/system/resources/previews/000/035/049/original/Shopping-online-1.mp4	1
+9	Зайцы повсюду!	Куда пойти с ребенком, чтобы было интересно и ему, и родителям? Новое шоу-представление "Зайцы повсюду!" театра "Стрекоза" ни за что не оставит никого равнодушными. Ведь дети всех возрастов смогут и поиграть, и увидеть необыкновенные перевоплощения! В нашем интерактивном иллюзионном игровом представлении каждый ребенок сможет принять участие. А какое животное может быть милее, чем кролик? А если они появляются в самый неожиданный момент? Разных размеров, цветов, из ниоткуда, везде!		COMEDY,MIME,MUSICAL,PARODY	Олег Русов, Игорь Ладенко	290.00	2021-05-22	01:55:00	uploads/image/block-9.jpg		https://static.videezy.com/system/resources/previews/000/020/402/original/Modern_Typography_Titles_After_Effects_Template_12_Preview.mp4	1
+8	Оркестр	Если Вы мечтаете о Париже, считайте, что Ваши сокровенные желания осуществились. Стоит только посетить спектакль «Оркестр» на малой сцене театра. В уютном кафе Вас ждут «сюрпризы» от эксцентричных персонажей этого действа. Ануив оркестр - женский ...		MIME,MONODRAMA,MORALITY,SOTI,TRAGICOMEDY	Александр Гричаный, Юлия Шаршонь, Игорь Гайденко, Алексей Серегин	115.00	2021-05-21	01:45:00	uploads/image/block-8.jpg		https://static.videezy.com/system/resources/previews/000/031/996/original/heart-backgroud.mp4	1
+7	Украденное счастье	Конфликт в спектакле - в одном противостоянии между чисто житейскими установками и законами, которые отражают непреложную гармонию Вселенной.\r\n\r\nНа фоне быта бойков, населяющих украинские Карпаты, вырисовываются судьбы героев в так называемом любовном треугольнике.\r\n\r\nАвторы спектакля отстранились от социальной направленности пьесы и тем самым приблизили зрителей к душевной катастрофе Анны, ее нелюбимого мужа Николая и издавна влюбленного в нее Михаила.\r\n\r\nКаждый из них борется за свое человеческое право на любовь.Но неумолимый Бог Карпат Мольфар - персонаж, введенный в спектакль режиссером, - жестоко наказывает всех троих.\r\n\r\nМастерски разработанные массовые сцены спектакля (ритуальные, танцевальные, песенные) дают представление о быте бойков позапрошлого века.		DRAMA,MELODRAMA,TRAGEDY	А Жиляков, Р. Жиров, М. Козюлина, А. Шпилевой, Ю. Забутная.	210.00	2021-05-22	02:15:00	uploads/image/block-7.jpg		https://static.videezy.com/system/resources/previews/000/037/795/original/DH064.mp4	1
+6	Ищу работу	Cпектакль по пьесе Жорди Гальсерана. Групповое собеседование в 1 действии.\r\n\r\nДобро пожаловать в мир корпоративных манипуляций, предательств и лицемерия. Устраивайтесь поудобнее - специалисты по отбору персонала тайно анализируют каждый Ваш шаг. Современный офис крупной корпорации. Четыре кандидата пришли сюда на собеседование, каждый рассчитывает занять вакантное место топ-менеджера, каждый уверен, что с ним будут проводить индивидуальное собеседование. Но общаться четверым кандидатам приходится только друг с другом, следуя воле невидимых экзаменаторов и выполняя их абсурдные задания, психологические тесты и проверки. Впрочем, постепенно выясняется, что не все четверо — кандидаты…		MORALITY,PARODY,SOTI,Extravaganza	Евгения Белова/ Наталья Иванская (Мерседес), Олег Дидык (Фернандо), Сергей Листунов (Энрике), Юрий Николаенко (Карлос)	185.00	2021-05-21	01:45:00	uploads/image/block-6.jpg		https://static.videezy.com/system/resources/previews/000/037/813/original/WH038.mp4	1
+3	Ужин с дураком	В этот вечер Вы узнаете, что такое настоящая французская комедия. Эта феноменальная история… Представьте, что сегодня у вас традиционный ужин с друзьями, обязательным условием которого является необходимость привести с собой … дурака! Дурак, естественно, не должен ни о чем догадаться. Суть такой шутки в том, чтобы развязать необычному гостю язык. Тот из участников ужина, кто приведет «лучшего» дурака – победитель!		COMEDY	Алексей Райт, Богдан Адаменко, Сергей Анипченко, Лара Читака, Елизавета Любимова, Евгений Шинкарев, Геннадий Выпинашко	150.00	2021-05-21	02:30:00	uploads/image/block-3.jpg		https://static.videezy.com/system/resources/previews/000/006/879/original/Lab38.mp4	1
 \.
 
 
@@ -1502,7 +1543,10 @@ COPY public.easyviewer_video_subscription (id, video_id, videosubscriptions_id) 
 -- Data for Name: easyviewer_videocontent; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video_id_id, video_subscription_id) FROM stdin;
+COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video_id_id, video_subscription_id, transaction_id_id) FROM stdin;
+1	2021-06-07 16:53:44.857918+00	2021-06-07 19:08:44.857927+00	3	10	\N	1
+2	2021-06-07 16:57:36.858946+00	2021-06-07 19:12:36.858955+00	3	10	\N	2
+3	2021-06-07 17:19:38.933725+00	2021-06-07 19:54:38.933734+00	3	5	\N	3
 \.
 
 
@@ -2250,6 +2294,13 @@ CREATE INDEX easyviewer_video_subscription_videosubscriptions_id_0c1e3663 ON pub
 
 
 --
+-- Name: easyviewer_videocontent_transaction_id_id_4561ed5e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX easyviewer_videocontent_transaction_id_id_4561ed5e ON public.easyviewer_videocontent USING btree (transaction_id_id);
+
+
+--
 -- Name: easyviewer_videocontent_user_id_id_76d42024; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2470,6 +2521,14 @@ ALTER TABLE ONLY public.easyviewer_video_subscription
 
 ALTER TABLE ONLY public.easyviewer_video_subscription
     ADD CONSTRAINT easyviewer_video_sub_videosubscriptions_i_0c1e3663_fk_easyviewe FOREIGN KEY (videosubscriptions_id) REFERENCES public.easyviewer_videosubscriptions(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: easyviewer_videocontent easyviewer_videocont_transaction_id_id_4561ed5e_fk_easyviewe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.easyviewer_videocontent
+    ADD CONSTRAINT easyviewer_videocont_transaction_id_id_4561ed5e_fk_easyviewe FOREIGN KEY (transaction_id_id) REFERENCES public.easyviewer_transactions(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

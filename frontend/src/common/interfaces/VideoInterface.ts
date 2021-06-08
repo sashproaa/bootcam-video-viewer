@@ -10,8 +10,8 @@ export interface Video {
   duration: string;
   image: string;
   preview_video: string;
-  url: string;
+  video_url: string;
   project_id: number;
   subscription: number[];
-  paid_video: boolean;
+  paid: boolean;
 }

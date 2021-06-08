@@ -1,7 +1,5 @@
 import webApi from '../webApiHelper';
 import { User } from '../../common/interfaces/UserInterface';
-import { timeoutMock } from './timeoutMock';
-import { userMock } from './userMock';
 import { Endpoints } from '../../common/enums/EndpointsEnum';
 import { FetchError } from '../../common/interfaces/FetchErrorInterface';
 
@@ -55,14 +53,12 @@ export interface UserMediaRequest extends Omit<User, 'avatar'> {
 
 export const getUser = async (): Promise<UserResponse> => {
   return await webApi.get(`${endpoint}/user/`);
-  // return await timeoutMock(userMock);
 };
 
 export const addUser = async (
   request: AddUserRequest,
 ): Promise<AddUserResponse> => {
   return await webApi.post(`${endpoint}/registration/`, request);
-  // return await timeoutMock(userMock);
 };
 
 export const updateUser = async (request: User): Promise<UserResponse> => {
@@ -70,36 +66,30 @@ export const updateUser = async (request: User): Promise<UserResponse> => {
     ? new Date(request.date_of_birth).toISOString().split('T')[0]
     : request.date_of_birth;
   return await webApi.patchh(`${endpoint}/user/`, request);
-  // return await timeoutMock(userMock);
 };
 
 export const updateMedia = async (
   request: UserMediaRequest,
 ): Promise<UserResponse> => {
   return await webApi.formPatch(`${endpoint}/user/`, request);
-  // return await timeoutMock(null);
 };
 
 export const deleteUser = async (id: number): Promise<void> => {
-  // return await webApi.delete(`${endpoint}/${id}`);
-  return await timeoutMock(null);
+  return await webApi.delete(`${endpoint}/${id}`);
 };
 
 export const loginUser = async (
   request: LoginUserRequest,
 ): Promise<LoginUserResponse> => {
   return await webApi.post(`${endpoint}/login/`, request);
-  // return await timeoutMock(null);
 };
 
 export const logoutUser = async (): Promise<LogoutUserResponse> => {
   return await webApi.get(`${endpoint}/logout/`);
-  // return await timeoutMock(null);
 };
 
 export const changePassword = async (
   request: ChangePasswordRequest,
 ): Promise<ChangePasswordResponse> => {
   return await webApi.post(`${endpoint}/password/change/`, request);
-  // return await timeoutMock(null);
 };
