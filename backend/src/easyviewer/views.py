@@ -5,7 +5,7 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-from django.db.models import Case, When, ExpressionWrapper, F, Q
+from django.db.models import Case, When, ExpressionWrapper, F, Q, Max
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, request
@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
-from .permissions import IsOwnerOrReadonly
+from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
 
 
@@ -117,28 +117,17 @@ class VideoContentListApiView(generics.ListAPIView):
 class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoDetailSerializer
+    permission_classes = (IsStaff, )
+    queryset = Video.objects.filter()
 
     temp = ""
     hash_project = ""
-    permission_classes = ""
 
     def get(self, request, *args, **kwargs):
         self.temp = request.GET.get('temp')
         self.hash_project = request.headers.get('Hash-Project')
         print("Get request user_id", request.user.id)
         return super(VideoApiView, self).get(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        self.permission_classes = (IsAdminUser,)
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        self.permission_classes = (IsAdminUser,)
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        self.permission_classes = (IsAdminUser,)
-        return self.destroy(request, *args, **kwargs)
 
     def get_queryset(self):
         project = get_object_or_404(Projects, hash=self.hash_project)
@@ -164,8 +153,8 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class VideoCreateApiView(generics.CreateAPIView):
-    serializer_class = VideoDetailSerializer
-    permission_classes = (IsAdminUser,)
+    serializer_class = VideoCreateSerializer
+    permission_classes = (IsStaff,)
 
 
 class TransactionsListApiView(generics.ListAPIView):
@@ -256,8 +245,34 @@ class ProjectSubscriptionsListApiView(generics.ListAPIView):
 
 
 class VideoSubscriptionApiView(generics.ListAPIView):
-    queryset = VideoSubscriptions.objects.all()
     serializer_class = VideoSubscriptionListSerializer
+
+    temp = ""
+    hash_project = ""
+
+    def get(self, request, *args, **kwargs):
+        self.temp = request.GET.get('temp')
+        self.hash_project = request.headers.get('Hash-Project')
+        print("Get request user_id", request.user.id)
+        return super(VideoSubscriptionApiView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        project = get_object_or_404(Projects, hash=self.hash_project)
+        if self.request.user.is_authenticated and project:
+            subscriptions_paid_id = VideoSubscriptions.objects.filter(
+                project_id=project.id, videocontent__data_end__gte=timezone.now(),
+                videocontent__user_id=self.request.user.id, videocontent__video_subscription__isnull=False
+            ).values_list('id', flat=True)
+            subscriptions_paid_id = list(subscriptions_paid_id)
+            subscriptions_paid_id = subscriptions_paid_id if subscriptions_paid_id else [-1]
+            queryset = VideoSubscriptions.objects.filter(project_id=project.id).annotate(
+                data_end=Case(When(Q(id__in=subscriptions_paid_id), then=Max('videocontent__data_end')),
+                              default=None, output_field=models.DateField()),
+                paid=Case(When(Q(id__in=subscriptions_paid_id), then=True),
+                          default=False, output_field=models.BooleanField())).distinct()
+        else:
+            queryset = VideoSubscriptions.objects.filter(project_id=project.id)
+        return queryset
 
 
 class FacebookLogin(SocialLoginView):
