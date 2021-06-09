@@ -45,8 +45,28 @@ export default function VideoSlider({
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -54,15 +74,21 @@ export default function VideoSlider({
       {!videos ? (
         <Spinner />
       ) : (
-        <Slider className={classSlider} {...settings}>
-          {videos?.map((vd) => (
-            <div className='' key={vd.id}>
-              <Link className={cls.link} to={`${Routes.video}/${vd.id}`}>
-                <div className={cls.wrapImg}>
-                  <img className={cls.img} src={vd.image} alt={vd.title} />
-                </div>
-                <p className={cls.title}>{vd.title}</p>
-              </Link>
+        <Slider className={`${cls.slider} ${classSlider}`} {...settings}>
+          {videos?.map((video) => (
+            <div key={video.id}>
+              <div className={cls.slide}>
+                <Link className={cls.link} to={`${Routes.video}/${video.id}`}>
+                  <div className={cls.wrapImg}>
+                    <img
+                      className={cls.img}
+                      src={video.image}
+                      alt={video.title}
+                    />
+                  </div>
+                  <p className={cls.title}>{video.title}</p>
+                </Link>
+              </div>
             </div>
           ))}
         </Slider>

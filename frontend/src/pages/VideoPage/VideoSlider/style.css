@@ -1,3 +1,7 @@
+.slick-list {
+  margin: 0 -15px;
+}
+
 /* Arrows */
 .slick-prev,
 .slick-next {

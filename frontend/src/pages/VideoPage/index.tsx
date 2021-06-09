@@ -44,7 +44,7 @@ export default function VideoPage() {
 
   useEffect(() => {
     dispatch(fetchVideo(id));
-  }, []);
+  }, [id]);
 
   const handleBuy = () => {
     dispatch(
