@@ -92,20 +92,20 @@ export default function Profile({ className = '' }: Props) {
               />
             </div>
 
-            <div className={cls.inputBlock}>
-              <label htmlFor='last_name' className={cls.label}>
-                Фамилия
-              </label>
-              <Input
-                type='text'
-                id='last_name'
-                fill
-                dark
-                defaultValue={user.last_name}
-                errorText={errors.last_name?.message}
-                {...register('last_name')}
-              />
-            </div>
+            {/*<div className={cls.inputBlock}>*/}
+            {/*  <label htmlFor='last_name' className={cls.label}>*/}
+            {/*    Фамилия*/}
+            {/*  </label>*/}
+            {/*  <Input*/}
+            {/*    type='text'*/}
+            {/*    id='last_name'*/}
+            {/*    fill*/}
+            {/*    dark*/}
+            {/*    defaultValue={user.last_name}*/}
+            {/*    errorText={errors.last_name?.message}*/}
+            {/*    {...register('last_name')}*/}
+            {/*  />*/}
+            {/*</div>*/}
 
             <div className={cls.inputBlock}>
               <label htmlFor='mobile' className={cls.label}>

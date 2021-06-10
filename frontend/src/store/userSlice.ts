@@ -67,6 +67,15 @@ export const userSlice = createSlice({
     toggleIsSaveToken: (state) => {
       state.isSaveToken = !state.isSaveToken;
     },
+    setActiveVideo: (
+      state,
+      action: PayloadAction<{ id: number; time: number }>,
+    ) => {
+      if (state.user.history) state.user.history.activeVideo = action.payload;
+    },
+    // updateViewedVideos: (state, action: PayloadAction<{id:number; time: number}>) => {
+    //   state.isSaveToken = !state.isSaveToken;
+    // },
     clearUser: () => {
       return initialState;
     },
@@ -80,6 +89,7 @@ export const {
   setIsAdmin,
   setIsSaveToken,
   toggleIsSaveToken,
+  setActiveVideo,
   clearUser,
 } = userSlice.actions;
 
@@ -185,9 +195,23 @@ export const fetchUpdateAvatar = (file: Blob): AppThunk => async (
   dispatch(setIsLoading(false));
 };
 
+export const updateActiveVideo = (activeVideo: {
+  id: number;
+  time: number;
+}): AppThunk => async (dispatch, getState) => {
+  dispatch(setActiveVideo(activeVideo));
+  const response = await updateUser({
+    history: {
+      activeVideo,
+    },
+  } as User);
+};
+
 export const isLoading = (state: RootState) => state.user.isLoading;
 export const isShowAuth = (state: RootState) => state.user.isShowAuth;
 export const userInfo = (state: RootState) => state.user.user;
+export const userActiveVideoInfo = (state: RootState) =>
+  state.user.user.history?.activeVideo;
 export const isAdminUser = (state: RootState) => state.user.isAdmin;
 export const isSaveToken = (state: RootState) => state.user.isSaveToken;
 

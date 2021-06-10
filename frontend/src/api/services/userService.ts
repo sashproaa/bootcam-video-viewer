@@ -52,7 +52,9 @@ export interface UserMediaRequest extends Omit<User, 'avatar'> {
 }
 
 export const getUser = async (): Promise<UserResponse> => {
-  return await webApi.get(`${endpoint}/user/`);
+  const response = await webApi.get(`${endpoint}/user/`);
+  response.history = JSON.parse(response.last_name || '{}') || {};
+  return response;
 };
 
 export const addUser = async (
@@ -62,10 +64,16 @@ export const addUser = async (
 };
 
 export const updateUser = async (request: User): Promise<UserResponse> => {
-  request.date_of_birth = request.date_of_birth
+  const user = { ...request };
+  user.date_of_birth = request.date_of_birth
     ? new Date(request.date_of_birth).toISOString().split('T')[0]
     : request.date_of_birth;
-  return await webApi.patchh(`${endpoint}/user/`, request);
+
+  // #########
+  user.last_name = JSON.stringify(request.history);
+  delete user.history;
+  // #########
+  return await webApi.patchh(`${endpoint}/user/`, user);
 };
 
 export const updateMedia = async (

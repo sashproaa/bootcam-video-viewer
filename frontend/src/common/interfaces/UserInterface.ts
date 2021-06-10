@@ -11,4 +11,14 @@ export interface User {
   is_staff: boolean;
   is_superUser: boolean;
   // groups: string[];
+  history?: {
+    activeVideo?: {
+      id: number;
+      time: number;
+    };
+    viewedVideos?: {
+      id: number;
+      lastDate: Date;
+    }[];
+  };
 }
