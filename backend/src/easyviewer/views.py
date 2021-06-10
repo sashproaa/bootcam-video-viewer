@@ -288,43 +288,9 @@ class CommentCreateApiView(generics.CreateAPIView):
 class CommentDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.filter()
     serializer_class = CommentDetailSerializer
-<<<<<<< HEAD
-    permission_classes = (IsAuthenticated,)
-    # permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
-=======
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsOwnerOrReadonly,)
+    # permission_classes = (IsAdminUser, )
 
-
-class VideoSubscriptionApiView(generics.ListAPIView):
-    serializer_class = VideoSubscriptionListSerializer
->>>>>>> 8a5c483... add update from Bodya
-
-    temp = ""
-    hash_project = ""
-
-    def get(self, request, *args, **kwargs):
-        self.temp = request.GET.get('temp')
-        self.hash_project = request.headers.get('Hash-Project')
-        print("Get request user_id", request.user.id)
-        return super(VideoSubscriptionApiView, self).get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        project = get_object_or_404(Projects, hash=self.hash_project)
-        if self.request.user.is_authenticated and project:
-            subscriptions_paid_id = VideoSubscriptions.objects.filter(
-                project_id=project.id, videocontent__data_end__gte=timezone.now(),
-                videocontent__user_id=self.request.user.id, videocontent__video_subscription__isnull=False
-            ).values_list('id', flat=True)
-            subscriptions_paid_id = list(subscriptions_paid_id)
-            subscriptions_paid_id = subscriptions_paid_id if subscriptions_paid_id else [-1]
-            queryset = VideoSubscriptions.objects.filter(project_id=project.id).annotate(
-                data_end=Case(When(Q(id__in=subscriptions_paid_id), then=Max('videocontent__data_end')),
-                              default=None, output_field=models.DateField()),
-                paid=Case(When(Q(id__in=subscriptions_paid_id), then=True),
-                          default=False, output_field=models.BooleanField())).distinct()
-        else:
-            queryset = VideoSubscriptions.objects.filter(project_id=project.id)
-        return queryset
 
 
 class FacebookLogin(SocialLoginView):
