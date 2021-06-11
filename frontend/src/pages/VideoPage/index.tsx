@@ -157,8 +157,8 @@ export default function VideoPage() {
                 {/*</Player>*/}
                 <ReactPlayer
                   ref={setPlayer}
-                  url={video.paid ? video.video_url : video.preview_video}
-                  // url={testVideo}
+                  // url={video.paid ? video.video_url : video.preview_video}
+                  url={testVideo}
                   width='100%'
                   height='100%'
                   controls
@@ -169,15 +169,25 @@ export default function VideoPage() {
                         poster: video.image,
                         controlsList: 'nodownload',
                         oncontextmenu: 'return false;',
+                        preload: 'auto',
                       },
                     },
                   }}
+                  // light={!video.video_url && !video.preview_video}
+                  light={video.image}
                   playing={playing}
                   onReady={handleReady}
                   onProgress={handleProgress}
                   onSeek={handleSeek}
                   onPlay={handlePlay}
                   onPause={handlePause}
+                  playIcon={
+                    <Play
+                      className={cls.btnPlay}
+                      size={70}
+                      onClick={handleClickBtnPlay}
+                    />
+                  }
                 />
                 {/*{!playing && (*/}
                 {/*  <Play*/}
@@ -210,13 +220,21 @@ export default function VideoPage() {
               </div>
               <div className={cls.btnPayment}>
                 {!video.paid && !admin && (
-                  <ButtonLine
-                    className={cls.button}
-                    size='big'
-                    onClick={handleBuy}
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id='tooltip-buy'>
+                        Купить спектакль на 1 месяц.
+                      </Tooltip>
+                    }
                   >
-                    Купить за {video.price} грн
-                  </ButtonLine>
+                    <ButtonLine
+                      className={cls.button}
+                      size='big'
+                      onClick={handleBuy}
+                    >
+                      Купить за {video.price} грн
+                    </ButtonLine>
+                  </OverlayTrigger>
                 )}
 
                 {!admin && (
