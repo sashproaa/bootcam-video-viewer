@@ -25,9 +25,9 @@ export default function Subscription({ className = '' }: Props) {
         <Tab className={cls.tab} eventKey='subscriptions' title='Подписки'>
           <Subscriptions />
         </Tab>
-        <Tab eventKey='management' title='Управление подписками'>
-          <Management />
-        </Tab>
+        {/*<Tab eventKey='management' title='Управление подписками'>*/}
+        {/*  <Management />*/}
+        {/*</Tab>*/}
         <Tab eventKey='history' title='История платежей'>
           <History />
         </Tab>
