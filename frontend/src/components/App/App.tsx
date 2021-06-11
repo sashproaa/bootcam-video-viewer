@@ -36,7 +36,7 @@ function App() {
       <AuthPage />
       <HeaderPage />
       <Notification />
-      <div className='container pb-5s'>
+      <div className='container pb-5'>
         <Switch>
           <Route path={Routes.catalog} component={CatalogPage} />
           <Route path={`${Routes.video}/:id`} component={VideoPage} />
