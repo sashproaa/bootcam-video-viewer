@@ -132,8 +132,8 @@ export default function Profile({ className = '' }: Props) {
                 id='date_of_birth'
                 fill
                 dark
-                min={getDate(101)}
-                max={getDate(14)}
+                min={getDate(200)}
+                max={getDate(0)}
                 defaultValue={user.date_of_birth}
                 errorText={errors.date_of_birth?.message}
                 {...register('date_of_birth')}
