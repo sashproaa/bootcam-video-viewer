@@ -67,12 +67,16 @@ export default function VideoPage() {
   }, [id]);
 
   useEffect(() => {
-    if (!player) return;
-    const video = player.getInternalPlayer();
-    if (video && video.oncontextmenu) {
-      video.oncontextmenu = () => false;
-    }
+    removeContextmenu();
   }, [player]);
+
+  const removeContextmenu = () => {
+    if (!player) return;
+    const videoEl = player.getInternalPlayer();
+    if (videoEl) {
+      videoEl.oncontextmenu = () => false;
+    }
+  };
 
   const handleBuy = () => {
     dispatch(
@@ -106,7 +110,8 @@ export default function VideoPage() {
   };
 
   const handleReady = () => {
-    console.log('handleReady');
+    removeContextmenu();
+
     if (player && isSeek && activeVideo && activeVideo.id == id) {
       player.seekTo(activeVideo.time);
       setIsSeek(false);
@@ -122,6 +127,7 @@ export default function VideoPage() {
   };
 
   const handlePlay = () => {
+    removeContextmenu();
     setPlaying(true);
   };
 
@@ -135,6 +141,7 @@ export default function VideoPage() {
   };
 
   const handleClickBtnPlay = () => {
+    removeContextmenu();
     setPlaying(true);
   };
 
@@ -168,7 +175,6 @@ export default function VideoPage() {
                       attributes: {
                         poster: video.image,
                         controlsList: 'nodownload',
-                        oncontextmenu: 'return false;',
                         preload: 'auto',
                       },
                     },
