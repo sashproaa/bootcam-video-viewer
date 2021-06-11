@@ -164,8 +164,8 @@ export default function VideoPage() {
                 {/*</Player>*/}
                 <ReactPlayer
                   ref={setPlayer}
-                  // url={video.paid ? video.video_url : video.preview_video}
-                  url={testVideo}
+                  url={video.paid ? video.video_url : video.preview_video}
+                  // url={testVideo}
                   width='100%'
                   height='100%'
                   controls
