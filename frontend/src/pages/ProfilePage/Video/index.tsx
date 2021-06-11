@@ -6,6 +6,7 @@ import Subscriptions from '../Subscription/Subscriptions';
 import Management from '../Subscription/Management';
 import History from '../Subscription/History';
 import Bought from './Bought';
+import ActiveVideo from './ActiveVideo';
 
 interface Props {
   className?: string;
@@ -19,6 +20,9 @@ export default function Video({ className = '' }: Props) {
       </Header>
 
       <Tabs className='tabs' defaultActiveKey='bought' id='subscription-tabs'>
+        <Tab className={cls.tab} eventKey='active' title='Активное видео'>
+          <ActiveVideo />
+        </Tab>
         <Tab
           className={cls.tab}
           eventKey='history'
