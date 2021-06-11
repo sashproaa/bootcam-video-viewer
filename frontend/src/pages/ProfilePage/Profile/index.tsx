@@ -153,8 +153,7 @@ export default function Profile({ className = '' }: Props) {
               >
                 <option value='M'>Мужской</option>
                 <option value='F'>Женский</option>
-                <option value=''>Хз. Еще не решил</option>
-                <option value=''>Решил, но сказать стыдно</option>
+                <option value=''>Не знаю</option>
               </Select>
             </div>
 
