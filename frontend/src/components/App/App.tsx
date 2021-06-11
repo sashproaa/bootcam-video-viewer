@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <ClearButton />
+      {/*<ClearButton />*/}
       <AuthPage />
       <HeaderPage />
       <Notification />
