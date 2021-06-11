@@ -28,7 +28,7 @@ export const schemaProfile = yup.object().shape({
   first_name: yup
     .string()
     .min(2, 'Имя должно состоять минимум из 2 букв')
-    .matches(/^\w+$/, 'Недопустимые символы'),
+    .matches(/^[\w[А-Яа-яЁё\-\ \.]+$/, 'Недопустимые символы'),
   last_name: yup.string().min(2, 'Фамилия должна состоять минимум из 2 букв'),
   mobile: yup
     .string()
