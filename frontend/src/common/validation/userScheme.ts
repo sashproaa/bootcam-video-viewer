@@ -32,8 +32,7 @@ export const schemaProfile = yup.object().shape({
   last_name: yup.string().min(2, 'Фамилия должна состоять минимум из 2 букв'),
   mobile: yup
     .string()
-    .matches(/\+38\d{10}/, 'Телефон должен быть в формате +38xxxyyyyyyy')
-    .matches(/^\w+$/, 'Недопустимые символы'),
+    .matches(/\+38\d{10}/, 'Телефон должен быть в формате +38xxxyyyyyyy'),
   date_of_birth: yup
     .date()
     .max(getDate(14), 'У родителей деньги тыришь?')
