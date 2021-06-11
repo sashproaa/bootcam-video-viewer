@@ -29,6 +29,8 @@ import {
 } from '../../store/catalogSlice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { isAdminUser, userActiveVideoInfo } from '../../store/userSlice';
+import ButtonPlay from '../../components/ButtonPlay';
+import { Play } from 'react-feather';
 
 // const testVideo = 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4';
 const testVideo = 'https://www.dropbox.com/s/j9yjvmdq7lrw6fl/video720.mp4?dl=0';
@@ -125,9 +127,16 @@ export default function VideoPage() {
 
   const handlePause = () => {
     dispatch(saveTimeVideo(player?.getCurrentTime()));
+    setPlaying(false);
   };
 
-  const handleStop = () => {};
+  const handleStop = () => {
+    setPlaying(false);
+  };
+
+  const handleClickBtnPlay = () => {
+    setPlaying(true);
+  };
 
   return (
     <div>
@@ -148,10 +157,8 @@ export default function VideoPage() {
                 {/*</Player>*/}
                 <ReactPlayer
                   ref={setPlayer}
-                  // ref={player}
-                  // url={video.paid ? video.video_url : video.preview_video}
-                  // url='http://media.w3.org/2010/05/bunny/movie.mp4'
-                  url={testVideo}
+                  url={video.paid ? video.video_url : video.preview_video}
+                  // url={testVideo}
                   width='100%'
                   height='100%'
                   controls
@@ -165,12 +172,20 @@ export default function VideoPage() {
                       },
                     },
                   }}
+                  playing={playing}
                   onReady={handleReady}
                   onProgress={handleProgress}
                   onSeek={handleSeek}
                   onPlay={handlePlay}
                   onPause={handlePause}
                 />
+                {/*{!playing && (*/}
+                {/*  <Play*/}
+                {/*    className={cls.btnPlay}*/}
+                {/*    size={70}*/}
+                {/*    onClick={handleClickBtnPlay}*/}
+                {/*  />*/}
+                {/*)}*/}
               </div>
             </div>
             <div

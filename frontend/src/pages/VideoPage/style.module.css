@@ -53,6 +53,27 @@
   transition: .2s;
 }
 
+.btnPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  fill: var(--white);
+  cursor: pointer;
+  transition: .3s;
+}
+
+.btnPlay:hover {
+  color: var(--thunderbird);
+  fill: var(--thunderbird);
+}
+
+.btnPlay:active {
+  color: var(--alto);
+  fill: var(--alto);
+}
+
 .player_content .wrapper_block_of_video .block_of_video .preview_video:hover:active:before {
   color: var(--alto);
 }
