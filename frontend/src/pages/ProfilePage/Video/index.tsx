@@ -19,7 +19,7 @@ export default function Video({ className = '' }: Props) {
         <h2>Мои спектакли</h2>
       </Header>
 
-      <Tabs className='tabs' defaultActiveKey='bought' id='subscription-tabs'>
+      <Tabs className='tabs' defaultActiveKey='active' id='subscription-tabs'>
         <Tab className={cls.tab} eventKey='active' title='Активное видео'>
           <ActiveVideo />
         </Tab>
