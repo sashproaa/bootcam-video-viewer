@@ -23,14 +23,14 @@ export default function Video({ className = '' }: Props) {
         <Tab className={cls.tab} eventKey='active' title='Активное видео'>
           <ActiveVideo />
         </Tab>
-        <Tab
-          className={cls.tab}
-          eventKey='history'
-          title='История просмотров'
-          disabled
-        >
-          <div></div>
-        </Tab>
+        {/*<Tab*/}
+        {/*  className={cls.tab}*/}
+        {/*  eventKey='history'*/}
+        {/*  title='История просмотров'*/}
+        {/*  disabled*/}
+        {/*>*/}
+        {/*  <div></div>*/}
+        {/*</Tab>*/}
         <Tab eventKey='bought' title='Купленные'>
           <Bought />
         </Tab>
