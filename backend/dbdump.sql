@@ -2547,4 +2547,3 @@ ALTER TABLE ONLY public.socialaccount_socialaccount
 --
 -- PostgreSQL database dump complete
 --
-

@@ -14,6 +14,7 @@ admin.site.register(VideoSubscriptions)
 admin.site.register(Video)
 admin.site.register(VideoContent)
 admin.site.register(Transactions)
+admin.site.register(Comment)
 
 
 
