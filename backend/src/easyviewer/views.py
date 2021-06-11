@@ -245,6 +245,22 @@ class ProjectSubscriptionsListApiView(generics.ListAPIView):
     serializer_class = ProjectSubscriptionsDetail
 
 
+class CommentApiView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentListSerializer
+
+
+class CommentCreateApiView(generics.CreateAPIView):
+    serializer_class = CommentDetailSerializer
+    permission_classes = (IsAdminUser, )
+
+
+class CommentDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.filter()
+    serializer_class = CommentDetailSerializer
+    permission_classes = (IsAdminUser, )
+
+
 class VideoSubscriptionApiView(generics.ListAPIView):
     serializer_class = VideoSubscriptionListSerializer
 
