@@ -1,4 +1,5 @@
 import json
+from datetime import timedelta
 from decimal import Decimal
 
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
@@ -64,6 +65,7 @@ class VideoListApiView(generics.ListAPIView):
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
             video_subscriptions_id = list(video_subscriptions_id)
+            video_subscriptions_id = video_subscriptions_id if video_subscriptions_id else [-1]
             video_ids_subscriptions = Video.objects.filter(
                 subscription__in=video_subscriptions_id).values_list('id', flat=True)
             video_ids_video = Video.objects.filter(
@@ -99,6 +101,7 @@ class VideoContentListApiView(generics.ListAPIView):
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
             video_subscriptions_id = list(video_subscriptions_id)
+            video_subscriptions_id = video_subscriptions_id if video_subscriptions_id else [-1]
             video_ids_subscriptions = Video.objects.filter(
                 subscription__in=video_subscriptions_id).values_list('id', flat=True)
             video_ids_video = Video.objects.filter(
@@ -118,7 +121,6 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
     pagination_class = VideoPagination
     serializer_class = VideoDetailSerializer
     permission_classes = (IsStaff, )
-    queryset = Video.objects.filter()
 
     temp = ""
     hash_project = ""
@@ -132,12 +134,12 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         project = get_object_or_404(Projects, hash=self.hash_project)
         if self.request.user.is_authenticated and project:
-            video = get_object_or_404(Video, id=self.kwargs['pk'])
+            video = get_object_or_404(Video, id=self.kwargs.get('pk'))
             video_subscriptions_id = VideoSubscriptions.objects.filter(
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
             video_ids_video = Video.objects.filter(
-                project_id=project.id, videocontent__video_id=self.kwargs['pk'],
+                project_id=project.id, videocontent__video_id=self.kwargs.get('pk'),
                 videocontent__data_end__gte=timezone.now(), videocontent__user_id=self.request.user.id
                                                                                     ).values_list('id', flat=True)
             video_subscriptions_id = list(video_subscriptions_id)
@@ -148,7 +150,7 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id, id=self.kwargs['pk'])
+            queryset = Video.objects.filter(project_id=project.id, id=self.kwargs.get('pk'))
         return queryset
 
 
@@ -160,11 +162,10 @@ class VideoCreateApiView(generics.CreateAPIView):
 class TransactionsListApiView(generics.ListAPIView):
 
     serializer_class = TransactionsDetailSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     temp = ""
 
     def get(self, request, *args, **kwargs):
-
         self.temp = request.GET.get('temp')
         print("Get request user_id", request.user.id)
         return super(TransactionsListApiView, self).get(request, *args, **kwargs)
@@ -211,13 +212,13 @@ class TransactionsApiView(generics.CreateAPIView):
             if 'video' == merchant_data_val['target']:
                 video = Video.objects.get(id=instance_id)
                 video_id = instance_id
-                duration = video.duration
+                duration = timedelta(days=30)
             elif 'subscription' == merchant_data_val['target']:
                 sub = VideoSubscriptions.objects.get(id=instance_id)
                 subscription = sub.id
-                duration = sub.duration
+                duration = sub.duration + timedelta(days=30)
             data_start = timezone.now()
-            data_end = timezone.now() + duration
+            data_end = data_start + duration
             videocontent_data = {
                 'transaction_id': transaction_obj.id,
                 'data_start': data_start, 'data_end': data_end, 'user_id': user, 'video_id': video_id,
