@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
 import cls from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  allSubscriptions,
-  fetchSubscriptions,
-} from '../../../store/subscriptionSlice';
-import { historyTransactions } from '../../../store/paymentSlice';
+  fetchHistoryTransactions,
+  historyTransactions,
+} from '../../../store/paymentSlice';
 
 interface Props {
   className?: string;
@@ -17,7 +15,7 @@ export default function History({ className = '' }: Props) {
   const transactions = useSelector(historyTransactions);
 
   useEffect(() => {
-    dispatch(fetchSubscriptions());
+    dispatch(fetchHistoryTransactions());
   }, []);
 
   return (

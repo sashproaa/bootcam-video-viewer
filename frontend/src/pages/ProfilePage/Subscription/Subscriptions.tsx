@@ -30,6 +30,9 @@ export default function Subscriptions({ className = '' }: Props) {
     <div className={className}>
       <section className={`${cls.section} ${cls.my}`}>
         <h2 className={cls.header}>Мои подписки</h2>
+        {activeSubscriptions.length === 0 && (
+          <h3 className='ml-2 mr-2 text-center'>У вас нет активных подписок</h3>
+        )}
         {activeSubscriptions.map((subscription) => (
           <SubscriptionCard
             key={subscription.id}

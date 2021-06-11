@@ -9,6 +9,7 @@ interface Props {
   show: boolean;
   onClose: () => void;
   onExited?: () => void;
+  full?: boolean;
 }
 
 export default function ModalWin({
@@ -17,10 +18,11 @@ export default function ModalWin({
   show,
   onClose,
   onExited = () => {},
+  full = false,
 }: Props) {
   return (
     <Modal
-      dialogClassName={`${cls.modal} ${className}`}
+      dialogClassName={`${cls.modal} ${className} ${full ? cls.full : ''}`}
       show={show}
       onHide={onClose}
       onExited={onExited}

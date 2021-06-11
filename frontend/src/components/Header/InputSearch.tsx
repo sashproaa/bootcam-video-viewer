@@ -7,7 +7,7 @@ import { setIsShowAuth, userInfo } from '../../store/userSlice';
 import Button from '../Button';
 import ButtonClean from '../ButtonClean';
 import { Search } from 'react-feather';
-import { X } from 'react-feather';
+import { Delete } from 'react-feather';
 import {
   searchVideos,
   setSearch,
@@ -67,7 +67,7 @@ export default function InputSearch() {
         onChange={handleChangeSearch}
       />
       <label className={cls.labelX} htmlFor='search'>
-        <X className={cls.xMark} size={24} onClick={handleCleanSearch} />
+        <Delete className={cls.xMark} size={24} onClick={handleCleanSearch} />
       </label>
     </form>
   );

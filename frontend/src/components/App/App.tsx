@@ -32,11 +32,11 @@ function App() {
 
   return (
     <>
-      <ClearButton />
+      {/*<ClearButton />*/}
       <AuthPage />
       <HeaderPage />
       <Notification />
-      <div className='container'>
+      <div className='container pb-5'>
         <Switch>
           <Route path={Routes.catalog} component={CatalogPage} />
           <Route path={`${Routes.video}/:id`} component={VideoPage} />

@@ -8,15 +8,20 @@ import {
   updateVideo,
 } from '../api/services/videoService';
 import { showNoticeError } from './notificationSlice';
+import { updateUser } from '../api/services/userService';
+import { User } from '../common/interfaces/UserInterface';
+import { updateActiveVideo } from './userSlice';
 
 interface VideoState {
   isLoading: boolean;
   video: Video;
+  timeVideo: number | undefined;
 }
 
 const initialState: VideoState = {
   isLoading: false,
   video: {} as Video,
+  timeVideo: 0,
 };
 
 export const videoSlice = createSlice({
@@ -29,10 +34,13 @@ export const videoSlice = createSlice({
     setVideo: (state, action: PayloadAction<Video>) => {
       state.video = action.payload;
     },
+    setTimeVideo: (state, action: PayloadAction<number | undefined>) => {
+      state.timeVideo = action.payload;
+    },
   },
 });
 
-export const { setIsLoading, setVideo } = videoSlice.actions;
+export const { setIsLoading, setVideo, setTimeVideo } = videoSlice.actions;
 
 export const fetchVideo = (id: number): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
@@ -81,6 +89,26 @@ export const fetchUpdatMedia = (video: Video): AppThunk => async (
   }
   dispatch(setIsLoading(false));
 };
+
+export const saveTimeVideo = (time: number | undefined): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  const timeNum = time ? time : 0;
+  dispatch(setTimeVideo(timeNum));
+  dispatch(
+    updateActiveVideo({
+      id: getState().video.video.id,
+      time: timeNum,
+    }),
+  );
+};
+
+export const playVideo = (): AppThunk => async (dispatch, getState) => {};
+
+export const pauseVideo = (): AppThunk => async (dispatch, getState) => {};
+
+export const stopVideo = (): AppThunk => async (dispatch, getState) => {};
 
 export const isLoading = (state: RootState) => state.video.isLoading;
 export const videoInfo = (state: RootState) => state.video.video;

@@ -92,20 +92,20 @@ export default function Profile({ className = '' }: Props) {
               />
             </div>
 
-            <div className={cls.inputBlock}>
-              <label htmlFor='last_name' className={cls.label}>
-                Фамилия
-              </label>
-              <Input
-                type='text'
-                id='last_name'
-                fill
-                dark
-                defaultValue={user.last_name}
-                errorText={errors.last_name?.message}
-                {...register('last_name')}
-              />
-            </div>
+            {/*<div className={cls.inputBlock}>*/}
+            {/*  <label htmlFor='last_name' className={cls.label}>*/}
+            {/*    Фамилия*/}
+            {/*  </label>*/}
+            {/*  <Input*/}
+            {/*    type='text'*/}
+            {/*    id='last_name'*/}
+            {/*    fill*/}
+            {/*    dark*/}
+            {/*    defaultValue={user.last_name}*/}
+            {/*    errorText={errors.last_name?.message}*/}
+            {/*    {...register('last_name')}*/}
+            {/*  />*/}
+            {/*</div>*/}
 
             <div className={cls.inputBlock}>
               <label htmlFor='mobile' className={cls.label}>
@@ -132,8 +132,8 @@ export default function Profile({ className = '' }: Props) {
                 id='date_of_birth'
                 fill
                 dark
-                min={getDate(101)}
-                max={getDate(14)}
+                min={getDate(200)}
+                max={getDate(0)}
                 defaultValue={user.date_of_birth}
                 errorText={errors.date_of_birth?.message}
                 {...register('date_of_birth')}
@@ -153,8 +153,7 @@ export default function Profile({ className = '' }: Props) {
               >
                 <option value='M'>Мужской</option>
                 <option value='F'>Женский</option>
-                <option value=''>Хз. Еще не решил</option>
-                <option value=''>Решил, но сказать стыдно</option>
+                <option value=''>Не знаю</option>
               </Select>
             </div>
 

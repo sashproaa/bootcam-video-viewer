@@ -8,6 +8,7 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaRegistration } from '../../../common/validation/userScheme';
+import Privacy from '../../../components/Privacy';
 
 interface Props {
   // onChangeType: (type: 'login' | 'registration') => void;
@@ -16,6 +17,7 @@ interface Props {
 
 export default function Registration({ onRegistration }: Props) {
   const dispatch = useDispatch();
+  const [showPrivacy, setShowPrivacy] = useState(false);
   const {
     register,
     setValue,
@@ -34,6 +36,15 @@ export default function Registration({ onRegistration }: Props) {
   const onSubmit: SubmitHandler<RegistrationData> = (data) => {
     console.log('SubmitHandler: ', data);
     onRegistration(data);
+  };
+
+  const handleOpenPrivacy = (ev: any) => {
+    ev.preventDefault();
+    setShowPrivacy(true);
+  };
+
+  const handleClosePrivacy = () => {
+    setShowPrivacy(false);
   };
 
   return (
@@ -55,13 +66,16 @@ export default function Registration({ onRegistration }: Props) {
           {...register('password')}
         />
         <p className={cls.contract}>
-          Регистрируя новый профиль, вы принимаете условия
-          <a href='#'>Пользовательского соглашения</a>
+          Регистрируя новый профиль, вы принимаете условия{' '}
+          <a href='#' onClick={handleOpenPrivacy}>
+            Пользовательского соглашения
+          </a>
         </p>
         <Button fill type='submit'>
           Зарегистрироваться
         </Button>
       </form>
+      <Privacy show={showPrivacy} onClose={handleClosePrivacy} />
     </>
   );
 }
