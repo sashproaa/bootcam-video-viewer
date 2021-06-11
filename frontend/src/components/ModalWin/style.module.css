@@ -3,6 +3,11 @@
   margin-top: 10% !important;
 }
 
+.modal.full {
+  width: 90% !important;
+  max-width: 90% !important;
+}
+
 .wrapper {
   /*width: 400px;*/
   width: 100%;
