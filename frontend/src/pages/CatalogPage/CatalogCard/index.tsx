@@ -47,6 +47,9 @@ export default function CatalogCard({
             <p className={cls.description}>{video.description}</p>
             <ButtonPlay className={cls.play} />
           </div>
+
+          {video.paid && <div className={cls.paid}>Куплено</div>}
+
           {editable && (
             <ButtonClean className={cls.edit} onClick={handleEdit}>
               <Edit size={24} />

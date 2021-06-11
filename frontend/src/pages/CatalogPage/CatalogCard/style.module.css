@@ -87,3 +87,13 @@
   top: 0;
   right: 10px;
 }
+
+.paid {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  background: var(--thunderbird);
+  font-size: 12px;
+}
