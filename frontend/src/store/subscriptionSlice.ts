@@ -37,6 +37,13 @@ export const fetchSubscriptions = (): AppThunk => async (dispatch) => {
     console.error('Проблемы при получении подписок: ', response.error);
   } else {
     dispatch(setSubscriptions(response.results));
+    dispatch(
+      setSubscriptions(
+        response.results
+          .slice()
+          .sort((a, b) => Number(a.price) - Number(b.price)),
+      ),
+    );
   }
   dispatch(setIsLoading(false));
 };
