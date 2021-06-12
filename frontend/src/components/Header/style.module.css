@@ -2,7 +2,7 @@
   min-height: 65px;
   width: 100%;
   background: var(--shark);
-  margin-bottom: 56px;
+  /*margin-bottom: 56px;*/
 }
 
 .headerRow {
