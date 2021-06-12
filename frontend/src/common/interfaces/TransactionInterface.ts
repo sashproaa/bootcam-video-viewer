@@ -1,14 +1,11 @@
-import { VideoContent } from './VideoContentInterface';
-
 export interface Transaction {
   // id: number;
   hash: string;
   user_id: number;
   title: string;
-  status: 'AC' | 'P' | 'US';
+  status: string;
   price: string;
   project_id: number;
-  json_description: string;
+  json_description: any;
   created_at: string;
-  videocontent: VideoContent[];
 }

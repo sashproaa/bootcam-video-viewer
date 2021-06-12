@@ -10,6 +10,8 @@ export interface MerchantData {
   id: number;
   userId: number;
   projectId: number;
+  name: string;
+  targetName: string;
 }
 
 interface CatalogState {

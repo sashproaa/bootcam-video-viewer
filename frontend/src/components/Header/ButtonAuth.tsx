@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes } from '../../common/enums/RoutesEnum';
 import cls from './style.module.css';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';
-import Button from '../Button';
 import ButtonClean from '../ButtonClean';
 import { LogIn } from 'react-feather';
 import { User } from 'react-feather';

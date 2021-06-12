@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes } from '../../common/enums/RoutesEnum';
 import cls from './style.module.css';
-import { setIsShowAuth, userInfo } from '../../store/userSlice';
-import Button from '../Button';
-import ButtonClean from '../ButtonClean';
 import { Search } from 'react-feather';
 import { Delete } from 'react-feather';
 import {
@@ -21,7 +18,6 @@ export default function InputSearch() {
   const history = useHistory();
   const location = useLocation();
   const search = useSelector(searchVideos);
-  // const [search, setSearch] = useState('');
   const debounced = useDebouncedCallback((value) => {
     dispatch(updateFilterVideos({ title: value }));
   }, 1000);
@@ -29,7 +25,6 @@ export default function InputSearch() {
   useEffect(() => {}, []);
 
   const updateSearch = (value: string) => {
-    // setSearch(value);
     dispatch(setSearch(value));
     if (location.pathname === Routes.catalog) {
       debounced(value);

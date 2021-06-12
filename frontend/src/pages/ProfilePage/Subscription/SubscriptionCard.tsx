@@ -8,14 +8,19 @@ interface Props {
   subscription: Subscription;
   className?: string;
   type?: 'extend' | 'buy' | 'management';
+  onBuy?: () => void;
 }
 
 export default function SubscriptionCard({
   subscription,
   className = '',
   type = 'extend',
+  onBuy = () => {},
 }: Props) {
-  console.log('subscription: ', subscription);
+  const handleBuy = () => {
+    onBuy();
+  };
+
   return (
     <div className={`${cls.subscriptionCard} ${cls[type]} ${className}`}>
       <div className={`${cls.cardDescription}`}>
@@ -42,7 +47,7 @@ export default function SubscriptionCard({
           <Button className={cls.cardBtn}>Продлить</Button>
         )}
         {type === 'buy' && (
-          <ButtonLine className={cls.cardBtn}>
+          <ButtonLine className={cls.cardBtn} onClick={handleBuy}>
             Купить за {subscription.price} грн
           </ButtonLine>
         )}

@@ -39,17 +39,17 @@ export default function SideBar() {
             src={user.avatar || userImg}
             alt={user.first_name}
           />
-          <label className={cls.labelAvatar} htmlFor='inputAvatar'>
-            <Edit size={20} />
-          </label>
-          <input
-            className={cls.inputAvatar}
-            type='file'
-            id='inputAvatar'
-            name='avatar'
-            accept='image/*'
-            onChange={handleChangeAvatar}
-          />
+          {/*<label className={cls.labelAvatar} htmlFor='inputAvatar'>*/}
+          {/*  <Edit size={20} />*/}
+          {/*</label>*/}
+          {/*<input*/}
+          {/*  className={cls.inputAvatar}*/}
+          {/*  type='file'*/}
+          {/*  id='inputAvatar'*/}
+          {/*  name='avatar'*/}
+          {/*  accept='image/*'*/}
+          {/*  onChange={handleChangeAvatar}*/}
+          {/*/>*/}
         </div>
         <ul>
           <li>

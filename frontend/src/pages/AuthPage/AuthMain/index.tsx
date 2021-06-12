@@ -6,11 +6,9 @@ import {
   isShowAuth,
   LoginData,
   RegistrationData,
-  setIsShowAuth,
 } from '../../../store/userSlice';
 import Login from '../Login';
 import Registration from '../Registration';
-import { IoCloseOutline } from 'react-icons/io5';
 import cls from './style.module.css';
 
 interface Props {

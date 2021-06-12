@@ -6,6 +6,10 @@ import {
 } from '../../../store/subscriptionSlice';
 import SubscriptionCard from './SubscriptionCard';
 import cls from './style.module.css';
+import { Subscription } from '../../../common/interfaces/SubscriptionInterface';
+import { setPaymentData } from '../../../store/paymentSlice';
+import { Routes } from '../../../common/enums/RoutesEnum';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   className?: string;
@@ -13,6 +17,7 @@ interface Props {
 
 export default function Subscriptions({ className = '' }: Props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const subscriptions = useSelector(allSubscriptions);
 
   const activeSubscriptions = subscriptions.filter(
@@ -25,6 +30,22 @@ export default function Subscriptions({ className = '' }: Props) {
   useEffect(() => {
     dispatch(fetchSubscriptions());
   }, []);
+
+  const handlePayment = (subscription: Subscription) => () => {
+    dispatch(
+      setPaymentData({
+        data: {
+          target: 'subscription',
+          id: subscription.id,
+          projectId: subscription.project_id,
+          name: subscription.name,
+          targetName: 'Подписка',
+        },
+        price: subscription.price,
+      }),
+    );
+    history.push(Routes.payment);
+  };
 
   return (
     <div className={className}>
@@ -49,6 +70,7 @@ export default function Subscriptions({ className = '' }: Props) {
             key={subscription.id}
             type='buy'
             subscription={subscription}
+            onBuy={handlePayment(subscription)}
           />
         ))}
       </section>

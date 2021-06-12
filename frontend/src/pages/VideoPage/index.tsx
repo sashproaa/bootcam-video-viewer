@@ -32,6 +32,8 @@ import { isAdminUser, userActiveVideoInfo } from '../../store/userSlice';
 import ButtonPlay from '../../components/ButtonPlay';
 import { Play } from 'react-feather';
 
+import videoMock from '../../assets/video_mock.mp4';
+
 // const testVideo = 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4';
 const testVideo = 'https://www.dropbox.com/s/j9yjvmdq7lrw6fl/video720.mp4?dl=0';
 const intervalSave = 5000;
@@ -81,7 +83,13 @@ export default function VideoPage() {
   const handleBuy = () => {
     dispatch(
       setPaymentData({
-        data: { target: 'video', id: video.id, projectId: video.project_id },
+        data: {
+          target: 'video',
+          id: video.id,
+          projectId: video.project_id,
+          name: video.title,
+          targetName: 'Видео',
+        },
         price: video.price,
       }),
     );
@@ -164,7 +172,10 @@ export default function VideoPage() {
                 {/*</Player>*/}
                 <ReactPlayer
                   ref={setPlayer}
-                  url={video.paid ? video.video_url : video.preview_video}
+                  url={
+                    (video.paid ? video.video_url : video.preview_video) ||
+                    videoMock
+                  }
                   // url={testVideo}
                   width='100%'
                   height='100%'

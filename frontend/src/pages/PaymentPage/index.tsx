@@ -123,21 +123,21 @@ export default function PaymentPage() {
     <>
       {/*<GoBack>Назад</GoBack>*/}
       <div className='d-flex justify-content-center align-items-center'>
-        <div className={cls.testCards}>
-          <div>
-            4444555566661111 &emsp; <b>успешный</b> &emsp; <i>3DSecure</i>
-          </div>
-          <div>
-            4444111166665555 &emsp; <b>отказ</b> &emsp; &emsp; <i>3DSecure</i>
-          </div>
-          <div>
-            4444555511116666 &emsp; <b>успешный</b> <i></i>
-          </div>
-          <div>
-            4444111155556666 &emsp; <b>отказ</b> <i></i>
-          </div>
-          <div>Срок действия и cvv любые</div>
-        </div>
+        {/*<div className={cls.testCards}>*/}
+        {/*  <div>*/}
+        {/*    4444555566661111 &emsp; <b>успешный</b> &emsp; <i>3DSecure</i>*/}
+        {/*  </div>*/}
+        {/*  <div>*/}
+        {/*    4444111166665555 &emsp; <b>отказ</b> &emsp; &emsp; <i>3DSecure</i>*/}
+        {/*  </div>*/}
+        {/*  <div>*/}
+        {/*    4444555511116666 &emsp; <b>успешный</b> <i></i>*/}
+        {/*  </div>*/}
+        {/*  <div>*/}
+        {/*    4444111155556666 &emsp; <b>отказ</b> <i></i>*/}
+        {/*  </div>*/}
+        {/*  <div>Срок действия и cvv любые</div>*/}
+        {/*</div>*/}
         <div id='checkout'>
           {/*<div id='checkout_wrapper' style={{ width: 500, height: 600 }}></div>*/}
           <div id='checkout_wrapper'></div>
