@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   isSaveToken,
   LoginData,
-  setIsSaveToken,
   toggleIsSaveToken,
 } from '../../../store/userSlice';
-import { IoCheckmark } from 'react-icons/io5';
 import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
 import cls from './style.module.css';
@@ -24,16 +21,11 @@ export default function Login({ onLogin, onRecovery }: Props) {
   const isSave = useSelector(isSaveToken);
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
 
   useEffect(() => {}, []);
-
-  // const handleRegistration = () => {
-  //   onChangeType('registration');
-  // };
 
   const handleRemember = () => {
     dispatch(toggleIsSaveToken());

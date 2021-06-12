@@ -5,7 +5,6 @@ import { Routes } from '../../../common/enums/RoutesEnum';
 import { useDispatch } from 'react-redux';
 import { setVideo } from '../../../store/videoSlice';
 import cls from './style.module.css';
-import { IoPlaySharp } from 'react-icons/io5';
 import ButtonPlay from '../../../components/ButtonPlay';
 import { images } from '../../../common/helpers/imageMockHelper';
 import { IoPencil } from 'react-icons/io5';

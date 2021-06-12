@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RegistrationData } from '../../../store/userSlice';
 import cls from './style.module.css';
@@ -11,16 +9,13 @@ import { schemaRegistration } from '../../../common/validation/userScheme';
 import Privacy from '../../../components/Privacy';
 
 interface Props {
-  // onChangeType: (type: 'login' | 'registration') => void;
   onRegistration: (data: RegistrationData) => void;
 }
 
 export default function Registration({ onRegistration }: Props) {
-  const dispatch = useDispatch();
   const [showPrivacy, setShowPrivacy] = useState(false);
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<RegistrationData>({
@@ -28,10 +23,6 @@ export default function Registration({ onRegistration }: Props) {
   });
 
   useEffect(() => {}, []);
-
-  // const handleLogin = () => {
-  //   onChangeType('login');
-  // };
 
   const onSubmit: SubmitHandler<RegistrationData> = (data) => {
     console.log('SubmitHandler: ', data);

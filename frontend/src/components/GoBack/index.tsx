@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ArrowLeft } from 'react-feather';
 import cls from './style.module.css';
 import { Routes } from '../../common/enums/RoutesEnum';

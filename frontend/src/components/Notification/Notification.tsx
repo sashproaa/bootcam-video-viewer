@@ -3,7 +3,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Notifcation.css';
-import { showNotice, clearNotice } from '../../store/notificationSlice';
+import { clearNotice } from '../../store/notificationSlice';
 import { RootState } from '../../store/store';
 
 function Notification() {
