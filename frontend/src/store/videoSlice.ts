@@ -96,12 +96,14 @@ export const saveTimeVideo = (time: number | undefined): AppThunk => async (
 ) => {
   const timeNum = time ? time : 0;
   dispatch(setTimeVideo(timeNum));
-  dispatch(
-    updateActiveVideo({
-      id: getState().video.video.id,
-      time: timeNum,
-    }),
-  );
+  if (getState().video.video.video_url) {
+    dispatch(
+      updateActiveVideo({
+        id: getState().video.video.id,
+        time: timeNum,
+      }),
+    );
+  }
 };
 
 export const playVideo = (): AppThunk => async (dispatch, getState) => {};
