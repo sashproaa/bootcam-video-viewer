@@ -19,7 +19,6 @@
     "bootstrap": "4",
     "clsx": "^1.1.1",
     "feather-icons": "^4.28.0",
-    "lorem-ipsum": "^2.0.3",
     "prettier": "^2.2.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
