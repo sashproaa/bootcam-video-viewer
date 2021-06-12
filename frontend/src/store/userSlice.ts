@@ -200,11 +200,13 @@ export const updateActiveVideo = (activeVideo: {
   time: number;
 }): AppThunk => async (dispatch, getState) => {
   dispatch(setActiveVideo(activeVideo));
-  const response = await updateUser({
-    history: {
-      activeVideo,
-    },
-  } as User);
+  if (getState().user.user.id) {
+    const response = await updateUser({
+      history: {
+        activeVideo,
+      },
+    } as User);
+  }
 };
 
 export const isLoading = (state: RootState) => state.user.isLoading;
