@@ -181,7 +181,7 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
         model = get_user_model()
         read_only_fields = ('id', 'email',)
         fields = ('id', *extra_fields, 'first_name', 'last_name',  # default fields return
-                  'mobile', 'date_of_birth', 'gender', 'avatar',  # plus return custom user model fields
+                  'mobile', 'date_of_birth', 'gender', 'avatar', 'history',  # plus return custom user model fields
                   # plus return other default user model fields
                   'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions', 'last_login', 'date_joined'
                   )

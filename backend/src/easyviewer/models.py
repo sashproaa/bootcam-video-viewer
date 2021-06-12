@@ -86,6 +86,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, null=True)
     avatar = models.ImageField(upload_to='uploads/image', blank=True, null=True)
+    history = models.CharField(max_length=255, blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
