@@ -81,7 +81,13 @@ export default function VideoPage() {
   const handleBuy = () => {
     dispatch(
       setPaymentData({
-        data: { target: 'video', id: video.id, projectId: video.project_id },
+        data: {
+          target: 'video',
+          id: video.id,
+          projectId: video.project_id,
+          name: video.title,
+          targetName: 'Видео',
+        },
         price: video.price,
       }),
     );
