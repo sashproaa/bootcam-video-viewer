@@ -129,13 +129,15 @@
 
 .btnPayment {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  /*flex-flow: row wrap;*/
+  /*justify-content: space-between;*/
+  gap: 40px;
 }
 
 @media (max-width: 575.98px) {
   .btnPayment {
     flex-direction: column;
+    gap: 20px;
   }
 }
 

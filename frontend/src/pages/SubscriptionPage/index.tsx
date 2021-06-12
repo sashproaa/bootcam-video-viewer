@@ -32,6 +32,8 @@ export default function SubscriptionPage() {
           target: 'subscription',
           id: subscription.id,
           projectId: subscription.project_id,
+          name: subscription.name,
+          targetName: 'Подписка',
         },
         price: subscription.price,
       }),
