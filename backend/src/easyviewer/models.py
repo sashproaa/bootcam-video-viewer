@@ -126,7 +126,8 @@ class VideoSubscriptions(models.Model):
     """ Video subscriptions model """
     name = models.CharField(max_length=200)
     description = models.TextField()
-    duration = models.DurationField()  # days
+    period_month = models.PositiveIntegerField(blank=True, null=True)
+    duration = models.DurationField(blank=True, null=True)  # days
     price = models.DecimalField(max_digits=6, decimal_places=2)
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
 
@@ -157,11 +158,11 @@ class Video(models.Model):
 class Transactions(models.Model):
     """ Transactions model """
     hash = models.CharField(max_length=200, unique=True, default=hsh)  # function to generate hash
-    user_id = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    user_id = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200)
     status = models.CharField(max_length=200, choices=STATUS_CHOICE, default='Active')
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    project_id = models.ForeignKey(Projects, on_delete=models.PROTECT)
+    project_id = models.ForeignKey(Projects, on_delete=models.SET_NULL, blank=True, null=True)
     json_description = jsonfield.JSONField()
     created_at = models.DateTimeField()
 
