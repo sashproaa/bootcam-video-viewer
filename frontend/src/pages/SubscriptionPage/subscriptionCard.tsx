@@ -21,8 +21,8 @@ export default function SubscriptionCard({
       <div className={cls.inside}>
         <h2 className={cls.title}>{subscription.name}</h2>
         <p className={cls.description}>
-          Просмотр всех спектаклей театра МДТ в течение {subscription.duration}{' '}
-          дней в Full HD качестве
+          Просмотр всех спектаклей театра МДТ в течение{' '}
+          {+subscription.duration.split(':')[1]} месяц(ев) в Full HD качестве
         </p>
         <h3 className={cls.price}>{subscription.price} грн.</h3>
         <ButtonLine

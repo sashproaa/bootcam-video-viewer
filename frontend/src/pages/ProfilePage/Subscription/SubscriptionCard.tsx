@@ -32,7 +32,8 @@ export default function SubscriptionCard({
         )}
         {type === 'buy' && (
           <div className={cls.cardText}>
-            Просмотр всех спектаклей в течении {subscription.duration} дней
+            Просмотр всех спектаклей в течении{' '}
+            {+subscription.duration.split(':')[1]} месяц(ев)
           </div>
         )}
         {type === 'management' && (

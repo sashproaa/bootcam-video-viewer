@@ -1359,6 +1359,10 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 52	2021-06-12 15:22:46.331943+00	3	Fanat	2	[{"changed": {"fields": ["duration"]}}]	19	1
 53	2021-06-12 15:23:03.424324+00	2	Friend	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
 54	2021-06-12 15:23:21.483735+00	1	Base	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
+55	2021-06-12 18:35:11.130184+00	3	Fanat	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
+56	2021-06-12 18:35:31.550794+00	2	Friend	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
+57	2021-06-12 18:35:52.69143+00	1	Base	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
+58	2021-06-12 18:36:10.430374+00	3	Fanat	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
 \.
 
 
@@ -1509,7 +1513,7 @@ COPY public.easyviewer_transactions (id, hash, title, status, price, json_descri
 COPY public.easyviewer_user (id, password, last_login, is_superuser, first_name, last_name, is_staff, is_active, date_joined, email, mobile, date_of_birth, gender, avatar) FROM stdin;
 3	pbkdf2_sha256$150000$2ZdAtGij4foU$r4Xe51+F88brbrcnNfYdLMwvR2SkEd9BWsubWoW9or4=	2021-05-18 17:57:25.687033+00	f			f	t	2021-05-18 17:57:25.591874+00	user1@gmail.com	\N	\N	\N	\N
 2	pbkdf2_sha256$150000$L8bRvOLMJBx4$nEsWMJsoScPrLaCJ81aCyX3v4FiBrpgb669Fchc4I0o=	2021-05-18 18:01:43.337213+00	f			f	t	2021-05-18 17:46:27.218217+00	user@gmail.com	\N	\N	\N	\N
-1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-06-12 14:44:20.971545+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N	\N
+1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-06-12 18:34:03.067978+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N	\N
 \.
 
 
@@ -1590,9 +1594,9 @@ COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video
 --
 
 COPY public.easyviewer_videosubscriptions (id, name, description, duration, price, project_id_id) FROM stdin;
-3	Fanat	Fanat	00:30:00	100.00	1
-2	Friend	Friend	00:15:00	60.00	1
-1	Base	Base	00:05:00	20.00	1
+2	Friend	Friend	00:03:00	3000.00	1
+1	Base	Base	00:01:00	1000.00	1
+3	Fanat	Fanat	00:12:00	9999.00	1
 \.
 
 
@@ -1667,7 +1671,7 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 88, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 54, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 58, true);
 
 
 --
