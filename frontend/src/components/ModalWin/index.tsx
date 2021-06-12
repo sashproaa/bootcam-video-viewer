@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import { IoCloseOutline } from 'react-icons/io5';
 import cls from './style.module.css';
+import { X } from 'react-feather';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | null;
@@ -30,7 +30,8 @@ export default function ModalWin({
       <div className={cls.wrapper}>
         <div className={cls.close}>
           <button className={cls.buttonClose} type='button' onClick={onClose}>
-            <IoCloseOutline className={cls.iconClose} />
+            {/*<IoCloseOutline className={cls.iconClose} />*/}
+            <X className={cls.iconClose} size={24} />
           </button>
         </div>
         <div className={cls.main}>{children}</div>

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Player } from 'video-react';
-import 'video-react/dist/video-react.css';
 import ReactPlayer from 'react-player';
 import {
   fetchVideo,
@@ -18,7 +16,6 @@ import cls from './style.module.css';
 import ButtonLine from '../../components/ButtonLine';
 import ClampLines from 'react-clamp-lines';
 import './style.css';
-import { images } from '../../common/helpers/imageMockHelper';
 import { setPaymentData } from '../../store/paymentSlice';
 import GoBack from '../../components/GoBack';
 import VideoSlider from './VideoSlider';
@@ -29,13 +26,10 @@ import {
 } from '../../store/catalogSlice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { isAdminUser, userActiveVideoInfo } from '../../store/userSlice';
-import ButtonPlay from '../../components/ButtonPlay';
 import { Play } from 'react-feather';
 
 import videoMock from '../../assets/video_mock.mp4';
 
-// const testVideo = 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4';
-const testVideo = 'https://www.dropbox.com/s/j9yjvmdq7lrw6fl/video720.mp4?dl=0';
 const intervalSave = 5000;
 
 interface Progress {
@@ -165,18 +159,12 @@ export default function VideoPage() {
           >
             <div className={`col-12 col-lg-7 ${cls.blockVideo}`}>
               <div className={cls.previewVideo}>
-                {/*<Player poster={video.image || images[video.id]}>*/}
-                {/*  <source*/}
-                {/*    src={video.paid ? video.video_url : video.preview_video}*/}
-                {/*  />*/}
-                {/*</Player>*/}
                 <ReactPlayer
                   ref={setPlayer}
                   url={
                     (video.paid ? video.video_url : video.preview_video) ||
                     videoMock
                   }
-                  // url={testVideo}
                   width='100%'
                   height='100%'
                   controls
@@ -190,7 +178,6 @@ export default function VideoPage() {
                       },
                     },
                   }}
-                  // light={!video.video_url && !video.preview_video}
                   light={video.image}
                   playing={playing}
                   onReady={handleReady}

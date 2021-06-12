@@ -7,10 +7,6 @@ import { setVideo } from '../../../store/videoSlice';
 import cls from './style.module.css';
 import ButtonPlay from '../../../components/ButtonPlay';
 import { images } from '../../../common/helpers/imageMockHelper';
-import { IoPencil } from 'react-icons/io5';
-import ButtonLine from '../../../components/ButtonLine';
-import { Edit } from 'react-feather';
-import ButtonClean from '../../../components/ButtonClean';
 
 interface Props {
   className?: string;

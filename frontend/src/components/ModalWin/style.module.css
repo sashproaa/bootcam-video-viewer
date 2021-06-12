@@ -27,14 +27,12 @@
 }
 
 .buttonClose {
-  /*position: absolute;*/
-  padding: 0;
+  padding: 10px 8px;
   background: var(--transparent);
   border: none;
 }
 
 .iconClose {
-  font-size: 32px;
   color: black;
 }
 
