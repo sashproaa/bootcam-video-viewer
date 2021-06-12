@@ -409,6 +409,43 @@ ALTER SEQUENCE public.easyviewer_adminproject_id_seq OWNED BY public.easyviewer_
 
 
 --
+-- Name: easyviewer_comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.easyviewer_comment (
+    id integer NOT NULL,
+    data_publication timestamp with time zone NOT NULL,
+    comment text NOT NULL,
+    user_id_id integer NOT NULL,
+    video_id_id integer NOT NULL
+);
+
+
+ALTER TABLE public.easyviewer_comment OWNER TO postgres;
+
+--
+-- Name: easyviewer_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.easyviewer_comment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.easyviewer_comment_id_seq OWNER TO postgres;
+
+--
+-- Name: easyviewer_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.easyviewer_comment_id_seq OWNED BY public.easyviewer_comment.id;
+
+
+--
 -- Name: easyviewer_projects; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -542,7 +579,8 @@ CREATE TABLE public.easyviewer_user (
     email character varying(254) NOT NULL,
     mobile character varying(128),
     date_of_birth date,
-    gender character varying(10)
+    gender character varying(10),
+    avatar character varying(100)
 );
 
 
@@ -655,7 +693,7 @@ CREATE TABLE public.easyviewer_video (
     created_at date NOT NULL,
     duration interval NOT NULL,
     image character varying(100),
-    preview_video character varying(100),
+    preview_video character varying(500),
     url character varying(400),
     project_id_id integer NOT NULL
 );
@@ -729,8 +767,9 @@ CREATE TABLE public.easyviewer_videocontent (
     data_start timestamp with time zone NOT NULL,
     data_end timestamp with time zone NOT NULL,
     user_id_id integer NOT NULL,
-    video_id_id integer NOT NULL,
-    video_subscription_id integer NOT NULL
+    video_id_id integer,
+    video_subscription_id integer,
+    transaction_id_id integer NOT NULL
 );
 
 
@@ -1017,6 +1056,13 @@ ALTER TABLE ONLY public.easyviewer_adminproject ALTER COLUMN id SET DEFAULT next
 
 
 --
+-- Name: easyviewer_comment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.easyviewer_comment ALTER COLUMN id SET DEFAULT nextval('public.easyviewer_comment_id_seq'::regclass);
+
+
+--
 -- Name: easyviewer_projects id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1237,6 +1283,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 82	Can change transactions	21	change_transactions
 83	Can delete transactions	21	delete_transactions
 84	Can view transactions	21	view_transactions
+85	Can add comment	22	add_comment
+86	Can change comment	22	change_comment
+87	Can delete comment	22	delete_comment
+88	Can view comment	22	view_comment
 \.
 
 
@@ -1286,6 +1336,29 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 29	2021-05-27 07:08:56.211396+00	8	Оркестр	2	[{"changed": {"fields": ["image"]}}]	18	1
 30	2021-05-27 07:09:06.930714+00	9	Зайцы повсюду!	2	[{"changed": {"fields": ["image"]}}]	18	1
 31	2021-05-27 07:09:22.741775+00	10	Начать сначала	2	[{"changed": {"fields": ["image"]}}]	18	1
+32	2021-06-12 14:46:57.385025+00	4	Мечты сбываются	2	[{"changed": {"fields": ["title", "preview_video", "url"]}}]	18	1
+33	2021-06-12 14:47:57.46307+00	10	Начать сначала	2	[{"changed": {"fields": ["url"]}}]	18	1
+34	2021-06-12 14:48:28.601698+00	10	Начать сначала	2	[{"changed": {"fields": ["url"]}}]	18	1
+35	2021-06-12 14:48:54.404728+00	9	Зайцы повсюду!	2	[{"changed": {"fields": ["url"]}}]	18	1
+36	2021-06-12 15:13:56.312042+00	8	Оркестр	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+37	2021-06-12 15:14:07.394385+00	10	Начать сначала	2	[{"changed": {"fields": ["preview_video"]}}]	18	1
+38	2021-06-12 15:14:17.718472+00	9	Зайцы повсюду!	2	[{"changed": {"fields": ["preview_video"]}}]	18	1
+39	2021-06-12 15:14:47.673903+00	7	Украденное счастье	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+40	2021-06-12 15:15:43.162173+00	6	Ищу работу	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+41	2021-06-12 15:16:39.236363+00	5	Чмо	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+42	2021-06-12 15:17:20.390889+00	3	Ужин с дураком	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+43	2021-06-12 15:18:02.81361+00	2	Я... ОНА не Я и Я	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+44	2021-06-12 15:18:52.813657+00	1	Печальный спектакль	2	[{"changed": {"fields": ["preview_video", "url"]}}]	18	1
+45	2021-06-12 15:19:55.422766+00	8	Оркестр	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+46	2021-06-12 15:20:08.488538+00	8	Оркестр	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+47	2021-06-12 15:20:19.068527+00	6	Ищу работу	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+48	2021-06-12 15:20:29.364046+00	3	Ужин с дураком	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+49	2021-06-12 15:20:38.627246+00	1	Печальный спектакль	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+50	2021-06-12 15:20:49.680435+00	7	Украденное счастье	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+51	2021-06-12 15:21:08.234364+00	2	Я... ОНА не Я и Я	2	[{"changed": {"fields": ["subscription"]}}]	18	1
+52	2021-06-12 15:22:46.331943+00	3	Fanat	2	[{"changed": {"fields": ["duration"]}}]	19	1
+53	2021-06-12 15:23:03.424324+00	2	Friend	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
+54	2021-06-12 15:23:21.483735+00	1	Base	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
 \.
 
 
@@ -1315,6 +1388,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 19	easyviewer	videosubscriptions
 20	easyviewer	videocontent
 21	easyviewer	transactions
+22	easyviewer	comment
 \.
 
 
@@ -1358,6 +1432,11 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 33	socialaccount	0004_auto_20210519_1743	2021-05-19 17:43:40.602873+00
 34	socialaccount	0004_auto_20210521_2035	2021-05-21 20:36:00.165026+00
 35	socialaccount	0004_auto_20210527_0653	2021-05-27 06:53:56.544011+00
+36	easyviewer	0002_user_avatar	2021-06-12 14:39:01.773494+00
+37	easyviewer	0003_videocontent_transaction_id	2021-06-12 14:39:01.8448+00
+38	easyviewer	0004_auto_20210601_1837	2021-06-12 14:39:01.927453+00
+39	easyviewer	0005_comment	2021-06-12 14:39:01.974529+00
+40	easyviewer	0006_auto_20210605_2150	2021-06-12 14:39:02.014245+00
 \.
 
 
@@ -1386,6 +1465,14 @@ COPY public.django_site (id, domain, name) FROM stdin;
 --
 
 COPY public.easyviewer_adminproject (id, "isAdmin", id_project_id, id_user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: easyviewer_comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.easyviewer_comment (id, data_publication, comment, user_id_id, video_id_id) FROM stdin;
 \.
 
 
@@ -1419,10 +1506,10 @@ COPY public.easyviewer_transactions (id, hash, title, status, price, json_descri
 -- Data for Name: easyviewer_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.easyviewer_user (id, password, last_login, is_superuser, first_name, last_name, is_staff, is_active, date_joined, email, mobile, date_of_birth, gender) FROM stdin;
-3	pbkdf2_sha256$150000$2ZdAtGij4foU$r4Xe51+F88brbrcnNfYdLMwvR2SkEd9BWsubWoW9or4=	2021-05-18 17:57:25.687033+00	f			f	t	2021-05-18 17:57:25.591874+00	user1@gmail.com	\N	\N	\N
-2	pbkdf2_sha256$150000$L8bRvOLMJBx4$nEsWMJsoScPrLaCJ81aCyX3v4FiBrpgb669Fchc4I0o=	2021-05-18 18:01:43.337213+00	f			f	t	2021-05-18 17:46:27.218217+00	user@gmail.com	\N	\N	\N
-1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-05-21 20:47:41.287224+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N
+COPY public.easyviewer_user (id, password, last_login, is_superuser, first_name, last_name, is_staff, is_active, date_joined, email, mobile, date_of_birth, gender, avatar) FROM stdin;
+3	pbkdf2_sha256$150000$2ZdAtGij4foU$r4Xe51+F88brbrcnNfYdLMwvR2SkEd9BWsubWoW9or4=	2021-05-18 17:57:25.687033+00	f			f	t	2021-05-18 17:57:25.591874+00	user1@gmail.com	\N	\N	\N	\N
+2	pbkdf2_sha256$150000$L8bRvOLMJBx4$nEsWMJsoScPrLaCJ81aCyX3v4FiBrpgb669Fchc4I0o=	2021-05-18 18:01:43.337213+00	f			f	t	2021-05-18 17:46:27.218217+00	user@gmail.com	\N	\N	\N	\N
+1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-06-12 14:44:20.971545+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N	\N
 \.
 
 
@@ -1447,16 +1534,16 @@ COPY public.easyviewer_user_user_permissions (id, user_id, permission_id) FROM s
 --
 
 COPY public.easyviewer_video (id, title, description, meta, genre, actors, price, created_at, duration, image, preview_video, url, project_id_id) FROM stdin;
-1	Печальный спектакль	Спектакль, который вам нужно увидеть.\r\n\r\nУспешно играющий по всей Украине спектакль "Ужин с дураком" актер и режиссер Алексей Райт создал проект Страсти по Идиоту, а также ранее осуществил постановку спектаклей: "Дракон", "Ужин с дураком", "Монолог ангела или Е.Ж.", "Печальный спектакль", "Падший ангел", "Новеченто", "Однорукий из Спокана", "Сиротливый запад" и др. спектакли идут на малой сцене Дворца студентов юридического университета.		DRAMA,MELODRAMA	Анастасия Колесникова	120.00	2021-05-22	02:00:00	uploads/image/block-1_rC8nMZJ.jpg		\N	1
-2	Я... ОНА не Я и Я	Я не знаю, как вам описать то, что будет происходить...\r\n\r\nя не уверен, что это описание будет о спектакле ...\r\n\r\nя не знаю, имеет ли вообще это, какое отношение к театру…\r\n\r\nя даже не знаю, если я вам расскажу, о чем спектакль придете ли вы на него... Этот текст, текст надежды... Я попытаюсь вам все рассказать, что бы вы пришли, потому что без вас ничего не получиться.\r\n\r\nЭто план побега. Я пытаюсь найти упражнения, что бы вернуть своему телу и своей душе красоту, что бы Гении-Божества снова обратили на меня внимание.		DRAMA,COMEDY,TRAGEDY	Алексей Райт	190.00	2021-05-22	02:10:00	uploads/image/block-2.jpg		\N	1
-3	Ужин с дураком	В этот вечер Вы узнаете, что такое настоящая французская комедия. Эта феноменальная история… Представьте, что сегодня у вас традиционный ужин с друзьями, обязательным условием которого является необходимость привести с собой … дурака! Дурак, естественно, не должен ни о чем догадаться. Суть такой шутки в том, чтобы развязать необычному гостю язык. Тот из участников ужина, кто приведет «лучшего» дурака – победитель!		COMEDY	Алексей Райт, Богдан Адаменко, Сергей Анипченко, Лара Читака, Елизавета Любимова, Евгений Шинкарев, Геннадий Выпинашко	150.00	2021-05-21	02:30:00	uploads/image/block-3.jpg		\N	1
-4	NOVECENTO	История о пианисте — это целая эпоха, впитавшая в себя множество историй, множество людей.\r\nЧеловек, который видел сушу только с корабля, непонятным образом научившийся виртуозно играть на пианино,  он впитал в себя эту эпоху.		DRAMA,TRAGEDY	Андрей Пятаха	210.00	2021-05-22	01:50:00	uploads/image/block-4.jpg		\N	1
-6	Ищу работу	Cпектакль по пьесе Жорди Гальсерана. Групповое собеседование в 1 действии.\r\n\r\nДобро пожаловать в мир корпоративных манипуляций, предательств и лицемерия. Устраивайтесь поудобнее - специалисты по отбору персонала тайно анализируют каждый Ваш шаг. Современный офис крупной корпорации. Четыре кандидата пришли сюда на собеседование, каждый рассчитывает занять вакантное место топ-менеджера, каждый уверен, что с ним будут проводить индивидуальное собеседование. Но общаться четверым кандидатам приходится только друг с другом, следуя воле невидимых экзаменаторов и выполняя их абсурдные задания, психологические тесты и проверки. Впрочем, постепенно выясняется, что не все четверо — кандидаты…		MORALITY,PARODY,SOTI,Extravaganza	Евгения Белова/ Наталья Иванская (Мерседес), Олег Дидык (Фернандо), Сергей Листунов (Энрике), Юрий Николаенко (Карлос)	185.00	2021-05-21	01:45:00	uploads/image/block-6.jpg		\N	1
-5	Чмо	ЧМО - «человек малообразованный», «человек мешающий обществу», «человек морально отсталый», «человек морально опущенный», «чемпион московской области», «чемпион московской олимпиады», «чрезвычайно мобильный организм», «человек материально обеспеченный», «чрезвычайно малогабаритный объект» (фольклорн.).\r\n\r\nЧМО - человек морально опустившийся (аббревиатура, употреблявшаяся работниками исправительных учреждений).\r\n\r\nОднажды в подсобном хозяйстве одного воинского подразделения, где сержант Хрустяшин по прозвищу Хруст выращивает свиней, появляется "пополнение": вчерашний студент из-под Питера Андрей Новиков, играющий на скрипке и верящий в Бога...\r\n\r\nЭто пронзительная и трогательная, одновременно смешная и грустная история о дружбе, совести и страхе, подлости и благородстве. Этот спектакль не об армии, он - о жизни. Свиньи людей - или люди свиней: кто кого?.. И еще наш спектакль пытается дать ответ на вопрос: так что же такое ЧМО?		MIME,MONODRAMA,PASTORAL,FARCE	Сергей Савлук / Максим Стерлик (Хрустяшин (Хруст), Юрий Николаенко (Новиков), Олег Дидык (Бес), Сергей Листунов (Алтынов), Наталья Иванская (Анна), Евгения Белова (Катя)	159.99	2021-05-21	02:35:00	uploads/image/block-5.jpg		\N	1
-7	Украденное счастье	Конфликт в спектакле - в одном противостоянии между чисто житейскими установками и законами, которые отражают непреложную гармонию Вселенной.\r\n\r\nНа фоне быта бойков, населяющих украинские Карпаты, вырисовываются судьбы героев в так называемом любовном треугольнике.\r\n\r\nАвторы спектакля отстранились от социальной направленности пьесы и тем самым приблизили зрителей к душевной катастрофе Анны, ее нелюбимого мужа Николая и издавна влюбленного в нее Михаила.\r\n\r\nКаждый из них борется за свое человеческое право на любовь.Но неумолимый Бог Карпат Мольфар - персонаж, введенный в спектакль режиссером, - жестоко наказывает всех троих.\r\n\r\nМастерски разработанные массовые сцены спектакля (ритуальные, танцевальные, песенные) дают представление о быте бойков позапрошлого века.		DRAMA,MELODRAMA,TRAGEDY	А Жиляков, Р. Жиров, М. Козюлина, А. Шпилевой, Ю. Забутная.	210.00	2021-05-22	02:15:00	uploads/image/block-7.jpg		\N	1
-8	Оркестр	Если Вы мечтаете о Париже, считайте, что Ваши сокровенные желания осуществились. Стоит только посетить спектакль «Оркестр» на малой сцене театра. В уютном кафе Вас ждут «сюрпризы» от эксцентричных персонажей этого действа. Ануив оркестр - женский ...		MIME,MONODRAMA,MORALITY,SOTI,TRAGICOMEDY	Александр Гричаный, Юлия Шаршонь, Игорь Гайденко, Алексей Серегин	115.00	2021-05-21	01:45:00	uploads/image/block-8.jpg		\N	1
-9	Зайцы повсюду!	Куда пойти с ребенком, чтобы было интересно и ему, и родителям? Новое шоу-представление "Зайцы повсюду!" театра "Стрекоза" ни за что не оставит никого равнодушными. Ведь дети всех возрастов смогут и поиграть, и увидеть необыкновенные перевоплощения! В нашем интерактивном иллюзионном игровом представлении каждый ребенок сможет принять участие. А какое животное может быть милее, чем кролик? А если они появляются в самый неожиданный момент? Разных размеров, цветов, из ниоткуда, везде!		COMEDY,MIME,MUSICAL,PARODY	Олег Русов, Игорь Ладенко	290.00	2021-05-22	01:55:00	uploads/image/block-9.jpg		\N	1
-10	Начать сначала	Герои без имен и фамилий, без географических координат и временных рамок. Они видели спасение и будущее в загранице, но стали заложниками самих себя – вечные гости. Одиночество - главный спутник героев на протяжении всей постановки. Дружба этих людей - абсолютно непохожих – не могла бы родиться в другой ситуации. Они – это единственное, что есть друг у друга настоящего.\r\n\r\nСобытия происходят в новогоднюю ночь – весь мир застыл в ожидании чего-то нового. Под влиянием момента герои пьесы решаются на отчаянные поступки ради своего освобождения, ведь это ли не время, чтобы начать все сначала?		MYSTERY,PARODY,PASTORAL,SOTI	Николай Михальченко, Богдан Синявский	250.00	2021-05-21	02:15:00	uploads/image/block-10.jpg		\N	1
+4	Мечты сбываются	История о пианисте — это целая эпоха, впитавшая в себя множество историй, множество людей.\r\nЧеловек, который видел сушу только с корабля, непонятным образом научившийся виртуозно играть на пианино,  он впитал в себя эту эпоху.		DRAMA,TRAGEDY	Андрей Пятаха	210.00	2021-05-22	01:50:00	uploads/image/block-4.jpg	https://www.dropbox.com/s/bbdf1whhrei5yp4/dreamteaser_preview.mp4?dl=1	https://www.dropbox.com/s/lzvbkqa1lk5su96/dreamteaser.mp4?dl=1	1
+5	Чмо	ЧМО - «человек малообразованный», «человек мешающий обществу», «человек морально отсталый», «человек морально опущенный», «чемпион московской области», «чемпион московской олимпиады», «чрезвычайно мобильный организм», «человек материально обеспеченный», «чрезвычайно малогабаритный объект» (фольклорн.).\r\n\r\nЧМО - человек морально опустившийся (аббревиатура, употреблявшаяся работниками исправительных учреждений).\r\n\r\nОднажды в подсобном хозяйстве одного воинского подразделения, где сержант Хрустяшин по прозвищу Хруст выращивает свиней, появляется "пополнение": вчерашний студент из-под Питера Андрей Новиков, играющий на скрипке и верящий в Бога...\r\n\r\nЭто пронзительная и трогательная, одновременно смешная и грустная история о дружбе, совести и страхе, подлости и благородстве. Этот спектакль не об армии, он - о жизни. Свиньи людей - или люди свиней: кто кого?.. И еще наш спектакль пытается дать ответ на вопрос: так что же такое ЧМО?		MIME,MONODRAMA,PASTORAL,FARCE	Сергей Савлук / Максим Стерлик (Хрустяшин (Хруст), Юрий Николаенко (Новиков), Олег Дидык (Бес), Сергей Листунов (Алтынов), Наталья Иванская (Анна), Евгения Белова (Катя)	159.99	2021-05-21	02:35:00	uploads/image/block-5.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-medium-shot-of-actors-and-actresses-arguing-during-rehearsal-in-a-theater_bbih81o-4__047b91f92a407d92129d5156b1022ab3__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-medium-shot-of-actors-and-actresses-arguing-during-rehearsal-in-a-theater_bbih81o-4__047b91f92a407d92129d5156b1022ab3__P360.mp4	1
+1	Печальный спектакль	Спектакль, который вам нужно увидеть.\r\n\r\nУспешно играющий по всей Украине спектакль "Ужин с дураком" актер и режиссер Алексей Райт создал проект Страсти по Идиоту, а также ранее осуществил постановку спектаклей: "Дракон", "Ужин с дураком", "Монолог ангела или Е.Ж.", "Печальный спектакль", "Падший ангел", "Новеченто", "Однорукий из Спокана", "Сиротливый запад" и др. спектакли идут на малой сцене Дворца студентов юридического университета.		DRAMA,MELODRAMA	Анастасия Колесникова	120.00	2021-05-22	02:00:00	uploads/image/block-1_rC8nMZJ.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/4jOZllRYeika4i2md/videoblocks-a-ballerina-is-doing-fouettes-on-the-stage_rswrzefve__db2dfe04eb1fe28c61b6af69f62abbe5__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/4jOZllRYeika4i2md/videoblocks-a-ballerina-is-doing-fouettes-on-the-stage_rswrzefve__db2dfe04eb1fe28c61b6af69f62abbe5__P360.mp4	1
+7	Украденное счастье	Конфликт в спектакле - в одном противостоянии между чисто житейскими установками и законами, которые отражают непреложную гармонию Вселенной.\r\n\r\nНа фоне быта бойков, населяющих украинские Карпаты, вырисовываются судьбы героев в так называемом любовном треугольнике.\r\n\r\nАвторы спектакля отстранились от социальной направленности пьесы и тем самым приблизили зрителей к душевной катастрофе Анны, ее нелюбимого мужа Николая и издавна влюбленного в нее Михаила.\r\n\r\nКаждый из них борется за свое человеческое право на любовь.Но неумолимый Бог Карпат Мольфар - персонаж, введенный в спектакль режиссером, - жестоко наказывает всех троих.\r\n\r\nМастерски разработанные массовые сцены спектакля (ритуальные, танцевальные, песенные) дают представление о быте бойков позапрошлого века.		DRAMA,MELODRAMA,TRAGEDY	А Жиляков, Р. Жиров, М. Козюлина, А. Шпилевой, Ю. Забутная.	210.00	2021-05-22	02:15:00	uploads/image/block-7.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/BKaAXTX/stage-show-performance_myk9di0s__d__320175cb321491ae0d26e35fde43b964__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/BKaAXTX/stage-show-performance_myk9di0s__d__320175cb321491ae0d26e35fde43b964__P360.mp4	1
+9	Зайцы повсюду!	Куда пойти с ребенком, чтобы было интересно и ему, и родителям? Новое шоу-представление "Зайцы повсюду!" театра "Стрекоза" ни за что не оставит никого равнодушными. Ведь дети всех возрастов смогут и поиграть, и увидеть необыкновенные перевоплощения! В нашем интерактивном иллюзионном игровом представлении каждый ребенок сможет принять участие. А какое животное может быть милее, чем кролик? А если они появляются в самый неожиданный момент? Разных размеров, цветов, из ниоткуда, везде!		COMEDY,MIME,MUSICAL,PARODY	Олег Русов, Игорь Ладенко	290.00	2021-05-22	01:55:00	uploads/image/block-9.jpg	https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8	https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8	1
+10	Начать сначала	Герои без имен и фамилий, без географических координат и временных рамок. Они видели спасение и будущее в загранице, но стали заложниками самих себя – вечные гости. Одиночество - главный спутник героев на протяжении всей постановки. Дружба этих людей - абсолютно непохожих – не могла бы родиться в другой ситуации. Они – это единственное, что есть друг у друга настоящего.\r\n\r\nСобытия происходят в новогоднюю ночь – весь мир застыл в ожидании чего-то нового. Под влиянием момента герои пьесы решаются на отчаянные поступки ради своего освобождения, ведь это ли не время, чтобы начать все сначала?		MYSTERY,PARODY,PASTORAL,SOTI	Николай Михальченко, Богдан Синявский	250.00	2021-05-21	02:15:00	uploads/image/block-10.jpg	https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8	https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8	1
+8	Оркестр	Если Вы мечтаете о Париже, считайте, что Ваши сокровенные желания осуществились. Стоит только посетить спектакль «Оркестр» на малой сцене театра. В уютном кафе Вас ждут «сюрпризы» от эксцентричных персонажей этого действа. Ануив оркестр - женский ...		MIME,MONODRAMA,MORALITY,SOTI,TRAGICOMEDY	Александр Гричаный, Юлия Шаршонь, Игорь Гайденко, Алексей Серегин	115.00	2021-05-21	01:45:00	uploads/image/block-8.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-full-shot-of-actors-performing-a-dramatic-scene-in-a-theater_brqb03dwv__5f1909bc27d0dbce46c7f4f9912be11a__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-full-shot-of-actors-performing-a-dramatic-scene-in-a-theater_brqb03dwv__5f1909bc27d0dbce46c7f4f9912be11a__P360.mp4	1
+3	Ужин с дураком	В этот вечер Вы узнаете, что такое настоящая французская комедия. Эта феноменальная история… Представьте, что сегодня у вас традиционный ужин с друзьями, обязательным условием которого является необходимость привести с собой … дурака! Дурак, естественно, не должен ни о чем догадаться. Суть такой шутки в том, чтобы развязать необычному гостю язык. Тот из участников ужина, кто приведет «лучшего» дурака – победитель!		COMEDY	Алексей Райт, Богдан Адаменко, Сергей Анипченко, Лара Читака, Елизавета Любимова, Евгений Шинкарев, Геннадий Выпинашко	150.00	2021-05-21	02:30:00	uploads/image/block-3.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-slow-motion-of-actors-and-actresses-walking-on-the-stage-and-bowing-to-audience-in-a-theater_bse1yg_we__596423620cd45457b006ac2af909cc37__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-slow-motion-of-actors-and-actresses-walking-on-the-stage-and-bowing-to-audience-in-a-theater_bse1yg_we__596423620cd45457b006ac2af909cc37__P360.mp4	1
+6	Ищу работу	Cпектакль по пьесе Жорди Гальсерана. Групповое собеседование в 1 действии.\r\n\r\nДобро пожаловать в мир корпоративных манипуляций, предательств и лицемерия. Устраивайтесь поудобнее - специалисты по отбору персонала тайно анализируют каждый Ваш шаг. Современный офис крупной корпорации. Четыре кандидата пришли сюда на собеседование, каждый рассчитывает занять вакантное место топ-менеджера, каждый уверен, что с ним будут проводить индивидуальное собеседование. Но общаться четверым кандидатам приходится только друг с другом, следуя воле невидимых экзаменаторов и выполняя их абсурдные задания, психологические тесты и проверки. Впрочем, постепенно выясняется, что не все четверо — кандидаты…		MORALITY,PARODY,SOTI,Extravaganza	Евгения Белова/ Наталья Иванская (Мерседес), Олег Дидык (Фернандо), Сергей Листунов (Энрике), Юрий Николаенко (Карлос)	185.00	2021-05-21	01:45:00	uploads/image/block-6.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/-z2uGzh/curtain-reveal-opener_b-ngjv9ll__p__597edd2a9d3a127c23865fe69aa8dc6b__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/-z2uGzh/curtain-reveal-opener_b-ngjv9ll__p__597edd2a9d3a127c23865fe69aa8dc6b__P360.mp4	1
+2	Я... ОНА не Я и Я	Я не знаю, как вам описать то, что будет происходить...\r\n\r\nя не уверен, что это описание будет о спектакле ...\r\n\r\nя не знаю, имеет ли вообще это, какое отношение к театру…\r\n\r\nя даже не знаю, если я вам расскажу, о чем спектакль придете ли вы на него... Этот текст, текст надежды... Я попытаюсь вам все рассказать, что бы вы пришли, потому что без вас ничего не получиться.\r\n\r\nЭто план побега. Я пытаюсь найти упражнения, что бы вернуть своему телу и своей душе красоту, что бы Гении-Божества снова обратили на меня внимание.		DRAMA,COMEDY,TRAGEDY	Алексей Райт	190.00	2021-05-22	02:10:00	uploads/image/block-2.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-medium-shot-of-an-actor-reciting-his-lines-on-a-sofa-while-other-actors-rehearsing-in-the-background_bbhxcgydz4__ef761c39918d8b732de188d346646ddd__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-medium-shot-of-an-actor-reciting-his-lines-on-a-sofa-while-other-actors-rehearsing-in-the-background_bbhxcgydz4__ef761c39918d8b732de188d346646ddd__P360.mp4	1
 \.
 
 
@@ -1465,36 +1552,28 @@ COPY public.easyviewer_video (id, title, description, meta, genre, actors, price
 --
 
 COPY public.easyviewer_video_subscription (id, video_id, videosubscriptions_id) FROM stdin;
-1	1	1
-4	2	1
-5	2	2
 6	2	3
 7	3	3
 8	4	1
 9	4	2
 10	4	3
-11	3	1
 12	3	2
 13	1	2
 14	1	3
 15	5	1
 16	5	2
 17	5	3
-18	6	1
 19	6	2
 20	6	3
-21	7	1
-22	7	2
 23	7	3
-24	8	1
 25	8	2
-26	8	3
 27	9	1
 28	9	2
 29	9	3
 30	10	1
 31	10	2
 32	10	3
+33	8	3
 \.
 
 
@@ -1502,7 +1581,7 @@ COPY public.easyviewer_video_subscription (id, video_id, videosubscriptions_id) 
 -- Data for Name: easyviewer_videocontent; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video_id_id, video_subscription_id) FROM stdin;
+COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video_id_id, video_subscription_id, transaction_id_id) FROM stdin;
 \.
 
 
@@ -1511,9 +1590,9 @@ COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video
 --
 
 COPY public.easyviewer_videosubscriptions (id, name, description, duration, price, project_id_id) FROM stdin;
-1	Base	Base	00:00:30	5.00	1
-2	Friend	Friend	00:03:00	20.00	1
-3	Fanat	Fanat	00:06:00	100.00	1
+3	Fanat	Fanat	00:30:00	100.00	1
+2	Friend	Friend	00:15:00	60.00	1
+1	Base	Base	00:05:00	20.00	1
 \.
 
 
@@ -1581,28 +1660,28 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 84, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 88, true);
 
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 31, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 54, true);
 
 
 --
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 21, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 22, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 35, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
 
 
 --
@@ -1617,6 +1696,13 @@ SELECT pg_catalog.setval('public.django_site_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.easyviewer_adminproject_id_seq', 1, false);
+
+
+--
+-- Name: easyviewer_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.easyviewer_comment_id_seq', 1, false);
 
 
 --
@@ -1672,7 +1758,7 @@ SELECT pg_catalog.setval('public.easyviewer_video_id_seq', 10, true);
 -- Name: easyviewer_video_subscription_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.easyviewer_video_subscription_id_seq', 32, true);
+SELECT pg_catalog.setval('public.easyviewer_video_subscription_id_seq', 33, true);
 
 
 --
@@ -1875,6 +1961,14 @@ ALTER TABLE ONLY public.django_site
 
 ALTER TABLE ONLY public.easyviewer_adminproject
     ADD CONSTRAINT easyviewer_adminproject_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: easyviewer_comment easyviewer_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.easyviewer_comment
+    ADD CONSTRAINT easyviewer_comment_pkey PRIMARY KEY (id);
 
 
 --
@@ -2166,6 +2260,20 @@ CREATE INDEX easyviewer_adminproject_id_user_id_49854a7e ON public.easyviewer_ad
 
 
 --
+-- Name: easyviewer_comment_user_id_id_408277db; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX easyviewer_comment_user_id_id_408277db ON public.easyviewer_comment USING btree (user_id_id);
+
+
+--
+-- Name: easyviewer_comment_video_id_id_e2d82ced; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX easyviewer_comment_video_id_id_e2d82ced ON public.easyviewer_comment USING btree (video_id_id);
+
+
+--
 -- Name: easyviewer_projects_subscription_id_id_a7a7506e; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2247,6 +2355,13 @@ CREATE INDEX easyviewer_video_subscription_video_id_eaadb8e8 ON public.easyviewe
 --
 
 CREATE INDEX easyviewer_video_subscription_videosubscriptions_id_0c1e3663 ON public.easyviewer_video_subscription USING btree (videosubscriptions_id);
+
+
+--
+-- Name: easyviewer_videocontent_transaction_id_id_4561ed5e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX easyviewer_videocontent_transaction_id_id_4561ed5e ON public.easyviewer_videocontent USING btree (transaction_id_id);
 
 
 --
@@ -2393,6 +2508,22 @@ ALTER TABLE ONLY public.easyviewer_adminproject
 
 
 --
+-- Name: easyviewer_comment easyviewer_comment_user_id_id_408277db_fk_easyviewer_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.easyviewer_comment
+    ADD CONSTRAINT easyviewer_comment_user_id_id_408277db_fk_easyviewer_user_id FOREIGN KEY (user_id_id) REFERENCES public.easyviewer_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: easyviewer_comment easyviewer_comment_video_id_id_e2d82ced_fk_easyviewer_video_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.easyviewer_comment
+    ADD CONSTRAINT easyviewer_comment_video_id_id_e2d82ced_fk_easyviewer_video_id FOREIGN KEY (video_id_id) REFERENCES public.easyviewer_video(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: easyviewer_projects easyviewer_projects_subscription_id_id_a7a7506e_fk_easyviewe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2473,6 +2604,14 @@ ALTER TABLE ONLY public.easyviewer_video_subscription
 
 
 --
+-- Name: easyviewer_videocontent easyviewer_videocont_transaction_id_id_4561ed5e_fk_easyviewe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.easyviewer_videocontent
+    ADD CONSTRAINT easyviewer_videocont_transaction_id_id_4561ed5e_fk_easyviewe FOREIGN KEY (transaction_id_id) REFERENCES public.easyviewer_transactions(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: easyviewer_videocontent easyviewer_videocont_user_id_id_76d42024_fk_easyviewe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2547,3 +2686,4 @@ ALTER TABLE ONLY public.socialaccount_socialaccount
 --
 -- PostgreSQL database dump complete
 --
+
