@@ -133,8 +133,8 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         project = get_object_or_404(Projects, hash=self.hash_project)
+        video = get_object_or_404(Video, id=self.kwargs.get('pk'))
         if self.request.user.is_authenticated and project:
-            video = get_object_or_404(Video, id=self.kwargs.get('pk'))
             video_subscriptions_id = VideoSubscriptions.objects.filter(
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
@@ -218,7 +218,8 @@ class TransactionsApiView(generics.CreateAPIView):
             elif 'subscription' == merchant_data_val['target']:
                 sub = VideoSubscriptions.objects.get(id=instance_id)
                 subscription = sub.id
-                duration = sub.duration + timedelta(days=30)
+                duration = sub.period_month * 30
+                duration = timedelta(days=duration)
             data_start = timezone.now()
             data_end = data_start + duration
             videocontent_data = {
