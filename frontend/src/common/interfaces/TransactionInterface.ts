@@ -1,5 +1,3 @@
-import { VideoContent } from './VideoContentInterface';
-
 export interface Transaction {
   // id: number;
   hash: string;

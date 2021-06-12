@@ -5,10 +5,6 @@ import { FetchError } from '../../common/interfaces/FetchErrorInterface';
 
 const endpoint = Endpoints.user;
 
-// interface UserRequest extends Omit<User, 'id'> {
-//   id?: number;
-// }
-
 interface UserResponse extends User {
   error?: FetchError;
 }
