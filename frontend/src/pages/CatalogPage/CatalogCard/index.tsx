@@ -50,11 +50,11 @@ export default function CatalogCard({
 
           {video.paid && <div className={cls.paid}>Куплено</div>}
 
-          {editable && (
-            <ButtonClean className={cls.edit} onClick={handleEdit}>
-              <Edit size={24} />
-            </ButtonClean>
-          )}
+          {/*{editable && (*/}
+          {/*  <ButtonClean className={cls.edit} onClick={handleEdit}>*/}
+          {/*    <Edit size={24} />*/}
+          {/*  </ButtonClean>*/}
+          {/*)}*/}
         </div>
         <strong className={cls.title}>{video.title}</strong>
       </Link>
