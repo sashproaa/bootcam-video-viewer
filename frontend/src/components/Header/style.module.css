@@ -1,0 +1,156 @@
+.wrapper {
+  min-height: 65px;
+  width: 100%;
+  background: var(--shark);
+  margin-bottom: 56px;
+}
+
+.headerRow {
+  width: 100%;
+}
+
+.header {
+  padding: 0 20px;
+  gap: 30px;
+}
+
+.h1 {
+  font: 900 18px/20px 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  padding-top: 7px;
+}
+
+@media (max-width: 767.98px) {
+  .h1 {
+    display: block;
+  }
+}
+
+.logoLink, .logoLink:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 767.98px) {
+  .logoLink {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .wrapper-head .header .registr {
+    padding-left: 20px;
+  }
+}
+
+.searchForm {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 30px;
+  margin-left: auto;
+}
+
+.input {
+  background: var(--transparent);
+  width: 0px;
+  border: none;
+  height: 34px;
+  color: var(--ountainMist);
+  font: 500 16px/19px 'Roboto', sans-serif;
+  position: relative;
+  transition: .4s;
+  transition-delay: .5s;
+  padding: 0px;
+}
+
+.input:focus {
+  border: solid 1px var(--doveGray);
+  width: 667px;
+  transition: .6s;
+  transition-delay: 0s;
+  padding: 0px 37px;
+  outline: var(--doveGray);
+  border-radius: 5px;
+}
+
+@media (max-width: 1399.98px) {
+  .input:focus {
+    width: 600px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .input:focus {
+    width: 350px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .input:focus {
+    width: 100%;
+  }
+}
+
+.labelSearch, .labelX {
+  margin-bottom: 0;
+  z-index: 2;
+}
+
+.labelSearch {
+  margin-right: -30px;
+}
+
+.labelX {
+  opacity: 0;
+  margin-left: -30px;
+  transition: opacity .4s;
+}
+
+.input:focus+.labelX {
+  opacity: 1;
+}
+
+/*@media (max-width: 991.98px) {*/
+/*  .labelSearch, .labelX {*/
+/*    display: flex;*/
+/*  }*/
+/*}*/
+
+.searchMark, .xMark {
+  color: var(--white);
+  cursor: pointer;
+}
+
+.subscribeIcon, .authIcon {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .subscribeIcon, .authIcon {
+    display: inline-block;
+  }
+  .subscribeText, .authText {
+    display: none;
+  }
+}
+
+.btnUser {
+  color: var(--white);
+  background: var(--transparent);
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.btnUser:hover {
+  opacity: .7;
+}
+
+.userImg {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}

@@ -1,0 +1,35 @@
+.select {
+  border-radius: 5px;
+  outline: none;
+  border: solid 1px var(--ountainMist);
+  height: 45px;
+  padding: 0px 15px;
+  margin: 0px 0px 10px;
+  transition: border-color .3s;
+}
+
+.fill {
+  width: 100%;
+}
+
+.select::placeholder {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  color: var(--ountainMist);
+}
+
+.select:focus {
+  border-color: var(--thunderbird);
+}
+
+.dark, .dark option {
+  color: var(--white);
+  background: transparent;
+}
+
+.dark option {
+  background: var(--shark);
+}
+
+.dark:focus {
+  border-color: var(--tamarillo);
+}

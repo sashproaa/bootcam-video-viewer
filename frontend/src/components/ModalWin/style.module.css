@@ -1,0 +1,43 @@
+.modal {
+  max-width: 400px !important;
+  margin-top: 10% !important;
+}
+
+.modal.full {
+  width: 90% !important;
+  max-width: 90% !important;
+}
+
+.wrapper {
+  /*width: 400px;*/
+  width: 100%;
+  border-radius: 5px;
+  background: var(--white);
+  /*margin: 10% auto;*/
+  /*padding-bottom: 20px;*/
+}
+
+.main {
+  padding: 0 40px 20px;
+}
+
+.close {
+  /*padding: 11px 8px 20px 8px;*/
+  text-align: right;
+}
+
+.buttonClose {
+  /*position: absolute;*/
+  padding: 0;
+  background: var(--transparent);
+  border: none;
+}
+
+.iconClose {
+  font-size: 32px;
+  color: black;
+}
+
+.iconClose:hover {
+  color: var(--thunderbird);
+}

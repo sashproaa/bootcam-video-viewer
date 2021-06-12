@@ -1,0 +1,43 @@
+nginx:
+  restart: unless-stopped
+  build: .
+  dockerfile: ./docker/Dockerfile
+  ports:
+    - 8001:80
+  environment:
+    - VIRTUAL_HOST=player.quantumobile.com
+    - VIRTUAL_PORT=8001
+    - LETSENCRYPT_HOST=player.quantumobile.com
+    - LETSENCRYPT_EMAIL=o.tsiapa@quantumobile.com
+  volumes:
+    - static_volume:/app/backend/src/django_static
+    - ./backend/src/uploads:/app/backend/src/media/uploads
+    - ./docker/nginx/production:/etc/nginx/conf.d
+ #   - ./docker/nginx/certbot/conf:/etc/letsencrypt
+ #   - ./docker/nginx/certbot/www:/var/www/certbot
+  links:
+    - backend
+
+backend:
+  restart: unless-stopped
+  build: ./backend
+  entrypoint: /app/backend/entrypoint.sh
+  volumes:
+    - static_volume:/app/backend/src/django_static
+    - ./backend:/app/backend/
+  expose:
+    - 8000
+  links:
+    - db
+
+db:
+  image: postgres
+  expose:
+    - 5432
+  volumes:
+    - ./:/code
+  restart: always
+  environment:
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_DB: db

@@ -1,0 +1,32 @@
+.testCards {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background: black;
+  padding: 5px;
+}
+
+.successWin {
+  max-width: 500px !important;
+}
+
+.successWrap {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.successHeader {
+  font: 700 30px/30px 'Roboto', sans-serif;
+  color: var(--bunker);
+  margin-bottom: 20px;
+}
+
+.successText {
+  font: 500 16px/22px 'Roboto', sans-serif;
+  color: var(--bunker);
+  margin-bottom: 30px;
+}
+
+.successBtn {
+  min-width: 225px;
+}

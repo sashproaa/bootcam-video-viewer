@@ -1,0 +1,38 @@
+.button {
+  font: 500 15px/18px 'Roboto', sans-serif;
+  color: var(--white);
+  padding: 0;
+  background: var(--transparent);
+  border: none;
+  transition: .2s;
+}
+
+.button:hover {
+  color: var(--thunderbird);
+}
+
+.button:active {
+  color: var(--doveGray);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.fill {
+  width: 100%;
+}
+
+.small {
+  height: 35px;
+  font: 500 16px/35px Roboto,sans-serif;
+}
+
+.base {
+  height: 50px;
+}
+
+.big {
+  height: 55px;
+  font: 500 16px/19px 'Roboto', sans-serif;
+}

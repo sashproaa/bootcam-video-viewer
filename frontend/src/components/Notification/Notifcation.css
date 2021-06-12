@@ -1,0 +1,21 @@
+.Toastify__toast{
+  border-radius: 16px;
+  color: black;
+}
+
+.Toastify__close-button{
+  color: black;
+}
+
+
+.Toastify__toast--error {
+  background-color: #FFAEAD;
+}
+
+.Toastify__toast--success {
+  background-color: #B7F7C4;
+}
+
+.Toastify__toast--info {
+  background-color: #96E0F5;
+}

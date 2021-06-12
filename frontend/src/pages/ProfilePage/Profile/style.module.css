@@ -1,0 +1,51 @@
+.header {
+  font: 500 40px/23px 'Roboto', sans-serif;
+  margin: 0px;
+}
+
+.fillProfile {
+  /*padding: 0 7px 0px 20px;*/
+}
+
+.inputBlock {
+  margin-bottom: 32px;
+}
+
+.label {
+  font: 500 14px/20px 'Roboto', sans-serif;
+  margin: 0px;
+  padding-bottom: 9px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.profileAction {
+}
+
+.action {
+  font: 700 16px/20px 'Roboto', sans-serif;
+  margin-bottom: 13px;
+}
+
+.win {
+  /*padding: 20px 40px;*/
+}
+
+.winTitle {
+  font: 700 30px/20px 'Roboto', sans-serif;
+  color: var(--bunker);
+  padding-bottom: 30px;
+}
+
+.savePass {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.saveBtn {
+  min-width: 240px;
+  /*margin: 35px auto 0;*/
+}
