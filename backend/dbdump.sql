@@ -533,8 +533,8 @@ CREATE TABLE public.easyviewer_transactions (
     price numeric(6,2) NOT NULL,
     json_description jsonb NOT NULL,
     created_at timestamp with time zone NOT NULL,
-    project_id_id integer NOT NULL,
-    user_id_id integer NOT NULL
+    project_id_id integer,
+    user_id_id integer
 );
 
 
@@ -805,9 +805,11 @@ CREATE TABLE public.easyviewer_videosubscriptions (
     id integer NOT NULL,
     name character varying(200) NOT NULL,
     description text NOT NULL,
-    duration interval NOT NULL,
+    duration interval,
     price numeric(6,2) NOT NULL,
-    project_id_id integer NOT NULL
+    project_id_id integer NOT NULL,
+    period_month integer,
+    CONSTRAINT easyviewer_videosubscriptions_period_month_check CHECK ((period_month >= 0))
 );
 
 
@@ -1363,6 +1365,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 56	2021-06-12 18:35:31.550794+00	2	Friend	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
 57	2021-06-12 18:35:52.69143+00	1	Base	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
 58	2021-06-12 18:36:10.430374+00	3	Fanat	2	[{"changed": {"fields": ["duration", "price"]}}]	19	1
+59	2021-06-13 05:06:52.438034+00	11	Презентация	1	[{"added": {}}]	18	1
 \.
 
 
@@ -1441,6 +1444,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 38	easyviewer	0004_auto_20210601_1837	2021-06-12 14:39:01.927453+00
 39	easyviewer	0005_comment	2021-06-12 14:39:01.974529+00
 40	easyviewer	0006_auto_20210605_2150	2021-06-12 14:39:02.014245+00
+41	easyviewer	0007_auto_20210612_1828	2021-06-13 05:03:46.787646+00
 \.
 
 
@@ -1513,7 +1517,7 @@ COPY public.easyviewer_transactions (id, hash, title, status, price, json_descri
 COPY public.easyviewer_user (id, password, last_login, is_superuser, first_name, last_name, is_staff, is_active, date_joined, email, mobile, date_of_birth, gender, avatar) FROM stdin;
 3	pbkdf2_sha256$150000$2ZdAtGij4foU$r4Xe51+F88brbrcnNfYdLMwvR2SkEd9BWsubWoW9or4=	2021-05-18 17:57:25.687033+00	f			f	t	2021-05-18 17:57:25.591874+00	user1@gmail.com	\N	\N	\N	\N
 2	pbkdf2_sha256$150000$L8bRvOLMJBx4$nEsWMJsoScPrLaCJ81aCyX3v4FiBrpgb669Fchc4I0o=	2021-05-18 18:01:43.337213+00	f			f	t	2021-05-18 17:46:27.218217+00	user@gmail.com	\N	\N	\N	\N
-1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-06-12 18:34:03.067978+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N	\N
+1	pbkdf2_sha256$150000$idNSKrOTSJM1$AWgKrVvCN24MlF5fQX7Vi73uxaX332vRnBBMKKvaLfA=	2021-06-13 05:04:20.151449+00	t			t	t	2021-05-18 17:15:46.359136+00	admin@gmail.com	\N	\N	\N	\N
 \.
 
 
@@ -1548,6 +1552,7 @@ COPY public.easyviewer_video (id, title, description, meta, genre, actors, price
 3	Ужин с дураком	В этот вечер Вы узнаете, что такое настоящая французская комедия. Эта феноменальная история… Представьте, что сегодня у вас традиционный ужин с друзьями, обязательным условием которого является необходимость привести с собой … дурака! Дурак, естественно, не должен ни о чем догадаться. Суть такой шутки в том, чтобы развязать необычному гостю язык. Тот из участников ужина, кто приведет «лучшего» дурака – победитель!		COMEDY	Алексей Райт, Богдан Адаменко, Сергей Анипченко, Лара Читака, Елизавета Любимова, Евгений Шинкарев, Геннадий Выпинашко	150.00	2021-05-21	02:30:00	uploads/image/block-3.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-slow-motion-of-actors-and-actresses-walking-on-the-stage-and-bowing-to-audience-in-a-theater_bse1yg_we__596423620cd45457b006ac2af909cc37__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-slow-motion-of-actors-and-actresses-walking-on-the-stage-and-bowing-to-audience-in-a-theater_bse1yg_we__596423620cd45457b006ac2af909cc37__P360.mp4	1
 6	Ищу работу	Cпектакль по пьесе Жорди Гальсерана. Групповое собеседование в 1 действии.\r\n\r\nДобро пожаловать в мир корпоративных манипуляций, предательств и лицемерия. Устраивайтесь поудобнее - специалисты по отбору персонала тайно анализируют каждый Ваш шаг. Современный офис крупной корпорации. Четыре кандидата пришли сюда на собеседование, каждый рассчитывает занять вакантное место топ-менеджера, каждый уверен, что с ним будут проводить индивидуальное собеседование. Но общаться четверым кандидатам приходится только друг с другом, следуя воле невидимых экзаменаторов и выполняя их абсурдные задания, психологические тесты и проверки. Впрочем, постепенно выясняется, что не все четверо — кандидаты…		MORALITY,PARODY,SOTI,Extravaganza	Евгения Белова/ Наталья Иванская (Мерседес), Олег Дидык (Фернандо), Сергей Листунов (Энрике), Юрий Николаенко (Карлос)	185.00	2021-05-21	01:45:00	uploads/image/block-6.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/-z2uGzh/curtain-reveal-opener_b-ngjv9ll__p__597edd2a9d3a127c23865fe69aa8dc6b__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/-z2uGzh/curtain-reveal-opener_b-ngjv9ll__p__597edd2a9d3a127c23865fe69aa8dc6b__P360.mp4	1
 2	Я... ОНА не Я и Я	Я не знаю, как вам описать то, что будет происходить...\r\n\r\nя не уверен, что это описание будет о спектакле ...\r\n\r\nя не знаю, имеет ли вообще это, какое отношение к театру…\r\n\r\nя даже не знаю, если я вам расскажу, о чем спектакль придете ли вы на него... Этот текст, текст надежды... Я попытаюсь вам все рассказать, что бы вы пришли, потому что без вас ничего не получиться.\r\n\r\nЭто план побега. Я пытаюсь найти упражнения, что бы вернуть своему телу и своей душе красоту, что бы Гении-Божества снова обратили на меня внимание.		DRAMA,COMEDY,TRAGEDY	Алексей Райт	190.00	2021-05-22	02:10:00	uploads/image/block-2.jpg	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-medium-shot-of-an-actor-reciting-his-lines-on-a-sofa-while-other-actors-rehearsing-in-the-background_bbhxcgydz4__ef761c39918d8b732de188d346646ddd__P360.mp4	https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/msqd2XJ/videoblocks-medium-shot-of-an-actor-reciting-his-lines-on-a-sofa-while-other-actors-rehearsing-in-the-background_bbhxcgydz4__ef761c39918d8b732de188d346646ddd__P360.mp4	1
+11	Презентация	Презентация проекта плеера командой Quantum		Extravaganza	...	100.00	2021-06-13	00:01:00	uploads/image/awplayer.png	https://www.dropbox.com/s/4fg7rqcekerrgjr/%D0%A4%D0%B8%D0%BD%D0%B0%D0%BB.mp4?dl=1	https://www.dropbox.com/s/4fg7rqcekerrgjr/%D0%A4%D0%B8%D0%BD%D0%B0%D0%BB.mp4?dl=1	1
 \.
 
 
@@ -1578,6 +1583,9 @@ COPY public.easyviewer_video_subscription (id, video_id, videosubscriptions_id) 
 31	10	2
 32	10	3
 33	8	3
+34	11	1
+35	11	2
+36	11	3
 \.
 
 
@@ -1593,10 +1601,10 @@ COPY public.easyviewer_videocontent (id, data_start, data_end, user_id_id, video
 -- Data for Name: easyviewer_videosubscriptions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.easyviewer_videosubscriptions (id, name, description, duration, price, project_id_id) FROM stdin;
-2	Friend	Friend	00:03:00	3000.00	1
-1	Base	Base	00:01:00	1000.00	1
-3	Fanat	Fanat	00:12:00	9999.00	1
+COPY public.easyviewer_videosubscriptions (id, name, description, duration, price, project_id_id, period_month) FROM stdin;
+2	Friend	Friend	00:03:00	3000.00	1	\N
+1	Base	Base	00:01:00	1000.00	1	\N
+3	Fanat	Fanat	00:12:00	9999.00	1	\N
 \.
 
 
@@ -1671,7 +1679,7 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 88, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 58, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 59, true);
 
 
 --
@@ -1685,7 +1693,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 22, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 41, true);
 
 
 --
@@ -1755,14 +1763,14 @@ SELECT pg_catalog.setval('public.easyviewer_user_user_permissions_id_seq', 1, fa
 -- Name: easyviewer_video_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.easyviewer_video_id_seq', 10, true);
+SELECT pg_catalog.setval('public.easyviewer_video_id_seq', 11, true);
 
 
 --
 -- Name: easyviewer_video_subscription_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.easyviewer_video_subscription_id_seq', 33, true);
+SELECT pg_catalog.setval('public.easyviewer_video_subscription_id_seq', 36, true);
 
 
 --
