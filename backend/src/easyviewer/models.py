@@ -82,7 +82,7 @@ class User(AbstractUser):
     """User model.(not Base)"""
     username = None
     email = models.EmailField(msg('email address'), unique=True)
-    mobile = PhoneNumberField(blank=True, null=True)
+    mobile = PhoneNumberField(blank=True, null=True, region='UA')
     date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICE, null=True)
     avatar = models.ImageField(upload_to='uploads/image', blank=True, null=True)
@@ -172,7 +172,7 @@ class Transactions(models.Model):
 
 class VideoContent(models.Model):
     """ Video content model """
-    data_start = models.DateTimeField()
+    data_start = models.DateTimeField(null=True, blank=True)
     data_end = models.DateTimeField()
     user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     video_id = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, blank=True)
