@@ -218,7 +218,7 @@ class TransactionsApiView(generics.CreateAPIView):
             elif 'subscription' == merchant_data_val['target']:
                 sub = VideoSubscriptions.objects.get(id=instance_id)
                 subscription = sub.id
-                duration = sub.period_month * 30
+                duration = sub.duration * 30
                 duration = timedelta(days=duration)
             data_start = timezone.now()
             data_end = data_start + duration
