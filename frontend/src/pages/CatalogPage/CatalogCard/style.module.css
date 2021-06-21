@@ -40,6 +40,7 @@
   object-fit: cover;
   border-radius: 5px;
   margin: 0px;
+  object-position: center;
 }
 
 @media (max-width: 1199.98px) {
