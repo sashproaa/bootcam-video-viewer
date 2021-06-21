@@ -20,4 +20,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(link_duration),
+        migrations.RemoveField(
+            model_name='videosubscriptions',
+            name='duration',
+        ),
+        migrations.RenameField(
+            model_name='videosubscriptions',
+            old_name='period_month',
+            new_name='duration',
+        ),
     ]

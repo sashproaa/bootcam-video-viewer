@@ -126,8 +126,7 @@ class VideoSubscriptions(models.Model):
     """ Video subscriptions model """
     name = models.CharField(max_length=200)
     description = models.TextField()
-    period_month = models.PositiveIntegerField(blank=True, null=True)
-    duration = models.DurationField(blank=True, null=True)  # days
+    duration = models.PositiveIntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
 
