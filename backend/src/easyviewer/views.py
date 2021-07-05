@@ -1,3 +1,4 @@
+import base64
 import json
 from datetime import timedelta
 from decimal import Decimal
@@ -9,6 +10,7 @@ from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q, Max
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from liqpay.liqpay import LiqPay
 from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -16,6 +18,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
+from ..video import settings
 
 
 class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
@@ -235,6 +238,69 @@ class TransactionsApiView(generics.CreateAPIView):
                 print(videocontent.errors)
                 raise
             return Response(transaction.data)
+
+
+class PayCallbackView(generics.CreateAPIView):
+    serializer_class = MerchantFondySerializer
+
+    def create(self, request, *args, **kwargs):
+        subscription, duration, video_id = None, 0, None
+        liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+        data = request.POST.get('data')
+        signature = request.POST.get('signature')
+        sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
+        if sign == signature:
+            print('callback is valid')
+            decode_data_from_str = json.loads(base64.b64decode(data).decode('utf-8'))
+            json_description = decode_data_from_str
+            price = Decimal(decode_data_from_str['amount'])
+            status = 'Payed'  # decode_data_from_str['status']  тут у нас не совпадают чойс філди
+            title = decode_data_from_str['order_id']
+            created_at = timezone.now()
+            merchant_data = json.loads(decode_data_from_str['info'])[0]
+            merchant_data_val = eval(merchant_data['value'])
+            instance_id = int(merchant_data_val['id'])
+            user = int(merchant_data_val['userId'])
+            project_id = int(merchant_data_val['projectId'])
+            transactions_data = {
+                'user_id': user, 'title': title, 'stutus': status, 'price': price,
+                'project_id': project_id, 'json_description': json_description,
+                'created_at': created_at, 'videocontent': None}
+            transaction = TransactionsDetailSerializer(data=transactions_data)
+            if transaction.is_valid():
+                transaction_obj = transaction.save()
+            else:
+                print(transaction.errors)
+                raise
+            if 'video' == merchant_data_val['target']:
+                video = Video.objects.get(id=instance_id)
+                video_id = video.id
+                duration = timedelta(days=30)
+            elif 'subscription' == merchant_data_val['target']:
+                sub = VideoSubscriptions.objects.get(id=instance_id)
+                subscription = sub.id
+                duration = sub.duration + timedelta(days=30)
+            data_start = timezone.now()
+            data_end = data_start + duration
+            videocontent_data = {
+                'transaction_id': transaction_obj.id,
+                'data_start': data_start, 'data_end': data_end, 'user_id': user, 'video_id': video_id,
+                'video_subscription': subscription
+            }
+            videocontent = VideoContentCreateSerializer(data=videocontent_data)
+            transaction.videocontent = videocontent
+            if videocontent.is_valid():
+                videocontent.save()
+            else:
+                print(videocontent.errors)
+                raise
+            return Response(transaction.data)
+
+
+        # response = json.loads(base64.b64decode(data).decode('utf-8'))
+        #
+        # print('callback data', response)
+        # return HttpResponse()
 
 
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):
