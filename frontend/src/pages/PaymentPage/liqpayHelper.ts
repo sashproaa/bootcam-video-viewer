@@ -40,7 +40,8 @@ export function liqpaySignature(data: string) {
   return Base64.stringify(hash);
 }
 
-export default {
-  liqpayData,
-  liqpaySignature,
-};
+export default function liqpayPropsHelper(props: Props) {
+  const data = liqpayData(props);
+  const signature = liqpaySignature(data);
+  return { data, signature };
+}
