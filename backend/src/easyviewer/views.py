@@ -183,7 +183,7 @@ class TransactionsListApiView(generics.ListAPIView):
         return queryset
 
 
-class TransactionsApiView(generics.CreateAPIView):
+class FondyApiView(generics.CreateAPIView):
     serializer_class = MerchantFondySerializer
     #permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
@@ -240,8 +240,8 @@ class TransactionsApiView(generics.CreateAPIView):
             return Response(transaction.data)
 
 
-class PayCallbackView(generics.CreateAPIView):
-    serializer_class = MerchantFondySerializer
+class LiqpayCallbackView(generics.CreateAPIView):
+    serializer_class = LiqpaySerializer
 
     def create(self, request, *args, **kwargs):
         subscription, duration, video_id = None, 0, None
@@ -279,7 +279,8 @@ class PayCallbackView(generics.CreateAPIView):
             elif 'subscription' == merchant_data_val['target']:
                 sub = VideoSubscriptions.objects.get(id=instance_id)
                 subscription = sub.id
-                duration = sub.duration + timedelta(days=30)
+                duration = sub.period_month * 30
+                duration = timedelta(days=duration)
             data_start = timezone.now()
             data_end = data_start + duration
             videocontent_data = {
@@ -295,12 +296,6 @@ class PayCallbackView(generics.CreateAPIView):
                 print(videocontent.errors)
                 raise
             return Response(transaction.data)
-
-
-        # response = json.loads(base64.b64decode(data).decode('utf-8'))
-        #
-        # print('callback data', response)
-        # return HttpResponse()
 
 
 class ProjectSubscriptionsApiView(generics.RetrieveUpdateDestroyAPIView):

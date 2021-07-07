@@ -18,8 +18,7 @@ urlpatterns = [
     path('video/comment/create', CommentCreateApiView.as_view()),
     path('comment/<int:pk>', CommentDetailApiView.as_view()),
     path('user/<int:pk>', UserProfileApiView.as_view()),
-    path('user/transactions', TransactionsApiView.as_view()),
-    path('user/transactions_liqpay', PayCallbackView.as_view()),
+    path('user/transactions', LiqpayCallbackView.as_view()),
     path('user/transactions/list/', TransactionsListApiView.as_view()),
     path('facebook/', FacebookLogin.as_view(), name='fb_login')
 ]
