@@ -23,11 +23,11 @@ export function liqpayData({ targetData, price, currency = 'UAH' }: Props) {
     action: 'pay',
     amount: Number(price),
     currency: currency,
-    description: JSON.stringify(targetData),
+    description: targetData.name,
     // order_id: '',
     result_url: liqpayResultUrl,
     server_url: liqpayServerUrl,
-    // verifycode: 'Y',
+    info: JSON.stringify(targetData),
   };
 
   // return Buffer.from(JSON.stringify(data)).toString('base64');
