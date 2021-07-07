@@ -17,5 +17,5 @@ drf-yasg  # swagger
 django-cors-headers
 django-cookies-samesite
 django-filter  # for params filter
-liqpay-python # liqpay payment system
+liqpay-sdk-python3 # liqpay payment system
 

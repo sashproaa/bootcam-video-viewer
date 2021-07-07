@@ -10,7 +10,7 @@ from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q, Max
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
-from liqpay.liqpay import LiqPay
+from liqpay import LiqPay
 from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -251,13 +251,13 @@ class LiqpayCallbackView(generics.CreateAPIView):
         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
         if sign == signature:
             print('callback is valid')
-            decode_data_from_str = json.loads(base64.b64decode(data).decode('utf-8'))
-            json_description = decode_data_from_str
-            price = Decimal(decode_data_from_str['amount'])
+            decode_data = LiqPay.decode_data_from_str(data)
+            json_description = decode_data
+            price = Decimal(decode_data['amount'])
             status = 'Payed'  # decode_data_from_str['status']  тут у нас не совпадают чойс філди
-            title = decode_data_from_str['order_id']
+            title = decode_data['order_id']
             created_at = timezone.now()
-            merchant_data = json.loads(decode_data_from_str['info'])[0]
+            merchant_data = json.loads(decode_data['info'])[0]
             merchant_data_val = eval(merchant_data['value'])
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
