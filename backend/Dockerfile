@@ -9,6 +9,8 @@ WORKDIR /app/backend
 
 COPY ./requirements requirements
 
+ENV PYTHONPATH "${PYTONPATH}:/backend"
+
 RUN apk add --no-cache \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev git postgresql-client

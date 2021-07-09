@@ -1,7 +1,5 @@
 import base64
 import json
-import sys
-sys.path.insert(0, '..')
 
 from datetime import timedelta
 from decimal import Decimal
