@@ -1,8 +1,10 @@
 import base64
 import json
+import sys
+sys.path.insert(0, '..')
+
 from datetime import timedelta
 from decimal import Decimal
-
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -18,7 +20,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
-from ..video import settings
+from video import settings
 
 
 class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
