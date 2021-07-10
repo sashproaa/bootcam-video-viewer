@@ -18,6 +18,11 @@ import { fetchUser } from '../../store/userSlice';
 import PrivateRoute from '../PrivateRoute';
 import AdminRoute from '../AdminRoute';
 import ClearButton from '../ClearButton';
+import { getSettings } from '../../common/helpers/settingsHelper';
+
+const settings = getSettings();
+
+const SettingsContext = React.createContext(settings);
 
 function App() {
   const dispatch = useDispatch();
@@ -31,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <SettingsContext.Provider value={settings}>
       {/*<ClearButton />*/}
       <AuthPage />
       <HeaderPage />
@@ -47,7 +52,7 @@ function App() {
           <Redirect from='/' to={Routes.catalog} />
         </Switch>
       </div>
-    </>
+    </SettingsContext.Provider>
   );
 }
 
