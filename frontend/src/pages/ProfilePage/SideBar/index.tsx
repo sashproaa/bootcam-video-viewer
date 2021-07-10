@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row, Image } from 'react-bootstrap';
@@ -14,10 +14,12 @@ import { RoutesProfile } from '../RoutesProfileEnum';
 import { Edit, LogOut } from 'react-feather';
 import ButtonClean from '../../../components/ButtonClean';
 import { Video } from '../../../common/interfaces/VideoInterface';
+import { SettingsContext } from '../../../components/App/App';
 
 export default function SideBar() {
   const dispatch = useDispatch();
   const user = useSelector(userInfo);
+  const settings = useContext(SettingsContext);
 
   const handleLogout = () => {
     dispatch(fetchLogoutUser());
@@ -65,7 +67,7 @@ export default function SideBar() {
           Профиль
         </Link>
         <Link className={cls.link} to={RoutesProfile.subscription}>
-          Подписки и платежи
+          {settings.showSubscription ? 'Подписки и платежи' : 'Платежи'}
         </Link>
         <Link className={cls.link} to={RoutesProfile.video}>
           Мои спектакли
