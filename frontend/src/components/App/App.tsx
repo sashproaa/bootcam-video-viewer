@@ -47,7 +47,9 @@ function App() {
           <Route path={`${Routes.video}/:id`} component={VideoPage} />
           <AdminRoute path={`${Routes.editor}/:id`} component={EditorPage} />
           <PrivateRoute path={Routes.profile} component={ProfilePage} />
-          <Route path={Routes.subscription} component={SubscriptionPage} />
+          {settings.showSubscription && (
+            <Route path={Routes.subscription} component={SubscriptionPage} />
+          )}
           <Route path={Routes.payment} component={PaymentPage} />
           <Redirect from='/' to={Routes.catalog} />
         </Switch>
