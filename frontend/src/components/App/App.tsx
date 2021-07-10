@@ -22,7 +22,7 @@ import { getSettings } from '../../common/helpers/settingsHelper';
 
 const settings = getSettings();
 
-const SettingsContext = React.createContext(settings);
+export const SettingsContext = React.createContext(settings);
 
 function App() {
   const dispatch = useDispatch();
