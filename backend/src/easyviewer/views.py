@@ -241,24 +241,25 @@ class FondyApiView(generics.CreateAPIView):
 
 
 class LiqpayCallbackView(generics.CreateAPIView):
-    serializer_class = LiqpaySerializer
+    #serializer_class = LiqpaySerializer
+    serializer_class = LiqpayEncodeSerializer
 
     def create(self, request, *args, **kwargs):
         subscription, duration, video_id = None, 0, None
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-        data = request.POST.get('data')
-        signature = request.POST.get('signature')
+        data = self.request.data.get('data')
+        signature = self.request.data.get('signature')
         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
         if sign == signature:
             print('callback is valid')
-            decode_data = LiqPay.decode_data_from_str(data)
+            decode_data = liqpay.decode_data_from_str(data=data)
             json_description = decode_data
             price = Decimal(decode_data['amount'])
-            status = 'Payed'  # decode_data_from_str['status']  тут у нас не совпадают чойс філди
+            status = 'Payed'  # decode_data['status']  тут у нас не совпадают чойс філди
             title = decode_data['order_id']
             created_at = timezone.now()
             merchant_data = json.loads(decode_data['info'])[0]
-            merchant_data_val = eval(merchant_data['value'])
+            merchant_data_val = eval(str(merchant_data['value']))
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
             project_id = int(merchant_data_val['projectId'])
