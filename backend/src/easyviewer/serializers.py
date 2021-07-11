@@ -149,7 +149,12 @@ class MerchantFondySerializer(serializers.Serializer):
     signature = serializers.CharField(max_length=255)
 
 
-class LiqpaySerializer(serializers.Serializer):
+class LiqpayEncodeSerializer(serializers.Serializer):  # encode data
+    data = serializers.CharField(max_length=255)
+    signature = serializers.CharField(max_length=255)
+
+
+class LiqpaySerializer(serializers.Serializer):  # decode data
 
     transaction = TransactionsDetailSerializer(many=True, read_only=True)
 
