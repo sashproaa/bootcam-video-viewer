@@ -250,12 +250,12 @@ class LiqpayCallbackView(generics.CreateAPIView):
         data = self.request.data.get('data')
         signature = self.request.data.get('signature')
         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
-        if sign == signature:
+        decode_data = liqpay.decode_data_from_str(data=data)
+        if sign == signature and decode_data['status'] == 'success':
             print('callback is valid')
-            decode_data = liqpay.decode_data_from_str(data=data)
             json_description = decode_data
             price = Decimal(decode_data['amount'])
-            status = 'Payed'  # decode_data['status']  тут у нас не совпадают чойс філди
+            status = 'Payed'  # тут у нас не совпадают чойс філди
             title = decode_data['order_id']
             created_at = timezone.now()
             merchant_data = json.loads(decode_data['info'])[0]
