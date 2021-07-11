@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'multiselectfield',
     'phonenumber_field',
-
+    'liqpay',
     'dj_rest_auth',
     'django.contrib.sites',
     'allauth',
@@ -273,3 +273,6 @@ DCS_CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = True
 
 FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
+
+LIQPAY_PUBLIC_KEY = ''
+LIQPAY_PRIVATE_KEY = ''

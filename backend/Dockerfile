@@ -4,10 +4,12 @@ LABEL maintainer="naorye"
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONPATH "${PYTONPATH}:/backend"
 
 WORKDIR /app/backend
 
 COPY ./requirements requirements
+
 
 RUN apk add --no-cache \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
