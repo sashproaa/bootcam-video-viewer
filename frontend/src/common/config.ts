@@ -8,6 +8,10 @@ export const liqpayPrivateKey = process.env.REACT_APP_LIQPAY_PRIVATE_KEY;
 export const liqpayResultUrl = process.env.REACT_APP_LIQPAY_RESULT_URL;
 export const liqpayServerUrl = process.env.REACT_APP_LIQPAY_SERVER_URL;
 
+export const defaultShowSubscription = false;
+export const defaultShowBackground = true;
+export const defaultTheme = true;
+
 export default {
   apiUrl,
   fondyMerchantId,
