@@ -1,7 +1,8 @@
+import base64
 import json
+
 from datetime import timedelta
 from decimal import Decimal
-
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
@@ -9,6 +10,7 @@ from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q, Max
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from liqpay import LiqPay
 from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -16,6 +18,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
+from video import settings
 
 
 class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
@@ -180,7 +183,7 @@ class TransactionsListApiView(generics.ListAPIView):
         return queryset
 
 
-class TransactionsApiView(generics.CreateAPIView):
+class FondyApiView(generics.CreateAPIView):
     serializer_class = MerchantFondySerializer
     #permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
@@ -214,6 +217,65 @@ class TransactionsApiView(generics.CreateAPIView):
             if 'video' == merchant_data_val['target']:
                 video = Video.objects.get(id=instance_id)
                 video_id = instance_id
+                duration = timedelta(days=30)
+            elif 'subscription' == merchant_data_val['target']:
+                sub = VideoSubscriptions.objects.get(id=instance_id)
+                subscription = sub.id
+                duration = sub.period_month * 30
+                duration = timedelta(days=duration)
+            data_start = timezone.now()
+            data_end = data_start + duration
+            videocontent_data = {
+                'transaction_id': transaction_obj.id,
+                'data_start': data_start, 'data_end': data_end, 'user_id': user, 'video_id': video_id,
+                'video_subscription': subscription
+            }
+            videocontent = VideoContentCreateSerializer(data=videocontent_data)
+            transaction.videocontent = videocontent
+            if videocontent.is_valid():
+                videocontent.save()
+            else:
+                print(videocontent.errors)
+                raise
+            return Response(transaction.data)
+
+
+class LiqpayCallbackView(generics.CreateAPIView):
+    #serializer_class = LiqpaySerializer
+    serializer_class = LiqpayEncodeSerializer
+
+    def create(self, request, *args, **kwargs):
+        subscription, duration, video_id = None, 0, None
+        liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+        data = self.request.data.get('data')
+        signature = self.request.data.get('signature')
+        sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
+        decode_data = liqpay.decode_data_from_str(data=data)
+        if sign == signature and decode_data['status'] == 'success':
+            print('callback is valid')
+            json_description = decode_data
+            price = Decimal(decode_data['amount'])
+            status = 'Payed'  # тут у нас не совпадают чойс філди
+            title = decode_data['order_id']
+            created_at = timezone.now()
+            merchant_data = json.loads(decode_data['info'])[0]
+            merchant_data_val = eval(str(merchant_data['value']))
+            instance_id = int(merchant_data_val['id'])
+            user = int(merchant_data_val['userId'])
+            project_id = int(merchant_data_val['projectId'])
+            transactions_data = {
+                'user_id': user, 'title': title, 'stutus': status, 'price': price,
+                'project_id': project_id, 'json_description': json_description,
+                'created_at': created_at, 'videocontent': None}
+            transaction = TransactionsDetailSerializer(data=transactions_data)
+            if transaction.is_valid():
+                transaction_obj = transaction.save()
+            else:
+                print(transaction.errors)
+                raise
+            if 'video' == merchant_data_val['target']:
+                video = Video.objects.get(id=instance_id)
+                video_id = video.id
                 duration = timedelta(days=30)
             elif 'subscription' == merchant_data_val['target']:
                 sub = VideoSubscriptions.objects.get(id=instance_id)

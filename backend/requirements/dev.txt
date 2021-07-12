@@ -1,6 +1,6 @@
 -i https://pypi.org/simple/
 Django==2.2.16
-psycopg2
+psycopg2==2.8 # в последнем обновлении етой библиотеки баг в тайм зонах
 pytz
 sqlparse
 cryptography==2.8
@@ -17,4 +17,5 @@ drf-yasg  # swagger
 django-cors-headers
 django-cookies-samesite
 django-filter  # for params filter
+liqpay-sdk-python3 # liqpay payment system
 
