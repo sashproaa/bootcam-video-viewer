@@ -15,7 +15,7 @@ const keyTheme = 'theme';
 export interface Settings {
   showSubscription: boolean;
   showBackground: boolean;
-  theme: boolean;
+  theme: string;
 }
 
 function parseParam(param: string) {
@@ -44,7 +44,7 @@ export const getSettings = (): Settings => {
         : defaultShowSubscription,
     showBackground:
       background !== null ? parseParam(background) : defaultShowBackground,
-    theme: theme !== null ? parseParam(theme) : defaultTheme,
+    theme: theme !== null ? theme : defaultTheme,
   };
 };
 

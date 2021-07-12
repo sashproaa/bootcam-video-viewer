@@ -10,7 +10,7 @@ export const liqpayServerUrl = process.env.REACT_APP_LIQPAY_SERVER_URL;
 
 export const defaultShowSubscription = false;
 export const defaultShowBackground = true;
-export const defaultTheme = true;
+export const defaultTheme = 'dark';
 
 export default {
   apiUrl,
