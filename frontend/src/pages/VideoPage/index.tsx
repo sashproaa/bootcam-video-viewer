@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
@@ -29,6 +29,7 @@ import { isAdminUser, userActiveVideoInfo } from '../../store/userSlice';
 import { Play } from 'react-feather';
 
 import videoMock from '../../assets/video_mock.mp4';
+import { SettingsContext } from '../../components/App/App';
 
 const intervalSave = 5000;
 
@@ -47,6 +48,7 @@ export default function VideoPage() {
   const genresObj = useSelector(genresVideos);
   const admin = useSelector(isAdminUser);
   const activeVideo = useSelector(userActiveVideoInfo);
+  const settings = useContext(SettingsContext);
   const params = useParams() as { id: string };
   const id = Number(params.id);
 
@@ -241,7 +243,7 @@ export default function VideoPage() {
                   </OverlayTrigger>
                 )}
 
-                {!admin && (
+                {!admin && settings.showSubscription && (
                   <Button
                     className={cls.button}
                     size='big'

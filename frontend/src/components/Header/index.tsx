@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Routes } from '../../common/enums/RoutesEnum';
 import cls from './style.module.css';
@@ -6,9 +6,11 @@ import Button from '../Button';
 import { Cast } from 'react-feather';
 import ButtonAuth from './ButtonAuth';
 import InputSearch from './InputSearch';
+import { SettingsContext } from '../App/App';
 
 export default function HeaderPage() {
   const history = useHistory();
+  const settings = useContext(SettingsContext);
 
   useEffect(() => {}, []);
 
@@ -31,14 +33,16 @@ export default function HeaderPage() {
 
             <InputSearch />
 
-            <Button
-              className={cls.subscribe}
-              size='small'
-              onClick={handleSubscribe}
-            >
-              <span className={cls.subscribeText}>Подписаться</span>
-              <Cast className={cls.subscribeIcon} size={24} />
-            </Button>
+            {settings.showSubscription && (
+              <Button
+                className={cls.subscribe}
+                size='small'
+                onClick={handleSubscribe}
+              >
+                <span className={cls.subscribeText}>Подписаться</span>
+                <Cast className={cls.subscribeIcon} size={24} />
+              </Button>
+            )}
 
             <ButtonAuth />
           </div>

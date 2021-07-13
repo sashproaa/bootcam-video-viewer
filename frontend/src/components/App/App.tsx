@@ -18,6 +18,11 @@ import { fetchUser } from '../../store/userSlice';
 import PrivateRoute from '../PrivateRoute';
 import AdminRoute from '../AdminRoute';
 import ClearButton from '../ClearButton';
+import { getSettings } from '../../common/helpers/settingsHelper';
+
+const settings = getSettings();
+
+export const SettingsContext = React.createContext(settings);
 
 function App() {
   const dispatch = useDispatch();
@@ -31,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <SettingsContext.Provider value={settings}>
       {/*<ClearButton />*/}
       <AuthPage />
       <HeaderPage />
@@ -42,12 +47,14 @@ function App() {
           <Route path={`${Routes.video}/:id`} component={VideoPage} />
           <AdminRoute path={`${Routes.editor}/:id`} component={EditorPage} />
           <PrivateRoute path={Routes.profile} component={ProfilePage} />
-          <Route path={Routes.subscription} component={SubscriptionPage} />
+          {settings.showSubscription && (
+            <Route path={Routes.subscription} component={SubscriptionPage} />
+          )}
           <Route path={Routes.payment} component={PaymentPage} />
           <Redirect from='/' to={Routes.catalog} />
         </Switch>
       </div>
-    </>
+    </SettingsContext.Provider>
   );
 }
 

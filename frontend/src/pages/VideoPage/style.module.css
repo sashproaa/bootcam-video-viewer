@@ -147,7 +147,8 @@
 
 @media (max-width: 1399.98px) {
   .button {
-    width: 45%;
+    flex-grow: 1;
+    width: auto;
   }
 }
 

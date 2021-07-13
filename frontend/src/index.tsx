@@ -9,8 +9,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './theme/variables.css';
 import './index.css';
 import { setHash } from './common/helpers/hashHelper';
+import { fetchSettings } from './common/helpers/settingsHelper';
 
 setHash();
+fetchSettings();
 
 ReactDOM.render(
   <Provider store={store}>
@@ -18,5 +20,5 @@ ReactDOM.render(
       <App />
     </Router>
   </Provider>,
-  document.getElementById('root'),
+  document.getElementById('aw-root'),
 );
