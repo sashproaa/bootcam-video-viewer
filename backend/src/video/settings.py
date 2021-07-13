@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-
+env = environ.Env()
+environ.Env.read_env()
+root = environ.Path(__file__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5c!+nw__jh7!=^o6!%fz^gq=mh%(24of&@lbaqrt3swv5(^)ry'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.com', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
 
@@ -274,5 +276,5 @@ CSRF_COOKIE_SECURE = True
 
 FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
 
-LIQPAY_PUBLIC_KEY = ''
-LIQPAY_PRIVATE_KEY = ''
+LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
+LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')

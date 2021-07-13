@@ -22,7 +22,7 @@ RUN pip install -r /app/backend/requirements/dev.txt
 
 #COPY src src
 
-#COPY .env .env
+COPY .env .env
 
 COPY ./entrypoint.sh entrypoint.sh
 

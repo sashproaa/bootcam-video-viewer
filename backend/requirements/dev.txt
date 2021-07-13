@@ -18,4 +18,4 @@ django-cors-headers
 django-cookies-samesite
 django-filter  # for params filter
 liqpay-sdk-python3 # liqpay payment system
-
+django-environ # for .env
