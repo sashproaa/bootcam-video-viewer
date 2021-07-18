@@ -7,7 +7,7 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
-from django.db.models import Case, When, ExpressionWrapper, F, Q, Max
+from django.db.models import Case, When, ExpressionWrapper, F, Q, Max, Value
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from liqpay import LiqPay
@@ -154,9 +154,11 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
             queryset = Video.objects.filter(id=video.id).annotate(
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
-                ),comment=Comment.objects.filter(video_id=video.id))
+                ), comments=Value(
+                    list(Comment.objects.filter(video_id=video.id).values()), output_field=models.TextField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id, id=self.kwargs.get('pk'))
+            queryset = Video.objects.filter(project_id=project.id, id=video.id).annotate(comments=Value(
+                    list(Comment.objects.filter(video_id=video.id).values()), output_field=models.TextField()))
         return queryset
 
 
