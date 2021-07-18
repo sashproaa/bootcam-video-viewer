@@ -358,24 +358,6 @@ class VideoSubscriptionApiView(generics.ListAPIView):
         return queryset
 
 
-class CommentApiView(generics.ListAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentListSerializer
-
-
-class CommentCreateApiView(generics.CreateAPIView):
-    serializer_class = CommentDetailSerializer
-    permission_classes = (IsOwnerOrReadonly, IsAuthenticatedOrReadOnly,)
-
-
-class CommentDetailApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Comment.objects.filter()
-    serializer_class = CommentDetailSerializer
-    permission_classes = (IsOwnerOrReadonly,)
-    # permission_classes = (IsAdminUser, )
-
-
-
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
 
