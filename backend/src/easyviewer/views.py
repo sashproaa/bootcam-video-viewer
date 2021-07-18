@@ -154,7 +154,7 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
             queryset = Video.objects.filter(id=video.id).annotate(
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
-                ),comment=Comment.objects.filter(video_id=video.id), default=None, output_field=models.ExpressionList())
+                ),comment=Comment.objects.filter(video_id=video.id))
         else:
             queryset = Video.objects.filter(project_id=project.id, id=self.kwargs.get('pk'))
         return queryset
