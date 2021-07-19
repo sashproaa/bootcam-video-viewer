@@ -32,7 +32,7 @@ class ProjectListSerializer(serializers.ModelSerializer):
 class VideoDetailSerializer(serializers.ModelSerializer):
     video_url = serializers.CharField(read_only=True, default=None)
     paid = serializers.BooleanField(read_only=True, default=False)
-    comment = serializers.ListField(read_only=True, default=False, max_length=1025)
+    comments = serializers.CharField(read_only=True)
 
     class Meta:
         model = Video
