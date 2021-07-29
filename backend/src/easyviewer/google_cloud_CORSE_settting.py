@@ -2,7 +2,7 @@ from google.cloud import storage
 
 
 def cors_configuration(bucket_name):
-    """Set a bucket's CORS policies configuration."""
+    """  Set a bucket's CORS policies configuration. """
     # bucket_name = "your-bucket-name"
 
     storage_client = storage.Client()
