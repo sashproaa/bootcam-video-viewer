@@ -2,7 +2,7 @@ import datetime
 import os
 
 from google.cloud import storage
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"C:\Users\znnfo\Downloads\liquid-idiom-321118-87b74f56a8d8.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"file_with_keys.json"
 
 
 def generate_download_signed_url_v4(bucket_name, blob_name):
