@@ -1,7 +1,7 @@
 import io
 
 from google.cloud import videointelligence_v1p3beta1 as videointelligence
-
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"file_with_keys.json" # ето не обязательно если в среду ключи при запускепередать
 path = 'path_to_file'
 output_uri = 'gs://path_to_output'
 
