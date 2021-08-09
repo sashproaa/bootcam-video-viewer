@@ -80,7 +80,8 @@ class VideoListApiView(generics.ListAPIView):
                 video_url=ExpressionWrapper(F('url'), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id)
+            queryset = Video.objects.filter(project_id=project.id).annotate(
+                video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
         return queryset
 
 
