@@ -2,10 +2,10 @@ import datetime
 import os
 
 from google.cloud import storage
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"file_with_keys.json"
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"file_with_keys.json"
 
 
-def generate_download_signed_url_v4(bucket_name, blob_name):
+def generate_download_signed_url_v4(bucket_name, blob_name, data_end):
     """Generates a v4 signed URL for downloading a blob.
 
     Note that this method requires a service account key file. You can not use
@@ -20,9 +20,9 @@ def generate_download_signed_url_v4(bucket_name, blob_name):
     blob = bucket.blob(blob_name)
 
     url = blob.generate_signed_url(
-        version="v4",
-        # This URL is valid for 15 minutes
-        expiration=datetime.timedelta(minutes=15),
+        version="v2",
+        # This URL is valid for data_end
+        expiration=data_end,
         # Allow GET requests using this URL.
         method="GET",
     )
