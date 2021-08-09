@@ -77,7 +77,7 @@ class VideoListApiView(generics.ListAPIView):
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
             video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(project_id=project.id).annotate(
-                video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
+                video_url=ExpressionWrapper(F('url'), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
         else:
             queryset = Video.objects.filter(project_id=project.id)
