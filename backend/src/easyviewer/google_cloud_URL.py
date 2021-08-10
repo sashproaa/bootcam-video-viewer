@@ -12,8 +12,12 @@ def generate_download_signed_url_v4(bucket_name, blob_name, data_end):
     this if you are using Application Default Credentials from Google Compute
     Engine or from the Google Cloud SDK.
     """
+
     # bucket_name = 'your-bucket-name'
     # blob_name = 'your-object-name'
+
+    if not bucket_name or not blob_name or not data_end:
+        return None
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)

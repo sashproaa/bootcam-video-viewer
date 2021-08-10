@@ -155,7 +155,10 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
                 videocontent__data_end__gte=timezone.now(), videocontent__user_id=self.request.user.id
                                                                                     ).values_list('id', flat=True)
             video_data_end = video_ids_video.values_list('videocontent__data_end')
-            data_end = max(list(list(video_data_end) + list(video_subscriptions_data_end)))
+            if video_data_end or video_subscriptions_data_end:
+                data_end = max(list(list(video_data_end) + list(video_subscriptions_data_end)))
+            else:
+                bucket_name, blob_name, data_end = None, None, [None,]
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
             video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(id=video.id).annotate(
