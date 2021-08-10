@@ -141,6 +141,8 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
         video = get_object_or_404(Video, id=self.kwargs.get('pk'))
         bucket_name = video.bucket_name
         blob_name = video.blob_name
+        url = []  # for annotate
+        url.append(video.url)
         if self.request.user.is_authenticated and project:
             video_subscriptions_id = VideoSubscriptions.objects.filter(
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
@@ -157,13 +159,12 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
             video_data_end = video_ids_video.values_list('videocontent__data_end')
             if video_data_end or video_subscriptions_data_end:
                 data_end = max(list(list(video_data_end) + list(video_subscriptions_data_end)))
-            else:
-                bucket_name, blob_name, data_end = None, None, [None,]
-            url = generate_download_signed_url_v4(bucket_name=bucket_name, blob_name=blob_name, data_end=data_end[0])
+                url = generate_download_signed_url_v4(bucket_name=bucket_name, blob_name=blob_name,
+                                                      data_end=data_end[0])
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
             video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(id=video.id).annotate(
-                video_url=Case(When(Q(id__in=video_list), then=url), output_field=models.CharField()
+                video_url=Case(When(Q(id=self.kwargs.get('pk')), then=url), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
                 ), comments=Value(
                     list(Comment.objects.filter(video_id=video.id).values()), output_field=models.TextField()))
