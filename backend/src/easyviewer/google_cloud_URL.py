@@ -30,9 +30,10 @@ def generate_download_signed_url_v4(bucket_name, blob_name, data_end):
         # Allow GET requests using this URL.
         method="GET",
     )
-
+    list_url = []
+    list_url.append(url)
     print("Generated GET signed URL:")
     print(url)
     print("You can use this URL with any user agent, for example:")
     print("curl '{}'".format(url))
-    return url
+    return list_url
