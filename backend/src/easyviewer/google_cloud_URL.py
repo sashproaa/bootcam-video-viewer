@@ -5,7 +5,7 @@ from google.cloud import storage
 #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"file_with_keys.json"
 
 
-def generate_download_signed_url_v4(bucket_name, blob_name, data_end):
+def generate_download_signed_url_v4(bucket_name, blob_name, data_end) -> list:
     """Generates a v4 signed URL for downloading a blob.
 
     Note that this method requires a service account key file. You can not use
