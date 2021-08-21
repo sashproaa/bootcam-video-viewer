@@ -17,7 +17,7 @@ def generate_download_signed_url_v4(bucket_name, blob_name, data_end) -> list:
     # blob_name = 'your-object-name'
 
     if not bucket_name or not blob_name or not data_end:
-        return None
+        return [None]
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
