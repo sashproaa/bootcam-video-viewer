@@ -139,8 +139,8 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
     def get_queryset(self):
         project = get_object_or_404(Projects, hash=self.hash_project)
         video = get_object_or_404(Video, id=self.kwargs.get('pk'))
-        bucket_name = video.bucket_name
-        blob_name = video.blob_name
+        bucket_name = project.bucket_name
+        blob_name = video.file_name
         url = []  # for annotate
         url.append(video.url)
         if self.request.user.is_authenticated and project:

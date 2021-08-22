@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='video',
-            name='blob_name',
+            name='file_name',
             field=models.CharField(blank=True, max_length=400, null=True),
         ),
         migrations.AddField(
-            model_name='video',
+            model_name='projects',
             name='bucket_name',
             field=models.CharField(blank=True, max_length=400, null=True),
         ),

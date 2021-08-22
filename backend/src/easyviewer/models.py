@@ -110,6 +110,8 @@ class Projects(models.Model):
     name = models.CharField(max_length=400)
     user_id = models.ManyToManyField(get_user_model(), through='AdminProject')
     subscription_id = models.ForeignKey(ProjectSubscriptions, on_delete=models.CASCADE)
+    bucket_name = models.CharField(max_length=400, blank=True, null=True)
+
 
     def __str__(self):
         return self.name
@@ -150,8 +152,7 @@ class Video(models.Model):
     preview_video = models.CharField(max_length=500, blank=True, null=True)
     subscription = models.ManyToManyField(VideoSubscriptions)
     url = models.CharField(max_length=400, blank=True, null=True)
-    blob_name = models.CharField(max_length=400, blank=True, null=True)
-    bucket_name = models.CharField(max_length=400, blank=True, null=True)
+    file_name = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.title
