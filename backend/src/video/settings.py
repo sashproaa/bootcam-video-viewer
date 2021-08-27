@@ -28,6 +28,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
+SWAGGER = env.bool('SWAGGER', default=False)
 
 ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.com', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
 
