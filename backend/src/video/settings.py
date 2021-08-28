@@ -34,6 +34,8 @@ ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.
 
 
 # Application definition
+ADMIN_SITE_HEADER = 'AWplayer administration'
+ADMIN_SITE_TITLE = 'AWplayer'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
