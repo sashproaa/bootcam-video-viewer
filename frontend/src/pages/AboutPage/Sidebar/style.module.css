@@ -1,0 +1,22 @@
+.links {
+  position: sticky;
+  top: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.link, .link:hover {
+  display: flex;
+  margin-bottom: 13px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-decoration: none;
+  font: 500 16px/22px 'Roboto', sans-serif;
+  color: var(--white);
+  transition: color .3s;
+}
+
+.link:hover, .link.active {
+  color: var(--thunderbird);
+}

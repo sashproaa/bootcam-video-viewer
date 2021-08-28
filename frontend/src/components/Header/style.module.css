@@ -14,7 +14,7 @@
   gap: 30px;
 }
 
-.h1 {
+.title {
   font: 900 18px/20px 'Roboto', sans-serif;
   text-transform: uppercase;
   letter-spacing: 6px;
@@ -22,7 +22,7 @@
 }
 
 @media (max-width: 767.98px) {
-  .h1 {
+  .title {
     display: block;
   }
 }
