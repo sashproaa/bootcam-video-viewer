@@ -3,10 +3,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { Routes } from '../../common/enums/RoutesEnum';
 import cls from './style.module.css';
 import Button from '../Button';
-import { Cast } from 'react-feather';
+import { Cast, LogIn, Info } from 'react-feather';
 import ButtonAuth from './ButtonAuth';
 import InputSearch from './InputSearch';
 import { SettingsContext } from '../App/App';
+import ButtonClean from '../ButtonClean';
 
 export default function HeaderPage() {
   const history = useHistory();
@@ -16,6 +17,10 @@ export default function HeaderPage() {
 
   const handleSubscribe = () => {
     history.push(Routes.subscription);
+  };
+
+  const handleAbout = () => {
+    history.push(Routes.about);
   };
 
   return (
@@ -32,6 +37,16 @@ export default function HeaderPage() {
             </div>
 
             <InputSearch />
+
+            <ButtonClean
+              className={cls.about}
+              size='small'
+              style='uppercase'
+              onClick={handleAbout}
+            >
+              <span className={cls.aboutText}>О нас</span>
+              <Info className={cls.aboutIcon} size={24} />
+            </ButtonClean>
 
             {settings.showSubscription && (
               <Button

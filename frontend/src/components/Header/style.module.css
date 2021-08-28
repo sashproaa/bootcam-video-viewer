@@ -123,15 +123,15 @@
   cursor: pointer;
 }
 
-.subscribeIcon, .authIcon {
+.subscribeIcon, .authIcon, .aboutIcon {
   display: none;
 }
 
 @media (max-width: 991.98px) {
-  .subscribeIcon, .authIcon {
+  .subscribeIcon, .authIcon, .aboutIcon {
     display: inline-block;
   }
-  .subscribeText, .authText {
+  .subscribeText, .authText, .aboutText {
     display: none;
   }
 }
