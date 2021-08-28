@@ -25,11 +25,11 @@ export default function HeaderPage() {
           <div
             className={`col-12 d-flex justify-content-between ${cls.header}`}
           >
-            <h1 className={cls.h1}>
+            <div className={cls.title}>
               <Link className={cls.logoLink} to={Routes.catalog}>
                 AWplayer
               </Link>
-            </h1>
+            </div>
 
             <InputSearch />
 
