@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
-    'easyviewer',
+    'easyviewer.apps.easyviewer',
     #'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
