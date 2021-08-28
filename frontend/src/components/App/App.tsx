@@ -19,6 +19,7 @@ import PrivateRoute from '../PrivateRoute';
 import AdminRoute from '../AdminRoute';
 import ClearButton from '../ClearButton';
 import { getSettings } from '../../common/helpers/settingsHelper';
+import AboutPage from '../../pages/AboutPage';
 
 const settings = getSettings();
 
@@ -51,6 +52,7 @@ function App() {
             <Route path={Routes.subscription} component={SubscriptionPage} />
           )}
           <Route path={Routes.payment} component={PaymentPage} />
+          <Route path={Routes.about} component={AboutPage} />
           <Redirect from='/' to={Routes.catalog} />
         </Switch>
       </div>
