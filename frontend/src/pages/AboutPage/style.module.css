@@ -1,0 +1,38 @@
+.sidebar {
+  padding: 0px 0px 0px 18px;
+}
+
+.main {}
+
+.section {
+  margin-bottom: 70px;
+}
+
+.title {
+  margin-bottom: 20px;
+  font: 700 35px/41px 'Roboto', sans-serif;
+}
+
+.icon {
+  margin-right: 15px;
+  color: var(--white);
+}
+
+.link {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.link:hover {
+  color: var(--thunderbird);
+ }
+
+.cards {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.refunds {
+  padding-left: 30px;
+}

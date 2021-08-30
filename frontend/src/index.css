@@ -9,6 +9,10 @@
   font-display: block;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 [class^="icon-"], [class*=" icon-"],
 .searching-mark:before,
 .reset-mark:before {
