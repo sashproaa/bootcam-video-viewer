@@ -7,6 +7,7 @@ from rest_framework.authtoken import views
 from .yasg import urlpatterns as doc_api
 from django.conf import settings
 from django.conf.urls.static import static
+from .settings import SWAGGER
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,6 @@ urlpatterns = [
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
 
 ]
-
-urlpatterns += doc_api
+if SWAGGER:
+    urlpatterns += doc_api
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

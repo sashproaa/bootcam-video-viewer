@@ -6,11 +6,11 @@ from django.conf.urls import url
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Esayveawer API",
+      title="AWplayer API",
       default_version='v1',
       description="Test description",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="easyveawer@ukr.net"),
+      contact=openapi.Contact(email="player.quantumobile@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,

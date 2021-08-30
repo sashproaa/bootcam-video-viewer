@@ -18,6 +18,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
+from .google_cloud_URL import generate_download_signed_url_v4
 from video import settings
 
 
@@ -77,10 +78,11 @@ class VideoListApiView(generics.ListAPIView):
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
             video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(project_id=project.id).annotate(
-                video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
+                video_url=ExpressionWrapper(F('url'), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id)
+            queryset = Video.objects.filter(project_id=project.id).annotate(
+                video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
         return queryset
 
 
@@ -137,10 +139,15 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
     def get_queryset(self):
         project = get_object_or_404(Projects, hash=self.hash_project)
         video = get_object_or_404(Video, id=self.kwargs.get('pk'))
+        bucket_name = project.bucket_name
+        blob_name = video.file_name
+        url = []  # for annotate
+        url.append(video.url)
         if self.request.user.is_authenticated and project:
             video_subscriptions_id = VideoSubscriptions.objects.filter(
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            video_subscriptions_data_end = video_subscriptions_id.values_list('videocontent__data_end')
             video_subscriptions_id = list(video_subscriptions_id)
             video_subscriptions_id = video_subscriptions_id if video_subscriptions_id else [-1]
             video_ids_subscriptions = Video.objects.filter(
@@ -149,16 +156,23 @@ class VideoApiView(generics.RetrieveUpdateDestroyAPIView):  # video.id
                 project_id=project.id, videocontent__video_id=self.kwargs.get('pk'),
                 videocontent__data_end__gte=timezone.now(), videocontent__user_id=self.request.user.id
                                                                                     ).values_list('id', flat=True)
+            video_data_end = video_ids_video.values_list('videocontent__data_end')
+            if video_data_end or video_subscriptions_data_end:
+                data_end = max(list(list(video_data_end) + list(video_subscriptions_data_end)))
+                url = generate_download_signed_url_v4(bucket_name=bucket_name, blob_name=blob_name,
+                                                      data_end=data_end[0])
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
             video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(id=video.id).annotate(
-                video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()
+                video_url=Case(When(Q(id=self.kwargs.get('pk')), then=url), output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
                 ), comments=Value(
                     list(Comment.objects.filter(video_id=video.id).values()), output_field=models.TextField()))
         else:
-            queryset = Video.objects.filter(project_id=project.id, id=video.id).annotate(comments=Value(
-                    list(Comment.objects.filter(video_id=video.id).values()), output_field=models.TextField()))
+            queryset = Video.objects.filter(project_id=project.id, id=video.id).annotate(
+                video_url=ExpressionWrapper(F('url'), output_field=models.CharField()),
+                comments=Value(list(Comment.objects.filter(video_id=video.id).values()),
+                               output_field=models.TextField()))
         return queryset
 
 

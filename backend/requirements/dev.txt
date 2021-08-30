@@ -19,3 +19,5 @@ django-cookies-samesite
 django-filter  # for params filter
 liqpay-sdk-python3 # liqpay payment system
 django-environ # for .env
+google-cloud-storage # for google cloud
+

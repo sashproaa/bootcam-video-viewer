@@ -28,11 +28,14 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
+SWAGGER = env.bool('SWAGGER', default=False)
 
 ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.com', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
 
 
 # Application definition
+ADMIN_SITE_HEADER = 'AWplayer administration'
+ADMIN_SITE_TITLE = 'AWplayer'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,7 +58,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
-    'easyviewer',
+    'easyviewer.apps.easyviewer',
     #'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
@@ -278,3 +281,4 @@ FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
 
 LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')
+

@@ -30,13 +30,17 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
 
 class VideoDetailSerializer(serializers.ModelSerializer):
-    video_url = serializers.CharField(read_only=True, default=None)
+    video_url = serializers.SerializerMethodField(method_name='get_url', default=None)  # CharField
     paid = serializers.BooleanField(read_only=True, default=False)
     comments = serializers.CharField(read_only=True)
 
     class Meta:
         model = Video
         exclude = ['url']
+
+    def get_url(self, value):
+        url = value.video_url[0]
+        return url
 
 
 class VideoCreateSerializer(serializers.ModelSerializer):
