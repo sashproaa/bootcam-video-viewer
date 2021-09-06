@@ -202,9 +202,9 @@ ACCOUNT_EMAIL_VERIFICATION = None
 # ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
 
 
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True # після зміни пароля автоматично розлогиниться
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True  # після зміни пароля автоматично розлогиниться
 # ето для активации через електронку
-#ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # также для востановлени пароля (разрешение открывать ссылку в електронке)
 #LOGIN_URL = 'http://localhost:8000/users/login'
 
 REST_AUTH_SERIALIZERS = {
@@ -281,4 +281,10 @@ FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
 
 LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'player.quantumobile@gmail.com'
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
 
