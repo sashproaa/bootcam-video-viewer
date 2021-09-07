@@ -4,11 +4,11 @@ from dj_rest_auth.views import LoginView, LogoutView, PasswordResetView, Passwor
 from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework.authtoken import views
-from django.contrib.auth import views as auth_views
 from .yasg import urlpatterns as doc_api
 from django.conf import settings
 from django.conf.urls.static import static
 from .settings import SWAGGER
+from easyviewer import views as custom_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,12 +24,13 @@ urlpatterns = [
     path('account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     re_path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='account_confirm_email'),
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
-    path('api-auth/password-reset/', auth_views.PasswordResetView.as_view()),
-    path('api-auth/password-reset-confirm/<slug:uidb64>/<slug:token>/', auth_views.PasswordResetConfirmView.as_view(),
-         name='password_reset_confirm'),
-    path('api-auth/password-reset-done', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('api-auth/password-reset-complete', auth_views.PasswordResetCompleteView.as_view(),
-         name='password_reset_complete'),
+    path('api-auth/password-reset/', custom_views.CustomResetPasswordView.as_view()),
+    path('api-auth/password-reset-confirm/<slug:uidb64>/<slug:token>/',
+         custom_views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('api-auth/password-reset-done',
+         custom_views.CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('api-auth/password-reset-complete',
+         custom_views.CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
 ]
 if SWAGGER:
