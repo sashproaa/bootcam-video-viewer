@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import {
   allSubscriptions,
   fetchSubscriptions,
 } from '../../../store/subscriptionSlice';
 import SubscriptionCard from './SubscriptionCard';
-import cls from './style.module.css';
 import { Subscription } from '../../../common/interfaces/SubscriptionInterface';
 import { setPaymentData } from '../../../store/paymentSlice';
 import { Routes } from '../../../common/enums/RoutesEnum';
-import { useHistory } from 'react-router-dom';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

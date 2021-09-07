@@ -1,21 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Play } from 'react-feather';
 import ReactPlayer from 'react-player';
+import ClampLines from 'react-clamp-lines';
+
 import {
   fetchVideo,
   isLoading,
   saveTimeVideo,
-  setVideo,
   videoInfo,
 } from '../../store/videoSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
-import cls from './style.module.css';
 import ButtonLine from '../../components/ButtonLine';
-import ClampLines from 'react-clamp-lines';
-import './style.css';
 import { setPaymentData } from '../../store/paymentSlice';
 import GoBack from '../../components/GoBack';
 import VideoSlider from './VideoSlider';
@@ -24,11 +24,13 @@ import {
   setSearch,
   updateFilterVideos,
 } from '../../store/catalogSlice';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { isAdminUser, userActiveVideoInfo } from '../../store/userSlice';
-import { Play } from 'react-feather';
+
+import cls from './style.module.css';
+import './style.css';
 
 import videoMock from '../../assets/video_mock.mp4';
+import { SettingsContext } from '../../components/App/App';
 
 const intervalSave = 5000;
 
@@ -47,6 +49,7 @@ export default function VideoPage() {
   const genresObj = useSelector(genresVideos);
   const admin = useSelector(isAdminUser);
   const activeVideo = useSelector(userActiveVideoInfo);
+  const settings = useContext(SettingsContext);
   const params = useParams() as { id: string };
   const id = Number(params.id);
 
@@ -241,7 +244,7 @@ export default function VideoPage() {
                   </OverlayTrigger>
                 )}
 
-                {!admin && (
+                {!admin && settings.showSubscription && (
                   <Button
                     className={cls.button}
                     size='big'

@@ -1,23 +1,18 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { merchantId, merchantUrl } from '../../common/config';
+
 import {
   cleanPaymentData,
   merchantDataState,
   priceState,
   updatePaymentUserId,
 } from '../../store/paymentSlice';
-import cls from './style.module.css';
 import { showNoticeError } from '../../store/notificationSlice';
-import ModalWin from '../../components/ModalWin';
 import { Routes } from '../../common/enums/RoutesEnum';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';
-import GoBack from '../../components/GoBack';
 import SuccessWin from './SuccessWin';
-
-const $ipsp = window.$ipsp;
+import liqpayPropsHelper from './liqpayHelper';
 
 export default function PaymentPage() {
   const dispatch = useDispatch();
@@ -40,7 +35,33 @@ export default function PaymentPage() {
   }, [user.id]);
 
   useEffect(() => {
-    if (merchantData && merchantData.userId && price) createPaymentForm();
+    if (merchantData && merchantData.userId && price) {
+      const { data, signature } = liqpayPropsHelper({
+        targetData: merchantData,
+        price,
+        currency: 'UAH',
+      });
+      const LiqPayCheckoutCallback = () => {
+        // @ts-ignore
+        LiqPayCheckout.init({
+          data,
+          signature,
+          embedTo: '#liqpay_checkout',
+          language: 'ru',
+          mode: 'embed',
+        })
+          .on('liqpay.callback', handleResult)
+          .on('liqpay.ready', function (data: any) {
+            // ready
+            console.log('ready data: ', data);
+          })
+          .on('liqpay.close', function (data: any) {
+            // close
+            console.log('close data: ', data);
+          });
+      };
+      LiqPayCheckoutCallback();
+    }
   }, [merchantData]);
 
   if (!merchantData) {
@@ -48,63 +69,14 @@ export default function PaymentPage() {
     return null;
   }
 
-  const createPaymentForm = () => {
-    const button = $ipsp.get('button');
-    button.setMerchantId(Number(merchantId));
-    button.setAmount(price, 'UAH', true);
-    button.setHost('pay.fondy.eu');
-    button.setResponseUrl(merchantUrl);
-    button.addField({
-      name: 'paymentData',
-      label: 'Payment data',
-      value: JSON.stringify(merchantData),
-      hidden: true,
-    });
-    button.addParam('server_callback_url', merchantUrl);
-    checkoutInit(button.getUrl());
-  };
-
-  const checkoutInit = (url) => {
-    $ipsp('checkout').scope(function () {
-      this.setCheckoutWrapper('#checkout_wrapper');
-      this.addCallback(handleResult);
-      this.setModal(false);
-      this.setCheckoutWidth(480);
-      this.setCheckoutHeight(450);
-      // this.setCssStyle(checkoutStyles);
-      this.action('show', function (data) {
-        document.querySelector('#checkout').style.display = 'block';
-      });
-      this.action('hide', function (data) {
-        document.querySelector('#checkout').style.display = 'none';
-      });
-      this.action('resize', function (data) {
-        this.setCheckoutHeight(data.height);
-        // document.querySelector('#checkout_wrapper').style.width = 480;
-        // document.querySelector('#checkout_wrapper').style.height = data.height;
-      });
-      // handle decline response from checkout
-      this.action('decline', function (data, type) {
-        console.log('decline', data);
-      });
-      this.action('message', function (data, type) {
-        console.log('message', data);
-      });
-      this.loadUrl(url);
-    });
-  };
-
-  const handleResult = (data: any, type: any) => {
-    console.log('res data: ', data);
-    console.log('res type: ', type);
-    if (data.action == 'redirect') {
-      dispatch(showNoticeError('Ошибка при оплате'));
-    }
-    if (data.error) {
-      dispatch(showNoticeError(data.error.message));
-    }
-    if (data.send_data && data.send_data.order_status === 'approved') {
+  const handleResult = (data: any) => {
+    console.log(data.status);
+    console.log(data);
+    if (data.status === 'success') {
       setShowApproved(true);
+    }
+    if (data.status === 'error') {
+      dispatch(showNoticeError(data.err_decription));
     }
   };
 
@@ -112,16 +84,13 @@ export default function PaymentPage() {
     setShowApproved(false);
     if (merchantData.target === 'video') {
       history.push(`${Routes.video}/${merchantData.id}`);
-      // history.replace(`${Routes.video}/${merchantData.id}`);
     } else {
       history.push(Routes.catalog);
-      // history.replace(Routes.catalog);
     }
   };
 
   return (
     <>
-      {/*<GoBack>Назад</GoBack>*/}
       <div className='d-flex justify-content-center align-items-center'>
         {/*<div className={cls.testCards}>*/}
         {/*  <div>*/}
@@ -138,10 +107,8 @@ export default function PaymentPage() {
         {/*  </div>*/}
         {/*  <div>Срок действия и cvv любые</div>*/}
         {/*</div>*/}
-        <div id='checkout'>
-          {/*<div id='checkout_wrapper' style={{ width: 500, height: 600 }}></div>*/}
-          <div id='checkout_wrapper'></div>
-        </div>
+
+        <div id='liqpay_checkout'></div>
       </div>
 
       <SuccessWin

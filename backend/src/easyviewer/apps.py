@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class easyviewer(AppConfig):
-    name = 'easyviewer'
+    name = "easyviewer"
+    verbose_name = "AWplayer"

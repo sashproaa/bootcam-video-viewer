@@ -1,8 +1,10 @@
 import React from 'react';
-import cls from './style.module.css';
+
 import Button from '../../../components/Button';
 import { Subscription } from '../../../common/interfaces/SubscriptionInterface';
 import ButtonLine from '../../../components/ButtonLine';
+
+import cls from './style.module.css';
 
 interface Props {
   subscription: Subscription;

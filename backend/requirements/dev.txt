@@ -1,21 +1,24 @@
 -i https://pypi.org/simple/
 Django==2.2.16
+google-crc32c==1.1.2
 psycopg2==2.8 # в последнем обновлении етой библиотеки баг в тайм зонах
-pytz
-sqlparse
+pytz==2021.1
+sqlparse==0.4.1
 cryptography==2.8
-Pillow
-django-allauth
+Pillow==8.2.0
+django-allauth==0.44.0
 django-rest-auth[with_social]
-dj-rest-auth  # token
-django-jsonfield  #feald model
-django-multiselectfield   #feald model
-django-phonenumber-field  # feald model
-phonenumbers  # feald model
-djangorestframework
-drf-yasg  # swagger
-django-cors-headers
+dj-rest-auth==2.1.6  # token
+django-jsonfield==1.4.1  #feald model
+django-multiselectfield==0.1.12   #feald model
+django-phonenumber-field==5.2.0  # feald model
+phonenumbers==8.12.24  # feald model
+djangorestframework==3.12.4
+drf-yasg==1.20.0  # swagger
+django-cors-headers==3.7.0
 django-cookies-samesite
-django-filter  # for params filter
-liqpay-sdk-python3 # liqpay payment system
+django-filter==2.4.0  # for params filter
+liqpay-sdk-python3==1.0.3 # liqpay payment system
 django-environ # for .env
+google-cloud-storage==1.41.1 # for google cloud
+

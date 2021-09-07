@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
-import cls from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   allSubscriptions,
   fetchSubscriptions,
 } from '../../../store/subscriptionSlice';
 import SubscriptionCard from './SubscriptionCard';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { AppThunk, RootState } from './store';
 import { User } from '../common/interfaces/UserInterface';
 import {
@@ -177,10 +178,7 @@ export const fetchChangePassword = (
   dispatch(setIsLoading(false));
 };
 
-export const fetchUpdateAvatar = (file: Blob): AppThunk => async (
-  dispatch,
-  getState,
-) => {
+export const fetchUpdateAvatar = (file: Blob): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
   const response = await updateMedia({
     avatar: file,

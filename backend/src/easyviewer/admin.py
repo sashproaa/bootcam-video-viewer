@@ -1,11 +1,14 @@
-
+from django.contrib.admin import AdminSite
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as userAdmin
 from django.utils.translation import ugettext_lazy as msg
 from .models import *
+from video import settings
 
 # Register your models here.
 #admin.site.register(User, UserAdmin)
+AdminSite.site_header = msg(settings.ADMIN_SITE_HEADER)
+AdminSite.site_title = msg(settings.ADMIN_SITE_TITLE)
 admin.site.register(ProjectSubscriptions)
 admin.site.register(Projects)
 

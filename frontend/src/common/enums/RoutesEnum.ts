@@ -7,4 +7,5 @@ export enum Routes {
   profile = '/profile',
   editor = '/editor',
   payment = '/payment',
+  about = '/about',
 }

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+
 import { RegistrationData } from '../../../store/userSlice';
-import cls from './style.module.css';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaRegistration } from '../../../common/validation/userScheme';
 import Privacy from '../../../components/Privacy';
+
+import cls from './style.module.css';
 
 interface Props {
   onRegistration: (data: RegistrationData) => void;
@@ -14,19 +13,19 @@ interface Props {
 
 export default function Registration({ onRegistration }: Props) {
   const [showPrivacy, setShowPrivacy] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegistrationData>({
-    resolver: yupResolver(schemaRegistration),
-  });
+  const [values, setValues] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ email: '', password: '' });
 
   useEffect(() => {}, []);
 
-  const onSubmit: SubmitHandler<RegistrationData> = (data) => {
-    console.log('SubmitHandler: ', data);
-    onRegistration(data);
+  const handleChangeValue = (ev: any) => {
+    const { name, value } = ev.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  const handleSubmit = (ev: any) => {
+    ev.preventDefault();
+    onRegistration(values);
   };
 
   const handleOpenPrivacy = (ev: any) => {
@@ -40,21 +39,25 @@ export default function Registration({ onRegistration }: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <Input
           fill
           // type='email'
           placeholder='Электронная почта'
-          errorText={errors.email?.message}
-          {...register('email')}
+          name='email'
+          value={values.email}
+          errorText={errors.email}
+          onChange={handleChangeValue}
         />
         <Input
           className={cls.inputLast}
           fill
           type='password'
           placeholder='Пароль'
-          errorText={errors.password?.message}
-          {...register('password')}
+          name='password'
+          value={values.password}
+          errorText={errors.password}
+          onChange={handleChangeValue}
         />
         <p className={cls.contract}>
           Регистрируя новый профиль, вы принимаете условия{' '}

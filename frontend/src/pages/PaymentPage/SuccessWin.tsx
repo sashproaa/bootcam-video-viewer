@@ -1,6 +1,8 @@
 import React from 'react';
+
 import ModalWin from '../../components/ModalWin';
 import Button from '../../components/Button';
+
 import cls from './style.module.css';
 
 interface Props {

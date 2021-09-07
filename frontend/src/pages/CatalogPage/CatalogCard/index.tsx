@@ -1,12 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+
 import { Video } from '../../../common/interfaces/VideoInterface';
 import { Routes } from '../../../common/enums/RoutesEnum';
-import { useDispatch } from 'react-redux';
 import { setVideo } from '../../../store/videoSlice';
-import cls from './style.module.css';
 import ButtonPlay from '../../../components/ButtonPlay';
 import { images } from '../../../common/helpers/imageMockHelper';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

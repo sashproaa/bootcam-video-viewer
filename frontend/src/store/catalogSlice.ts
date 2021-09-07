@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
 import { FilterResponse, getAllVideos } from '../api/services/videoService';
@@ -9,7 +10,6 @@ interface CatalogState {
   isNextLoading: boolean;
   videos: Video[];
   count: number;
-  // genres: [string, string][];
   genres: { [index: string]: string };
   search: string;
   filter: FilterResponse;
@@ -116,7 +116,6 @@ export const fetchNextVideos = (filter?: FilterResponse): AppThunk => async (
 
 export const updateFilterVideos = (filter: FilterResponse): AppThunk => async (
   dispatch,
-  getState,
 ) => {
   dispatch(setFilter(filter));
   dispatch(fetchVideos());
@@ -124,7 +123,6 @@ export const updateFilterVideos = (filter: FilterResponse): AppThunk => async (
 
 export const updateSearchVideos = (search: string): AppThunk => async (
   dispatch,
-  getState,
 ) => {
   dispatch(updateFilterVideos({ title: search, actors: search }));
 };

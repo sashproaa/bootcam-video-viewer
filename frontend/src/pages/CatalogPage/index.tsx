@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
+
 import CatalogCard from './CatalogCard';
 import {
   isLoading,
@@ -14,8 +15,9 @@ import {
 } from '../../store/catalogSlice';
 import Spinner from '../../components/Spinner';
 import GenresFilter from './GenresFilter';
-import cls from './style.module.css';
 import { isAdminUser } from '../../store/userSlice';
+
+import cls from './style.module.css';
 
 export default function CatalogPage() {
   const dispatch = useDispatch();

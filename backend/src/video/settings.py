@@ -28,11 +28,14 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
+SWAGGER = env.bool('SWAGGER', default=False)
 
 ALLOWED_HOSTS = ['0.0.0.0', 'player.quantumobile.com', 'www.player.quantumobile.com', 'ec2-18-193-43-215.eu-central-1.compute.amazonaws.com', 'www.ec2-18-193-43-215.eu-central-1.compute.amazonaws.com']
 
 
 # Application definition
+ADMIN_SITE_HEADER = 'AWplayer administration'
+ADMIN_SITE_TITLE = 'AWplayer'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,7 +58,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
-    'easyviewer',
+    'easyviewer.apps.easyviewer',
     #'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
@@ -199,9 +202,9 @@ ACCOUNT_EMAIL_VERIFICATION = None
 # ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
 
 
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True # після зміни пароля автоматично розлогиниться
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True  # після зміни пароля автоматично розлогиниться
 # ето для активации через електронку
-#ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # также для востановлени пароля (разрешение открывать ссылку в електронке)
 #LOGIN_URL = 'http://localhost:8000/users/login'
 
 REST_AUTH_SERIALIZERS = {
@@ -278,3 +281,10 @@ FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
 
 LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'player.quantumobile@gmail.com'
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+

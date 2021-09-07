@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import {
   ChangePasswordData,
   fetchChangePassword,
@@ -9,7 +11,6 @@ import cls from './style.module.css';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import ModalWin from '../../../components/ModalWin';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaChangePassword } from '../../../common/validation/userScheme';
 
 interface Props {

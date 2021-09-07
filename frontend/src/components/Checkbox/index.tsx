@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'react-feather';
+
 import cls from './style.module.css';
 
 interface Props {

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+
 import ButtonLine from '../../../components/ButtonLine';
+
 import cls from './style.module.css';
 
 const countShowGenres = 4;
 
 interface Props {
-  // genres: [string, string][];
   genresObj: { [index: string]: string };
   activeGenre: string;
   changeGenre: (genre: string) => void;

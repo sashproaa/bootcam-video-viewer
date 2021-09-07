@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import cls from './style.module.css';
 import { Eye, EyeOff } from 'react-feather';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;
@@ -9,6 +10,7 @@ interface Props {
   fill?: boolean;
   dark?: boolean;
   id?: string;
+  name?: string;
   defaultValue?: string;
   value?: string;
   onChange?: (value: any) => void;
