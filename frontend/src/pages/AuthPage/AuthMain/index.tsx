@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   fetchLoginUser,
   fetchRegistrationUser,
@@ -9,6 +10,7 @@ import {
 } from '../../../store/userSlice';
 import Login from '../Login';
 import Registration from '../Registration';
+
 import cls from './style.module.css';
 
 interface Props {
