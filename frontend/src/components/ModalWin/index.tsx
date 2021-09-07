@@ -1,7 +1,8 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import cls from './style.module.css';
 import { X } from 'react-feather';
+
+import cls from './style.module.css';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | null;

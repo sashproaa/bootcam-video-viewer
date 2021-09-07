@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import cls from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+
 import {
   fetchHistoryTransactions,
   historyTransactions,
 } from '../../../store/paymentSlice';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Transaction } from '../../../common/interfaces/TransactionInterface';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

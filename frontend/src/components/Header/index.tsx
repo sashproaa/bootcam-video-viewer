@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { Cast, Info } from 'react-feather';
+
 import { Routes } from '../../common/enums/RoutesEnum';
-import cls from './style.module.css';
 import Button from '../Button';
-import { Cast, LogIn, Info } from 'react-feather';
 import ButtonAuth from './ButtonAuth';
 import InputSearch from './InputSearch';
 import { SettingsContext } from '../App/App';
 import ButtonClean from '../ButtonClean';
+
+import cls from './style.module.css';
 
 export default function HeaderPage() {
   const history = useHistory();

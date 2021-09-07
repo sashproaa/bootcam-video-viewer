@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { AppThunk, RootState } from './store';
 import { Subscription } from '../common/interfaces/SubscriptionInterface';
 import { getAllSubscriptions } from '../api/services/subscriptionService';

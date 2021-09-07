@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   cleanPaymentData,
   merchantDataState,
   priceState,
   updatePaymentUserId,
 } from '../../store/paymentSlice';
-import cls from './style.module.css';
 import { showNoticeError } from '../../store/notificationSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';

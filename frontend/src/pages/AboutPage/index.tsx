@@ -4,12 +4,13 @@ import { Mail, Phone, MapPin } from 'react-feather';
 import { Routes } from '../../common/enums/RoutesEnum';
 import GoBack from '../../components/GoBack';
 import SideBar from './Sidebar';
+import Title from '../../components/Title';
+import PrivacyText from '../../components/PrivacyText';
+
 import visaImg from '../../assets/visa-logo.png';
 import mastercardImg from '../../assets/mastercard-logo.png';
 
 import cls from './style.module.css';
-import Title from '../../components/Title';
-import PrivacyText from '../../components/PrivacyText';
 
 export default function AboutPage() {
   return (
