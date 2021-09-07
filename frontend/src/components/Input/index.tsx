@@ -9,6 +9,7 @@ interface Props {
   fill?: boolean;
   dark?: boolean;
   id?: string;
+  name?: string;
   defaultValue?: string;
   value?: string;
   onChange?: (value: any) => void;

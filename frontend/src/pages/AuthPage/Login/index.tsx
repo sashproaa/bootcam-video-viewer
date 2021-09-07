@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SubmitHandler, useForm } from 'react-hook-form';
+
 import {
   isSaveToken,
   LoginData,
@@ -8,8 +8,9 @@ import {
 } from '../../../store/userSlice';
 import Checkbox from '../../../components/Checkbox';
 import Input from '../../../components/Input';
-import cls from './style.module.css';
 import Button from '../../../components/Button';
+
+import cls from './style.module.css';
 
 interface Props {
   onLogin: (data: LoginData) => void;
@@ -19,13 +20,14 @@ interface Props {
 export default function Login({ onLogin, onRecovery }: Props) {
   const dispatch = useDispatch();
   const isSave = useSelector(isSaveToken);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginData>();
+  const [values, setValues] = useState({ email: '', password: '' });
 
   useEffect(() => {}, []);
+
+  const handleChangeValue = (ev: any) => {
+    const { name, value } = ev.target;
+    setValues({ ...values, [name]: value });
+  };
 
   const handleRemember = () => {
     dispatch(toggleIsSaveToken());
@@ -36,25 +38,29 @@ export default function Login({ onLogin, onRecovery }: Props) {
     onRecovery();
   };
 
-  const onSubmit: SubmitHandler<LoginData> = (data) => {
-    onLogin(data);
+  const handleSubmit = () => {
+    onLogin(values);
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <Input
           fill
           type='text'
           placeholder='Электронная почта'
-          {...register('email', { required: true })}
+          name='email'
+          value={values.email}
+          onChange={handleChangeValue}
         />
         <Input
           className={cls.inputLast}
           fill
           type='password'
           placeholder='Пароль'
-          {...register('password', { required: true })}
+          name='password'
+          value={values.password}
+          onChange={handleChangeValue}
         />
         <div className={cls.check}>
           <div className='container-for-checkbox'>
