@@ -23,7 +23,8 @@ export default function Registration({ onRegistration }: Props) {
     setValues({ ...values, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (ev: any) => {
+    ev.preventDefault();
     onRegistration(values);
   };
 

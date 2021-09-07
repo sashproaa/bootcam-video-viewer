@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import cls from './style.module.css';
 import { Eye, EyeOff } from 'react-feather';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

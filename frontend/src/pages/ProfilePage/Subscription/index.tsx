@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
-import cls from './style.module.css';
+
 import Subscriptions from './Subscriptions';
-import Management from './Management';
 import History from './History';
 import Header from '../Header';
 import { SettingsContext } from '../../../components/App/App';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

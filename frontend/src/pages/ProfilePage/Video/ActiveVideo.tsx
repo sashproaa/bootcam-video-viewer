@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchVideo,
-  isLoading,
-  saveTimeVideo,
-  setVideo,
-  videoInfo,
-} from '../../../store/videoSlice';
-import VideoCard from './VideoCard';
-import cls from './style.module.css';
-import InfiniteScroll from 'react-infinite-scroll-component';
+
+import { fetchVideo, isLoading, videoInfo } from '../../../store/videoSlice';
 import CatalogCard from '../../CatalogPage/CatalogCard';
 import { userActiveVideoInfo } from '../../../store/userSlice';
 import Spinner from '../../../components/Spinner';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

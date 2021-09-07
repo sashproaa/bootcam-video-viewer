@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Tab, Tabs } from 'react-bootstrap';
-import cls from './style.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  allSubscriptions,
-  fetchSubscriptions,
-} from '../../../store/subscriptionSlice';
-import { historyTransactions } from '../../../store/paymentSlice';
+
 import { Video } from '../../../common/interfaces/VideoInterface';
 import { Routes } from '../../../common/enums/RoutesEnum';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

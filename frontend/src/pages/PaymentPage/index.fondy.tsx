@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { merchantId, merchantUrl } from '../../common/config';
 import {
   cleanPaymentData,
@@ -9,12 +10,9 @@ import {
   priceState,
   updatePaymentUserId,
 } from '../../store/paymentSlice';
-import cls from './style.module.css';
 import { showNoticeError } from '../../store/notificationSlice';
-import ModalWin from '../../components/ModalWin';
 import { Routes } from '../../common/enums/RoutesEnum';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';
-import GoBack from '../../components/GoBack';
 import SuccessWin from './SuccessWin';
 
 const $ipsp = window.$ipsp;
@@ -71,23 +69,19 @@ export default function PaymentPage() {
       this.setModal(false);
       this.setCheckoutWidth(480);
       this.setCheckoutHeight(450);
-      // this.setCssStyle(checkoutStyles);
-      this.action('show', function (data) {
+      this.action('show', function () {
         document.querySelector('#checkout').style.display = 'block';
       });
-      this.action('hide', function (data) {
+      this.action('hide', function () {
         document.querySelector('#checkout').style.display = 'none';
       });
       this.action('resize', function (data) {
         this.setCheckoutHeight(data.height);
-        // document.querySelector('#checkout_wrapper').style.width = 480;
-        // document.querySelector('#checkout_wrapper').style.height = data.height;
       });
-      // handle decline response from checkout
-      this.action('decline', function (data, type) {
+      this.action('decline', function (data) {
         console.log('decline', data);
       });
-      this.action('message', function (data, type) {
+      this.action('message', function (data) {
         console.log('message', data);
       });
       this.loadUrl(url);
@@ -140,7 +134,7 @@ export default function PaymentPage() {
         {/*</div>*/}
         <div id='checkout'>
           {/*<div id='checkout_wrapper' style={{ width: 500, height: 600 }}></div>*/}
-          <div id='checkout_wrapper'></div>
+          <div id='checkout_wrapper' />
         </div>
       </div>
 

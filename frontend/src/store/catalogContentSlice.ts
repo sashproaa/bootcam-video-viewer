@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
 import {

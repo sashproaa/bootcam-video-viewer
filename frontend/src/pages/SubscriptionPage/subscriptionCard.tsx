@@ -1,8 +1,11 @@
 import React from 'react';
+
 import { Subscription } from '../../common/interfaces/SubscriptionInterface';
 import ButtonLine from '../../components/ButtonLine';
-import cls from './style.module.css';
+
 import cardBg from '../../assets/colage.png';
+
+import cls from './style.module.css';
 
 interface Props {
   subscription: Subscription;

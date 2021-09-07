@@ -38,7 +38,8 @@ export default function Login({ onLogin, onRecovery }: Props) {
     onRecovery();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (ev: any) => {
+    ev.preventDefault();
     onLogin(values);
   };
 

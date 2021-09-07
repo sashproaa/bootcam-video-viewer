@@ -1,6 +1,7 @@
 import React from 'react';
-import cls from './style.module.css';
 import { Play } from 'react-feather';
+
+import cls from './style.module.css';
 
 interface Props {
   className?: string;

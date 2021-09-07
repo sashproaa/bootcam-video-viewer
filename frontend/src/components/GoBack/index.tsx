@@ -1,8 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { ArrowLeft } from 'react-feather';
-import cls from './style.module.css';
+
 import { Routes } from '../../common/enums/RoutesEnum';
+
+import cls from './style.module.css';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | string | string[] | null;
