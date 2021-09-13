@@ -1,20 +1,20 @@
-import React, { useContext, useEffect } from 'react';
-import { Link, Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row, Image } from 'react-bootstrap';
-import userImg from '../../../assets/user.png';
+import { LogOut } from 'react-feather';
+
 import {
   fetchLogoutUser,
   fetchUpdateAvatar,
   userInfo,
 } from '../../../store/userSlice';
-import cls from './style.module.css';
 import Header from '../Header';
 import { RoutesProfile } from '../RoutesProfileEnum';
-import { Edit, LogOut } from 'react-feather';
-import ButtonClean from '../../../components/ButtonClean';
-import { Video } from '../../../common/interfaces/VideoInterface';
 import { SettingsContext } from '../../../components/App/App';
+
+import userImg from '../../../assets/user.png';
+
+import cls from './style.module.css';
 
 export default function SideBar() {
   const dispatch = useDispatch();

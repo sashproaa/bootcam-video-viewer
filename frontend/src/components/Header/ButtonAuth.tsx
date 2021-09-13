@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { LogIn, User } from 'react-feather';
+
 import { Routes } from '../../common/enums/RoutesEnum';
-import cls from './style.module.css';
 import { setIsShowAuth, userInfo } from '../../store/userSlice';
 import ButtonClean from '../ButtonClean';
-import { LogIn } from 'react-feather';
-import { User } from 'react-feather';
+
+import cls from './style.module.css';
 
 export default function ButtonAuth() {
   const dispatch = useDispatch();

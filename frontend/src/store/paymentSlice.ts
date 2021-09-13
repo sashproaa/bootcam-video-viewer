@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { AppThunk, RootState } from './store';
 import { Transaction } from '../common/interfaces/TransactionInterface';
 import { getAllTransactions } from '../api/services/paymentService';
 import { showNoticeError } from './notificationSlice';
-import { setVideo } from './videoSlice';
 
 export interface MerchantData {
   target: 'video' | 'subscription';
@@ -79,10 +79,7 @@ export const updatePaymentUserId = (): AppThunk => async (
   if (merchantData) dispatch(setMerchantData({ ...merchantData, userId }));
 };
 
-export const fetchHistoryTransactions = (): AppThunk => async (
-  dispatch,
-  getState,
-) => {
+export const fetchHistoryTransactions = (): AppThunk => async (dispatch) => {
   dispatch(setIsLoading(true));
   const response = await getAllTransactions();
   if (response?.error) {

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
+
 import { Routes } from '../../../common/enums/RoutesEnum';
 import {
   FilterResponse,
@@ -10,6 +9,8 @@ import {
 } from '../../../api/services/videoService';
 import { Video } from '../../../common/interfaces/VideoInterface';
 import Spinner from '../../../components/Spinner';
+
+import 'slick-carousel/slick/slick.css';
 import cls from './style.module.css';
 import './style.css';
 

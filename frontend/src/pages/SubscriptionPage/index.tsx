@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardDeck, Col, Row } from 'react-bootstrap';
+
 import {
   isLoading,
   allSubscriptions,
@@ -11,9 +11,10 @@ import { setPaymentData } from '../../store/paymentSlice';
 import { Routes } from '../../common/enums/RoutesEnum';
 import { Subscription } from '../../common/interfaces/SubscriptionInterface';
 import GoBack from '../../components/GoBack';
-import cls from './style.module.css';
 import Spinner from '../../components/Spinner';
 import SubscriptionCard from './subscriptionCard';
+
+import cls from './style.module.css';
 
 export default function SubscriptionPage() {
   const dispatch = useDispatch();

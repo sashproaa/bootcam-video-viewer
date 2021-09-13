@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDebouncedCallback } from 'use-debounce';
+import { Search, Delete } from 'react-feather';
+
 import { Routes } from '../../common/enums/RoutesEnum';
-import cls from './style.module.css';
-import { Search } from 'react-feather';
-import { Delete } from 'react-feather';
 import {
   searchVideos,
   setSearch,
   updateFilterVideos,
   updateSearchVideos,
 } from '../../store/catalogSlice';
-import { useDebouncedCallback } from 'use-debounce';
+
+import cls from './style.module.css';
 
 export default function InputSearch() {
   const dispatch = useDispatch();

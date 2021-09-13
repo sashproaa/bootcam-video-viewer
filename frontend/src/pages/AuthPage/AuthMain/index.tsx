@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import {
   fetchLoginUser,
   fetchRegistrationUser,
-  isShowAuth,
   LoginData,
   RegistrationData,
 } from '../../../store/userSlice';
 import Login from '../Login';
 import Registration from '../Registration';
+
 import cls from './style.module.css';
 
 interface Props {
@@ -17,7 +18,6 @@ interface Props {
 
 export default function AuthMain({ onRecovery }: Props) {
   const dispatch = useDispatch();
-  const isOpen = useSelector(isShowAuth);
   const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {}, []);

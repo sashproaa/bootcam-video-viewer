@@ -1,15 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { AppThunk, RootState } from './store';
 import { Video } from '../common/interfaces/VideoInterface';
 import {
-  addVideo,
   getVideo,
   updateMedia,
   updateVideo,
 } from '../api/services/videoService';
 import { showNoticeError } from './notificationSlice';
-import { updateUser } from '../api/services/userService';
-import { User } from '../common/interfaces/UserInterface';
 import { updateActiveVideo } from './userSlice';
 
 interface VideoState {

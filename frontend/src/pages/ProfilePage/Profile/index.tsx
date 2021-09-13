@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { Lock } from 'react-feather';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import { User } from '../../../common/interfaces/UserInterface';
 import { fetchUpdateUser, userInfo } from '../../../store/userSlice';
-import cls from './style.module.css';
 import Header from '../Header';
 import Input from '../../../components/Input';
 import Select from '../../../components/Select';
 import Button from '../../../components/Button';
 import ButtonLine from '../../../components/ButtonLine';
-import Checkbox from '../../../components/Checkbox';
 import ButtonClean from '../../../components/ButtonClean';
-import { Lock } from 'react-feather';
-import ModalWin from '../../../components/ModalWin';
 import ChangePassword from '../ChangePassword';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaProfile } from '../../../common/validation/userScheme';
+
+import cls from './style.module.css';
 
 interface UserForm extends Omit<User, 'avatar'> {
   image?: any;
-}
-
-interface Props {
-  className?: string;
 }
 
 const getDate = (years: number) => {
@@ -31,7 +27,7 @@ const getDate = (years: number) => {
   return new Date(date).toISOString().split('T')[0];
 };
 
-export default function Profile({ className = '' }: Props) {
+export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector(userInfo);
 
@@ -40,7 +36,6 @@ export default function Profile({ className = '' }: Props) {
 
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors },
     reset,
