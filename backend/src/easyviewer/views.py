@@ -6,6 +6,8 @@ from decimal import Decimal
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Adapter
+from django.contrib.auth import views
+from django.contrib import admin
 from dj_rest_auth.registration.views import SocialLoginView
 from django.db.models import Case, When, ExpressionWrapper, F, Q, Max, Value
 from django.utils import timezone
@@ -380,3 +382,35 @@ class FacebookLogin(SocialLoginView):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
+
+
+class CustomResetPasswordView(views.PasswordResetView):
+    def get_context_data(self, **kwarg):
+        context = super().get_context_data(**kwarg)
+        context['site_header'] = getattr(admin.site, 'site_header')
+        context['site_title'] = getattr(admin.site, 'site_title')
+        return context
+
+
+class CustomPasswordResetDoneView(views.PasswordResetDoneView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_header'] = getattr(admin.site, 'site_header')
+        context['site_title'] = getattr(admin.site, 'site_title')
+        return context
+
+
+class CustomPasswordResetConfirmView(views.PasswordResetConfirmView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_header'] = getattr(admin.site, 'site_header')
+        context['site_title'] = getattr(admin.site, 'site_title')
+        return context
+
+
+class CustomPasswordResetCompleteView(views.PasswordResetCompleteView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_header'] = getattr(admin.site, 'site_header')
+        context['site_title'] = getattr(admin.site, 'site_title')
+        return context
