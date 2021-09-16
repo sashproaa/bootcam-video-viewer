@@ -336,13 +336,13 @@ class CommentApiView(generics.ListAPIView):
 
 class CommentCreateApiView(generics.CreateAPIView):
     serializer_class = CommentDetailSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAuthenticated, )
 
 
 class CommentDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.filter()
     serializer_class = CommentDetailSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsOwnerOrReadonly, )
 
 
 class VideoSubscriptionApiView(generics.ListAPIView):
