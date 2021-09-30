@@ -17,6 +17,7 @@ from rest_framework import generics, request
 from django.contrib.auth import get_user_model
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import get_object_or_404
+from rest_framework.parsers import FormParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadonly, IsStaff
 from .serializers import *
@@ -262,12 +263,13 @@ class FondyApiView(generics.CreateAPIView):
 class LiqpayCallbackView(generics.CreateAPIView):
     #serializer_class = LiqpaySerializer
     serializer_class = LiqpayEncodeSerializer
+    parser_classes = [FormParser]
 
     def create(self, request, *args, **kwargs):
         subscription, duration, video_id = None, 0, None
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
-        data = self.request.data.get('data')
-        signature = self.request.data.get('signature')
+        data = dict(self.request.data)['data'][0]
+        signature = dict(self.request.data)['signature'][0]
         sign = liqpay.str_to_sign(settings.LIQPAY_PRIVATE_KEY + data + settings.LIQPAY_PRIVATE_KEY)
         decode_data = liqpay.decode_data_from_str(data=data)
         if sign == signature and decode_data['status'] == 'success':
@@ -277,8 +279,8 @@ class LiqpayCallbackView(generics.CreateAPIView):
             status = 'Payed'  # тут у нас не совпадают чойс філди
             title = decode_data['order_id']
             created_at = timezone.now()
-            merchant_data = json.loads(decode_data['info'])[0]
-            merchant_data_val = eval(str(merchant_data['value']))
+            merchant_data = decode_data['info']
+            merchant_data_val = eval(merchant_data)
             instance_id = int(merchant_data_val['id'])
             user = int(merchant_data_val['userId'])
             project_id = int(merchant_data_val['projectId'])
