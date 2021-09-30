@@ -21,6 +21,11 @@ class UserProfileDetail(serializers.ModelSerializer, UserManager):
         fields = '__all__'
 
 
+class EmailCode(serializers.Serializer):
+    email = serializers.CharField(max_length=25)
+    code = serializers.CharField(max_length=25)
+
+
 class ProjectDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Projects
