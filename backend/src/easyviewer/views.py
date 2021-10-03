@@ -433,7 +433,7 @@ class UserForgotPassword(generics.CreateAPIView):
         email = self.request.data.get('email')
         code = self.request.data.get('code')
         try:
-            user = User.objects.get(id=b'4')
+            user = User.objects.get(email=email)
         except:
             return Response({'message': 'confirmation code sent to mail'})
         if self.request.data.get('code'):
