@@ -22,7 +22,7 @@ class UserProfileDetail(serializers.ModelSerializer, UserManager):
 
 
 class EmailCode(serializers.Serializer):
-    email = serializers.CharField(max_length=25)
+    email = serializers.CharField(max_length=254)
     code = serializers.CharField(max_length=25)
 
 
