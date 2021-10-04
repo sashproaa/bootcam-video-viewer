@@ -464,9 +464,9 @@ class UserForgotPassword(generics.CreateAPIView):
                     f.seek(0)
                     json.dump(q, f, indent=4)
                     return Response(reset_response)
-             except BaseException as e :
+             except BaseException as e:
                 print(e)
-                return Response({'message': 'e'})
+                return Response({'message': 'wrong code'})
         code = random.randrange(99999, 999999)
         code_for_pass = {'email': email,
                          'code': code,
