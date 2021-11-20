@@ -12,7 +12,7 @@ email: user1@gmail.com
 password: !QAZxsw2
 
 
-## bank cards for testing (Liqpay)
+## Bank cards for testing (Liqpay)
 4242424242424242  Successful payment;
 
 4000000000003063  Successful payment with 3DS;
