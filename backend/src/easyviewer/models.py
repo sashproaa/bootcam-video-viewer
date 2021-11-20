@@ -182,6 +182,14 @@ class VideoContent(models.Model):
     video_subscription = models.ForeignKey(VideoSubscriptions, on_delete=models.CASCADE, null=True, blank=True)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
 
+    def __str__(self):
+        data_left = datetime.datetime.strptime(str(self.data_end)[:10], '%Y-%m-%d')
+        days_left = data_left - datetime.datetime.now()
+        days_left = days_left.days if days_left.days > 0 else 0
+        if not self.video_id:
+            return f'{self.user_id} - {self.video_subscription} - days left {days_left}'
+        return f'{self.user_id} - {self.video_id} - days left {days_left}'
+
 
 class Comment(models.Model):
     user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

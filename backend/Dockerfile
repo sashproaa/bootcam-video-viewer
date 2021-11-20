@@ -24,7 +24,7 @@ RUN pip install -r /app/backend/requirements/dev.txt
 
 COPY .env .env
 
-COPY google.json google.json
+COPY google1.json google1.json
 
 COPY ./entrypoint.sh entrypoint.sh
 

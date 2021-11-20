@@ -12,6 +12,7 @@ echo "PostgreSQL started"
 psql postgresql://postgres:postgres@db:5432/postgres -f dbdump.sql
 cd src
 python3 manage.py migrate
+python3 manage.py sqlsequencereset easyviewer | python3 manage.py dbshell
 python3 manage.py runserver 0.0.0.0:8000
 
 exec "$@"
