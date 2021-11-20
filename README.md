@@ -14,6 +14,7 @@ password: !QAZxsw2
 
 ## bank cards for testing (Liqpay)
 4242424242424242  Successful payment;
+
 4000000000003063  Successful payment with 3DS;
 4000000000003089  Successful payment with OTP;
 4000000000003055  Successful payment with CVV;
