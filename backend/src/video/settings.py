@@ -210,6 +210,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # также для востановлен�
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'easyviewer.serializers.CustomLoginSerializer',
     'USER_DETAILS_SERIALIZER': 'easyviewer.serializers.CustomUserDetailsSerializer',
+    'PASSWORD_RESET_CONFIRM_SERIALIZER': 'easyviewer.serializers.CustomResetSerializer'
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {

@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 from dj_rest_auth.serializers import LoginSerializer, UserDetailsSerializer
 from django.db import transaction
-from rest_framework import serializers, fields
+from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
@@ -33,7 +33,6 @@ class VideoDetailSerializer(serializers.ModelSerializer):
     video_url = serializers.SerializerMethodField(method_name='get_url', default=None)  # CharField
     paid = serializers.BooleanField(read_only=True, default=False)
     comments = serializers.CharField(read_only=True)
-    genre = fields.MultipleChoiceField(choices=GENRE_CHOICES)
 
     class Meta:
         model = Video
