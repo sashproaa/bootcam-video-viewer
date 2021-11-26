@@ -1,3 +1,4 @@
+import random
 import base64
 import json
 
@@ -9,8 +10,12 @@ from allauth.socialaccount.providers.salesforce.views import SalesforceOAuth2Ada
 from django.contrib.auth import views
 from django.contrib import admin
 from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from django.db.models import Case, When, ExpressionWrapper, F, Q, Max, Value
 from django.utils import timezone
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django_filters.rest_framework import DjangoFilterBackend
 from liqpay import LiqPay
 from rest_framework import generics, request
@@ -416,3 +421,73 @@ class CustomPasswordResetCompleteView(views.PasswordResetCompleteView):
         context['site_header'] = getattr(admin.site, 'site_header')
         context['site_title'] = getattr(admin.site, 'site_title')
         return context
+
+
+class UserForgotPassword(generics.CreateAPIView):
+    """
+        Calls Django Auth PasswordResetForm save method.
+    """
+    serializer_class = EmailCode
+
+    def post(self, request, *args, **kwargs):
+        email = self.request.data.get('email')
+        code = self.request.data.get('code')
+        try:
+            user = User.objects.get(email=email)
+        except:
+            return Response({'message': 'confirmation code sent to mail'})
+        if self.request.data.get('code'):
+             try:
+                with open('forgot.json', 'r+') as f:
+                    q = json.load(f)
+                    data_end = datetime.datetime.strptime(str(q[email]['data_end'][:19]), "%Y-%m-%d %X")
+                    if q[email]['code'] != int(code):
+                        q[email]['attempt'] += 1
+                        f.seek(0)
+                        json.dump(q, f, indent=4)
+                        return Response({'message': 'wrong code'})
+                    elif data_end < datetime.datetime.now():
+                        f.seek(0)
+                        json.dump(q, f, indent=4)
+                        return Response({'message': 'expired'})
+                    elif q[email]['attempt'] > 3:
+                        f.seek(0)
+                        json.dump(q, f, indent=4)
+                        return Response({'message': 'too many attempts'})
+                    uuid = urlsafe_base64_encode(force_bytes(user.pk))
+                    token = default_token_generator.make_token(user)
+                    q[email]['attempt'] = 5
+                    reset_response = {
+                        'uuid': uuid,
+                        'token': token
+                    }
+                    f.seek(0)
+                    json.dump(q, f, indent=4)
+                    return Response(reset_response)
+             except BaseException as e:
+                print(e)
+                return Response({'message': 'wrong code'})
+        code = random.randrange(99999, 999999)
+        code_for_pass = {'email': email,
+                         'code': code,
+                         'data_end': str(datetime.datetime.now() + timedelta(days=1)),
+                         'attempt': 0
+                         }
+        try:
+            with open('forgot.json', 'r+') as f:
+                q = json.load(f)
+                q[email] = code_for_pass
+                f.seek(0)
+                json.dump(q, f, indent=4)
+        except:
+            with open('forgot.json', 'w') as f:
+                q = {email: code_for_pass}
+                json.dump(q, f, indent=4)
+        send_mail(
+            'Password recovery',
+            f"code for recovery: {code}",
+            str(settings.EMAIL_HOST_USER),
+            [email],
+            fail_silently=False,
+        )
+        return Response({'message': 'confirmation code sent to mail'})

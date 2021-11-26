@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/', include('easyviewer.urls')),
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
+    path('api-auth/password/reset/', custom_views.UserForgotPassword.as_view(), name='rest_password_reset'),
     path('api-auth/', include('dj_rest_auth.urls')),
     path('account-confirm-email/<str:key>/', ConfirmEmailView.as_view()),
     path('api-auth/registration/', RegisterView.as_view()),
