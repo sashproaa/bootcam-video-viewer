@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-from dj_rest_auth.serializers import LoginSerializer, UserDetailsSerializer
 from dj_rest_auth.serializers import LoginSerializer, UserDetailsSerializer, PasswordResetConfirmSerializer
 from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
