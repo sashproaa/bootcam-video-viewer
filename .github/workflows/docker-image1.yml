@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build --file Dockerfile https://github.com/sashproaa/bootcam-video-viewer/blob/main/backend/Dockerfile
+      run: docker build --file docker-compose-prod.yaml https://github.com/sashproaa/bootcam-video-viewer/blob/main/docker-compose-prod.yaml
