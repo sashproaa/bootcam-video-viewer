@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'easyviewer.apps.easyviewer',
     #'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    #'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.google',
 
     'corsheaders',
 
