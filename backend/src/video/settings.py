@@ -184,7 +184,7 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
-    #'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -224,9 +224,16 @@ SOCIALACCOUNT_PROVIDERS = {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
+        'SCOPE': [
+             'profile',
+             'email',
+        ],
+        'AUTH_PARAMS': {
+             'access_type': 'online',
+        },
         'APP': {
-            'client_id': '123',
-            'secret': '456',
+            'client_id': env.str('GOOGLE_CLIENT_ID', default='qwerty'),
+            'secret': env.str('GOOGLE_SECRET_KEY', default='123'),
             'key': ''
         }
     },
