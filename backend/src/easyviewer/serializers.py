@@ -5,7 +5,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import LimitOffsetPagination
@@ -42,6 +42,7 @@ class VideoDetailSerializer(serializers.ModelSerializer):
     video_url = serializers.SerializerMethodField(method_name='get_url', default=None)  # CharField
     paid = serializers.BooleanField(read_only=True, default=False)
     comments = serializers.CharField(read_only=True)
+    genre = fields.MultipleChoiceField(choices=GENRE_CHOICES)
 
     class Meta:
         model = Video
