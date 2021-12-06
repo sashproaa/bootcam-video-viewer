@@ -426,7 +426,9 @@ class CustomPasswordResetCompleteView(views.PasswordResetCompleteView):
 
 class UserForgotPassword(generics.CreateAPIView):
     """
-        Calls Django Auth PasswordResetForm save method.
+    Generates a verification code to change the password,
+    then sends the code to the e-mail, also checks entered verification code is valid,
+    then gives to user token and uuid.
     """
     serializer_class = EmailCode
 
