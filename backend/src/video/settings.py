@@ -290,6 +290,8 @@ FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
 LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')
 
+ACCOUNT_LOGOUT_ON_GET = True  # for logout add method GET
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'player.quantumobile@gmail.com'
