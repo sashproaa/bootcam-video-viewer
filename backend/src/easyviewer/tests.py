@@ -17,7 +17,7 @@ class GetAllVideosTest(TestCase):
 
     def setUp(self):
         # create user
-        User.objects.create_user(email='user@user.com', password=5, )
+        User.objects.create_user(email='user@user.com', password=5, first_name='first_name' )
 
         # create ProjectSubscription
         ProjectSubscriptions.objects.create(
@@ -40,7 +40,7 @@ class GetAllVideosTest(TestCase):
         # create Videos
         self.video1 = Video.objects.create(
             title='Casper1', project_id=self.projects, description='Bull Dog1', actors='Black1', price=5.21,
-            duration='00:00:30', url='Bull Dog2', file_name='')
+            duration='00:00:30', url='Bull Dog1', file_name='')
         self.video1.subscription.set((self.videoSubscriptions, self.videoSubscriptions,))
         self.video2 = Video.objects.create(
             title='Casper2', project_id=self.projects, description='Bull Dog2', actors='Black2', price=5.22,
@@ -55,7 +55,7 @@ class GetAllVideosTest(TestCase):
             duration='00:00:30', file_name='')
         self.video4.subscription.set((self.videoSubscriptions, self.videoSubscriptions,))
 
-    def test_get_all_videos(self):
+    def test_get_all_videos_anonymous_user(self):
         # get API response
         c = Client()
         headers = {'HTTP_Hash-Project': self.projects.hash}
@@ -67,7 +67,7 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data['results'], serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_detail_video(self):
+    def test_get_detail_video_anonymous_user(self):
         c = Client()
         headers = {'HTTP_Hash-Project': self.projects.hash}
         url = '/api/video/' + str(self.video1.id)
@@ -82,6 +82,34 @@ class GetAllVideosTest(TestCase):
         # get data from db
         serializer = VideoDetailSerializer(video[0])
         self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_detail_video_authenticate_user(self):
+        """ not paid video """
+
+        c = Client()
+        headers = {'HTTP_Hash-Project': self.projects.hash}
+        c.login(email='user@user.com', password=5)
+        response_url = '/api/video/' + str(self.video1.id)
+
+        url = [self.video1.url]
+
+        video_list = []
+
+        video = Video.objects.filter(id=self.video1.id).annotate(
+            video_url=Case(When(Q(id=self.video1.id), then=url), output_field=models.CharField()
+                           ),
+            paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
+                      ),
+            comments=Value(list(Comment.objects.filter(video_id=self.video1.id).values(
+                ).annotate(username=F('user_id__first_name'))), output_field=models.TextField()))
+
+        # get API response
+        response = c.get(response_url, **headers)
+
+        # get data from db
+        serializer = VideoDetailSerializer(video[0])
+        self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user not paid video')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     # def test_post_create_video(self):
