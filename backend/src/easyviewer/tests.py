@@ -109,6 +109,7 @@ class GetAllVideosTest(TestCase):
 
         # get data from db
         serializer = VideoDetailSerializer(video[0])
+        self.assertEqual(response.data['paid'], False, msg='not paid video is False')
         self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user not paid video')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
