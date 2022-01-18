@@ -112,6 +112,86 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user not paid video')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_get_detail_video_paid(self):
+        """ paid video """
+
+        json_response_transaction = {   # response from Liqpay
+              "ip": "46.200.223.249",
+              "info": """{\"target\":\"video\",\"id\":6,\"projectId\":1,
+                            \"name\":\"Ищу работу\",\"targetName\":\"Видео\",\"userId\":2}""",
+              "type": "buy",
+              "acq_id": 414963,
+              "action": "pay",
+              "amount": 185.0,
+              "is_3ds": 'false',
+              "status": "success",
+              "mpi_eci": "7",
+              "paytype": "card",
+              "version": 3,
+              "currency": "UAH",
+              "end_date": 1638218106263,
+              "language": "ru",
+              "order_id": "G7TSK7NG1638218094343136",
+              "payment_id": 1837429767,
+              "public_key": "sandbox_i40353427819",
+              "create_date": 1638218106185,
+              "description": "Ищу работу",
+              "amount_bonus": 0.0,
+              "amount_debit": 185.0,
+              "sender_bonus": 0.0,
+              "amount_credit": 185.0,
+              "currency_debit": "UAH",
+              "transaction_id": 1837429767,
+              "currency_credit": "UAH",
+              "liqpay_order_id": "MKU4LO6Q1638218106183227",
+              "agent_commission": 0.0,
+              "commission_debit": 0.0,
+              "sender_card_bank": "Test",
+              "sender_card_type": "visa",
+              "commission_credit": 5.09,
+              "sender_card_mask2": "424242*42",
+              "sender_commission": 0.0,
+              "receiver_commission": 5.09,
+              "sender_card_country": 804
+        }
+
+        c = Client()
+        headers = {'HTTP_Hash-Project': self.projects.hash}
+        c.login(email='user@user.com', password=5)
+
+        self.transaction = Transactions.objects.create(
+            user_id=self.user, title='title', price=self.video1.price,
+            project_id=self.projects, json_description=json_response_transaction, created_at=timezone.now()
+        )
+        data_end = self.transaction.created_at + timedelta(days=30)
+        self.videoContent = VideoContent.objects.create(
+            data_start=self.transaction.created_at, data_end=data_end, user_id=self.user,
+            video_id=self.video1, video_subscription=self.videoSubscriptions, transaction_id=self.transaction,
+        )
+
+        response_url = '/api/video/' + str(self.video1.id)
+
+        url = ['{']  # it is url when use  project without blob_name and video without file_name for google_cloud
+
+        video_list = [self.video1.id, ]  # paid video
+
+        video = Video.objects.filter(id=self.video1.id).annotate(
+            video_url=Case(When(Q(id=self.video1.id), then=url), output_field=models.CharField()
+                           ),
+            paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
+                      ),
+            comments=Value(list(Comment.objects.filter(video_id=self.video1.id).values(
+                ).annotate(username=F('user_id__first_name'))), output_field=models.TextField()))
+
+        # get API response
+        response = c.get(response_url, **headers)
+
+        # get data from db
+        serializer = VideoDetailSerializer(video[0])
+        self.assertEqual(response.data['paid'], True, msg='paid video is True')
+        self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user paid video')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     # def test_post_create_video(self):
     #     c = Client()
     #     headers = {'HTTP_Hash-Project': self.projects.hash}
