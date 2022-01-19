@@ -20,7 +20,7 @@ jobs:
             file-name: '.env' # Optional (default : '.env')
             directory: 'src/' # Optional (default: '.')
           env: # env available for only this steps
-            envkey_SECRET_KEY: SECRET_KEY
+            ENV_KEY_SECRET_KEY: SECRET_KEY
         - name: Make envfile
           uses: SpicyPizza/create-envfile@v1
           with:
