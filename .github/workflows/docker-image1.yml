@@ -14,13 +14,6 @@ jobs:
 
       steps:
         - uses: actions/checkout@v2
-        - uses: iamsauravsharma/create-dotenv@v1.2.1
-          with:
-            env-prefix: 'ENV_KEY_' # Optional (default: '')
-            file-name: '.env' # Optional (default : '.env')
-            directory: 'src/' # Optional (default: '.')
-          env: # env available for only this steps
-            ENV_KEY_SECRET_KEY: SECRET_KEY
         - name: Make envfile
           uses: SpicyPizza/create-envfile@v1
           with:
