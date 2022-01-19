@@ -8,19 +8,18 @@ on:
 
 jobs:
 
-  name: create-json
-    id: create-json
-    uses: jsdaniell/create-json@1.1.2
-    with:
-      name: "google1.json"
-      json: '{"name":"google1", "password":"google1"}'
-      dir: 'backend/'
-
     create-envfile:
 
       runs-on: ubuntu-latest
 
       steps:
+        - name: create-json
+            id: create-json 1
+            uses: jsdaniell/create-json@1.1.2
+            with:
+              name: "google1.json"
+              json: '{"name":"google1", "password":"google1"}'
+              dir: 'backend/'
         - name: Make envfile
           uses: SpicyPizza/create-envfile@v1
           with:
