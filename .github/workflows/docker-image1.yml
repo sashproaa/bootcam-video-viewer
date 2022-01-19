@@ -10,16 +10,17 @@ jobs:
 
     create-envfile:
 
-      runs-on: ubuntu-18.04
+      runs-on: ubuntu-latest
 
       steps:
-#        - name: create-json
-#          id: create-json-1
-#          uses: jsdaniell/create-json@1.1.2
-#          with:
-#            name: "google1.json"
-#            json: '{"name":"google1", "password":"google1"}'
-#            dir: 'backend/'
+        - uses: actions/checkout@v2
+        - uses: iamsauravsharma/create-dotenv@v1.2.1
+          with:
+            env-prefix: 'ENV_KEY_' # Optional (default: '')
+            file-name: 'development.env' # Optional (default : '.env')
+            directory: 'src/' # Optional (default: '.')
+          env: # env available for only this steps
+            envkey_SECRET_KEY: SECRET_KEY
         - name: Make envfile
           uses: SpicyPizza/create-envfile@v1
           with:
