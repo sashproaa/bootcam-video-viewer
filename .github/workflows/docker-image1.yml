@@ -14,7 +14,7 @@ jobs:
 
       steps:
         - name: create-json
-            id: create-json 1
+            id: create-json-1
             uses: jsdaniell/create-json@1.1.2
             with:
               name: "google1.json"
