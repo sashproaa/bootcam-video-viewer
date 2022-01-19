@@ -8,6 +8,32 @@ on:
 
 jobs:
 
+  name: create-json
+    id: create-json
+    uses: jsdaniell/create-json@1.1.2
+    with:
+      name: "google1.json"
+      json: '{"name":"google1", "password":"google1"}'
+      dir: 'backend/'
+
+    create-envfile:
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Make envfile
+          uses: SpicyPizza/create-envfile@v1
+          with:
+            envkey_DEBUG: True
+            envkey_SWAGGER: True
+            envkey_SECRET_KEY: SECRET_KEY
+            envkey_LIQPAY_PUBLIC_KEY: LIQPAY_PUBLIC_KEY
+            envkey_LIQPAY_PRIVATE_KEY: LIQPAY_PRIVATE_KEY
+            envkey_GOOGLE_APPLICATION_CREDENTIALS: GOOGLE_APPLICATION_CREDENTIALS
+            envkey_EMAIL_HOST_PASSWORD: EMAIL_HOST_PASSWORD
+            directory: backend
+            file_name: .env
+
   build:
 
     runs-on: ubuntu-latest
