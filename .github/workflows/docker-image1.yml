@@ -24,7 +24,7 @@ jobs:
             envkey_LIQPAY_PRIVATE_KEY: LIQPAY_PRIVATE_KEY
             envkey_GOOGLE_APPLICATION_CREDENTIALS: GOOGLE_APPLICATION_CREDENTIALS
             envkey_EMAIL_HOST_PASSWORD: EMAIL_HOST_PASSWORD
-            directory: backend/src
+            directory: src
             file_name: .env
         - name: Make google-json-file
           uses: SpicyPizza/create-envfile@v1
