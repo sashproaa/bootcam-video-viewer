@@ -33,11 +33,11 @@ jobs:
             directory: backend
             file_name: .env
 
-  build:
+    build:
 
-    runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker-compose -f docker-compose-prod.yaml up --build -d
+      steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker-compose -f docker-compose-prod.yaml up --build -d
