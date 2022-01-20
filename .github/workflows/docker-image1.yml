@@ -16,6 +16,7 @@ jobs:
         - name: Set env
           run: echo "$GITHUB_WORKSPACE"
         - uses: actions/checkout@v2
+        - name: Set env2
           run: echo "$GITHUB_WORKSPACE"
 #          with:
 #            repository: sashproaa/bootcam-video-viewer
