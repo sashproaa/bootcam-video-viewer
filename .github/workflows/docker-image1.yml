@@ -18,11 +18,11 @@ jobs:
 #        - name: Dump GitHub context
 #          env:
 #            GITHUB_CONTEXT: ${{ toJson(env) }}
-          run: echo "$GITHUB_WORKSPACE"
+            run: echo "$GITHUB_WORKSPACE"
         - uses: actions/checkout@v2
           with:
             repository: sashproaa/bootcam-video-viewer
-          run: echo "$GITHUB_WORKSPACE"
+            run: echo "$GITHUB_WORKSPACE"
 #        - name: Make envfile
 #          uses: actually-colab/github-action-create-env-file@v2.1
 #          with:
