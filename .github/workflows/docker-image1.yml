@@ -27,9 +27,10 @@ jobs:
         - name: Make envfile
           uses: actually-colab/github-action-create-env-file@v2.1
           with:
-#            envkey_DEBUG: 'True'
+            envkey_DEBUG: 'True'
 #            envkey_SWAGGER: 'True'
-            INPUT_ENVKEY_SECRET_KEY: 'SECRET_KEY'
+#            INPUT_ENVKEY_SECRET_KEY: 'SECRET_KEY'
+            envkey_SECRET_KEY: 'SECRET_KEY'
 #            envkey_PUBLIC_KEY: 'LIQPAY_PUBLIC_KEY'
 #            envkey_PRIVATE_KEY: 'LIQPAY_PRIVATE_KEY'
 #            envkey_GOOGLE_APPLICATION_CREDENTIALS: 'GOOGLE_APPLICATION_CREDENTIALS'
