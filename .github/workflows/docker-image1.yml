@@ -13,7 +13,7 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-#        - name: Set env
+        - name: Set env
 #          run: echo 'workspace=$GITHUB_WORKSPACE' >> $GITHUB_ENV
 #        - name: Dump GitHub context
 #          env:
