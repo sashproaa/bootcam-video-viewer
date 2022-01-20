@@ -27,7 +27,7 @@ jobs:
             directory: backend/src
             file_name: .env
         - name: Make google-json-file
-          uses: SpicyPizza/create-envfile@v1
+          uses: actually-colab/github-action-create-env-file@v2.1
           with:
             envkey_SECRET_KEY: SECRET_KEY
             directory: backend/src
