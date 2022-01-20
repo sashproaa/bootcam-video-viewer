@@ -18,7 +18,8 @@ jobs:
           run: echo "$GITHUB_WORKSPACE"
         - name: Dump GitHub context
           env:
-            GITHUB_CONTEXT: ${{ 'GITHUB_WORKSPACE':github.workspace }}
+            GITHUB_CONTEXT:
+              GITHUB_WORKSPACE: ${{ github.workspace }}
           run: echo "$GITHUB_CONTEXT"
 #          with:
 #            repository: sashproaa/bootcam-video-viewer
