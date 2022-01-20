@@ -13,39 +13,40 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-        - name: Set env
-          run: echo 'workspace=$GITHUB_WORKSPACE' >> $GITHUB_ENV
-        - name: Dump GitHub context
-          env:
-            GITHUB_CONTEXT: ${{ toJson(env) }}
-          run: echo "$GITHUB_CONTEXT"
+#        - name: Set env
+#          run: echo 'workspace=$GITHUB_WORKSPACE' >> $GITHUB_ENV
+#        - name: Dump GitHub context
+#          env:
+#            GITHUB_CONTEXT: ${{ toJson(env) }}
+          run: echo "$GITHUB_WORKSPACE"
         - uses: actions/checkout@v2
           with:
             repository: sashproaa/bootcam-video-viewer
-        - name: Make envfile
-          uses: actually-colab/github-action-create-env-file@v2.1
-          with:
-            envkey_DEBUG: True
-            envkey_SWAGGER: True
-            envkey_SECRET_KEY: SECRET_KEY
-            envkey_LIQPAY_PUBLIC_KEY: LIQPAY_PUBLIC_KEY
-            envkey_LIQPAY_PRIVATE_KEY: LIQPAY_PRIVATE_KEY
-            envkey_GOOGLE_APPLICATION_CREDENTIALS: GOOGLE_APPLICATION_CREDENTIALS
-            envkey_EMAIL_HOST_PASSWORD: EMAIL_HOST_PASSWORD
-            directory: backend/src
-            file_name: .env
-        - name: Make google-json-file
-          uses: actually-colab/github-action-create-env-file@v2.1
-          with:
-            envkey_SECRET_KEY: SECRET_KEY
-            directory: backend/src
-            file_name: google1.json
-
-    build:
-
-      runs-on: ubuntu-latest
-
-      steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-        run: docker-compose -f docker-compose-prod.yaml up --build -d
+          run: echo "$GITHUB_WORKSPACE"
+#        - name: Make envfile
+#          uses: actually-colab/github-action-create-env-file@v2.1
+#          with:
+#            envkey_DEBUG: True
+#            envkey_SWAGGER: True
+#            envkey_SECRET_KEY: SECRET_KEY
+#            envkey_LIQPAY_PUBLIC_KEY: LIQPAY_PUBLIC_KEY
+#            envkey_LIQPAY_PRIVATE_KEY: LIQPAY_PRIVATE_KEY
+#            envkey_GOOGLE_APPLICATION_CREDENTIALS: GOOGLE_APPLICATION_CREDENTIALS
+#            envkey_EMAIL_HOST_PASSWORD: EMAIL_HOST_PASSWORD
+#            directory: backend/src
+#            file_name: .env
+#        - name: Make google-json-file
+#          uses: actually-colab/github-action-create-env-file@v2.1
+#          with:
+#            envkey_SECRET_KEY: SECRET_KEY
+#            directory: backend/src
+#            file_name: google1.json
+#
+#    build:
+#
+#      runs-on: ubuntu-latest
+#
+#      steps:
+#      - uses: actions/checkout@v2
+#      - name: Build the Docker image
+#        run: docker-compose -f docker-compose-prod.yaml up --build -d
