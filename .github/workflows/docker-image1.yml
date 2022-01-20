@@ -15,7 +15,7 @@ jobs:
       steps:
         - uses: actions/checkout@v2
         - name: Make envfile
-          uses: SpicyPizza/create-envfile@v1
+          uses: actually-colab/github-action-create-env-file@v2.1
           with:
             envkey_DEBUG: True
             envkey_SWAGGER: True
@@ -24,13 +24,13 @@ jobs:
             envkey_LIQPAY_PRIVATE_KEY: LIQPAY_PRIVATE_KEY
             envkey_GOOGLE_APPLICATION_CREDENTIALS: GOOGLE_APPLICATION_CREDENTIALS
             envkey_EMAIL_HOST_PASSWORD: EMAIL_HOST_PASSWORD
-#            directory: src
+            directory: src
             file_name: .env
         - name: Make google-json-file
           uses: SpicyPizza/create-envfile@v1
           with:
             envkey_SECRET_KEY: SECRET_KEY
-#            directory: backend/src
+            directory: backend/src
             file_name: google1.json
 
     build:
