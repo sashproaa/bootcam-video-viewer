@@ -7,22 +7,24 @@ on:
     branches: [ main ]
 
 jobs:
-    defaults:
-      run:
-        shell: bash
-        working-directory: scripts
+
 
     create-envfile:
 
       runs-on: ubuntu-latest
 
       steps:
+        - defaults:
+          run:
+            shell: bash
+            working-directory: scripts
         - uses: actions/checkout@v2
         - name: GITHUB_WORKSPACE
           run: echo "$GITHUB_WORKSPACE"
         - name: Dump GitHub context
           env:
             GITHUB_CONTEXT: ${{ github.workspace }}
+            GITHUB_WORKSPACE: ${{ github.workspace }}
           run: echo "$GITHUB_CONTEXT"
 #          with:
 #            repository: sashproaa/bootcam-video-viewer
