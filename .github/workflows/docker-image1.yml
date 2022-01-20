@@ -17,9 +17,9 @@ jobs:
         - name: GITHUB_WORKSPACE
           run: echo "$GITHUB_WORKSPACE"
         - name: Dump GitHub context
-            env:
-              GITHUB_CONTEXT: ${{ toJson(env) }}
-            run: echo "$GITHUB_CONTEXT"
+          env:
+            GITHUB_CONTEXT: ${{ toJson(env) }}
+          run: echo "$GITHUB_CONTEXT"
 #          with:
 #            repository: sashproaa/bootcam-video-viewer
         - name: Make envfile
