@@ -17,6 +17,12 @@ jobs:
         - uses: actions/checkout@v2
         - name: GITHUB_WORKSPACE
           run: echo "$GITHUB_WORKSPACE"
+        - name: Create .env
+          uses: DeveloperRic/action-create-env@v1.0.2
+          with:
+            full_text: |
+              SECRET_KEY=SECRET_KEY
+            directory: ${{ github.workspace }}/backend/src
 #        - name: Dump GitHub context
 #          env:
 #            GITHUB_WORKSPACE: ${{ github.workspace }}
@@ -24,19 +30,19 @@ jobs:
 #          run: echo "$GITHUB_CONTEXT"
 #          with:
 #            repository: sashproaa/bootcam-video-viewer
-        - name: Make envfile
-          uses: actually-colab/github-action-create-env-file@v2.1
-          with:
-            envkey_DEBUG: 'True'
+#        - name: Make envfile
+#          uses: actually-colab/github-action-create-env-file@v2.1
+#          with:
+#            envkey_DEBUG: 'True'
 #            envkey_SWAGGER: 'True'
 #            INPUT_ENVKEY_SECRET_KEY: 'SECRET_KEY'
-            envkey_SECRET_KEY: 'SECRET_KEY'
+#            envkey_SECRET_KEY: 'SECRET_KEY'
 #            envkey_PUBLIC_KEY: 'LIQPAY_PUBLIC_KEY'
 #            envkey_PRIVATE_KEY: 'LIQPAY_PRIVATE_KEY'
 #            envkey_GOOGLE_APPLICATION_CREDENTIALS: 'GOOGLE_APPLICATION_CREDENTIALS'
 #            envkey_EMAIL_HOST_PASSWORD: 'EMAIL_HOST_PASSWORD'
-            directory: backend/src
-            file_name: .env
+#            directory: backend/src
+#            file_name: .env
 #        - name: Make google-json-file
 #          uses: actually-colab/github-action-create-env-file@v2.1
 #          with:
