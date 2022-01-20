@@ -20,20 +20,20 @@ jobs:
         - name: Dump GitHub context
           env:
             GITHUB_WORKSPACE: ${{ github.workspace }}
-            GITHUB_CONTEXT: ${{ toJson(github) }}
+            GITHUB_CONTEXT: ${{ toJson(env.github) }}
           run: echo "$GITHUB_CONTEXT"
 #          with:
 #            repository: sashproaa/bootcam-video-viewer
         - name: Make envfile
           uses: actually-colab/github-action-create-env-file@v2.1
           with:
-            INPUT_ENVKEY_DEBUG: True
-            INPUT_ENVKEY_SWAGGER: True
-            INPUT_ENVKEY_SECRET_KEY: SECRET_KEY
-            INPUT_ENVKEY_PUBLIC_KEY: LIQPAY_PUBLIC_KEY
-            INPUT_ENVKEY_PRIVATE_KEY: LIQPAY_PRIVATE_KEY
-            INPUT_ENVKEY_APPLICATION_CREDENTIALS: GOOGLE_APPLICATION_CREDENTIALS
-            INPUT_ENVKEY_HOST_PASSWORD: EMAIL_HOST_PASSWORD
+            envkey_DEBUG: 'True'
+            envkey_SWAGGER: 'True'
+            envkey_SECRET_KEY: 'SECRET_KEY'
+            envkey_PUBLIC_KEY: 'LIQPAY_PUBLIC_KEY'
+            envkey_PRIVATE_KEY: 'LIQPAY_PRIVATE_KEY'
+            envkey_GOOGLE_APPLICATION_CREDENTIALS: 'GOOGLE_APPLICATION_CREDENTIALS'
+            envkey_EMAIL_HOST_PASSWORD: 'EMAIL_HOST_PASSWORD'
             directory: backend/src
             file_name: .env
 #        - name: Make google-json-file
