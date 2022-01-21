@@ -9,15 +9,13 @@ from .serializers import *
 from .views import *
 # Create your tests here.
 
-#client = Client()
-
 
 class GetAllVideosTest(TestCase):
     """ Test module for GET all videos API """
 
     def setUp(self):
         # create user
-        User.objects.create_user(email='user@user.com', password=5, first_name='first_name' )
+        User.objects.create_user(email='user@user.com', password=5, first_name='first_name')
 
         # create ProjectSubscription
         ProjectSubscriptions.objects.create(
