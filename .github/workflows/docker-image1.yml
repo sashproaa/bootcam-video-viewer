@@ -38,11 +38,13 @@ jobs:
         - name: Echo package.json
           run: echo "${{ steps.package.outputs.content }}"
         - name: Build the Docker image
-          run: docker-compose up --build -d
+          run: docker-compose --build -d
+        - name: run Tests
+          run: docker-compose run --rm project sh -c "python manage.py test"
+        - name: UP the Docker image
+          run: docker-compose up
         - name: stop conteiner
           run: docker-compose stop
-        - name: run Tests
-          run: docker-compose exec python3 manage.py test
         - name: Stop containers
           if: always()
           run: docker-compose down
