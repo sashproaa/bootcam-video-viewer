@@ -35,8 +35,8 @@ jobs:
           uses: juliangruber/read-file-action@v1
           with:
             path: ./backend/google1.json
-            - name: Echo package.json
-              run: echo "${{ steps.package.outputs.content }}"
+        - name: Echo package.json
+          run: echo "${{ steps.package.outputs.content }}"
 
 #        - name: Create google1.json
 #          uses: schdck/create-env-json@v1
