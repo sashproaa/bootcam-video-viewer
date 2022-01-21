@@ -31,12 +31,12 @@ jobs:
             json: '{"key":"superKey", "password":"super_pass"}'
             dir: '/backend'
         - name: Read package.json
-            id: package
-            uses: juliangruber/read-file-action@v1
-            with:
-              path: ./backend/google1.json
-              - name: Echo package.json
-                run: echo "${{ steps.package.outputs.content }}"
+          id: package
+          uses: juliangruber/read-file-action@v1
+          with:
+            path: ./backend/google1.json
+            - name: Echo package.json
+              run: echo "${{ steps.package.outputs.content }}"
 
 #        - name: Create google1.json
 #          uses: schdck/create-env-json@v1
