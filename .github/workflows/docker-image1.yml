@@ -44,6 +44,6 @@ jobs:
         - name: run Tests
           run: docker-compose exec python3 manage.py test
         - name: Stop containers
-            if: always()
-            run: docker-compose down
+          if: always()
+          run: docker-compose down
 
