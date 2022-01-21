@@ -40,7 +40,7 @@ jobs:
         - name: Build the Docker image
           run: docker-compose build -d
         - name: run Tests
-          run: docker-compose run --rm project sh -c "python manage.py test"
+          run: docker-compose run --rm backend sh -c "python manage.py test"
         - name: UP the Docker image
           run: docker-compose up
         - name: stop conteiner
