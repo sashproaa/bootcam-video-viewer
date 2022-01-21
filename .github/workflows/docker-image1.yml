@@ -30,6 +30,8 @@ jobs:
             file-name: 'google1.json'
             full-path: ${{ github.workspace }}/backend
             super-secret: 'SuperSecret'
+        - name: Build the Docker image
+            run: docker-compose -f docker-compose-prod.yaml up --build -d
 #        - name: Dump GitHub context
 #          env:
 #            GITHUB_WORKSPACE: ${{ github.workspace }}
@@ -57,11 +59,12 @@ jobs:
 #            directory: backend/src
 #            file_name: google1.json
 #
-    build:
-
-      runs-on: ubuntu-latest
-
-      steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-        run: docker-compose -f docker-compose-prod.yaml up --build -d
+#    build:
+#
+#      runs-on: ubuntu-latest
+#
+#      steps:
+#      - uses: actions/checkout@v2
+#      - name: Build the Docker image
+#        run: docker-compose -f docker-compose-prod.yaml up --build -d
+#      needs: 'create-envfile'
