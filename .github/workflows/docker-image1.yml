@@ -22,6 +22,10 @@ jobs:
           with:
             full_text: |
               SECRET_KEY=SECRET_KEY
+              LIQPAY_PUBLIC_KEY=LIQPAY_PUBLIC_KEY
+              LIQPAY_PRIVATE_KEY=LIQPAY_PRIVATE_KEY
+              GOOGLE_APPLICATION_CREDENTIALS=GOOGLE_APPLICATION_CREDENTIALS
+              EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD
             directory: ${{ github.workspace }}/backend
         - name: Create google1.json  # for commands in Dockerfile
           id: create-json
@@ -39,8 +43,6 @@ jobs:
           run: echo "${{ steps.package.outputs.content }}"
         - name: Build the Docker image
           run: docker-compose up --build -d
-        - name: stop conteiner
-          run: docker-compose stop
         - name: run Tests
           run: docker-compose run --rm backend sh -c "python3 ./src/manage.py test"
         - name: Stop containers
