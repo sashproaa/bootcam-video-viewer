@@ -22,7 +22,14 @@ jobs:
           with:
             full_text: |
               SECRET_KEY=SECRET_KEY
-            directory: ${{ github.workspace }}/backend/src
+            directory: ${{ github.workspace }}/backend
+        - name: Create google1.json
+          uses: schdck/create-env-json@v1
+          id: create-env
+          with:
+            file-name: 'google1.json'
+            full-path: ${{ github.workspace }}/backend
+            super-secret: 'SuperSecret'
 #        - name: Dump GitHub context
 #          env:
 #            GITHUB_WORKSPACE: ${{ github.workspace }}
