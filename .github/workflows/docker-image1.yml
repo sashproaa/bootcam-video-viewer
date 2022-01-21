@@ -24,12 +24,20 @@ jobs:
               SECRET_KEY=SECRET_KEY
             directory: ${{ github.workspace }}/backend
         - name: Create google1.json
-          uses: schdck/create-env-json@v1
-          id: create-env
+          id: create-json
+          uses: jsdaniell/create-json@1.1.2
           with:
-            file-name: 'google1.json'
-            full-path: /backend
-            super-secret: 'SuperSecret'
+            name: "google1.json"
+            json: '{"key":"superKey", "password":"super_pass"}'
+            dir: '/backend'
+
+#        - name: Create google1.json
+#          uses: schdck/create-env-json@v1
+#          id: create-env
+#          with:
+#            file-name: 'google1.json'
+#            full-path: /backend
+#            super-secret: 'SuperSecret'
 #        - name: Build the Docker image
 #          run: docker-compose -f docker-compose-prod.yaml up --build -d
 #        - name: Dump GitHub context
