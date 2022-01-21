@@ -9,7 +9,7 @@ on:
 jobs:
 
 
-    create-envfile:
+    build:
 
       runs-on: ubuntu-latest
 
@@ -17,36 +17,28 @@ jobs:
         - uses: actions/checkout@v2
         - name: GITHUB_WORKSPACE
           run: echo "$GITHUB_WORKSPACE"
-        - name: Create .env
+        - name: Create .env  # for commands in Dockerfile
           uses: DeveloperRic/action-create-env@v1.0.2
           with:
             full_text: |
               SECRET_KEY=SECRET_KEY
             directory: ${{ github.workspace }}/backend
-        - name: Create google1.json
+        - name: Create google1.json  # for commands in Dockerfile
           id: create-json
           uses: jsdaniell/create-json@1.1.2
           with:
             name: "google1.json"
             json: '{"key":"superKey", "password":"super_pass"}'
             dir: '/backend'
-        - name: Read package.json
+        - name: Read google1.json
           id: package
           uses: juliangruber/read-file-action@v1
           with:
             path: ./backend/google1.json
         - name: Echo package.json
           run: echo "${{ steps.package.outputs.content }}"
-
-#        - name: Create google1.json
-#          uses: schdck/create-env-json@v1
-#          id: create-env
-#          with:
-#            file-name: 'google1.json'
-#            full-path: /backend
-#            super-secret: 'SuperSecret'
-#        - name: Build the Docker image
-#          run: docker-compose -f docker-compose-prod.yaml up --build -d
+        - name: Build the Docker image
+          run: docker-compose -f docker-compose-prod.yaml up --build -d
 #        - name: Dump GitHub context
 #          env:
 #            GITHUB_WORKSPACE: ${{ github.workspace }}
