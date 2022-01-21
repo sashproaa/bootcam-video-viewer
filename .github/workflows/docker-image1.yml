@@ -37,8 +37,6 @@ jobs:
             path: ./backend/google1.json
         - name: Echo package.json
           run: echo "${{ steps.package.outputs.content }}"
-        - name: nginx
-          run: docker-compose restart nginx
         - name: Build the Docker image
-          run: docker-compose -f docker-compose-prod.yaml up --build -d
+          run: docker-compose up --build -d
 
