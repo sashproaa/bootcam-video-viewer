@@ -37,41 +37,8 @@ jobs:
             path: ./backend/google1.json
         - name: Echo package.json
           run: echo "${{ steps.package.outputs.content }}"
+        - name: nginx
+          run: docker-compose restart nginx
         - name: Build the Docker image
           run: docker-compose -f docker-compose-prod.yaml up --build -d
-#        - name: Dump GitHub context
-#          env:
-#            GITHUB_WORKSPACE: ${{ github.workspace }}
-#            GITHUB_CONTEXT: ${{ toJson(github.workspace) }}
-#          run: echo "$GITHUB_CONTEXT"
-#          with:
-#            repository: sashproaa/bootcam-video-viewer
-#        - name: Make envfile
-#          uses: actually-colab/github-action-create-env-file@v2.1
-#          with:
-#            envkey_DEBUG: 'True'
-#            envkey_SWAGGER: 'True'
-#            INPUT_ENVKEY_SECRET_KEY: 'SECRET_KEY'
-#            envkey_SECRET_KEY: 'SECRET_KEY'
-#            envkey_PUBLIC_KEY: 'LIQPAY_PUBLIC_KEY'
-#            envkey_PRIVATE_KEY: 'LIQPAY_PRIVATE_KEY'
-#            envkey_GOOGLE_APPLICATION_CREDENTIALS: 'GOOGLE_APPLICATION_CREDENTIALS'
-#            envkey_EMAIL_HOST_PASSWORD: 'EMAIL_HOST_PASSWORD'
-#            directory: backend/src
-#            file_name: .env
-#        - name: Make google-json-file
-#          uses: actually-colab/github-action-create-env-file@v2.1
-#          with:
-#            envkey_SECRET_KEY: SECRET_KEY
-#            directory: backend/src
-#            file_name: google1.json
-#
-#    build:
-#
-#      runs-on: ubuntu-latest
-#
-#      steps:
-#      - uses: actions/checkout@v2
-#      - name: Build the Docker image
-#        run: docker-compose -f docker-compose-prod.yaml up --build -d
-#      needs: 'create-envfile'
+
