@@ -191,6 +191,37 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user paid video')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_videoContent_list_paid_video_id(self):
+        """ get all paid video for authenticate user if buy one video """
+
+        c = Client()
+        headers = {'HTTP_Hash-Project': self.projects.hash}
+        c.login(email='user@user.com', password=5)
+        # add one video to videocontent
+        self.transaction = Transactions.objects.create(
+            user_id=self.user, title='title', price=self.video2.price,
+            project_id=self.projects, json_description={'json_response_transaction':5}, created_at=timezone.now()
+        )
+        data_end = self.transaction.created_at + timedelta(days=30)
+        self.videoContent = VideoContent.objects.create(
+            data_start=self.transaction.created_at, data_end=data_end, user_id=self.user,
+            video_id=self.video2, transaction_id=self.transaction,
+        )
+
+        response_url = '/api/video/content/list/'
+        response = c.get(response_url, **headers)
+
+        video_list = [self.video2.id, ]  # paid video
+
+        video = Video.objects.filter(id__in=video_list).annotate(
+                video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
+                ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
+
+        serializer = VideoListSerializer(video, many=True)
+        self.assertEqual(response.data['results'], serializer.data,
+                         msg='videocontent view - VideoListSerializer authenticate_user paid video id')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     # def test_post_create_video(self):
     #     c = Client()
     #     headers = {'HTTP_Hash-Project': self.projects.hash}

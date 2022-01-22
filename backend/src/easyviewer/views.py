@@ -114,12 +114,14 @@ class VideoContentListApiView(generics.ListAPIView):
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
             video_subscriptions_id = list(video_subscriptions_id)
+            print('video_subscriptions_id', video_subscriptions_id)
             video_subscriptions_id = video_subscriptions_id if video_subscriptions_id else [-1]
             video_ids_subscriptions = Video.objects.filter(
                 subscription__in=video_subscriptions_id).values_list('id', flat=True)
             video_ids_video = Video.objects.filter(
                 project_id=project.id, videocontent__data_end__gte=timezone.now(),
                 videocontent__user_id=self.request.user.id).values_list('id', flat=True)
+            print('video_ids_video', video_ids_video)
             video_list = list(set(list(video_ids_subscriptions) + list(video_ids_video)))
             video_list = video_list if video_list else [-1]
             queryset = Video.objects.filter(id__in=video_list).annotate(

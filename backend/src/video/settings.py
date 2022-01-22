@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str('SECRET_KEY')
+SECRET_KEY = 'SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
@@ -110,10 +110,10 @@ WSGI_APPLICATION = 'video.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'postgres3',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
@@ -287,14 +287,14 @@ CSRF_COOKIE_SECURE = True
 
 FILTERS_DEFAULT_LOOKUP_EXPR = 'icontains'
 
-LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
-LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')
+# LIQPAY_PUBLIC_KEY = env.str('LIQPAY_PUBLIC_KEY')
+# LIQPAY_PRIVATE_KEY = env.str('LIQPAY_PRIVATE_KEY')
 
 ACCOUNT_LOGOUT_ON_GET = True  # for logout add method GET
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'player.quantumobile@gmail.com'
-EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
+# EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
