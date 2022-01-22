@@ -218,6 +218,8 @@ class GetAllVideosTest(TestCase):
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
 
         serializer = VideoListSerializer(video, many=True)
+
+        self.assertEqual(response.data['results'][0]['paid'], True, msg='paid video is True')
         self.assertEqual(response.data['results'], serializer.data,
                          msg='videocontent view - VideoListSerializer authenticate_user paid video id')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
