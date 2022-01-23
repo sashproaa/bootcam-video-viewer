@@ -57,7 +57,7 @@ class GetAllVideosTest(TestCase):
         # get API response
         c = Client()
         headers = {'HTTP_Hash-Project': self.projects.hash}
-        videos = Video.objects.all().annotate(video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
+        videos = Video.objects.filter(project_id=self.projects.id).annotate(video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
         response = c.get("/api/video/list/", **headers)
 
         # get data from db
@@ -69,7 +69,7 @@ class GetAllVideosTest(TestCase):
         c = Client()
         headers = {'HTTP_Hash-Project': self.projects.hash}
         url = '/api/video/' + str(self.video1.id)
-        video = Video.objects.filter(id=self.video1.id).annotate(
+        video = Video.objects.filter(project_id=self.projects.id, id=self.video1.id).annotate(
                 video_url=ExpressionWrapper(F('url'), output_field=models.CharField()),
                 comments=Value(list(Comment.objects.filter(video_id=self.video1.id).values(
                     ).annotate(username=F('user_id__first_name'))), output_field=models.TextField()))
@@ -94,7 +94,7 @@ class GetAllVideosTest(TestCase):
 
         video_list = []
 
-        video = Video.objects.filter(id=self.video1.id).annotate(
+        video = Video.objects.filter(project_id=self.projects.id, id=self.video1.id).annotate(
             video_url=Case(When(Q(id=self.video1.id), then=url), output_field=models.CharField()
                            ),
             paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
@@ -174,7 +174,7 @@ class GetAllVideosTest(TestCase):
 
         video_list = [self.video1.id, ]  # paid video
 
-        video = Video.objects.filter(id=self.video1.id).annotate(
+        video = Video.objects.filter(project_id=self.projects.id, id=self.video1.id).annotate(
             video_url=Case(When(Q(id=self.video1.id), then=url), output_field=models.CharField()
                            ),
             paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()
@@ -213,7 +213,7 @@ class GetAllVideosTest(TestCase):
 
         video_list = [self.video2.id, ]  # paid video
 
-        video = Video.objects.filter(id__in=video_list).annotate(
+        video = Video.objects.filter(project_id=self.projects.id, id__in=video_list).annotate(
                 video_url=Case(When(Q(id__in=video_list), then=F('url')), default=None, output_field=models.CharField()
                 ), paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
 
