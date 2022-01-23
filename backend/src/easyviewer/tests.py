@@ -57,7 +57,9 @@ class GetAllVideosTest(TestCase):
         # get API response
         c = Client()
         headers = {'HTTP_Hash-Project': self.projects.hash}
-        videos = Video.objects.filter(project_id=self.projects.id).annotate(video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
+        videos = Video.objects.filter(project_id=self.projects.id).annotate(
+            video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
+
         response = c.get("/api/video/list/", **headers)
 
         # get data from db
