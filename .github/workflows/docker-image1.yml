@@ -44,7 +44,7 @@ jobs:
         - name: Build the Docker image
           run: docker-compose up --build -d
         - name: run Tests
-          run: docker-compose run --rm backend sh -c "python3 ./src/manage.py test"
+          run: docker-compose run --rm backend sh -c "python3 ./src/manage.py test easyviewer.tests"
         - name: Stop containers
           if: always()
           run: docker-compose down
