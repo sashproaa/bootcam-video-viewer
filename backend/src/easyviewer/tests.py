@@ -29,6 +29,8 @@ class GetAllVideosTest(TestCase):
             name='Projects',subscription_id=self.projectSubscriptions, bucket_name='12_12_12'
         )
         self.projects.user_id.set((self.user, ), through_defaults={'isAdmin': False})
+        self.headers = {'HTTP_Hash-Project': self.projects.hash}
+
         # create VideoSubscription
         VideoSubscriptions.objects.create(
             name='VideoSubscriptions', description='VideoSubscriptions',
@@ -124,7 +126,7 @@ class GetAllVideosTest(TestCase):
         videos = Video.objects.filter(project_id=self.projects.id).annotate(
             video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
 
-        response = c.get("/api/video/list/", **headers)
+        response = c.get("/api/video/list/", **self.headers)
 
         # get data from db
         serializer = VideoListSerializer(videos, many=True)
@@ -141,7 +143,7 @@ class GetAllVideosTest(TestCase):
                     ).annotate(username=F('user_id__first_name'))), output_field=models.TextField()))
 
         # get API response
-        response = c.get(url, **headers)
+        response = c.get(url, **self.headers)
 
         # get data from db
         serializer = VideoDetailSerializer(video[0])
@@ -169,7 +171,7 @@ class GetAllVideosTest(TestCase):
                 ).annotate(username=F('user_id__first_name'))), output_field=models.TextField()))
 
         # get API response
-        response = c.get(response_url, **headers)
+        response = c.get(response_url, **self.headers)
 
         # get data from db
         serializer = VideoDetailSerializer(video[0])
@@ -201,7 +203,7 @@ class GetAllVideosTest(TestCase):
                 ).annotate(username=F('user_id__first_name'))), output_field=models.TextField()))
 
         # get API response
-        response = c.get(response_url, **headers)
+        response = c.get(response_url, **self.headers)
 
         # get data from db
         serializer = VideoDetailSerializer(video[0])
@@ -220,7 +222,7 @@ class GetAllVideosTest(TestCase):
         self.add_paid_video(obj_project=self.projects, obj_video=self.video2, obj_user=self.user)
 
         response_url = '/api/video/content/list/'
-        response = c.get(response_url, **headers)
+        response = c.get(response_url, **self.headers)
 
         video_list = [self.video2.id, ]  # paid video
 
