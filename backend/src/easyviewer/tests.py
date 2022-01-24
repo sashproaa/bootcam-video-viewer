@@ -180,46 +180,6 @@ class GetAllVideosTest(TestCase):
     def test_get_detail_video_paid(self):
         """ paid video """
 
-        json_response_transaction = {   # response from Liqpay
-              "ip": "46.200.223.249",
-              "info": """{\"target\":\"video\",\"id\":6,\"projectId\":1,
-                            \"name\":\"Ищу работу\",\"targetName\":\"Видео\",\"userId\":2}""",
-              "type": "buy",
-              "acq_id": 414963,
-              "action": "pay",
-              "amount": 185.0,
-              "is_3ds": 'false',
-              "status": "success",
-              "mpi_eci": "7",
-              "paytype": "card",
-              "version": 3,
-              "currency": "UAH",
-              "end_date": 1638218106263,
-              "language": "ru",
-              "order_id": "G7TSK7NG1638218094343136",
-              "payment_id": 1837429767,
-              "public_key": "sandbox_i40353427819",
-              "create_date": 1638218106185,
-              "description": "Ищу работу",
-              "amount_bonus": 0.0,
-              "amount_debit": 185.0,
-              "sender_bonus": 0.0,
-              "amount_credit": 185.0,
-              "currency_debit": "UAH",
-              "transaction_id": 1837429767,
-              "currency_credit": "UAH",
-              "liqpay_order_id": "MKU4LO6Q1638218106183227",
-              "agent_commission": 0.0,
-              "commission_debit": 0.0,
-              "sender_card_bank": "Test",
-              "sender_card_type": "visa",
-              "commission_credit": 5.09,
-              "sender_card_mask2": "424242*42",
-              "sender_commission": 0.0,
-              "receiver_commission": 5.09,
-              "sender_card_country": 804
-        }
-
         c = Client()
         headers = {'HTTP_Hash-Project': self.projects.hash}
         c.login(email='user@user.com', password=5)
