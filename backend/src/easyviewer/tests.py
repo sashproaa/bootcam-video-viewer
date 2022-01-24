@@ -122,7 +122,6 @@ class GetAllVideosTest(TestCase):
     def test_get_all_videos_anonymous_user(self):
         # get API response
         c = Client()
-        headers = {'HTTP_Hash-Project': self.projects.hash}
         videos = Video.objects.filter(project_id=self.projects.id).annotate(
             video_url=ExpressionWrapper(F('url'), output_field=models.CharField()))
 
@@ -135,7 +134,6 @@ class GetAllVideosTest(TestCase):
 
     def test_get_detail_video_anonymous_user(self):
         c = Client()
-        headers = {'HTTP_Hash-Project': self.projects.hash}
         url = '/api/video/' + str(self.video1.id)
         video = Video.objects.filter(project_id=self.projects.id, id=self.video1.id).annotate(
                 video_url=ExpressionWrapper(F('url'), output_field=models.CharField()),
@@ -154,7 +152,6 @@ class GetAllVideosTest(TestCase):
         """ not paid video """
 
         c = Client()
-        headers = {'HTTP_Hash-Project': self.projects.hash}
         c.login(email='user@user.com', password=5)
         response_url = '/api/video/' + str(self.video1.id)
 
@@ -183,7 +180,6 @@ class GetAllVideosTest(TestCase):
         """ paid video """
 
         c = Client()
-        headers = {'HTTP_Hash-Project': self.projects.hash}
         c.login(email='user@user.com', password=5)
 
         self.add_paid_video(obj_project=self.projects, obj_video=self.video1, obj_user=self.user)
@@ -215,7 +211,6 @@ class GetAllVideosTest(TestCase):
         """ get all paid video for authenticate user if buy one video """
 
         c = Client()
-        headers = {'HTTP_Hash-Project': self.projects.hash}
         c.login(email='user@user.com', password=5)
 
         # add one video to videocontent
