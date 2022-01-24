@@ -26,7 +26,7 @@ class GetAllVideosTest(TestCase):
         # create Project
         self.projectSubscriptions = ProjectSubscriptions.objects.get(name='ProjectSubscriptions')
         self.projects = Projects.objects.create(
-            name='Projects',subscription_id=self.projectSubscriptions, bucket_name='12_12_12'
+            name='Projects', subscription_id=self.projectSubscriptions, bucket_name='12_12_12'
         )
         self.projects.user_id.set((self.user, ), through_defaults={'isAdmin': False})
         self.headers = {'HTTP_Hash-Project': self.projects.hash}
@@ -231,6 +231,35 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data['results'], serializer.data,
                          msg='videocontent view - VideoListSerializer authenticate_user paid video id')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_transactions_list_authenticate_user(self):
+        """ get all transactions """
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        # add one video to videocontent
+        self.add_paid_video(obj_project=self.projects, obj_video=self.video3, obj_user=self.user)
+
+        response_url = '/api/user/transactions/list/'
+        response = c.get(response_url, **self.headers)
+
+        transactions = Transactions.objects.filter(user_id=self.user.id)
+
+        serializer = TransactionsDetailSerializer(transactions, many=True)
+
+        self.assertEqual(response.data['results'], serializer.data,
+                         msg='transactions list view - TransactionsDetailSerializer authenticate_user')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_transactions_list_anonymous_user(self):
+        """ check IsAuthenticated """
+
+        c = Client()
+
+        response_url = '/api/user/transactions/list/'
+        response = c.get(response_url, **self.headers)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     # def test_post_create_video(self):
     #     c = Client()
