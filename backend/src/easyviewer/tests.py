@@ -55,7 +55,7 @@ class GetAllVideosTest(TestCase):
             duration='00:00:30', file_name='')
         self.video4.subscription.set((self.videoSubscriptions, self.videoSubscriptions,))
 
-    def add_paid_video(self, obj_project, obj_video, obj_user, obj_video_subscriptions=None):
+    def add_paid_video(self, obj_project,  obj_user, obj_video=None, obj_video_subscriptions=None):
         """ add paid video to id or to video_subscriptions  """
 
         json_response_transaction = {  # response from Liqpay
@@ -100,24 +100,26 @@ class GetAllVideosTest(TestCase):
         created_at = timezone.now() - timedelta(days=1)
         data_end = created_at + timedelta(days=30)
         if obj_video_subscriptions:
+            """ add paid one videosubscription """
             self.transaction = Transactions.objects.create(
-                user_id=obj_user, title='title', price=obj_video.price,
-                project_id=obj_project, json_description=json_response_transaction, created_at=created_at
-            )
+                user_id=obj_user, title='title', price=obj_video_subscriptions.price,
+                project_id=obj_project, json_description=json_response_transaction, created_at=created_at)
             self.videoContent = VideoContent.objects.create(
                 data_start=created_at, data_end=data_end, user_id=obj_user,
-                video_subscription=obj_video_subscriptions, transaction_id=self.transaction,
-            )
+                video_subscription=obj_video_subscriptions, transaction_id=self.transaction)
             return self.transaction, self.videoContent
-        self.transaction = Transactions.objects.create(
-            user_id=obj_user, title='title', price=obj_video.price,
-            project_id=obj_project, json_description=json_response_transaction, created_at=created_at
-        )
-        self.videoContent = VideoContent.objects.create(
-            data_start=created_at, data_end=data_end, user_id=obj_user,
-            video_id=obj_video, transaction_id=self.transaction,
-        )
-        return self.transaction, self.videoContent
+        elif obj_video:
+            """ add paid one video """
+            self.transaction = Transactions.objects.create(
+                user_id=obj_user, title='title', price=obj_video.price,
+                project_id=obj_project, json_description=json_response_transaction, created_at=created_at)
+            self.videoContent = VideoContent.objects.create(
+                data_start=created_at, data_end=data_end, user_id=obj_user,
+                video_id=obj_video, transaction_id=self.transaction)
+            return self.transaction, self.videoContent
+        else:
+            """ must be what is paid """
+            return obj_video, obj_video_subscriptions
 
     def test_get_all_videos_anonymous_user(self):
         # get API response
@@ -131,6 +133,55 @@ class GetAllVideosTest(TestCase):
         serializer = VideoListSerializer(videos, many=True)
         self.assertEqual(response.data['results'], serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_all_videos_authenticate_user(self):
+        """ when user buy videoSubscriptions or one video"""
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        response_url = "/api/video/list/"
+
+        # add one paid video
+        self.add_paid_video(obj_project=self.projects,  obj_user=self.user, obj_video=self.video1)
+
+        video_list = [self.video1.id, ]
+
+        video = Video.objects.filter(project_id=self.projects.id).annotate(
+            video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()),
+            paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
+
+        response_video = c.get(response_url, **self.headers)
+
+        # add one paid videoSubscriptions
+        self.add_paid_video(obj_project=self.projects, obj_user=self.user,
+                            obj_video_subscriptions=self.videoSubscriptions)
+
+        resp_video_with_videosub = c.get(response_url, **self.headers)
+
+        # video list include all videos because paid videosubscription
+        video_list = [self.video1.id, self.video2.id, self.video3.id, self.video4.id]
+
+        videos = Video.objects.filter(project_id=self.projects.id).annotate(
+            video_url=Case(When(Q(id__in=video_list), then=F('url')), output_field=models.CharField()),
+            paid=Case(When(Q(id__in=video_list), then=True), default=False, output_field=models.BooleanField()))
+
+        # get data from db
+        serializer_video = VideoListSerializer(video, many=True)
+        serializer_video_with_videosub = VideoListSerializer(videos, many=True)
+
+        # check one video
+        self.assertEqual(response_video.data['results'][0]['paid'], True, msg='paid video must be True')
+        self.assertEqual(response_video.data['results'], serializer_video.data)
+        self.assertEqual(response_video.status_code, status.HTTP_200_OK)
+
+        # check one videosubscription
+        self.assertEqual(resp_video_with_videosub.data['results'][0]['paid'], True, msg='paid video must be True')
+        self.assertEqual(resp_video_with_videosub.data['results'][1]['paid'], True, msg='paid video must be True')
+        self.assertEqual(resp_video_with_videosub.data['results'][2]['paid'], True, msg='paid video must be True')
+        self.assertEqual(resp_video_with_videosub.data['results'][3]['paid'], True, msg='paid video must be True')
+        self.assertEqual(resp_video_with_videosub.data['results'], serializer_video_with_videosub.data)
+        self.assertEqual(resp_video_with_videosub.status_code, status.HTTP_200_OK)
 
     def test_get_detail_video_anonymous_user(self):
         c = Client()
@@ -172,7 +223,7 @@ class GetAllVideosTest(TestCase):
 
         # get data from db
         serializer = VideoDetailSerializer(video[0])
-        self.assertEqual(response.data['paid'], False, msg='not paid video is False')
+        self.assertEqual(response.data['paid'], False, msg='not paid video must be False')
         self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user not paid video')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -227,7 +278,7 @@ class GetAllVideosTest(TestCase):
 
         serializer = VideoListSerializer(video, many=True)
 
-        self.assertEqual(response.data['results'][0]['paid'], True, msg='paid video is True')
+        self.assertEqual(response.data['results'][0]['paid'], True, msg='paid video must be True')
         self.assertEqual(response.data['results'], serializer.data,
                          msg='videocontent view - VideoListSerializer authenticate_user paid video id')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
