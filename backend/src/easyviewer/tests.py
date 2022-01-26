@@ -258,8 +258,10 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data, serializer.data, msg='VideoDetailSerializer authenticate_user paid video')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_videoContent_list_paid_video_id(self):
-        """ get all paid video for authenticate user if buy one video """
+    def test_videoContent_list(self):
+        """ get all paid video for authenticate user if buy one video
+            and if not authenticate user return not permitted
+        """
 
         c = Client()
         c.login(email='user@user.com', password=5)
@@ -283,7 +285,12 @@ class GetAllVideosTest(TestCase):
                          msg='videocontent view - VideoListSerializer authenticate_user paid video id')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_transactions_list_authenticate_user(self):
+        # check authenticate user
+        c.logout()
+        response = c.get(response_url, **self.headers)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED, msg='must be not permitted')
+
+    def test_transactions_list(self):
         """ get all transactions """
 
         c = Client()
@@ -300,17 +307,58 @@ class GetAllVideosTest(TestCase):
         serializer = TransactionsDetailSerializer(transactions, many=True)
 
         self.assertEqual(response.data['results'], serializer.data,
-                         msg='transactions list view - TransactionsDetailSerializer authenticate_user')
+                         msg='transactions list view - TransactionsDetailSerializer authenticate user')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_transactions_list_anonymous_user(self):
-        """ check IsAuthenticated """
+        # check authenticate user
+        c.logout()
+        response = c.get(response_url, **self.headers)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED, msg='must be not permitted')
+
+    def test_video_subscriptions_list(self):
+        """ get all video subscriptions """
 
         c = Client()
+        c.login(email='user@user.com', password=5)
 
-        response_url = '/api/user/transactions/list/'
+        # add one paid videoSubscriptions
+        self.add_paid_video(obj_project=self.projects, obj_user=self.user,
+                            obj_video_subscriptions=self.videoSubscriptions)
+
+        VideoSubscriptions.objects.create(
+            name='VideoSubscriptions 2', description='VideoSubscriptions 2',
+            duration='00:00:30', price=25.00, project_id=self.projects
+        )
+
+        response_url = '/api/video/subscription/'
         response = c.get(response_url, **self.headers)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        subscriptions_paid_id = [self.videoSubscriptions.id]  # list paid VideoSubscriptions
+
+        video_subscriptions = VideoSubscriptions.objects.filter(project_id=self.projects.id).annotate(
+                data_end=Case(When(Q(id__in=subscriptions_paid_id), then=Max('videocontent__data_end')),
+                              default=None, output_field=models.DateField()),
+                paid=Case(When(Q(id__in=subscriptions_paid_id), then=True),
+                          default=False, output_field=models.BooleanField())).distinct()
+
+        serializer = VideoSubscriptionListSerializer(video_subscriptions, many=True)
+
+        self.assertEqual(response.data['results'][0]['paid'], True, msg='paid video must be True')
+        self.assertEqual(response.data['results'][1]['paid'], False, msg='not paid video must be False')
+        self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # check video subscriptions view for anonymous_user
+
+        c.logout()
+        response = c.get(response_url, **self.headers)
+
+        video_subscriptions = VideoSubscriptions.objects.filter(project_id=self.projects.id)
+        serializer = VideoSubscriptionListSerializer(video_subscriptions, many=True)
+
+        self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view for anonymous_user')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
     # def test_post_create_video(self):
     #     c = Client()
