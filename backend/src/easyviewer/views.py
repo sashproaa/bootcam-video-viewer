@@ -32,7 +32,7 @@ from video import settings
 
 class UserProfileApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = get_user_model().objects.filter()
-    serializer_class = UserProfileDetail
+    serializer_class = CustomUserDetailsSerializer
     permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
 
 
