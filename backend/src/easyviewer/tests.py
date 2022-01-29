@@ -401,28 +401,24 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data['first_name'], update_data['first_name'])
         self.assertEqual(response.data, serializer.data)
 
-    # def test_post_create_video(self):
-    #     c = Client()
-    #     headers = {'HTTP_Hash-Project': self.projects.hash}
-    #     # get API response
-    #     project = Projects.objects.get(hash=self.projects.hash)
-    #     created_at = timezone.now()
-    #     created_at = datetime.datetime.strptime(str(created_at)[:10], '%Y-%m-%d')
-    #     print(project.id)
-    #     data = {
-    #         'title': 'Casper6', 'project_id': project.id, 'description': 'Bull Dog6',
-    #         'actors': 'Black6', 'price': 5.25, 'duration': '00:00:30', 'url': 'Bull Dog6', 'file_name': '',
-    #         'genre': 'VAUDEVILLE', 'created_at': created_at,
-    #     }
-    #     response = c.post('/api/video/create/', content_type='application/json', data=data, **headers)
-    #     print('response', response.status_code, response.data, response.context)
-    #     # get data from db
-    #     video = Video.objects.create(title='Casper6', project_id=self.projects, description='Bull Dog6',
-    #                                  actors='Black6', price=5.25, duration='00:00:30', url='Bull Dog6', file_name='',
-    #                                  genre='VAUDEVILLE', created_at=created_at,
-    #                                  )
-    #     video.subscription.set((self.videoSubscriptions, self.videoSubscriptions,))
-    #     print('video', video)
-    #     serializer = VideoCreateSerializer(video, many=False)
-    #     self.assertEqual(response.data, serializer.data, msg='VideoCreateSerializer')
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_create_video(self):
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        # make user is staff
+        update_user_is_staff = {'is_staff': 'True'}
+
+        c.patch('/api-auth/user/', content_type='application/json', data=update_user_is_staff, **self.headers)
+
+        # create video
+        response_url = '/api/video/create'
+
+        data = {
+            'title': 'Casper6', 'project_id': self.projects.id, 'description': 'Bull Dog6',
+            'actors': 'Black6', 'price': 5.25, 'duration': '00:00:30', 'url': 'Bull Dog6', 'file_name': '',
+            'genre': 'VAUDEVILLE',  'subscription': [self.videoSubscriptions.id, ]
+        }
+        response = c.post(response_url, content_type='application/json', data=data, **self.headers)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+

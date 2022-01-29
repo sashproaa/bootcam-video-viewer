@@ -146,7 +146,7 @@ class Video(models.Model):
     project_id = models.ForeignKey(Projects, on_delete=models.CASCADE)
     actors = models.CharField(max_length=400)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    created_at = models.DateField(default=timezone.now)
+    created_at = models.DateField(auto_now_add=True)
     duration = models.DurationField()
     image = models.ImageField(upload_to='uploads/image', blank=True, null=True)  # where to upload, max_length?
     preview_video = models.CharField(max_length=500, blank=True, null=True)
