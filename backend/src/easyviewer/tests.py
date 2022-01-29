@@ -348,15 +348,16 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        # check video subscriptions view for anonymous_user
-
+        # check video subscriptions view for anonymous user
         c.logout()
         response = c.get(response_url, **self.headers)
 
         video_subscriptions = VideoSubscriptions.objects.filter(project_id=self.projects.id)
         serializer = VideoSubscriptionListSerializer(video_subscriptions, many=True)
 
-        self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view for anonymous_user')
+        self.assertEqual(response.data['results'][0]['paid'], False, msg='not paid video must be False')
+        self.assertEqual(response.data['results'][1]['paid'], False, msg='not paid video must be False')
+        self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view for anonymous user')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_update_profile_custom_url(self):
@@ -422,3 +423,93 @@ class GetAllVideosTest(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_projects(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        # make user is staff
+        update_user_is_superuser = {'is_staff': True}
+        c.patch('/api-auth/user/', content_type='application/json', data=update_user_is_superuser, **self.headers)
+
+        # create project
+        response_url = '/api/project/create/'
+        data = {'name': 'New project', 'subscription_id': self.projectSubscriptions.id}
+
+        response = c.post(response_url, content_type='application/json', data=data, **self.headers)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # get all projects
+        response_url = '/api/project/list/'
+        response_list = c.get(response_url, **self.headers)
+
+        projects = Projects.objects.all()
+        serializer = ProjectListSerializer(projects, many=True)
+
+        self.assertEqual(len(response_list.data['results']), 2)
+        self.assertEqual(response_list.data['results'], serializer.data)
+        self.assertEqual(response_list.status_code, status.HTTP_200_OK)
+
+        # get detail project
+        response_url = '/api/project/' + str(self.projects.id)
+        response = c.get(response_url, **self.headers)
+
+        projects = Projects.objects.get(id=self.projects.id)
+        serializer = ProjectDetailSerializer(projects)
+
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # update project
+        response_url = '/api/project/' + str(self.projects.id)
+        data = {'name': 'UpdateName'}
+        response = c.patch(response_url, content_type='application/json', data=data, **self.headers)
+
+        self.assertEqual(response.data['name'], data['name'])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_comment(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        # create comment
+        response_url = '/api/video/comment/create'
+        comment_data = {'user_id': self.user.id, 'video_id': self.video1.id, 'comment': 'Very expensive video'}
+        response = c.post(response_url, content_type='application/json', data=comment_data, **self.headers)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        comment = Comment.objects.filter(video_id=self.video1.id)
+
+        serializer_detail = CommentDetailSerializer(comment[0])
+
+        # get comment
+        response_url = '/api/comment/' + str(comment[0].id)
+        response = c.get(response_url, **self.headers)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer_detail.data)
+
+        # update comment
+        update_data_comment = {'comment': '( ˘⌣˘)♡(˘⌣˘ )'}
+        response = c.patch(response_url, content_type='application/json', data=update_data_comment, **self.headers)
+
+        comment_update = Comment.objects.filter(id=comment[0].id)
+        serializer_update = CommentDetailSerializer(comment_update[0])
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['comment'], update_data_comment['comment'])
+        self.assertEqual(response.data, serializer_update.data)
+
+        # get all comments
+        response_url = '/api/video/comment/list'
+        response = c.get(response_url, **self.headers)
+        serializer_all_comments = CommentListSerializer(comment, many=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['results'], serializer_all_comments.data)
+
+    # def test_reset_password(self):
+    #     ...
