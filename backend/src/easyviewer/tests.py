@@ -359,12 +359,33 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view for anonymous_user')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_user_update_profile(self):
+    def test_user_update_profile_custom_url(self):
 
         c = Client()
         c.login(email='user@user.com', password=5)
         # self.headers['HTTP_Content-type'] = 'application/json'
         response_url = '/api/user/' + str(self.user.id)
+
+        update_data = {
+            'first_name': 'SuperUser'
+        }
+
+        response = c.patch(response_url, content_type='application/json', data=update_data, **self.headers)
+
+        update_user = get_user_model().objects.get(id=self.user.id)
+
+        serializer = CustomUserDetailsSerializer(update_user)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['first_name'], update_data['first_name'])
+        self.assertEqual(response.data, serializer.data)
+
+    def test_user_update_profile_default_url(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+        # self.headers['HTTP_Content-type'] = 'application/json'
+        response_url = '/api-auth/user/'
 
         update_data = {
             'first_name': 'SuperUser'
