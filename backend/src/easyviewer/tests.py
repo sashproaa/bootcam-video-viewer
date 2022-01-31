@@ -511,5 +511,32 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'], serializer_all_comments.data)
 
-    # def test_reset_password(self):
-    #     ...
+
+class TestUserAuthenticateSystem(TestCase):
+
+    def setUp(self):
+        # create user
+        User.objects.create_user(email='user@user.com', password=5, first_name='first_name')
+
+    def test_change_password(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        data_password_change = {
+            'new_password1': 'new_password',
+            'new_password2': 'new_password',
+        }
+
+        response_url = '/api-auth/password/change/'
+        response = c.post(response_url, content_type='application/json', data=data_password_change)
+
+        c.logout()
+
+        user = c.login(email='user@user.com', password='new_password')
+
+        self.assertEqual(user, True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['detail'], 'New password has been saved.')
+
+
