@@ -360,48 +360,6 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.data['results'], serializer.data, msg='video subscriptions view for anonymous user')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_user_update_profile_custom_url(self):
-
-        c = Client()
-        c.login(email='user@user.com', password=5)
-        # self.headers['HTTP_Content-type'] = 'application/json'
-        response_url = '/api/user/' + str(self.user.id)
-
-        update_data = {
-            'first_name': 'SuperUser'
-        }
-
-        response = c.patch(response_url, content_type='application/json', data=update_data, **self.headers)
-
-        update_user = get_user_model().objects.get(id=self.user.id)
-
-        serializer = CustomUserDetailsSerializer(update_user)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], update_data['first_name'])
-        self.assertEqual(response.data, serializer.data)
-
-    def test_user_update_profile_default_url(self):
-
-        c = Client()
-        c.login(email='user@user.com', password=5)
-        # self.headers['HTTP_Content-type'] = 'application/json'
-        response_url = '/api-auth/user/'
-
-        update_data = {
-            'first_name': 'SuperUser'
-        }
-
-        response = c.patch(response_url, content_type='application/json', data=update_data, **self.headers)
-
-        update_user = get_user_model().objects.get(id=self.user.id)
-
-        serializer = CustomUserDetailsSerializer(update_user)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], update_data['first_name'])
-        self.assertEqual(response.data, serializer.data)
-
     def test_create_video(self):
         c = Client()
         c.login(email='user@user.com', password=5)
@@ -511,5 +469,95 @@ class GetAllVideosTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'], serializer_all_comments.data)
 
+
+class TestUserAuthenticateSystem(TestCase):
+
+    def setUp(self):
+        # create user
+        self.user = User.objects.create_user(email='user@user.com', password=5, first_name='first_name')
+
+    def test_change_password(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        data_password_change = {
+            'new_password1': 'new_password',
+            'new_password2': 'new_password',
+        }
+
+        response_url = '/api-auth/password/change/'
+        response = c.post(response_url, content_type='application/json', data=data_password_change)
+
+        c.logout()
+
+        user = c.login(email='user@user.com', password='new_password')
+
+        self.assertEqual(user, True)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['detail'], 'New password has been saved.')
+
+    def test_user_update_profile_custom_url(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        response_url = '/api/user/' + str(self.user.id)
+
+        update_data = {
+            'first_name': 'SuperUser'
+        }
+
+        response = c.patch(response_url, content_type='application/json', data=update_data)
+
+        update_user = get_user_model().objects.get(id=self.user.id)
+
+        serializer = CustomUserDetailsSerializer(update_user)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['first_name'], update_data['first_name'])
+        self.assertEqual(response.data, serializer.data)
+
+    def test_user_update_profile_default_url(self):
+
+        c = Client()
+        c.login(email='user@user.com', password=5)
+
+        response_url = '/api-auth/user/'
+
+        update_data = {
+            'first_name': 'SuperUser'
+        }
+
+        response = c.patch(response_url, content_type='application/json', data=update_data)
+
+        update_user = get_user_model().objects.get(id=self.user.id)
+
+        serializer = CustomUserDetailsSerializer(update_user)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['first_name'], update_data['first_name'])
+        self.assertEqual(response.data, serializer.data)
+
+    def test_registration_user(self):
+
+        c = Client()
+
+        register_data = {
+            'email': 'user@example.com',
+            'password1': 'new_password',
+            'password2': 'new_password',
+        }
+
+        response_url = '/api-auth/registration/'
+        response = c.post(response_url, content_type='application/json', data=register_data)
+
+        user = c.login(email='user@example.com', password='new_password')
+
+        self.assertEqual(user, True)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(response.data['key'])
+
     # def test_reset_password(self):
+    #     """ for this test needs use secret from gitHub """
     #     ...
