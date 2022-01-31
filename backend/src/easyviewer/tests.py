@@ -498,9 +498,10 @@ class TestUserAuthenticateSystem(TestCase):
         self.assertEqual(response.data['detail'], 'New password has been saved.')
 
     def test_user_update_profile_custom_url(self):
+
         c = Client()
         c.login(email='user@user.com', password=5)
-        # self.headers['HTTP_Content-type'] = 'application/json'
+
         response_url = '/api/user/' + str(self.user.id)
 
         update_data = {
@@ -518,9 +519,10 @@ class TestUserAuthenticateSystem(TestCase):
         self.assertEqual(response.data, serializer.data)
 
     def test_user_update_profile_default_url(self):
+
         c = Client()
         c.login(email='user@user.com', password=5)
-        # self.headers['HTTP_Content-type'] = 'application/json'
+
         response_url = '/api-auth/user/'
 
         update_data = {
@@ -537,4 +539,25 @@ class TestUserAuthenticateSystem(TestCase):
         self.assertEqual(response.data['first_name'], update_data['first_name'])
         self.assertEqual(response.data, serializer.data)
 
+    def test_registration_user(self):
 
+        c = Client()
+
+        register_data = {
+            'email': 'user@example.com',
+            'password1': 'new_password',
+            'password2': 'new_password',
+        }
+
+        response_url = '/api-auth/registration/'
+        response = c.post(response_url, content_type='application/json', data=register_data)
+
+        user = c.login(email='user@example.com', password='new_password')
+
+        self.assertEqual(user, True)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(response.data['key'])
+
+    # def test_reset_password(self):
+    #     """ for this test needs use secret from gitHub """
+    #     ...
